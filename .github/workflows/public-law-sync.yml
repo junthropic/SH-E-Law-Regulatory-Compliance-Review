@@ -1,0 +1,41 @@
+name: Daily public law update
+on:
+  schedule:
+    - cron: "0 21 * * *" # 06:00 Asia/Seoul; GitHub schedules may be delayed.
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: public-law-update
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Fetch official public sources
+        id: sync
+        continue-on-error: true
+        env:
+          LAW_OC: ${{ secrets.LAW_OC }}
+        run: npm run sync
+      - name: Validate public-only output
+        run: npm run publish:check
+      - name: Save public snapshots and source status
+        shell: bash
+        run: |
+          git add -- data/public/bundle.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m "data: refresh public law snapshots"
+            git push
+          fi
+      - name: Surface incomplete collection
+        if: steps.sync.outcome != 'success'
+        run: exit 1

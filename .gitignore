@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+.local/
+.env
+.env.*
+!.env.example
+*.db
+*.db-*
+*.sqlite*
+*.log
+coverage/
+playwright-report/
+test-results/
+backups/
+private/

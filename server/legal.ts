@@ -1,0 +1,222 @@
+import { randomUUID } from "node:crypto";
+import { diffLines } from "diff";
+import type { CaseFact, Evidence, LegalIssue, Rule } from "../shared/types.js";
+
+export const normalize = (s: string) => s.replace(/\s+/g, " ").trim();
+export function verifyCitation(e: Evidence | undefined, quote: string) {
+  return (
+    !!e &&
+    normalize(quote).length >= 8 &&
+    normalize(e.text).includes(normalize(quote))
+  );
+}
+export function applicable(e: Evidence, region: string, date: string) {
+  return (
+    (e.region === "전국" || e.region === region) &&
+    !!e.effectiveFrom &&
+    e.effectiveFrom <= date &&
+    (!e.effectiveTo || date <= e.effectiveTo)
+  );
+}
+export function evidenceGaps(
+  e: Evidence[],
+  region: string,
+  date: string,
+): string[] {
+  const gaps: string[] = [];
+  if (!e.some((x) => x.kind === "law"))
+    gaps.push("국가 법령 전문을 확인하지 못했습니다.");
+  if (!e.some((x) => x.kind === "ordinance" && x.region === region))
+    gaps.push("해당 지역 조례 전문을 확인하지 못했습니다.");
+  for (const x of e.filter((x) => ["law", "ordinance"].includes(x.kind))) {
+    if (!x.complete)
+      gaps.push(x.title + ": 전문 또는 연결 조문이 불완전합니다.");
+    if (!x.annexesComplete)
+      gaps.push(x.title + ": 별표·서식 확인이 필요합니다.");
+    if (!x.verified)
+      gaps.push(x.title + ": 예외·위임·경과조치 검증이 필요합니다.");
+    if (!x.historyComplete && date < new Date().toISOString().slice(0, 10))
+      gaps.push(x.title + ": 해당 기준일 연혁의 완전성을 확인해야 합니다.");
+    if (!applicable(x, region, date))
+      gaps.push(x.title + ": 적용 지역 또는 시행 기간이 맞지 않습니다.");
+    const age = Date.now() - Date.parse(x.fetchedAt);
+    if (!Number.isFinite(age) || age < -60000 || age > 24 * 3600 * 1000)
+      gaps.push(x.title + ": 최근 24시간 내 원문 갱신을 확인하지 못했습니다.");
+  }
+  return [...new Set(gaps)];
+}
+export function enforceIssue(
+  issue: LegalIssue,
+  evidence: Evidence[],
+  gaps: string[],
+): LegalIssue {
+  const valid = issue.citations.filter((c) =>
+    verifyCitation(
+      evidence.find((e) => e.id === c.evidenceId),
+      c.quote,
+    ),
+  );
+  const broken = valid.length !== issue.citations.length;
+  // Only deterministic reviewed rules may produce clear_risk; model assertions never do.
+  const category =
+    broken || !valid.length
+      ? "more_data"
+      : issue.category === "clear_risk"
+        ? "human_review"
+        : issue.category;
+  return {
+    ...issue,
+    category,
+    conclusion:
+      broken || !valid.length
+        ? "모델의 판단을 원문으로 검증할 수 없어 보류했습니다. 확인 가능한 근거를 확보한 뒤 재검토하세요."
+        : issue.conclusion,
+    citations: valid,
+    missing: [
+      ...issue.missing,
+      ...(broken
+        ? ["인용 원문이 일치하지 않아 해당 인용을 제외했습니다."]
+        : []),
+      ...(category === "more_data" && !valid.length
+        ? ["검증 가능한 법규 원문 근거"]
+        : []),
+    ],
+    conditions: [
+      ...issue.conditions,
+      ...(gaps.length
+        ? ["미확인 범위가 있어 확정적인 준법 판단으로 사용할 수 없습니다."]
+        : []),
+    ],
+  };
+}
+export function evaluateRule(
+  rule: Rule,
+  facts: CaseFact[],
+  evidence: Evidence[],
+  region: string,
+  date: string,
+): LegalIssue | undefined {
+  if (
+    !rule.approved ||
+    !rule.reviewer ||
+    (rule.region !== region && rule.region !== "전국") ||
+    rule.effectiveFrom > date ||
+    (rule.effectiveTo && rule.effectiveTo < date)
+  )
+    return;
+  const supported = evidence.filter((e) =>
+    rule.evidenceHashes.includes(e.hash),
+  );
+  if (
+    !rule.evidenceHashes.length ||
+    supported.length !== rule.evidenceHashes.length ||
+    evidenceGaps(supported, region, date).length
+  )
+    return;
+  if (
+    supported.some(
+      (e) =>
+        !["law", "ordinance"].includes(e.kind) ||
+        !verifyCitation(e, rule.quotes?.[e.hash] || ""),
+    )
+  )
+    return;
+  for (const key of [...rule.requiredFacts, ...rule.exceptionFacts])
+    if (!facts.some((f) => f.key === key && f.confirmed && f.value.trim()))
+      return;
+  if (
+    rule.exceptionFacts.some(
+      (k) => facts.find((f) => f.key === k)?.value !== "해당 없음",
+    )
+  )
+    return;
+  const fact = facts.find((f) => f.key === rule.predicate.fact && f.confirmed);
+  if (!fact) return;
+  const p = rule.predicate;
+  const n = Number(fact.value),
+    v = Number(p.value);
+  const matched =
+    p.operator === "eq"
+      ? fact.value === String(p.value)
+      : fact.value.trim() !== "" &&
+        Number.isFinite(n) &&
+        Number.isFinite(v) &&
+        (p.operator === "gte"
+          ? n >= v
+          : p.operator === "gt"
+            ? n > v
+            : p.operator === "lt"
+              ? n < v
+              : n <= v);
+  if (!matched) return;
+  return {
+    id: randomUUID(),
+    category: "clear_risk",
+    title: rule.title,
+    conclusion: rule.conclusion,
+    conditions: rule.requiredFacts.map(
+      (k) => `${k}: ${facts.find((f) => f.key === k)?.value}`,
+    ),
+    citations: supported.map((e) => ({
+      evidenceId: e.id,
+      quote: rule.quotes[e.hash],
+    })),
+    exceptions: rule.exceptionFacts,
+    missing: [],
+    nextActions: ["근거와 입력 사실을 확인하고 필요한 조치를 진행하세요."],
+    severity: "unspecified",
+    ruleId: rule.id + "@" + rule.version,
+  };
+}
+export function quantityRatio(
+  items: {
+    quantity: number;
+    unit: string;
+    designated: number;
+    designatedUnit: string;
+  }[],
+  groupConfirmed: boolean,
+) {
+  if (!groupConfirmed)
+    throw new Error("합산 대상 저장·취급 단위를 먼저 확인하세요.");
+  const units: Record<string, { type: string; factor: number }> = {
+    L: { type: "volume", factor: 1 },
+    mL: { type: "volume", factor: 0.001 },
+    kL: { type: "volume", factor: 1000 },
+    kg: { type: "mass", factor: 1 },
+    g: { type: "mass", factor: 0.001 },
+    t: { type: "mass", factor: 1000 },
+  };
+  if (!items.length) throw new Error("물질을 입력하세요.");
+  return items.reduce((sum, x) => {
+    const u = units[x.unit],
+      d = units[x.designatedUnit];
+    if (
+      !u ||
+      !d ||
+      u.type !== d.type ||
+      !Number.isFinite(x.quantity) ||
+      !Number.isFinite(x.designated) ||
+      x.quantity < 0 ||
+      x.designated <= 0
+    )
+      throw new Error(
+        "수량·단위·지정수량을 확인하세요. 질량과 부피는 자동 환산하지 않습니다.",
+      );
+    return sum + (x.quantity * u.factor) / (x.designated * d.factor);
+  }, 0);
+}
+export function versionDiff(a: Evidence, b: Evidence) {
+  return {
+    label: "시스템 생성 비교 — 공식 신구대비표가 아닙니다.",
+    from: a.version,
+    to: b.version,
+    changes: diffLines(a.text, b.text),
+  };
+}
+export function redact(text: string) {
+  return text
+    .replace(/\b\d{6}[- ]?[1-4]\d{6}\b/g, "[주민번호 삭제]")
+    .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[이메일 삭제]")
+    .replace(/\b0\d{1,2}[- ]?\d{3,4}[- ]?\d{4}\b/g, "[전화번호 삭제]");
+}

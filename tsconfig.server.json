@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
+    "rootDir": ".",
+    "outDir": "build",
+    "types": ["node"]
+  },
+  "include": ["server", "shared", "scripts"],
+  "exclude": ["node_modules", "tests", "src"]
+}
