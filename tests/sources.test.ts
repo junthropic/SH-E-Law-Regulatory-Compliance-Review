@@ -10,7 +10,8 @@ it("별표 파일은 공식 출처 링크만 수집한다", () => {
   expect(
     annexUrls({
       별표파일링크: "https://malicious.test/annex.pdf",
-      첨부파일링크: "http://www.law.go.kr/LSW/flDownload.do?flSeq=1",
+      첨부파일링크:
+        "http://www.law.go.kr/LSW/flDownload.do?flSeq=1&OC=TEST-ONLY",
     }),
   ).toEqual(["https://www.law.go.kr/LSW/flDownload.do?flSeq=1"]);
 });
@@ -37,7 +38,11 @@ it("현행 조례의 조문·부칙·별표를 모두 보관한다", () => {
   const e = normalizeLaw(
     raw,
     "ordin",
-    { 자치법규일련번호: "123", 자치법규ID: "10" },
+    {
+      자치법규일련번호: "123",
+      자치법규ID: "10",
+      자치법규상세링크: "/LSW/ordinInfoP.do?ordinSeq=123&OC=TEST-ONLY",
+    },
     "경기도",
   );
   expect(e.text).toContain("경과조치");
@@ -46,6 +51,7 @@ it("현행 조례의 조문·부칙·별표를 모두 보관한다", () => {
   expect(e.verified).toBe(false);
   expect(e.sourceId).toBe("ordin:경기도:10");
   expect(e.hash).toBe(sha(e.text));
+  expect(e.url).toBe("https://www.law.go.kr/LSW/ordinInfoP.do?ordinSeq=123");
 });
 it.each([
   "",

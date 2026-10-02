@@ -15,7 +15,7 @@ export function markdown(r: ReviewResult) {
           })
           .join(
             "\n\n",
-          )}\n\n${i.missing.map((x) => "- 추가 확인: " + x).join("\n")}\n${i.nextActions.map((x) => "- 다음 조치: " + x).join("\n")}`,
+          )}\n\n${i.exceptions.map((x) => "- 예외·단서: " + x).join("\n")}\n${i.missing.map((x) => "- 추가 확인: " + x).join("\n")}\n${i.nextActions.map((x) => "- 다음 조치: " + x).join("\n")}`,
     )
     .join(
       "\n\n",

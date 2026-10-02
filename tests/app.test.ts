@@ -61,7 +61,7 @@ it("로컬 호스트·세션·CSRF를 검사하고 실제 검토 이력을 저�
       method: "POST",
       url: "/api/reviews",
       headers,
-      payload: request(),
+      payload: { ...request(), answers: { permit: "아직 확인 중입니다." } },
     });
     expect(created.statusCode).toBe(202);
     await vi.waitFor(() =>
@@ -71,6 +71,12 @@ it("로컬 호스트·세션·CSRF를 검사하고 실제 검토 이력을 저�
       url: "/api/reviews/" + created.json().id,
       headers,
     });
+    expect(
+      report.json().facts.find((f: any) => f.key === "permit").confirmed,
+    ).toBe(false);
+    expect(report.json().questions.some((q: any) => q.key === "permit")).toBe(
+      true,
+    );
     expect(
       report.json().issues.some((i: any) => i.category === "more_data"),
     ).toBe(true);

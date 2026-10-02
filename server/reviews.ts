@@ -3,7 +3,12 @@ import { Store } from "./store.js";
 import { Vault } from "./vault.js";
 import { ChatGPTAuth } from "./auth.js";
 import { analyze } from "./ai.js";
-import { evidenceGaps, enforceIssue, evaluateRule } from "./legal.js";
+import {
+  evidenceGaps,
+  enforceIssue,
+  evaluateRule,
+  confirmedAnswer,
+} from "./legal.js";
 import { syncSources } from "./sources.js";
 import { hasCoverageApproval } from "./approval.js";
 import type {
@@ -86,7 +91,7 @@ export async function runReview(
         label: questions.find((q) => q.key === key)?.label || key,
         value,
         source: "사용자 추가 답변",
-        confirmed: true,
+        confirmed: confirmedAnswer(value),
       })),
     ];
     const secrets = await vault.read<{ lawOc: string }>("law");
@@ -124,7 +129,9 @@ export async function runReview(
       r.gaps.push(
         "지자체 공보와의 대조 및 관련 시·군·구 위임 규정 확인이 필요합니다.",
       );
-    r.questions = questions.filter((q) => !r.request.answers[q.key]?.trim());
+    r.questions = questions.filter(
+      (q) => !confirmedAnswer(r.request.answers[q.key] || ""),
+    );
     for (const rule of store
       .rules()
       .filter(
@@ -134,7 +141,7 @@ export async function runReview(
       ))
       for (const key of [...rule.requiredFacts, ...rule.exceptionFacts])
         if (
-          !r.request.answers[key]?.trim() &&
+          !confirmedAnswer(r.request.answers[key] || "") &&
           !r.questions.some((q) => q.key === key)
         )
           r.questions.push({

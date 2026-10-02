@@ -27,6 +27,20 @@ export function dateIso(v: unknown) {
     ? s.slice(0, 4) + "-" + s.slice(4, 6) + "-" + s.slice(6, 8)
     : "";
 }
+export function publicLawUrl(input: string) {
+  const u = new URL(input, "https://www.law.go.kr");
+  if (u.protocol === "http:") u.protocol = "https:";
+  if (
+    u.protocol !== "https:" ||
+    u.hostname !== "www.law.go.kr" ||
+    u.username ||
+    u.password
+  )
+    throw new Error("공식 법규 URL이 아닙니다.");
+  for (const key of [...u.searchParams.keys()])
+    if (/^(OC|apiKey|token|key)$/i.test(key)) u.searchParams.delete(key);
+  return u.href;
+}
 export function flatten(value: any, path = ""): string {
   if (value == null) return "";
   if (typeof value !== "object")
@@ -59,7 +73,7 @@ export function annexUrls(value: any): string[] {
           !u.username &&
           !u.password
         )
-          urls.push(u.href);
+          urls.push(publicLawUrl(u.href));
       } catch {}
     } else if (v && typeof v === "object")
       for (const [k, c] of Object.entries(v)) visit(c, k);
@@ -131,9 +145,13 @@ export function normalizeLaw(
       : target === "admrul"
         ? `https://www.law.go.kr/행정규칙/${encodeURIComponent(title)}`
         : `https://www.law.go.kr/법령/${encodeURIComponent(title)}`;
-  const url =
-    baseUrl +
-    (promulgatedAt ? "/(," + promulgatedAt.replaceAll("-", "") + ",)" : "");
+  const suppliedLink =
+    record.법령상세링크 || record.자치법규상세링크 || record.행정규칙상세링크;
+  let url = baseUrl;
+  if (suppliedLink)
+    try {
+      url = publicLawUrl(String(suppliedLink));
+    } catch {}
   const links = Array.from(new Set(text.match(/「[^」]+」/g) || []));
   const annexExists = !!root.별표 && JSON.stringify(root.별표).length > 5;
   return {
@@ -154,7 +172,11 @@ export function normalizeLaw(
     annexesComplete: !annexExists && !/별표\s*\d/.test(text),
     historyComplete: false,
     verified: false,
-    verificationNote: "자동 수집. 별표 파일·조문별 시행일·예외 검증 전.",
+    verificationNote:
+      "자동 수집. 별표 파일·조문별 시행일·예외 검증 전." +
+      (url === baseUrl
+        ? " 공식 링크는 현재 조회 화면입니다. 기준일 원문은 저장된 버전을 확인하세요."
+        : ""),
     links,
   };
 }

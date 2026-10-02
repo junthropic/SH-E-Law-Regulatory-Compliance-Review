@@ -3,6 +3,14 @@ import { diffLines } from "diff";
 import type { CaseFact, Evidence, LegalIssue, Rule } from "../shared/types.js";
 
 export const normalize = (s: string) => s.replace(/\s+/g, " ").trim();
+export function confirmedAnswer(value: string) {
+  return (
+    !!value.trim() &&
+    !/모름|모르|미확인|확인\s*중|확인\s*필요|알\s*수\s*없|아직|확인\s*안|unknown/i.test(
+      value,
+    )
+  );
+}
 export function verifyCitation(e: Evidence | undefined, quote: string) {
   return (
     !!e &&
