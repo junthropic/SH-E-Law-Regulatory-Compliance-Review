@@ -132,7 +132,9 @@ it("손상된 문서는 추출 프로세스만 실패하고 다른 업로드는 
   } finally {
     clean();
   }
-});
+  // Two isolated workers each have a 30-second deadline; Windows CI cold starts
+  // must not be cut off by Vitest's default five-second deadline.
+}, 65000);
 it("TXT 파일을 중복 없이 보관하고 미확인 추출문으로 표시한다", async () => {
   const { store, clean } = testStore();
   try {

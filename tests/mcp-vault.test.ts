@@ -45,7 +45,8 @@ it.skipIf(process.platform !== "win32")(
       expect(
         readFileSync(join(store.dir, "test-secret.dpapi"), "utf8"),
       ).not.toContain("TEST-ONLY");
-      expect(await vault.read("test-secret")).toEqual({
+      // A new instance must recover the persisted value, not an in-memory copy.
+      expect(await new Vault(store.dir, false).read("test-secret")).toEqual({
         sample: "TEST-ONLY-NOT-A-CREDENTIAL",
       });
       vault.remove("test-secret");
