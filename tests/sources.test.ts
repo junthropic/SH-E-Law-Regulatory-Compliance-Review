@@ -6,12 +6,53 @@ import {
   syncSources,
   annexUrls,
   dateIso,
+  publicLawUrl,
 } from "../server/sources.js";
 import { koreaDate } from "../shared/dates.js";
+it.each([
+  ["target=ordin&MST=1914049", "ordinInfoP.do?ordinSeq=1914049"],
+  [
+    "target=eflaw&MST=259933&efYd=20250807",
+    "lsInfoP.do?lsiSeq=259933&efYd=20250807",
+  ],
+  ["target=admrul&ID=2100000280938", "admRulInfoP.do?admRulSeq=2100000280938"],
+])(
+  "인증이 필요한 API 링크를 공개 버전 원문으로 변환한다: %s",
+  (query, reader) => {
+    expect(
+      publicLawUrl(
+        "https://www.law.go.kr/DRF/lawService.do?OC=TEST-ONLY&type=HTML&" +
+          query,
+      ),
+    ).toBe("https://www.law.go.kr/LSW/" + reader);
+  },
+);
 it("법규 시행일은 실재 날짜이고 오늘의 기준은 한국 날짜다", () => {
   expect(dateIso("20260230")).toBe("");
   expect(dateIso("20240229")).toBe("2024-02-29");
   expect(koreaDate(new Date("2026-10-02T15:01:00Z"))).toBe("2026-10-03");
+});
+it("API의 9999년 시행일을 검증된 적용일로 취급하지 않는다", () => {
+  const e = normalizeLaw(
+    JSON.stringify({
+      LawService: {
+        자치법규기본정보: {
+          자치법규명: "가상 연혁 조례",
+          시행일자: "99991231",
+        },
+        조문: {
+          조내용:
+            "실제 시행일을 별도로 확인해야 하는 가상의 연혁 조문 내용입니다.",
+        },
+      },
+    }),
+    "ordin",
+    {},
+    "경기도",
+  );
+  expect(e.effectiveFrom).toBe("9999-12-31");
+  expect(e.complete).toBe(false);
+  expect(e.verificationNote).toContain("실제 시행일 확인 필요");
 });
 it("전체 건수보다 많은 목록 응답은 성공으로 처리하지 않는다", async () => {
   const connector = new LawConnector(

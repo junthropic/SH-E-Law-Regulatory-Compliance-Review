@@ -45,6 +45,34 @@ export function publicLawUrl(input: string) {
     throw new Error("공식 법규 URL이 아닙니다.");
   for (const key of [...u.searchParams.keys()])
     if (/^(OC|apiKey|token|key)$/i.test(key)) u.searchParams.delete(key);
+  // DRF detail links require OC even for HTML. Use the public version-specific
+  // reader so citations work without disclosing the collector's credential.
+  if (u.pathname === "/DRF/lawService.do") {
+    const target = u.searchParams.get("target");
+    const version =
+      u.searchParams.get(target === "admrul" ? "ID" : "MST") || "";
+    if (!/^\d+$/.test(version)) throw new Error("법규 링크의 버전 식별자 누락");
+    const reader = new URL(
+      "https://www.law.go.kr/LSW/" +
+        (target === "ordin"
+          ? "ordinInfoP.do"
+          : target === "admrul"
+            ? "admRulInfoP.do"
+            : "lsInfoP.do"),
+    );
+    reader.searchParams.set(
+      target === "ordin"
+        ? "ordinSeq"
+        : target === "admrul"
+          ? "admRulSeq"
+          : "lsiSeq",
+      version,
+    );
+    const effective = u.searchParams.get("efYd");
+    if (target === "eflaw" && effective && /^\d{8}$/.test(effective))
+      reader.searchParams.set("efYd", effective);
+    return reader.href;
+  }
   return u.href;
 }
 export function flatten(value: any, path = ""): string {
@@ -126,6 +154,7 @@ export function normalizeLaw(
     );
   const effectiveFrom = dateIso(info.시행일자 || record.시행일자);
   if (!effectiveFrom) throw new Error("유효한 시행일을 확인할 수 없습니다.");
+  const uncertainDate = effectiveFrom === "9999-12-31";
   const promulgatedAt = dateIso(
     info.공포일자 || info.발령일자 || record.공포일자 || record.발령일자,
   );
@@ -180,7 +209,7 @@ export function normalizeLaw(
     promulgatedAt,
     fetchedAt: new Date().toISOString(),
     hash: sha(text),
-    complete: !!body && !!effectiveFrom,
+    complete: !!body && !!effectiveFrom && !uncertainDate,
     // The ordinance API provides annexes only for limited institutions.
     // An absent annex field cannot establish that an ordinance has no annexes.
     annexesComplete:
@@ -189,6 +218,9 @@ export function normalizeLaw(
     verified: false,
     verificationNote:
       "자동 수집. 별표 파일·조문별 시행일·예외 검증 전." +
+      (uncertainDate
+        ? " API 시행일이 9999-12-31로 표시되어 실제 시행일 확인 필요."
+        : "") +
       (target === "ordin"
         ? " 자치법규 API의 별표 제공 범위가 제한되어 별도 원본 대조 필요."
         : "") +
