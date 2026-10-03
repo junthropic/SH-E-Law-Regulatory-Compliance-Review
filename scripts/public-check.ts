@@ -1,17 +1,17 @@
 import { readdirSync } from "node:fs";
 import { resolve, join } from "node:path";
-import { BundleSchema } from "../server/schemas.js";
 import { sha } from "../server/store.js";
-import { readPublicBundle } from "../server/public-bundle.js";
+import {
+  readPublicBundle,
+  parsePublicBundle,
+} from "../server/public-bundle.js";
 
 const root = resolve("data/public");
 for (const name of readdirSync(root))
   if (!["bundle.json", "bundle.json.gz", "README.md"].includes(name))
     throw new Error("공개 데이터 경로에 허용되지 않은 파일: " + name);
 const input = readPublicBundle(join(root, "bundle.json"));
-const parsed = BundleSchema.parse(input);
-if (JSON.stringify(input) !== JSON.stringify(parsed))
-  throw new Error("공개 데이터 스키마 외 필드 포함");
+const parsed = parsePublicBundle(input);
 for (const e of parsed.evidence) {
   const url = new URL(e.url);
   if (

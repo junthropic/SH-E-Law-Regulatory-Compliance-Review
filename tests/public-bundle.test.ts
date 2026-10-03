@@ -6,6 +6,7 @@ import { testStore, evidence } from "./helpers.js";
 import {
   writePublicBundle,
   readPublicBundle,
+  parsePublicBundle,
 } from "../server/public-bundle.js";
 import { updatePublicBundle } from "../server/bundles.js";
 
@@ -14,6 +15,22 @@ const bundle = () => ({
   createdAt: new Date().toISOString(),
   evidence: [evidence({ verified: false })],
   sources: [],
+});
+
+it("공개 검사는 수집기가 마지막에 붙인 rawRef와 필드 순서 변경을 허용한다", () => {
+  const data = bundle();
+  data.evidence[0].rawRef = "a".repeat(64) + ".json";
+  const reordered = Object.fromEntries(Object.entries(data).reverse());
+  expect(parsePublicBundle(reordered)).toEqual(data);
+});
+
+it("필드 순서와 무관하게 공개 스키마 밖의 개인 필드는 거부한다", () => {
+  const data = bundle();
+  const invalid = {
+    ...data,
+    evidence: [{ ...data.evidence[0], privateNote: "TEST-PRIVATE" }],
+  };
+  expect(() => parsePublicBundle(invalid)).toThrow("스키마 외 필드");
 });
 
 it("압축 공개 번들은 한국어 원문·해시를 보존하고 기존 경로에서도 읽힌다", () => {
@@ -40,7 +57,8 @@ it("압축 다운로드도 스키마와 원문 해시를 검증하며 손상 시
   try {
     const data = bundle();
     const fetcher = vi.fn(
-      async (_url: string) => new Response(new Uint8Array(gzipSync(JSON.stringify(data)))),
+      async (_url: string) =>
+        new Response(new Uint8Array(gzipSync(JSON.stringify(data)))),
     );
     await updatePublicBundle(store, fetcher as any);
     expect(String(fetcher.mock.calls[0]?.[0])).toContain("bundle.json.gz");

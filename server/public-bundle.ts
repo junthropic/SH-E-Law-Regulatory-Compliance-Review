@@ -6,9 +6,18 @@ import {
   statSync,
 } from "node:fs";
 import { gzipSync, gunzipSync } from "node:zlib";
+import { isDeepStrictEqual } from "node:util";
+import { BundleSchema } from "./schemas.js";
 
 export const MAX_PUBLIC_DOWNLOAD = 50_000_000;
 export const MAX_PUBLIC_JSON = 256 * 1024 * 1024;
+
+export function parsePublicBundle(input: unknown) {
+  const parsed = BundleSchema.parse(input);
+  if (!isDeepStrictEqual(input, parsed))
+    throw new Error("공개 데이터 스키마 외 필드 포함");
+  return parsed;
+}
 
 export function publicBundlePath(legacyPath: string) {
   return existsSync(legacyPath + ".gz") ? legacyPath + ".gz" : legacyPath;
