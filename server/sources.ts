@@ -110,7 +110,7 @@ export function normalizeLaw(
   );
   const body = root.조문 || root.조문내용 || root.행정규칙본문;
   const changeType = String(
-    info.제개정구분명 || record.제개정구분명 || "",
+    info.제개정구분명 || info.제개정정보 || record.제개정구분명 || "",
   ).trim();
   const repealed = ["폐지", "타법폐지", "일괄폐지"].includes(changeType);
   const text = [
@@ -181,11 +181,17 @@ export function normalizeLaw(
     fetchedAt: new Date().toISOString(),
     hash: sha(text),
     complete: !!body && !!effectiveFrom,
-    annexesComplete: !annexExists && !/별표\s*\d/.test(text),
+    // The ordinance API provides annexes only for limited institutions.
+    // An absent annex field cannot establish that an ordinance has no annexes.
+    annexesComplete:
+      target !== "ordin" && !annexExists && !/별표\s*\d/.test(text),
     historyComplete: false,
     verified: false,
     verificationNote:
       "자동 수집. 별표 파일·조문별 시행일·예외 검증 전." +
+      (target === "ordin"
+        ? " 자치법규 API의 별표 제공 범위가 제한되어 별도 원본 대조 필요."
+        : "") +
       (url === baseUrl
         ? " 공식 링크는 현재 조회 화면입니다. 기준일 원문은 저장된 버전을 확인하세요."
         : ""),

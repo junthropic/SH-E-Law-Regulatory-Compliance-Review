@@ -53,6 +53,45 @@ it("폐지 메타데이터는 본문이 없어도 이력으로 보관하고 폐�
     normalizeLaw(raw, "eflaw", { 제개정구분명: "폐지제정" }, "전국"),
   ).toThrow();
 });
+it("자치법규 API의 제개정정보에 기록된 폐지를 인식한다", () => {
+  const e = normalizeLaw(
+    JSON.stringify({
+      LawService: {
+        자치법규기본정보: {
+          자치법규명: "가상 폐지 조례",
+          시행일자: "20260601",
+          제개정정보: "폐지",
+        },
+      },
+    }),
+    "ordin",
+    {},
+    "경기도",
+  );
+  expect(e.repealed).toBe(true);
+  expect(e.complete).toBe(false);
+});
+it("조례 응답에 별표가 없더라도 별표 완전성을 승인하지 않는다", () => {
+  const e = normalizeLaw(
+    JSON.stringify({
+      LawService: {
+        자치법규기본정보: {
+          자치법규명: "가상 조례",
+          시행일자: "20260601",
+        },
+        조문: {
+          조내용:
+            "단위시험을 위한 가상 조문입니다. 일부 내용이 응답에서 생략되어 있을 수 있습니다.",
+        },
+      },
+    }),
+    "ordin",
+    {},
+    "경기도",
+  );
+  expect(e.annexesComplete).toBe(false);
+  expect(e.verificationNote).toContain("별표 제공 범위가 제한");
+});
 it("현행 조례의 조문·부칙·별표를 모두 보관한다", () => {
   const raw = JSON.stringify({
     LawService: {

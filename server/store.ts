@@ -17,6 +17,7 @@ import type {
 } from "../shared/types.js";
 import { regions } from "../shared/types.js";
 import { BundleSchema } from "./schemas.js";
+import { publicBundlePath, readPublicBundle } from "./public-bundle.js";
 
 export const sha = (s: string | Buffer) =>
   createHash("sha256").update(s).digest("hex");
@@ -234,8 +235,9 @@ export class Store {
     return this.all<Rule>("rules");
   }
   importPublic(path: string) {
+    path = publicBundlePath(path);
     if (!existsSync(path)) return;
-    const d = BundleSchema.parse(JSON.parse(readFileSync(path, "utf8")));
+    const d = BundleSchema.parse(readPublicBundle(path));
     for (const e of d.evidence) {
       const url = new URL(e.url);
       if (

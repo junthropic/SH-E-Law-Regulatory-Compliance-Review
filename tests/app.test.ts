@@ -1,4 +1,5 @@
 import { it, expect, vi } from "vitest";
+import { gzipSync } from "node:zlib";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join, resolve, dirname, basename } from "node:path";
 import { tmpdir } from "node:os";
@@ -69,12 +70,18 @@ it("공개자료를 받는 동안 복원·백업·종료를 거부하고 끝나�
         ).statusCode,
       ).toBe(409);
     release(
-      Response.json({
-        schemaVersion: 1,
-        createdAt: new Date().toISOString(),
-        evidence: [],
-        sources: [],
-      }),
+      new Response(
+        new Uint8Array(
+          gzipSync(
+            JSON.stringify({
+              schemaVersion: 1,
+              createdAt: new Date().toISOString(),
+              evidence: [],
+              sources: [],
+            }),
+          ),
+        ),
+      ),
     );
     expect((await pending).statusCode).toBe(200);
     expect((await app.inject({ url: "/api/backup", headers })).statusCode).toBe(
