@@ -7,6 +7,46 @@ import { newReview } from "../server/reviews.js";
 import { ingestDocument } from "../server/documents.js";
 import { makeBackup, restoreBackup } from "../server/backup.js";
 import { evidenceGaps } from "../server/legal.js";
+import { buildContext } from "../server/ai.js";
+it("긴 행정규칙이 있어도 해당 지역 조례와 국가법을 모델에 먼저 전달한다", () => {
+  const { store, clean } = testStore();
+  try {
+    for (let i = 0; i < 7; i++)
+      store.saveEvidence(
+        evidence({
+          sourceId: "admrul:test:" + i,
+          title: "위험물 저장 취급 허가 행정규칙 " + i,
+          text: "위험물 저장 취급 허가 ".repeat(2500),
+          hash: sha("위험물 저장 취급 허가 ".repeat(2500)),
+        }),
+      );
+    const law = evidence({ sourceId: "law:test", title: "시험 국가법" });
+    const ordinance = evidence({
+      sourceId: "ordin:test",
+      kind: "ordinance",
+      region: "경기도",
+      title: "시험 경기도 조례",
+    });
+    store.saveEvidence(law);
+    store.saveEvidence(ordinance);
+    const found = store.search("위험물 저장 취급 허가", "경기도", "2026-10-03");
+    const context = JSON.parse(buildContext(request(), found, []).input);
+    expect(context.evidence.slice(0, 2).map((e: any) => e.id)).toEqual([
+      ordinance.id,
+      law.id,
+    ]);
+    expect(
+      context.evidence.some((e: any) => e.id === law.id && e.text === law.text),
+    ).toBe(true);
+    expect(
+      context.evidence.some(
+        (e: any) => e.id === ordinance.id && e.text === ordinance.text,
+      ),
+    ).toBe(true);
+  } finally {
+    clean();
+  }
+});
 it("폐지 시행일부터는 종전 법규를 현행 근거로 되살리지 않는다", () => {
   const { store, clean } = testStore();
   try {

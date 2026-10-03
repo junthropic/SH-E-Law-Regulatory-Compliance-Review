@@ -54,6 +54,7 @@ export class Store {
     this.db.exec(`PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON;
       CREATE TABLE IF NOT EXISTS reviews(id TEXT PRIMARY KEY, body TEXT NOT NULL);
       CREATE TABLE IF NOT EXISTS evidence(id TEXT PRIMARY KEY, sourceId TEXT, hash TEXT, body TEXT NOT NULL);
+      CREATE INDEX IF NOT EXISTS evidence_source_id ON evidence(sourceId);
       CREATE VIRTUAL TABLE IF NOT EXISTS evidence_fts USING fts5(id UNINDEXED,title,text,tokenize='trigram');
       CREATE TABLE IF NOT EXISTS documents(id TEXT PRIMARY KEY, body TEXT NOT NULL);
       CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY, body TEXT NOT NULL);
@@ -104,9 +105,11 @@ export class Store {
     return this.get<T>("settings", key) ?? fallback;
   }
   saveEvidence(e: Evidence, preserveVerification = true) {
-    const old = this.all<Evidence>("evidence").filter(
-      (x) => x.sourceId === e.sourceId,
-    );
+    const old = (
+      this.db
+        .prepare("SELECT body FROM evidence WHERE sourceId=?")
+        .all(e.sourceId) as { body: string }[]
+    ).map((row) => JSON.parse(row.body) as Evidence);
     const unchanged = old.find(
       (x) => evidenceIdentity(x) === evidenceIdentity(e),
     );
@@ -126,10 +129,12 @@ export class Store {
           "INSERT INTO evidence(id,sourceId,hash,body) VALUES(?,?,?,?) ON CONFLICT(id) DO UPDATE SET body=excluded.body,hash=excluded.hash",
         )
         .run(e.id, e.sourceId, e.hash, JSON.stringify(e));
-      this.db.prepare("DELETE FROM evidence_fts WHERE id=?").run(e.id);
-      this.db
-        .prepare("INSERT INTO evidence_fts(id,title,text) VALUES(?,?,?)")
-        .run(e.id, e.title, e.text);
+      if (!unchanged) {
+        this.db.prepare("DELETE FROM evidence_fts WHERE id=?").run(e.id);
+        this.db
+          .prepare("INSERT INTO evidence_fts(id,title,text) VALUES(?,?,?)")
+          .run(e.id, e.title, e.text);
+      }
       if (!unchanged && old.length)
         for (const r of this.all<ReviewResult>("reviews")) {
           if (
@@ -204,6 +209,12 @@ export class Store {
             ),
       )
       .sort((a, b) => {
+        // Historical matches and long administrative rules must not crowd the
+        // local ordinance and national statutes out of the model context.
+        const priority = (e: Evidence) =>
+          e.kind === "ordinance" ? 0 : e.sourceId.startsWith("admrul:") ? 2 : 1;
+        const scopeOrder = priority(a) - priority(b);
+        if (scopeOrder) return scopeOrder;
         const ai = ranked.indexOf(a.id),
           bi = ranked.indexOf(b.id);
         return (ai < 0 ? 1000 : ai) - (bi < 0 ? 1000 : bi);
