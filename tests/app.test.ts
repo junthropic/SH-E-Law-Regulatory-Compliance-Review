@@ -7,6 +7,85 @@ import { Store } from "../server/store.js";
 import { request, basis, rule } from "./helpers.js";
 import { approveReviewBasis, hasCoverageApproval } from "../server/approval.js";
 import { testStore } from "./helpers.js";
+it("인증 저장소 장애가 자료함·설정 상태 조회를 막지 않는다", async () => {
+  const { store, clean } = testStore();
+  const { app, vault } = await createApp(store, true);
+  try {
+    vi.spyOn(vault, "read").mockRejectedValue(
+      new Error("fixture vault unavailable"),
+    );
+    const b = await app.inject({
+      url: "/api/bootstrap",
+      headers: { host: "127.0.0.1:4317" },
+    });
+    const r = await app.inject({
+      url: "/api/status",
+      headers: {
+        host: "127.0.0.1:4317",
+        cookie: b.cookies[0].name + "=" + b.cookies[0].value,
+      },
+    });
+    expect(r.statusCode).toBe(200);
+    expect(r.json().auth.storageError).toBeTruthy();
+    expect(r.json().lawStorageError).toBeTruthy();
+  } finally {
+    await app.close();
+    clean();
+  }
+});
+it("공개자료를 받는 동안 복원·백업·종료를 거부하고 끝나면 잠금을 해제한다", async () => {
+  const { store, clean } = testStore();
+  const { app } = await createApp(store, true);
+  let release!: (r: Response) => void;
+  const fetcher = vi.fn(
+    () =>
+      new Promise<Response>((resolve) => {
+        release = resolve;
+      }),
+  );
+  vi.stubGlobal("fetch", fetcher);
+  try {
+    const b = await app.inject({
+      url: "/api/bootstrap",
+      headers: { host: "127.0.0.1:4317" },
+    });
+    const headers = {
+      host: "127.0.0.1:4317",
+      cookie: b.cookies[0].name + "=" + b.cookies[0].value,
+      "x-csrf-token": b.json().csrf,
+    };
+    const pending = app
+      .inject({ method: "POST", url: "/api/public/update", headers })
+      .then((r) => r);
+    await vi.waitFor(() => expect(fetcher).toHaveBeenCalled());
+    for (const url of ["/api/restore", "/api/shutdown", "/api/backup"])
+      expect(
+        (
+          await app.inject({
+            method: url.endsWith("backup") ? "GET" : "POST",
+            url,
+            headers,
+          })
+        ).statusCode,
+      ).toBe(409);
+    release(
+      Response.json({
+        schemaVersion: 1,
+        createdAt: new Date().toISOString(),
+        evidence: [],
+        sources: [],
+      }),
+    );
+    expect((await pending).statusCode).toBe(200);
+    expect((await app.inject({ url: "/api/backup", headers })).statusCode).toBe(
+      200,
+    );
+  } finally {
+    vi.unstubAllGlobals();
+    await app.close();
+    clean();
+  }
+});
 it("로컬 호스트·세션·CSRF를 검사하고 실제 검토 이력을 저장한다", async () => {
   const dir = mkdtempSync(join(tmpdir(), "she-app-test-"));
   const { app, store } = await createApp(new Store(dir), true);
@@ -144,6 +223,21 @@ it("검토자 확인은 원문 전체 해시·공보·지역·기준일에 결�
     expect(hasCoverageApproval(store, "경기도", "다른시", date, es)).toBe(
       false,
     );
+    expect(
+      hasCoverageApproval(
+        store,
+        "경기도",
+        "시험시",
+        date,
+        es.map((e) => ({ ...e, effectiveTo: "2027-01-01" })),
+      ),
+    ).toBe(false);
+    expect(() =>
+      approveReviewBasis(store, {
+        ...approval,
+        evidenceHashes: [es[0].hash, es[0].hash],
+      }),
+    ).toThrow();
     expect(() =>
       approveReviewBasis(store, { ...approval, evidenceHashes: [es[0].hash] }),
     ).toThrow();

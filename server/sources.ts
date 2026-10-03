@@ -23,8 +23,14 @@ export function parseBody(text: string): any {
 }
 export function dateIso(v: unknown) {
   const s = String(v || "").replace(/\D/g, "");
-  return s.length === 8
-    ? s.slice(0, 4) + "-" + s.slice(4, 6) + "-" + s.slice(6, 8)
+  const value =
+    s.length === 8
+      ? s.slice(0, 4) + "-" + s.slice(4, 6) + "-" + s.slice(6, 8)
+      : "";
+  return value &&
+    Number.isFinite(Date.parse(value)) &&
+    new Date(value).toISOString().slice(0, 10) === value
+    ? value
     : "";
 }
 export function publicLawUrl(input: string) {
@@ -103,6 +109,10 @@ export function normalizeLaw(
       "",
   );
   const body = root.조문 || root.조문내용 || root.행정규칙본문;
+  const changeType = String(
+    info.제개정구분명 || record.제개정구분명 || "",
+  ).trim();
+  const repealed = ["폐지", "타법폐지", "일괄폐지"].includes(changeType);
   const text = [
     flatten(body, "조문"),
     flatten(root.부칙, "부칙"),
@@ -110,11 +120,12 @@ export function normalizeLaw(
   ]
     .filter(Boolean)
     .join("\n\n");
-  if (!title || text.length < 30 || text.length > 1_200_000)
+  if (!title || (!repealed && text.length < 30) || text.length > 1_200_000)
     throw new Error(
       "전문을 확인할 수 없거나 처리 크기를 넘었습니다. 목록 정보만으로 저장하지 않습니다.",
     );
   const effectiveFrom = dateIso(info.시행일자 || record.시행일자);
+  if (!effectiveFrom) throw new Error("유효한 시행일을 확인할 수 없습니다.");
   const promulgatedAt = dateIso(
     info.공포일자 || info.발령일자 || record.공포일자 || record.발령일자,
   );
@@ -165,6 +176,7 @@ export function normalizeLaw(
     url,
     version,
     effectiveFrom,
+    repealed,
     promulgatedAt,
     fetchedAt: new Date().toISOString(),
     hash: sha(text),
@@ -258,7 +270,9 @@ export class LawConnector {
         seen.add(key);
       }
       records.push(...rows);
-      if (records.length >= total) return records;
+      if (records.length > total)
+        throw new Error("목록 건수와 실제 응답 건수가 다릅니다.");
+      if (records.length === total) return records;
       if (!rows.length) throw new Error("목록 페이지 일부가 누락되었습니다.");
     }
     throw new Error("목록 수집 한도 초과: 범위를 줄여 재시도해야 합니다.");
@@ -291,8 +305,8 @@ export class LawConnector {
           reader.releaseLock();
         }
         const buffer = Buffer.concat(chunks);
-        const { parse } = await import("kordoc");
-        const result = await parse(buffer, { ocr: false });
+        const { extractDocument } = await import("./extraction.js");
+        const result = await extractDocument(buffer);
         if (!result.success || result.markdown.trim().length < 20)
           throw new Error("별표 텍스트 추출 불가");
         mkdirSync(join(store.dir, "legal-attachments"), { recursive: true });
@@ -425,7 +439,14 @@ export async function syncSources(
             store,
           )),
         );
-      for (const e of entries) store.saveEvidence(e);
+      store.db.exec("SAVEPOINT source_sync");
+      try {
+        for (const e of entries) store.saveEvidence(e);
+        store.db.exec("RELEASE source_sync");
+      } catch (error) {
+        store.db.exec("ROLLBACK TO source_sync; RELEASE source_sync");
+        throw error;
+      }
       const status: SourceStatus = {
         ...s,
         status: "ok",

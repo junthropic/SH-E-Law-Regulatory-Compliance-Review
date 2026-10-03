@@ -95,5 +95,6 @@ E2E는 독립 헤드리스 브라우저를 사용합니다. 시험용 기록을 
 - [외부 연결·OAuth·국민신문고 설정](docs/integrations.md)
 - [검토자 확인서와 규칙 승인](docs/reviewer.md)
 - [시험 결과와 운영 검증표](docs/validation.md)
+- [2026-10-03 수정 내역·GitHub 인증·미해결 항목](docs/recheck-2026-10-03.md)
 - [공식 자료와 기술 근거](docs/references.md)
 - [외부 소프트웨어 고지](THIRD_PARTY_NOTICES.md)

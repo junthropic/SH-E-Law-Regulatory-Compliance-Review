@@ -48,6 +48,12 @@ export class Vault {
           stdio: ["pipe", "pipe", "pipe"],
         },
       );
+      const timer = setTimeout(() => {
+        p.kill();
+        rej(new Error("보호 저장소 응답 시간이 초과되었습니다."));
+      }, 15000);
+      p.once("close", () => clearTimeout(timer));
+      p.stdin.on("error", () => rej(new Error("보호 저장소 입력 실패")));
       let out = "",
         diagnostic = "";
       p.stdout.on("data", (d) => (out += d));

@@ -5,7 +5,25 @@ import {
   parseBody,
   syncSources,
   annexUrls,
+  dateIso,
 } from "../server/sources.js";
+import { koreaDate } from "../shared/dates.js";
+it("법규 시행일은 실재 날짜이고 오늘의 기준은 한국 날짜다", () => {
+  expect(dateIso("20260230")).toBe("");
+  expect(dateIso("20240229")).toBe("2024-02-29");
+  expect(koreaDate(new Date("2026-10-02T15:01:00Z"))).toBe("2026-10-03");
+});
+it("전체 건수보다 많은 목록 응답은 성공으로 처리하지 않는다", async () => {
+  const connector = new LawConnector(
+    "test",
+    vi.fn(async () =>
+      Response.json({
+        OrdinSearch: { totalCnt: 0, law: { 자치법규일련번호: "1" } },
+      }),
+    ) as any,
+  );
+  await expect(connector.list("ordin", "시험")).rejects.toThrow("실제 응답");
+});
 it("별표 파일은 공식 출처 링크만 수집한다", () => {
   expect(
     annexUrls({
@@ -17,6 +35,24 @@ it("별표 파일은 공식 출처 링크만 수집한다", () => {
 });
 import { testStore, evidence } from "./helpers.js";
 import { sha } from "../server/store.js";
+it("폐지 메타데이터는 본문이 없어도 이력으로 보관하고 폐지제정을 자동 폐지로 보지 않는다", () => {
+  const raw = JSON.stringify({
+    LawService: {
+      기본정보: { 법령명_한글: "가상 폐지 법규", 시행일자: "20260601" },
+    },
+  });
+  const e = normalizeLaw(
+    raw,
+    "eflaw",
+    { 법령ID: "test", 제개정구분명: "폐지" },
+    "전국",
+  );
+  expect(e.repealed).toBe(true);
+  expect(e.complete).toBe(false);
+  expect(() =>
+    normalizeLaw(raw, "eflaw", { 제개정구분명: "폐지제정" }, "전국"),
+  ).toThrow();
+});
 it("현행 조례의 조문·부칙·별표를 모두 보관한다", () => {
   const raw = JSON.stringify({
     LawService: {

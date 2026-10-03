@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Store } from "./store.js";
+import { Store, evidenceIdentity } from "./store.js";
 import { RuleSchema } from "./schemas.js";
 import { verifyCitation } from "./legal.js";
 import type { Evidence } from "../shared/types.js";
@@ -34,6 +34,9 @@ export function approveReviewBasis(store: Store, input: unknown) {
   const hashes = new Set(evidence.map((e) => e.hash));
   if (
     evidence.length !== approval.evidenceHashes.length ||
+    hashes.size !== evidence.length ||
+    new Set(approval.evidenceHashes).size !== evidence.length ||
+    new Set(evidence.map((e) => e.sourceId)).size !== evidence.length ||
     approval.evidenceHashes.some((h) => !hashes.has(h))
   )
     throw new Error(
@@ -89,6 +92,7 @@ export function approveReviewBasis(store: Store, input: unknown) {
       approval.asOf;
     store.put("settings", key, {
       ...approval,
+      identities: evidence.map(evidenceIdentity).sort(),
       checkedAt: new Date().toISOString(),
     });
     store.audit(
@@ -120,7 +124,10 @@ export function hasCoverageApproval(
   );
   return (
     !!a &&
+    Date.now() - Date.parse(a.checkedAt) >= 0 &&
     Date.now() - Date.parse(a.checkedAt) < 24 * 3600 * 1000 &&
+    JSON.stringify(a.identities) ===
+      JSON.stringify(evidence.map(evidenceIdentity).sort()) &&
     evidence.length > 0 &&
     evidence.every((e) => a.evidenceHashes.includes(e.hash)) &&
     a.evidenceHashes.length === evidence.length

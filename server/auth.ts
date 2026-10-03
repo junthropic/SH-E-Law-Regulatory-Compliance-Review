@@ -7,6 +7,7 @@ import {
 import { createRemoteJWKSet, jwtVerify, customFetch } from "jose";
 import { Vault } from "./vault.js";
 import { Store } from "./store.js";
+import { z } from "zod";
 
 export type Account = {
   clientId: string;
@@ -25,11 +26,36 @@ type Pending = {
   verifier: string;
   redirectUri: string;
   createdAt: number;
-  account?: Account;
+  account?: Pick<Account, "clientId" | "subject" | "email"> & {
+    idToken?: string;
+  };
 };
 const issuer = "https://auth.openai.com";
 const tokenUrl = issuer + "/api/accounts/oauth/token";
 const resource = "https://api.openai.com/v1";
+const savedAccountSchema = z.object({
+  clientId: z.string().min(1),
+  subject: z.string().min(1),
+  email: z.string(),
+  accessToken: z.string().min(1),
+  refreshToken: z.string().min(1).optional(),
+  idToken: z.string().min(1),
+  scopes: z.array(z.string()),
+  expiresAt: z.number().finite(),
+  earliestRefreshAt: z.number().finite().optional(),
+});
+const tokenResponse = z.object({
+  access_token: z.string().min(1),
+  refresh_token: z.string().min(1).optional(),
+  id_token: z.string().min(1).optional(),
+  token_type: z
+    .string()
+    .refine((v) => v.toLowerCase() === "bearer")
+    .optional(),
+  expires_in: z.number().positive().max(86400),
+  scope: z.string().optional(),
+  earliest_refresh_at: z.union([z.string(), z.number()]).optional(),
+});
 export function same(a: string, b: string) {
   const aa = Buffer.from(a),
     bb = Buffer.from(b);
@@ -45,26 +71,51 @@ export class ChatGPTAuth {
   private pending?: Pending;
   private renewing?: Promise<Account>;
   private generation = 0;
+  private signingOut = false;
   constructor(
     private store: Store,
     private vault: Vault,
     private fetcher: typeof fetch = fetch,
   ) {}
+  private async readAccount(): Promise<Account | undefined> {
+    const value = await this.vault.read<unknown>("chatgpt");
+    if (value === undefined) return;
+    const parsed = savedAccountSchema.safeParse(value);
+    if (!parsed.success)
+      throw new Error(
+        "저장된 인증정보 형식이 손상되었습니다. 연결 해제 후 다시 로그인하세요.",
+      );
+    return parsed.data;
+  }
   async status() {
-    const a = await this.vault.read<Account>("chatgpt");
+    let a: Account | undefined;
+    let storageError = "";
+    try {
+      a = await this.readAccount();
+    } catch {
+      storageError =
+        "저장된 ChatGPT 인증정보를 읽지 못했습니다. 연결 해제 후 다시 로그인하세요.";
+    }
+    if (this.pending && Date.now() - this.pending.createdAt > 600000)
+      this.cancel();
     return {
       connected: !!a,
       email: a?.email || "",
       planAuthorized: !!a?.scopes.includes("chatgpt.tokens.use.direct"),
       expiresAt: a?.expiresAt || null,
       pending: !!this.pending,
+      storageError,
     };
   }
   async start(origin: string) {
+    if (this.signingOut)
+      throw new Error("연결 해제가 끝난 뒤 다시 로그인하세요.");
     if (!/^http:\/\/127\.0\.0\.1:\d+$/.test(origin))
       throw new Error("허용되지 않은 OAuth 회신 주소");
     this.generation++;
-    const account = await this.vault.read<Account>("chatgpt");
+    const account =
+      (await this.readAccount()) ||
+      (await this.vault.read<Pending["account"]>("chatgpt-registration"));
     let hostId = this.store.setting("oauth-host-id", "");
     if (!hostId) {
       hostId = "urn:uuid:" + randomUUID();
@@ -94,8 +145,8 @@ export class ChatGPTAuth {
         .update(p.verifier)
         .digest("base64url"),
     };
-    if (account) params.id_token_hint = account.idToken;
-    else params.agent_name_hint = "SH-E-Law-Check";
+    if (account?.idToken) params.id_token_hint = account.idToken;
+    if (!account) params.agent_name_hint = "SH-E-Law-Check";
     return {
       url: issuer + "/api/accounts/authorize?" + new URLSearchParams(params),
     };
@@ -132,19 +183,8 @@ export class ChatGPTAuth {
       redirect_uri: p.redirectUri,
       resource,
     });
-    const config = (await this.fetcher(
-      issuer + "/.well-known/openid-configuration",
-      { signal: AbortSignal.timeout(15000) },
-    ).then((r) => r.json())) as any;
-    const jwksUrl = new URL(config.jwks_uri);
-    if (jwksUrl.origin !== issuer) throw new Error("인증키 발급자 불일치");
-    if (config.issuer !== issuer)
-      throw new Error("인증 메타데이터 발급자 불일치");
-    const { payload } = await jwtVerify(
-      data.id_token,
-      createRemoteJWKSet(jwksUrl, { [customFetch]: this.fetcher }),
-      { issuer, audience: clientId },
-    );
+    if (!data.id_token) throw new Error("인증 응답에 ID token이 없습니다.");
+    const payload = await this.validateIdentity(data.id_token, clientId);
     if (
       payload.nonce !== p.nonce ||
       !payload.sub ||
@@ -161,9 +201,18 @@ export class ChatGPTAuth {
       accessToken: data.access_token,
       refreshToken: data.refresh_token,
       scopes: String(data.scope || "").split(" "),
-      expiresAt: Date.now() + Number(data.expires_in) * 1000,
+      expiresAt: Date.now() + data.expires_in * 1000,
       earliestRefreshAt: refreshTime(data.earliest_refresh_at),
     };
+    await this.vault.write(
+      "chatgpt-registration",
+      {
+        clientId,
+        subject: account.subject,
+        email: account.email,
+      },
+      () => generation === this.generation,
+    );
     await this.vault.write(
       "chatgpt",
       account,
@@ -173,22 +222,51 @@ export class ChatGPTAuth {
       throw new Error("로그인이 취소되었습니다.");
     this.store.audit("oauth_connected", "계정 연결 성공");
   }
+  private async metadata() {
+    const response = await this.fetcher(
+      issuer + "/.well-known/openid-configuration",
+      { signal: AbortSignal.timeout(15000), redirect: "error" },
+    );
+    if (!response.ok) throw new Error("인증 메타데이터 조회 실패");
+    const config = (await response.json()) as any;
+    if (config.issuer !== issuer)
+      throw new Error("인증 메타데이터 발급자 불일치");
+    return config;
+  }
+  private async validateIdentity(idToken: string, clientId: string) {
+    const config = await this.metadata();
+    const jwksUrl = new URL(config.jwks_uri);
+    if (jwksUrl.origin !== issuer || jwksUrl.username || jwksUrl.password)
+      throw new Error("인증키 발급자 불일치");
+    const { payload } = await jwtVerify(
+      idToken,
+      createRemoteJWKSet(jwksUrl, { [customFetch]: this.fetcher }),
+      {
+        issuer,
+        audience: clientId,
+        requiredClaims: ["sub", "iat", "exp"],
+        algorithms: ["RS256"],
+      },
+    );
+    return payload;
+  }
   private async exchange(params: Record<string, string>) {
     const r = await this.fetcher(tokenUrl, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(params),
       signal: AbortSignal.timeout(30000),
+      redirect: "error",
     });
     if (!r.ok)
       throw new Error("ChatGPT 인증 실패 (" + r.status + "). 다시 연결하세요.");
-    const d = (await r.json()) as any;
-    if (!d.access_token || !Number.isFinite(Number(d.expires_in)))
-      throw new Error("인증 응답 형식이 올바르지 않습니다.");
-    return d;
+    const d = tokenResponse.safeParse(await r.json());
+    if (!d.success) throw new Error("인증 응답 형식이 올바르지 않습니다.");
+    return d.data;
   }
   async accessToken() {
-    let a = await this.vault.read<Account>("chatgpt");
+    if (this.signingOut) throw new Error("연결 해제 중입니다.");
+    let a = await this.readAccount();
     if (!a) throw new Error("설정에서 ChatGPT를 연결하세요.");
     if (!a.scopes.includes("chatgpt.tokens.use.direct"))
       throw new Error(
@@ -213,6 +291,14 @@ export class ChatGPTAuth {
           });
           if (generation !== this.generation)
             throw new Error("연결이 해제되었습니다.");
+          if (d.id_token) {
+            const identity = await this.validateIdentity(
+              d.id_token,
+              old.clientId,
+            );
+            if (identity.sub !== old.subject)
+              throw new Error("갱신한 토큰의 계정이 일치하지 않습니다.");
+          }
           const updated = {
             ...old,
             accessToken: d.access_token,
@@ -254,9 +340,68 @@ export class ChatGPTAuth {
       .filter((m: any) => m.visibility === "list")
       .map((m: any) => ({ id: m.slug, name: m.display_name }));
   }
-  logout() {
+  async logout() {
+    if (this.signingOut) throw new Error("이미 연결 해제 중입니다.");
+    this.signingOut = true;
     this.cancel();
-    this.vault.remove("chatgpt");
-    this.store.audit("oauth_disconnected", "로컬 연결 해제");
+    let remoteRevoked = false;
+    try {
+      const account = await this.readAccount();
+      if (account?.refreshToken) {
+        const config = await this.metadata();
+        const endpoint = new URL(config.revocation_endpoint);
+        if (
+          endpoint.origin !== issuer ||
+          endpoint.username ||
+          endpoint.password
+        )
+          throw new Error("세션 종료 주소 검증 실패");
+        for (let attempt = 0; attempt < 2; attempt++) {
+          try {
+            const response = await this.fetcher(endpoint, {
+              method: "POST",
+              redirect: "error",
+              signal: AbortSignal.timeout(10000),
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: new URLSearchParams({
+                token: account.refreshToken,
+                token_type_hint: "refresh_token",
+                client_id: account.clientId,
+              }),
+            });
+            if (response.status === 200) {
+              remoteRevoked = true;
+              break;
+            }
+            if (response.status < 500) break;
+          } catch {
+            /* Retry bounded transient failures, without logging tokens. */
+          }
+          if (!attempt)
+            await new Promise((resolve) => setTimeout(resolve, 300));
+        }
+      }
+    } catch {
+      /* Local logout must remain available when storage or network fails. */
+    } finally {
+      try {
+        this.vault.remove("chatgpt");
+      } finally {
+        this.signingOut = false;
+      }
+    }
+    this.store.audit(
+      "oauth_disconnected",
+      remoteRevoked
+        ? "원격 세션 및 로컬 연결 해제"
+        : "로컬 연결 해제; 원격 세션 종료 미확인",
+    );
+    return {
+      ok: true,
+      remoteRevoked,
+      message: remoteRevoked
+        ? "ChatGPT 세션을 종료했습니다."
+        : "로컬 연결은 해제했습니다. 원격 세션 종료는 확인하지 못했습니다. ChatGPT 설정에서 이 앱의 연결을 확인하세요.",
+    };
   }
 }

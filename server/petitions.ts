@@ -162,6 +162,8 @@ export class EdgePetitionDriver implements PetitionDriver {
 export class PetitionCollector {
   private config?: PetitionConfig;
   private active = false;
+  private collecting = false;
+  private generation = 0;
   constructor(
     private store: Store,
     private vault: Vault,
@@ -179,8 +181,20 @@ export class PetitionCollector {
       throw new Error("사이트 구조를 다시 검증해야 합니다.");
     this.config = c;
     this.active = true;
+    const generation = ++this.generation;
     try {
-      await this.driver.open(c, await this.vault.read("epeople-session"));
+      const saved = await this.vault.read<any>("epeople-session");
+      if (generation !== this.generation)
+        throw new Error("민원 연결이 취소되었습니다.");
+      await this.driver.open(
+        c,
+        saved?.permissionReference === c.permissionReference &&
+          saved?.permittedScope === c.permittedScope
+          ? saved.state
+          : undefined,
+      );
+      if (generation !== this.generation)
+        throw new Error("민원 연결이 취소되었습니다.");
       this.store.audit("petition_session_start", c.permissionReference);
     } catch (e) {
       await this.close();
@@ -193,22 +207,33 @@ export class PetitionCollector {
     };
   }
   async collect() {
+    if (this.collecting) throw new Error("이미 민원 수집 중입니다.");
     const c = this.config;
     if (!c || !this.active)
       throw new Error("승낙과 연결 설정을 먼저 확인하세요.");
-    if (Date.parse(c.permissionExpiresAt) <= Date.now())
-      throw new Error("운영기관 승낙이 만료되었습니다.");
-    if (!(await this.driver.loggedIn()))
-      throw new Error("본인 계정 로그인을 직접 완료하세요.");
+    const generation = this.generation;
+    const check = () => {
+      if (!this.active || generation !== this.generation)
+        throw new Error("민원 연결이 해제되었습니다.");
+      if (Date.parse(c.permissionExpiresAt) <= Date.now())
+        throw new Error("운영기관 승낙이 만료되었습니다.");
+    };
+    check();
+    this.collecting = true;
     let imported = 0;
     const seen = new Set<string>();
     let truncated = false;
     try {
+      if (!(await this.driver.loggedIn()))
+        throw new Error("본인 계정 로그인을 직접 완료하세요.");
       for (let page = 0; page < c.maxPages; page++) {
+        check();
         const rows = await this.driver.items();
+        check();
         if (!rows.length && page === 0)
           throw new Error("목록 없음 또는 사이트 구조 변경: 재검증 필요");
         for (const row of rows) {
+          check();
           officialUrl.parse(row.url);
           if (seen.has(row.url))
             throw new Error("같은 페이지가 반복됩니다. 선택자를 재검증하세요.");
@@ -230,12 +255,28 @@ export class PetitionCollector {
           });
           imported++;
         }
+        if (page === c.maxPages - 1) {
+          truncated = true;
+          break;
+        }
+        check();
         const hasNext = await this.driver.next();
         if (!hasNext) break;
-        if (page === c.maxPages - 1) truncated = true;
         await new Promise((r) => setTimeout(r, c.delayMs));
       }
-      await this.vault.write("epeople-session", await this.driver.state());
+      check();
+      const state = await this.driver.state();
+      check();
+      await this.vault.write(
+        "epeople-session",
+        {
+          state,
+          permissionReference: c.permissionReference,
+          permittedScope: c.permittedScope,
+        },
+        () => generation === this.generation,
+      );
+      check();
       this.store.audit(
         "petition_import",
         JSON.stringify({
@@ -246,10 +287,12 @@ export class PetitionCollector {
       );
       return { imported, truncated };
     } finally {
-      await this.close();
+      this.collecting = false;
+      if (generation === this.generation) await this.close();
     }
   }
   async close() {
+    this.generation++;
     this.active = false;
     this.config = undefined;
     await this.driver.close();

@@ -88,6 +88,11 @@ export function buildContext(
         kind: e.kind,
         region: e.region,
         effectiveFrom: e.effectiveFrom,
+        effectiveTo: e.effectiveTo,
+        verified: e.verified,
+        annexesComplete: e.annexesComplete,
+        historyComplete: e.historyComplete,
+        fetchedAt: e.fetchedAt,
         version: e.version,
         complete: excerpt.length === e.text.length && e.complete,
         text: excerpt,
@@ -96,9 +101,13 @@ export function buildContext(
     .filter((e) => e.text);
   let documentBudget = 45000;
   const docs = documents.map((d) => {
-    const text = redact(d.text.slice(0, Math.min(12000, documentBudget)));
+    const redacted = redact(d.text);
+    const text = redacted.slice(
+      0,
+      Math.min(12000, Math.max(0, documentBudget)),
+    );
     documentBudget -= text.length;
-    if (text.length < d.text.length) omitted.push(d.name);
+    if (text.length < redacted.length) omitted.push(d.name);
     return {
       id: d.id,
       name: redact(d.name),

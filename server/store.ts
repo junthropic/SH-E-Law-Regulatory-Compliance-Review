@@ -20,6 +20,24 @@ import { BundleSchema } from "./schemas.js";
 
 export const sha = (s: string | Buffer) =>
   createHash("sha256").update(s).digest("hex");
+// A text hash alone does not bind jurisdiction, legal version or effective dates.
+export const evidenceIdentity = (e: Evidence) =>
+  sha(
+    JSON.stringify([
+      e.sourceId,
+      e.kind,
+      e.title,
+      e.region,
+      e.article,
+      e.hash,
+      e.version,
+      e.effectiveFrom,
+      e.effectiveTo || "",
+      !!e.repealed,
+      e.promulgatedAt,
+      e.url,
+    ]),
+  );
 export function atomicJson(path: string, data: unknown) {
   writeFileSync(path + ".tmp", JSON.stringify(data, null, 2), { mode: 0o600 });
   renameSync(path + ".tmp", path);
@@ -89,13 +107,7 @@ export class Store {
       (x) => x.sourceId === e.sourceId,
     );
     const unchanged = old.find(
-      (x) =>
-        x.hash === e.hash &&
-        x.version === e.version &&
-        x.effectiveFrom === e.effectiveFrom &&
-        x.effectiveTo === e.effectiveTo &&
-        x.region === e.region &&
-        x.title === e.title,
+      (x) => evidenceIdentity(x) === evidenceIdentity(e),
     );
     if (unchanged) {
       e.id = unchanged.id;
@@ -121,7 +133,9 @@ export class Store {
         for (const r of this.all<ReviewResult>("reviews")) {
           if (
             r.evidence.some(
-              (x) => x.sourceId === e.sourceId && x.hash !== e.hash,
+              (x) =>
+                x.sourceId === e.sourceId &&
+                evidenceIdentity(x) !== evidenceIdentity(e),
             )
           ) {
             r.needsReview = true;
@@ -159,26 +173,40 @@ export class Store {
       (e) =>
         (e.region === "전국" || e.region === region) &&
         e.effectiveFrom &&
-        e.effectiveFrom <= asOf &&
-        (!e.effectiveTo || e.effectiveTo >= asOf),
+        e.effectiveFrom <= asOf,
     );
     // A source without a known end date must not expose superseded snapshots as concurrent law.
-    const latest = new Map<string, Evidence>();
+    const latest = new Map<string, Evidence[]>();
     for (const e of all) {
-      const old = latest.get(e.sourceId);
+      const old = latest.get(e.sourceId)?.[0];
       if (
         !old ||
         old.effectiveFrom < e.effectiveFrom ||
         (old.effectiveFrom === e.effectiveFrom &&
           old.promulgatedAt < e.promulgatedAt)
       )
-        latest.set(e.sourceId, e);
+        latest.set(e.sourceId, [e]);
+      else if (
+        old.effectiveFrom === e.effectiveFrom &&
+        old.promulgatedAt === e.promulgatedAt
+      )
+        latest.get(e.sourceId)!.push(e);
     }
-    return [...latest.values()].sort((a, b) => {
-      const ai = ranked.indexOf(a.id),
-        bi = ranked.indexOf(b.id);
-      return (ai < 0 ? 1000 : ai) - (bi < 0 ? 1000 : bi);
-    });
+    // Select the latest legal version before checking expiry. Otherwise an expired
+    // successor revives an older snapshot whose end date was never collected.
+    return [...latest.values()]
+      .flatMap((group) =>
+        group.length > 1
+          ? group
+          : group.filter(
+              (e) => !e.repealed && (!e.effectiveTo || e.effectiveTo >= asOf),
+            ),
+      )
+      .sort((a, b) => {
+        const ai = ranked.indexOf(a.id),
+          bi = ranked.indexOf(b.id);
+        return (ai < 0 ? 1000 : ai) - (bi < 0 ? 1000 : bi);
+      });
   }
   sources(): SourceStatus[] {
     const stored = this.all<SourceStatus>("sources");
@@ -236,6 +264,6 @@ export class Store {
     }
   }
   close() {
-    this.db.close();
+    if (this.db.isOpen) this.db.close();
   }
 }

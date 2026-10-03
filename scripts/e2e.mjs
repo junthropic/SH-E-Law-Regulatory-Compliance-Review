@@ -16,7 +16,7 @@ await page.route("**/*", (route) =>
 );
 mkdirSync("playwright-report", { recursive: true });
 try {
-  await page.goto("http://127.0.0.1:4317/");
+  await page.goto(process.env.SHE_TEST_URL || "http://127.0.0.1:4317/");
   await page
     .getByRole("heading", { name: "어떤 상황을 검토할까요?" })
     .waitFor();
@@ -31,20 +31,19 @@ try {
     .getByRole("heading", { name: "판단에 필요한 사실·근거 확인" })
     .waitFor();
   assert.equal(await page.locator(".issue.red").count(), 0);
+  await page.getByRole("button", { name: /검토 기록 1/ }).waitFor();
   await page.screenshot({
     path: "playwright-report/result.png",
     fullPage: true,
   });
   await page.getByRole("button", { name: /자료함/ }).click();
-  await page
-    .locator(".upload-zone input")
-    .setInputFiles({
-      name: "browser-fixture.txt",
-      mimeType: "text/plain",
-      buffer: Buffer.from(
-        "시험용 회신: 가상 물질 최대 500 L. 실제 해석이 아닙니다.",
-      ),
-    });
+  await page.locator(".upload-zone input").setInputFiles({
+    name: "browser-fixture.txt",
+    mimeType: "text/plain",
+    buffer: Buffer.from(
+      "시험용 회신: 가상 물질 최대 500 L. 실제 해석이 아닙니다.",
+    ),
+  });
   await page.getByRole("heading", { name: "browser-fixture.txt" }).waitFor();
   await page.getByRole("button", { name: "내용 보기" }).last().click();
   await page.getByLabel("회신·발급 기관").fill("시험용 기관");

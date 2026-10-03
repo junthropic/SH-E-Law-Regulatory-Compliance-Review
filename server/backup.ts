@@ -18,14 +18,12 @@ export function makeBackup(store: Store) {
     reviews: store.all("reviews"),
     evidence: store.all("evidence"),
     sources: store.all("sources"),
-    documents: store
-      .all<DocumentRecord>("documents")
-      .map((d) => ({
-        ...d,
-        original: readFileSync(
-          join(store.dir, "originals", d.id + d.type),
-        ).toString("base64"),
-      })),
+    documents: store.all<DocumentRecord>("documents").map((d) => ({
+      ...d,
+      original: readFileSync(
+        join(store.dir, "originals", d.id + d.type),
+      ).toString("base64"),
+    })),
     rules: store.rules(),
   };
 }

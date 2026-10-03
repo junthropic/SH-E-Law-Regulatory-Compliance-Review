@@ -55,6 +55,7 @@ export type Evidence = {
   version: string;
   effectiveFrom: string;
   effectiveTo?: string;
+  repealed?: boolean;
   promulgatedAt: string;
   fetchedAt: string;
   hash: string;

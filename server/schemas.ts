@@ -33,6 +33,7 @@ export const EvidenceSchema = z.object({
   version: z.string().max(200),
   effectiveFrom: optionalDate,
   effectiveTo: date.optional(),
+  repealed: z.boolean().optional(),
   promulgatedAt: optionalDate,
   fetchedAt: z.string().datetime(),
   hash: z.string().regex(/^[a-f0-9]{64}$/),

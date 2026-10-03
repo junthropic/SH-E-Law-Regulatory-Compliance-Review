@@ -34,6 +34,10 @@ export async function createApp(store = new Store(), test = false) {
   const sessions = new Map<string, string>();
   let syncing = false;
   const jobs = new Set<Promise<unknown>>();
+  // Reserve before reading request bodies: uploads and long-running connectors
+  // must not race a restore, public import or shutdown.
+  const mutations = new Set<string>();
+  let closing = false;
   const origin = () => `http://127.0.0.1:${process.env.PORT || 4317}`;
   const petitions = new PetitionCollector(store, vault);
   await app.register(cookie);
@@ -76,6 +80,26 @@ export async function createApp(store = new Store(), test = false) {
       )
         return reply.code(403).send({ error: "요청 인증이 만료되었습니다." });
     }
+    const path = req.url.split("?")[0];
+    const mutating =
+      path.startsWith("/api/") && !["GET", "HEAD"].includes(req.method);
+    if (closing && path.startsWith("/api/"))
+      return reply.code(503).send({ error: "프로그램을 종료하고 있습니다." });
+    if ((mutating || path === "/api/backup") && mutations.size)
+      return reply
+        .code(409)
+        .send({ error: "다른 변경 작업이 끝난 뒤 다시 시도하세요." });
+    if (mutating && jobs.size && !path.startsWith("/api/auth/"))
+      return reply
+        .code(409)
+        .send({ error: "진행 중인 검토·갱신 작업이 끝난 뒤 다시 시도하세요." });
+    if (mutating) mutations.add(req.id);
+  });
+  app.addHook("onResponse", async (req) => {
+    mutations.delete(req.id);
+  });
+  app.addHook("onRequestAbort", async (req) => {
+    mutations.delete(req.id);
   });
   app.setErrorHandler((err, req, reply) => {
     const message =
@@ -109,18 +133,29 @@ export async function createApp(store = new Store(), test = false) {
       version: "0.1.0",
     };
   });
-  app.get("/api/status", async () => ({
-    auth: await auth.status(),
-    authStorage: memoryAuth ? "memory" : "windows-dpapi",
-    lawConfigured: !!(
-      process.env.LAW_OC || (await vault.read<any>("law"))?.lawOc
-    ),
-    sources: store.sources(),
-    syncing,
-    petition: new PetitionConnector(store).status(),
-    rules: store.rules().length,
-    notice: "현장·전국 법규 검증 전 개발 버전",
-  }));
+  app.get("/api/status", async () => {
+    let lawConfigured = !!process.env.LAW_OC;
+    let lawStorageError = "";
+    if (!lawConfigured) {
+      try {
+        lawConfigured = !!(await vault.read<any>("law"))?.lawOc;
+      } catch {
+        lawStorageError =
+          "저장된 법제처 인증정보를 읽지 못했습니다. 일반 사용자 세션에서 실행하거나 인증정보를 다시 저장하세요.";
+      }
+    }
+    return {
+      auth: await auth.status(),
+      authStorage: memoryAuth ? "memory" : "windows-dpapi",
+      lawConfigured,
+      lawStorageError,
+      sources: store.sources(),
+      syncing,
+      petition: new PetitionConnector(store).status(),
+      rules: store.rules().length,
+      notice: "현장·전국 법규 검증 전 개발 버전",
+    };
+  });
   app.post("/api/settings/law", async (req) => {
     const { lawOc } = z
       .object({ lawOc: z.string().trim().min(1).max(200) })
@@ -133,10 +168,7 @@ export async function createApp(store = new Store(), test = false) {
     auth.cancel();
     return { ok: true };
   });
-  app.post("/api/auth/chatgpt/logout", async () => {
-    auth.logout();
-    return { ok: true };
-  });
+  app.post("/api/auth/chatgpt/logout", async () => auth.logout());
   app.get("/api/auth/chatgpt/models", async () => auth.models());
   app.get("/auth/callback", async (req, reply) => {
     try {
@@ -351,6 +383,7 @@ export async function createApp(store = new Store(), test = false) {
   app.post("/api/shutdown", async () => {
     if (jobs.size || syncing)
       throw new Error("진행 중인 작업이 끝난 뒤 종료하세요.");
+    closing = true;
     setTimeout(() => {
       void app.close();
     }, 200);

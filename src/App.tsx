@@ -211,6 +211,7 @@ export default function App() {
       const { id } = await post("/reviews", request);
       setResult(await api("/reviews/" + id));
       setPage("result");
+      await refresh();
     });
   }
   async function loadModels() {
@@ -1164,6 +1165,9 @@ export default function App() {
                         내 ChatGPT 계정의 사용 권한과 한도로 분석합니다. API
                         유료 과금으로 자동 전환하지 않습니다.
                       </p>
+                      {status?.auth?.storageError && (
+                        <p role="alert">{status.auth.storageError}</p>
+                      )}
                       {status?.auth?.connected && (
                         <p className="account-email">
                           {status.auth.email} ·{" "}
@@ -1186,14 +1190,20 @@ export default function App() {
                           Continue with ChatGPT
                           <ExternalLink size={15} />
                         </button>
-                        {status?.auth?.connected && (
+                        {(status?.auth?.connected ||
+                          status?.auth?.storageError) && (
                           <button
                             className="secondary"
                             onClick={() =>
                               void action(async () => {
-                                await post("/auth/chatgpt/logout");
+                                const disconnected = await post(
+                                  "/auth/chatgpt/logout",
+                                );
                                 await refresh();
                                 setUseAi(false);
+                                if (disconnected.remoteRevoked)
+                                  setToast(disconnected.message);
+                                else setError(disconnected.message);
                               })
                             }
                           >
@@ -1241,6 +1251,9 @@ export default function App() {
                         법제처에서 발급받은 OC 인증값으로 법령·조례·행정규칙
                         원문을 수집합니다.
                       </p>
+                      {status?.lawStorageError && (
+                        <p role="alert">{status.lawStorageError}</p>
+                      )}
                       <form
                         onSubmit={(e) => {
                           e.preventDefault();

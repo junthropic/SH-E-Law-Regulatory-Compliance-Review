@@ -77,6 +77,58 @@ it("승인 범위·로그인 확인 후 fixture 회신을 로컬 문서로만 �
     expect(store.all("evidence")).toHaveLength(0);
     expect(store.all<any>("documents")[0].confirmed).toBe(false);
     expect(driver.close).toHaveBeenCalled();
+    expect(driver.next).not.toHaveBeenCalled();
+  } finally {
+    clean();
+  }
+});
+it("민원 연결 해제 뒤 지연된 응답은 문서나 세션을 복구하지 않는다", async () => {
+  const { store, clean } = testStore();
+  try {
+    const vault = new Vault(store.dir, true);
+    let release!: (rows: any[]) => void;
+    const driver = {
+      open: vi.fn(),
+      loggedIn: vi.fn(async () => true),
+      items: vi.fn(
+        () =>
+          new Promise<any[]>((resolve) => {
+            release = resolve;
+          }),
+      ),
+      next: vi.fn(),
+      state: vi.fn(),
+      close: vi.fn(),
+    };
+    const collector = new PetitionCollector(store, vault, driver);
+    await collector.start(config);
+    const pending = collector.collect();
+    const rejected = expect(pending).rejects.toThrow("해제");
+    await vi.waitFor(() => expect(driver.items).toHaveBeenCalled());
+    await expect(collector.collect()).rejects.toThrow("이미");
+    await collector.close();
+    release([]);
+    await rejected;
+    expect(await vault.read("epeople-session")).toBeUndefined();
+    expect(store.all("documents")).toHaveLength(0);
+  } finally {
+    clean();
+  }
+});
+it("손상된 문서는 추출 프로세스만 실패하고 다른 업로드는 정상 처리한다", async () => {
+  const { store, clean } = testStore();
+  try {
+    await expect(
+      ingestDocument(
+        store,
+        "broken.pdf",
+        Buffer.from("%PDF-1.7 broken fixture"),
+      ),
+    ).rejects.toThrow("추출 실패");
+    expect(
+      (await ingestDocument(store, "valid.txt", Buffer.from("정상 문서"))).text,
+    ).toBe("정상 문서");
+    expect(store.all("documents")).toHaveLength(1);
   } finally {
     clean();
   }

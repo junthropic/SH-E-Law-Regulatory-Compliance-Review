@@ -6,6 +6,84 @@ import { join } from "node:path";
 import { newReview } from "../server/reviews.js";
 import { ingestDocument } from "../server/documents.js";
 import { makeBackup, restoreBackup } from "../server/backup.js";
+import { evidenceGaps } from "../server/legal.js";
+it("폐지 시행일부터는 종전 법규를 현행 근거로 되살리지 않는다", () => {
+  const { store, clean } = testStore();
+  try {
+    const e = evidence();
+    store.saveEvidence(e);
+    store.saveEvidence({
+      ...e,
+      id: randomUUID(),
+      version: "repeal",
+      effectiveFrom: "2026-06-01",
+      repealed: true,
+    });
+    expect(store.search("시험", "경기도", "2026-05-31")).toHaveLength(1);
+    expect(store.search("시험", "경기도", "2026-06-01")).toHaveLength(0);
+  } finally {
+    clean();
+  }
+});
+it("후속 버전의 적용기간 종료가 구 버전을 되살리지 않는다", () => {
+  const { store, clean } = testStore();
+  try {
+    const old = evidence();
+    store.saveEvidence(old);
+    store.saveEvidence({
+      ...old,
+      id: randomUUID(),
+      version: "expired",
+      effectiveFrom: "2026-01-01",
+      effectiveTo: "2026-02-01",
+    });
+    expect(store.search("시험", "경기도", "2026-02-02")).toHaveLength(0);
+    expect(store.search("시험", "경기도", "2025-02-01")[0].version).toBe(
+      old.version,
+    );
+  } finally {
+    clean();
+  }
+});
+it("동일 시행일의 상충 원문은 임의 선택하거나 검증 완료로 처리하지 않는다", () => {
+  const { store, clean } = testStore();
+  try {
+    const old = evidence();
+    store.saveEvidence(old);
+    store.saveEvidence({
+      ...old,
+      id: randomUUID(),
+      text: "상충하는 시험 원문",
+      hash: sha("상충하는 시험 원문"),
+    });
+    const found = store.search("시험", "경기도", "2026-01-01");
+    expect(found).toHaveLength(2);
+    expect(evidenceGaps(found, "경기도", "2026-01-01").join()).toContain(
+      "서로 다른 원문",
+    );
+  } finally {
+    clean();
+  }
+});
+it("본문이 같아도 적용기간 변경은 과거 보고서의 재검토를 요구한다", () => {
+  const { store, clean } = testStore();
+  try {
+    const e = evidence();
+    store.saveEvidence(e);
+    const r = newReview(request());
+    r.evidence = [e];
+    store.saveReview(r);
+    store.saveEvidence({
+      ...e,
+      id: randomUUID(),
+      effectiveTo: "2026-01-01",
+      verified: false,
+    });
+    expect(store.review(r.id)?.needsReview).toBe(true);
+  } finally {
+    clean();
+  }
+});
 it("기준일에 유효한 최신 버전만 반환하고 이후 개정을 섞지 않는다", () => {
   const { store, clean } = testStore();
   try {

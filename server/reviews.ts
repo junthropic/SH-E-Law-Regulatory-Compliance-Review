@@ -94,8 +94,8 @@ export async function runReview(
         confirmed: confirmedAnswer(value),
       })),
     ];
-    const secrets = await vault.read<{ lawOc: string }>("law");
-    const oc = process.env.LAW_OC || secrets?.lawOc;
+    const oc =
+      process.env.LAW_OC || (await vault.read<{ lawOc: string }>("law"))?.lawOc;
     let refreshed = false;
     if (oc) {
       progress("해당 지역·국가 법규의 최신 버전을 확인하고 있습니다.");

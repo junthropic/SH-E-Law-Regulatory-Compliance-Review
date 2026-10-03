@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { diffLines } from "diff";
 import type { CaseFact, Evidence, LegalIssue, Rule } from "../shared/types.js";
+import { koreaDate } from "../shared/dates.js";
 
 export const normalize = (s: string) => s.replace(/\s+/g, " ").trim();
 export function confirmedAnswer(value: string) {
@@ -21,6 +22,7 @@ export function verifyCitation(e: Evidence | undefined, quote: string) {
 export function applicable(e: Evidence, region: string, date: string) {
   return (
     (e.region === "전국" || e.region === region) &&
+    !e.repealed &&
     !!e.effectiveFrom &&
     e.effectiveFrom <= date &&
     (!e.effectiveTo || date <= e.effectiveTo)
@@ -32,6 +34,10 @@ export function evidenceGaps(
   date: string,
 ): string[] {
   const gaps: string[] = [];
+  if (new Set(e.map((x) => x.sourceId)).size !== e.length)
+    gaps.push(
+      "같은 법규의 시행일·공포일이 같은 서로 다른 원문이 있습니다. 공식 원문 대조가 필요합니다.",
+    );
   if (!e.some((x) => x.kind === "law"))
     gaps.push("국가 법령 전문을 확인하지 못했습니다.");
   if (!e.some((x) => x.kind === "ordinance" && x.region === region))
@@ -43,7 +49,7 @@ export function evidenceGaps(
       gaps.push(x.title + ": 별표·서식 확인이 필요합니다.");
     if (!x.verified)
       gaps.push(x.title + ": 예외·위임·경과조치 검증이 필요합니다.");
-    if (!x.historyComplete && date < new Date().toISOString().slice(0, 10))
+    if (!x.historyComplete && date < koreaDate())
       gaps.push(x.title + ": 해당 기준일 연혁의 완전성을 확인해야 합니다.");
     if (!applicable(x, region, date))
       gaps.push(x.title + ": 적용 지역 또는 시행 기간이 맞지 않습니다.");

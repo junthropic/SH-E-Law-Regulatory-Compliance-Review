@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { writeFileSync, unlinkSync, existsSync } from "node:fs";
 import { join, extname, basename } from "node:path";
-import { parse } from "kordoc";
+import { extractDocument } from "./extraction.js";
 import { Store, sha } from "./store.js";
 import type { DocumentRecord } from "../shared/types.js";
 export async function ingestDocument(
@@ -25,8 +25,7 @@ export async function ingestDocument(
   if (ext === ".txt")
     text = new TextDecoder("utf-8", { fatal: true }).decode(buffer);
   else {
-    const result = await parse(buffer, { ocr: false, scriptTags: true });
-    if (!result.success) throw new Error("문서 추출 실패: " + result.error);
+    const result = await extractDocument(buffer);
     text = result.markdown;
     warnings.push(...(result.warnings || []).map((w) => String(w.message)));
   }
@@ -43,6 +42,11 @@ export async function ingestDocument(
   warnings.push(
     "표·수치·단위·날짜를 원본과 대조한 뒤 추출문 확인을 완료하세요.",
   );
+  // Another request may have finished parsing the same bytes while we awaited extraction.
+  const duplicate = store
+    .all<DocumentRecord>("documents")
+    .find((d) => d.hash === hash);
+  if (duplicate) return duplicate;
   const doc: DocumentRecord = {
     id: randomUUID(),
     name,
@@ -59,7 +63,12 @@ export async function ingestDocument(
   writeFileSync(join(store.dir, "originals", doc.id + ext), buffer, {
     mode: 0o600,
   });
-  store.put("documents", doc.id, doc);
+  try {
+    store.put("documents", doc.id, doc);
+  } catch (error) {
+    unlinkSync(join(store.dir, "originals", doc.id + ext));
+    throw error;
+  }
   return doc;
 }
 export function removeDocument(store: Store, id: string) {

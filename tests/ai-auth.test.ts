@@ -67,6 +67,24 @@ it("문서 잘림을 누락 범위로 보고한다", () => {
   expect(r.omitted).toHaveLength(1);
   expect(r.input).toContain('"complete":false');
 });
+it("개인정보 치환 후에도 문서 전체 입력 한도를 넘지 않는다", () => {
+  const docs = Array.from({ length: 8 }, (_, i) => ({
+    id: String(i),
+    name: `시험${i}.txt`,
+    text: "a@b.co ".repeat(8000),
+    agency: "",
+    responseDate: "",
+    confirmed: false,
+    warnings: [],
+  })) as any;
+  const context = buildContext(request(), [], docs);
+  const sent = JSON.parse(context.input).documents;
+  expect(
+    sent.reduce((sum: number, d: any) => sum + d.text.length, 0),
+  ).toBeLessThanOrEqual(45000);
+  expect(sent.some((d: any) => d.text.includes("a@b.co"))).toBe(false);
+  expect(context.omitted).toHaveLength(8);
+});
 it("PKCE·state는 무작위이고 host ID는 안정적이다", async () => {
   const { store, clean } = testStore();
   try {
@@ -125,7 +143,10 @@ it("발급 client ID, nonce, 서명, scope를 검증하여 연결한다", async 
         return Response.json({
           issuer: "https://auth.openai.com",
           jwks_uri: "https://auth.openai.com/jwks",
+          revocation_endpoint: "https://auth.openai.com/revoke",
         });
+      if (String(url).endsWith("/revoke"))
+        return new Response(null, { status: 200 });
       return Response.json({ keys: [jwk] });
     });
     const auth = new ChatGPTAuth(store, vault, fetcher as any);
@@ -141,8 +162,11 @@ it("발급 client ID, nonce, 서명, scope를 검증하여 연결한다", async 
     expect((await vault.read<Account>("chatgpt"))?.clientId).toBe(
       "issued-client",
     );
-    auth.logout();
+    expect((await auth.logout()).remoteRevoked).toBe(true);
     expect((await auth.status()).connected).toBe(false);
+    const returning = new URL((await auth.start("http://127.0.0.1:4317")).url);
+    expect(returning.searchParams.get("client_id")).toBe("issued-client");
+    expect(returning.searchParams.has("id_token_hint")).toBe(false);
   } finally {
     clean();
   }
@@ -157,6 +181,65 @@ const account: Account = {
   scopes: ["chatgpt.tokens.use.direct"],
   expiresAt: 0,
 };
+it("손상된 인증정보는 설정 화면을 막지 않고 연결 해제로 복구할 수 있다", async () => {
+  const { store, clean } = testStore();
+  try {
+    const vault = new Vault(store.dir, true);
+    await vault.write("chatgpt", { accessToken: "BROKEN-TEST-ONLY" });
+    const auth = new ChatGPTAuth(store, vault);
+    expect((await auth.status()).storageError).toContain("읽지 못했습니다");
+    await auth.logout();
+    expect((await auth.status()).storageError).toBe("");
+  } finally {
+    clean();
+  }
+});
+it.each([0, -1, "3600", null])(
+  "잘못된 토큰 수명 %s는 인증정보를 덮어쓰지 않는다",
+  async (expires_in) => {
+    const { store, clean } = testStore();
+    try {
+      const vault = new Vault(store.dir, true);
+      await vault.write("chatgpt", account);
+      const auth = new ChatGPTAuth(
+        store,
+        vault,
+        vi.fn(async () =>
+          Response.json({ access_token: "new", expires_in }),
+        ) as any,
+      );
+      await expect(auth.accessToken()).rejects.toThrow("응답 형식");
+      expect((await vault.read<Account>("chatgpt"))?.accessToken).toBe(
+        account.accessToken,
+      );
+    } finally {
+      clean();
+    }
+  },
+);
+it("원격 세션 종료 실패도 로컬 로그아웃을 완료하고 미확인을 알린다", async () => {
+  const { store, clean } = testStore();
+  try {
+    const vault = new Vault(store.dir, true);
+    await vault.write("chatgpt", account);
+    const fetcher = vi.fn(async (url: any) =>
+      String(url).includes("openid-configuration")
+        ? Response.json({
+            issuer: "https://auth.openai.com",
+            revocation_endpoint: "https://auth.openai.com/revoke",
+          })
+        : new Response(null, { status: 503 }),
+    );
+    const auth = new ChatGPTAuth(store, vault, fetcher as any);
+    const result = await auth.logout();
+    expect(result.remoteRevoked).toBe(false);
+    expect(result.message).toContain("확인하지 못했습니다");
+    expect(await vault.read("chatgpt")).toBeUndefined();
+    expect(fetcher).toHaveBeenCalledTimes(3);
+  } finally {
+    clean();
+  }
+});
 it("동시 요청의 토큰 갱신을 한 번만 실행하고 refresh token을 교체한다", async () => {
   const { store, clean } = testStore();
   try {
@@ -188,12 +271,20 @@ it("연결 해제 후 지연된 토큰 응답이 자격증명을 복구하지 �
     await vault.write("chatgpt", account);
     let complete!: (r: Response) => void;
     const started: Promise<void> = new Promise((resolve) => {
-      const fetcher = vi.fn(
-        () =>
-          new Promise<Response>((r) => {
-            complete = r;
-            resolve();
-          }),
+      const fetcher = vi.fn((url: any) =>
+        String(url).includes("openid-configuration")
+          ? Promise.resolve(
+              Response.json({
+                issuer: "https://auth.openai.com",
+                revocation_endpoint: "https://auth.openai.com/revoke",
+              }),
+            )
+          : String(url).endsWith("/revoke")
+            ? Promise.resolve(new Response(null, { status: 200 }))
+            : new Promise<Response>((r) => {
+                complete = r;
+                resolve();
+              }),
       );
       (globalThis as any).testAuth = new ChatGPTAuth(
         store,
@@ -205,7 +296,7 @@ it("연결 해제 후 지연된 토큰 응답이 자격증명을 복구하지 �
     const refreshing = auth.accessToken();
     const assertion = expect(refreshing).rejects.toThrow();
     await started;
-    auth.logout();
+    await auth.logout();
     complete(
       Response.json({
         access_token: "too-late",
