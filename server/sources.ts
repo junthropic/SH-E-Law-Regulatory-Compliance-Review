@@ -488,8 +488,8 @@ export async function syncSources(
       const status: SourceStatus = {
         ...s,
         status: "ok",
-        checkedAt: now,
-        lastSuccessAt: now,
+        checkedAt: new Date().toISOString(),
+        lastSuccessAt: new Date().toISOString(),
         count: entries.length,
         message: "원문 수집 완료. 공보 대조·별표·연혁·예외 검증은 별도입니다.",
         verified: false,

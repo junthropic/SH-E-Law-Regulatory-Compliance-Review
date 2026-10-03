@@ -16,7 +16,38 @@ import type {
   ReviewRequest,
   DocumentRecord,
   LegalIssue,
+  SourceStatus,
 } from "../shared/types.js";
+export function recentSourceCheck(
+  states: SourceStatus[],
+  region: string,
+  now = Date.now(),
+): string | null {
+  const relevant = states.filter(
+    (s) => s.region === "전국" || s.region === region,
+  );
+  if (
+    relevant.length !== 2 ||
+    !relevant.some((s) => s.region === region) ||
+    !relevant.some((s) => s.region === "전국")
+  )
+    return null;
+  const times = relevant.map((s) => s.lastSuccessAt);
+  if (
+    relevant.some((s) => {
+      const age = now - Date.parse(s.lastSuccessAt || "");
+      return (
+        s.status !== "ok" ||
+        s.count < 1 ||
+        !Number.isFinite(age) ||
+        age < 0 ||
+        age >= 24 * 3600 * 1000
+      );
+    })
+  )
+    return null;
+  return times.sort()[0]!;
+}
 export const questions = [
   {
     key: "material",
@@ -60,6 +91,7 @@ export async function runReview(
   vault: Vault,
   auth: ChatGPTAuth,
   r: ReviewResult,
+  refresh = syncSources,
 ) {
   const progress = (s: string) => {
     r.progress = s;
@@ -96,12 +128,16 @@ export async function runReview(
     ];
     const oc =
       process.env.LAW_OC || (await vault.read<{ lawOc: string }>("law"))?.lawOc;
-    let refreshed = false;
-    if (oc) {
+    let checkedAt = recentSourceCheck(store.sources(), r.request.region);
+    if (checkedAt) {
+      progress(
+        "최근 24시간 내 수집에 성공한 공식 원문을 사용합니다. 확인 시각은 결과에 표시됩니다.",
+      );
+    } else if (oc) {
       progress("해당 지역·국가 법규의 최신 버전을 확인하고 있습니다.");
-      const states = await syncSources(store, oc, r.request.region, progress);
-      refreshed = states.every((s) => s.status === "ok");
-      if (!refreshed)
+      const states = await refresh(store, oc, r.request.region, progress);
+      checkedAt = recentSourceCheck(states, r.request.region);
+      if (!checkedAt)
         r.gaps.push(
           "일부 공식 출처의 최신 확인이 실패했습니다. 저장된 근거와 현재 정보를 구분해 검토해야 합니다.",
         );
@@ -215,7 +251,7 @@ export async function runReview(
     r.coverage = {
       region: r.request.region,
       asOf: r.request.asOf,
-      latestCheckedAt: refreshed ? new Date().toISOString() : null,
+      latestCheckedAt: checkedAt,
       complete: !r.gaps.length && !missing.length,
       sources: [...new Set(r.evidence.map((e) => e.url))],
     };
