@@ -1,0 +1,18 @@
+name: Public source connectivity probe
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Check API and attachment response times
+        env:
+          LAW_OC: ${{ secrets.LAW_OC }}
+        run: node scripts/source-probe.mjs
