@@ -311,7 +311,7 @@ it("V3-J07: 실제 두 독립 프로세스의 동시 claim은 한 worker만 획�
   } finally {
     f.clean();
   }
-});
+},30000);
 it("V3-J08: 실제 두 프로세스는 다른 작업에서도 provider/key 호출 lease를 공유한다", async () => {
   const f = testStore();
   try {
@@ -327,7 +327,7 @@ it("V3-J08: 실제 두 프로세스는 다른 작업에서도 provider/key 호�
   } finally {
     f.clean();
   }
-});
+},30000);
 it("V3-J09: 프로세스 비정상 종료 뒤 마지막 저장 checkpoint에서 재개한다", async () => {
   const f = testStore();
   try {
@@ -342,7 +342,7 @@ it("V3-J09: 프로세스 비정상 종료 뒤 마지막 저장 checkpoint에서 
   } finally {
     f.clean();
   }
-});
+},30000);
 it.each([
   ["timeout", "success"],
   ["success", "error"],

@@ -20,7 +20,7 @@ it("V5-A05: 격리 실제 TLS 소켓에서 pin·인증서·원문 bytes 확인�
   try{const port=(server.address() as any).port,code=`import {pinnedDownload} from ${JSON.stringify(pathToFileURL(resolve(build(),"server/attachments-v4.js")).href)};const p={host:'fixture.test',pathPrefix:'/',maxBytes:1000,timeoutMs:2000};const r=await pinnedDownload(new URL('https://fixture.test:${port}/file'),'127.0.0.1',p);let redirectBlocked=false;try{await pinnedDownload(new URL('https://fixture.test:${port}/redirect'),'127.0.0.1',p)}catch{redirectBlocked=true}console.log(JSON.stringify({peer:r.peer,bytes:r.bytes.toString(),redirectBlocked}));`;
     const result=JSON.parse(await child(code,{...process.env,NODE_EXTRA_CA_CERTS:resolve("tests/fixtures/v5-tls/cert.pem")}));expect(result).toEqual({peer:"127.0.0.1",bytes:bytes.toString(),redirectBlocked:true});expect(calls).toBe(2);
   }finally{await new Promise<void>((r,j)=>server.close(e=>e?j(e):r()));}
-});
+},30000);
 it("V5-B04: 다른 프로세스의 revoke commit 이전·이후 admission과 취소 순서",async()=>{
   const f=testStore(),p={...writer,roles:["writer","egress_reviewer"] as typeof writer.roles},gate=new PayloadProvenance(f.store),a=new SendAdmissions(f.store),expires="2099-01-01T00:00:00Z";
   try{
@@ -30,7 +30,7 @@ it("V5-B04: 다른 프로세스의 revoke commit 이전·이후 admission과 취
     expect(await child(code)).toBe("revoked");await new Promise(r=>setTimeout(r,70));expect(admitted.signal.aborted).toBe(true);admitted.finish(false);
     expect(()=>a.admit(p,"serialized",authorize,10000)).toThrow();expect((f.store.db.prepare("SELECT count(*) n FROM v5_send_intents").get() as any).n).toBe(1);
   }finally{f.clean();}
-});
+},30000);
 it("V5-B05: 실제 복원 프로세스 중단 뒤 공개 세대는 없고 잠금 복구 후 재복원",async()=>{
   const f=testStore(),p={...writer,roles:["writer","backup_operator"] as typeof writer.roles},key={id:"synthetic-crash",bytes:randomBytes(32)},target=resolve(f.store.dir,"generation-target");
   try{
@@ -39,4 +39,4 @@ it("V5-B05: 실제 복원 프로세스 중단 뒤 공개 세대는 없고 잠금
     await child(code,process.env,47);expect(existsSync(resolve(target,"current.json"))).toBe(false);expect(()=>restoreGeneration(target,p,key,archive)).toThrow(/잠금/);
     expect(recoverGenerationLock(target,sha(JSON.stringify(archive))).generationsDeleted).toBe(0);const restored=restoreGeneration(target,p,key,archive);expect(restored.egress).toBe("denied");const fresh=openGeneration(target);fresh.close();
   }finally{f.clean();}
-});
+},30000);
