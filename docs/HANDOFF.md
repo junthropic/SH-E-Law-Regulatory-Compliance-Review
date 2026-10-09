@@ -57,7 +57,13 @@ CI에서: Actions → "Date matrix (manual)" → Run workflow. 입력을 비우�
 
 ### 4-2. Windows
 
-- 이 브랜치의 Windows 매트릭스: `date-matrix.yml` 수동 실행 결과로 확인해야 한다 (5절 참고)
+- CI Windows (Node 24.21.0), `date-matrix.yml` 수동 실행 2회 (main `229a01c` run 37912039577, `test/windows-stall-probe` run 37918383173):
+  - 각 회 30조건 중 23조건 579/579 통과, 7조건에서 1~2개 실패. Windows 전용 DPAPI 시험은 60회 모두 실제 실행·통과
+  - 실패 시험은 매번 달랐다 (V4-A08 5회, V3-H04 2회, V3-J03·V3-J05·V6-A01·V6-C01·sources·ai-auth×2·intake·petitions-documents 각 1회)
+  - 실패 이유가 기록된 2회차 8건: 시간 초과 7건(5초 제한 6건, 40초 제한 V6-A01 1건 = 41초), 시간 예산 판정 V3-J05 1건(1초 예산 안에 작업 상태가 바뀌지 않음)
+  - 날짜·시각·시간대와의 상관이 없고, 같은 조건이 Linux에서는 매번 통과했다 → Windows 실행 환경의 일시적 멈춤으로 추정 (원인 미확정)
+  - 일반 CI에서도 같은 현상: main `229a01c` Windows V4-A08 시간 초과(재실행 통과), PR #5 PR 실행 Windows 10건(재실행 통과, 같은 커밋 push 실행은 통과)
+  - 이슈 #3(V5-B05, Vitest worker 안에서 완료 처리가 약 30초 늦어짐)과 같은 계열일 가능성이 있으나 확인하지 않았다
 - 이전 로컬 결과(Windows · Node 26.7, 다른 세션): 00:00·08:59·12:00 시각으로 30조건 565/565. 09:00:00 조건은 포함되지 않았다
 
 ### 4-3. 프로세스·장시간 시험 25개 (Linux · Node 24.21.0, ms)
@@ -98,16 +104,16 @@ CI의 시험별 소요시간은 이 작업 환경에서 로그 다운로드가 �
 
 ## 5. 남은 작업과 미확인 범위
 
-1. Windows 매트릭스: `date-matrix.yml`을 main 병합 후(또는 이 브랜치 ref로) 수동 실행하고 결과 수치를 기록한다.
+1. Windows CI 일시 멈춤(4-2절): 원인 조사 또는 대응 방침 결정 필요. 현재는 실패 작업만 재실행하고 별도로 표시한다.
 2. CI의 시험별 소요시간: 로그를 내려받을 수 있는 환경에서 확인한다.
 3. 시계 고정이 적용되지 않는 경로(이전 보고 그대로): SQLite `datetime('now')`(compliance-v2.ts 273·275, 이관 기록 시각만), OpenSSL 인증서 유효기간(시험 인증서는 2020~2035 유효), 환경 변수를 제한해서 넘기는 자식(서버 `extraction-v5.ts`의 parser worker, MCP SDK stdio peer — 이전 보고에서 시간을 읽는 코드가 없음을 확인), 브라우저 UI. Linux 매트릭스에서 `parse-worker.ts`로 실행된 프로세스 2개는 같은 offset을 받았으나, 이것이 서버 경로인지 시험이 직접 띄운 것인지는 구분하지 않았다.
-4. 시험 자료의 "오늘" 기준 불일치(아래 6절) — 수정 여부 결정 필요.
+4. 시험 자료의 "오늘" 기준 불일치(아래 6절) — PR #5에 수정안, 병합 여부 결정 필요.
 5. 이슈 #3 V5-B05 지연: Windows·Node 26 로컬 전용, 미해결.
 
 ## 6. 확인된 사항 (수정하지 않음, 결정 필요)
 
 - `tests/helpers.ts`의 `request().asOf`와 `tests/legal.test.ts`의 `today`는 `new Date().toISOString().slice(0,10)`, 즉 **UTC 날짜**를 쓴다.
-- 서버는 `shared/dates.ts`의 `koreaDate()`, 즉 **한국 날짜**로 비교한다 (예: `server/legal.ts` 55행 `date < koreaDate()` → "연혁 완전성 확인" 공백 추가).
+- 서버는 `shared/dates.ts`의 `koreaDate()`, 즉 **한국 날짜**로 비교한다 (`server/legal.ts` 55행, `server/reference-collection.ts` 110행, `server/verification.ts` 44행). 기본 시험 자료는 `historyComplete: true`라서 legal.ts 55행 분기에는 영향이 없다.
 - 따라서 KST 00:00~08:59에 실행하면 시험의 기준일이 한국 날짜로 "어제"가 되어, 다른 시간대와 다른 경로를 지난다.
 - 30조건 모두 통과했으므로 현재 어떤 시험도 이 차이로 실패하지 않는다. 대신 이 시간대에는 일부 시험이 의도한 "오늘 기준" 경로를 검사하지 않을 수 있다.
 - 시험 보조 코드만 바꾸면 되는 수정이지만(예: `koreaDate()` 사용), 시험 동작이 바뀌므로 사용자 확인 후 진행한다.
