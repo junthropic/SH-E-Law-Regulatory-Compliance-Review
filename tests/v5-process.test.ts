@@ -11,7 +11,7 @@ import { PayloadProvenance } from "../server/provenance-v4.js";
 import { SendAdmissions } from "../server/admission-v5.js";
 import { backupGeneration, restoreGeneration, recoverGenerationLock, openGeneration } from "../server/backup-v5.js";
 import { sha } from "../server/store.js";
-const build=()=>resolve(process.env.SHE_TEST_BUILD||"work/v5-typecheck");
+const build=()=>resolve(process.env.SHE_TEST_BUILD||"build");
 function child(code:string,env:NodeJS.ProcessEnv=process.env,expected=0){return new Promise<string>((done,fail)=>{let out="",err="";const c=spawn(process.execPath,["--input-type=module","-e",code],{windowsHide:true,env,stdio:["ignore","pipe","pipe"]});c.stdout.on("data",b=>out+=b);c.stderr.on("data",b=>err+=b);c.once("error",fail);c.once("close",n=>n!==expected?fail(Error(err)):done(out.trim()));});}
 it("V5-A05: 격리 실제 TLS 소켓에서 pin·인증서·원문 bytes 확인하고 redirect 거부",async()=>{
   const key=readFileSync("tests/fixtures/v5-tls/synthetic-key.pem"),cert=readFileSync("tests/fixtures/v5-tls/cert.pem"),bytes=Buffer.from("%PDF-synthetic-socket");let calls=0;

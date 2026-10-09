@@ -496,7 +496,7 @@ it("V3-B04: 실제 복원 프로세스 중단 뒤 일지로 새 원본만 정리
     writeFileSync(archive, JSON.stringify(b));
     const keep = join(dest.store.dir, "originals", "unrelated.txt");
     writeFileSync(keep, "keep");
-    const build = resolve(process.env.SHE_TEST_BUILD || "work/v3-build");
+    const build = resolve(process.env.SHE_TEST_BUILD || "build");
     const code = `import{Store}from ${JSON.stringify(pathToFileURL(join(build, "server/store.js")).href)};import{restoreEncrypted}from ${JSON.stringify(pathToFileURL(join(build, "server/backup-v3.js")).href)};import{readFileSync}from'node:fs';const s=new Store(process.argv[1]);restoreEncrypted(s,${JSON.stringify(pb)},JSON.parse(readFileSync(process.argv[2],'utf8')),Buffer.alloc(32,7),phase=>{if(phase==='after_publish')process.exit(41)});`;
     const exit = await new Promise<number | null>((res, rej) => {
       const c = spawn(
