@@ -1,0 +1,55 @@
+name: Date matrix (manual)
+# Manual only. Runs the full test suite under the date × KST time × timezone matrix (tests/date-matrix.mjs).
+# Separate from "Build and test" so ordinary pushes and PRs are unaffected.
+on:
+  workflow_dispatch:
+    inputs:
+      dates:
+        description: "Comma-separated dates (blank = default 5)"
+        required: false
+        default: ""
+      times:
+        description: "Comma-separated KST times (blank = 00:00:00,08:59:59,09:00:00)"
+        required: false
+        default: ""
+      tzs:
+        description: "Comma-separated TZ values (blank = UTC,Asia/Seoul)"
+        required: false
+        default: ""
+permissions:
+  contents: read
+jobs:
+  matrix:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Run date matrix
+        shell: bash
+        env:
+          SHE_MATRIX_DATES: ${{ inputs.dates }}
+          SHE_MATRIX_TIMES: ${{ inputs.times }}
+          SHE_MATRIX_TZS: ${{ inputs.tzs }}
+        run: node tests/date-matrix.mjs work/date-matrix
+      - name: Publish summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f work/date-matrix/summary.md ]; then
+            cat work/date-matrix/summary.md >> "$GITHUB_STEP_SUMMARY"
+            echo '```json' >> "$GITHUB_STEP_SUMMARY"
+            node -e "const s=require('./work/date-matrix/summary.json');console.log(JSON.stringify(s.meta))" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            # Annotations are readable through the checks API even where log downloads are not.
+            node -e "const s=require('./work/date-matrix/summary.json');const r=s.rows;const bad=r.filter(x=>x.failed!==0||x.exitCode!==0||x.distinctOffsets.length!==1);console.log('::notice title=date-matrix '+s.meta.platform+' '+s.meta.node+'::'+r.length+' runs, '+bad.length+' bad; '+r.map(x=>x.id+'='+x.passed+'/'+x.total+'/f'+x.failed+'/s'+x.skipped+'/c'+x.childProcesses+'/o'+x.distinctOffsets.length).join(' '));for(const x of bad.slice(0,9))console.log('::error title='+x.id+'::'+x.failedTests.slice(0,20).join(' | '))"
+          fi
