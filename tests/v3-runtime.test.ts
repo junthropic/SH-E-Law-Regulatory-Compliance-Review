@@ -276,7 +276,7 @@ it("V3-J06: 304는 대응 원문과 query·validator가 있어야 재사용한�
   ).toEqual([1]);
 });
 function child(dir: string, mode: string) {
-  const build = resolve(process.env.SHE_TEST_BUILD || "work/v3-build");
+  const build = resolve(process.env.SHE_TEST_BUILD || "build");
   const code = `import {Store} from ${JSON.stringify(pathToFileURL(join(build, "server/store.js")).href)};import {DurableJobs} from ${JSON.stringify(pathToFileURL(join(build, "server/jobs-v3.js")).href)};
   const s=new Store(process.argv[1]),jobs=new DurableJobs(s);await new Promise(r=>setTimeout(r,100));const j=jobs.claim('child-'+process.pid,1000);let quota=null;if(j&&process.argv[2]==='quota')quota=jobs.acquireQuota(j).allowed;if(j&&process.argv[2]==='crash'){jobs.commit(j,{id:'checkpoint',parent:null,role:'list',state:'success',data:{items:[],total:0,page:1,hasMore:false},nextPage:2});process.exit(41);}console.log(JSON.stringify({pid:process.pid,id:j?.id||null,quota}));s.close();`;
   return new Promise<any>((res, rej) => {

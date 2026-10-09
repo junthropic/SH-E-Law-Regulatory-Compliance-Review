@@ -99,7 +99,7 @@ it("V4-A09: A07 transport 소진은 실제 시도 2회와 retry disposition으�
 });
 it("V4-A10: 서로 다른 프로세스의 같은 계정 permit은 한 호출만 허용한다",async()=>{
   const f=testStore();new CallPermits(f.store);
-  const build=resolve(process.env.SHE_TEST_BUILD||"work/v4-typecheck"),id=sha("cross-process-account");
+  const build=resolve(process.env.SHE_TEST_BUILD||"build"),id=sha("cross-process-account");
   const script=`import {Store} from ${JSON.stringify(pathToFileURL(resolve(build,"server/store.js")).href)};import {CallPermits} from ${JSON.stringify(pathToFileURL(resolve(build,"server/transport-v4.js")).href)};const store=new Store(${JSON.stringify(f.store.dir)});const fence=new CallPermits(store).acquire(${JSON.stringify(id)},String(process.pid),Date.now(),60000,0);console.log(JSON.stringify({acquired:fence!==undefined}));store.close();`;
   const run=()=>new Promise<boolean>((res,rej)=>{const child=spawn(process.execPath,["--input-type=module","-e",script],{windowsHide:true,stdio:["ignore","pipe","pipe"]});let out="",err="";child.stdout.on("data",b=>out+=b);child.stderr.on("data",b=>err+=b);child.on("error",rej);child.on("close",code=>code===0?res(JSON.parse(out).acquired):rej(Error(err||"synthetic child failed")));});
   try{const settled=await Promise.allSettled([run(),run()]);const results=settled.map(r=>{if(r.status==="rejected")throw r.reason;return r.value;});expect(results.filter(Boolean)).toHaveLength(1);}finally{f.clean();}

@@ -31,7 +31,7 @@ it.each(trainingPolicies)("V6-C01: $id 원문→수동 보완→독립 검토→
     const manual=svc.supplement(p,first.id,first.version,input);local(svc.records.graph,manual.own);expect(()=>svc.supplement(p,first.id,first.version,input)).toThrow();
     expect(()=>svc.review({...p,roles:[...p.roles,"case_reviewer"]},first.id,manual.version,"자기 자료는 독립 확인으로 처리할 수 없습니다.")).toThrow();
     const checked=svc.review({...reviewer,roles:[...reviewer.roles,"writer"]},first.id,manual.version,"가상 대상·시간·미제공 사항을 독립 합성 actor로 확인했습니다.");local(svc.records.graph,checked.own);
-    const review=newReview({...request(),prompt:"가상 사업장 "+policy.label+" 검토를 요청합니다.",documentIds:[d.id]});f.store.saveReview(review);new LegacyBridge(f.store,"v6").attach(p,review,"project");f.store.saveReview(review);
+    const review=newReview({...request(),asOf:input.asOf,prompt:"가상 사업장 "+policy.label+" 검토를 요청합니다.",documentIds:[d.id]});f.store.saveReview(review);new LegacyBridge(f.store,"v6").attach(p,review,"project");f.store.saveReview(review);
     const publish=svc.publish(p,first.id,review.id);local(svc.records.graph,publish.binding.own);const context={gate:svc.records.graph,principal:p,parents:[publish.binding.node]};
     expect(()=>guardManagedExport(f.store,review.id,context)).not.toThrow();expect(()=>guardManagedExport(f.store,review.id)).toThrow();expect(()=>guardManagedExport(f.store,review.id,{...context,principal:{...p,tenant:"other"}})).toThrow();
     ({app}=await createApp(f.store,true,undefined,undefined,()=>context));const init=await app.inject({url:"/api/bootstrap",headers:{host:"127.0.0.1:4999"}}),headers={host:"127.0.0.1:4999",cookie:init.cookies.map((c:any)=>c.name+"="+c.value).join("; ")};
