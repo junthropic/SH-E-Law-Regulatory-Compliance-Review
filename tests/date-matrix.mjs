@@ -51,7 +51,11 @@ for (const d of dates)
       const failed = [];
       for (const f of res?.testResults ?? [])
         for (const a of f.assertionResults)
-          if (a.status === "failed") failed.push(f.name.split(/[\\/]/).pop() + " › " + a.fullName);
+          if (a.status === "failed") {
+            // First line of the failure keeps timeouts and assertion errors apart in the summary.
+            const why = String(a.failureMessages?.[0] ?? "").split("\n")[0].slice(0, 160);
+            failed.push(f.name.split(/[\\/]/).pop() + " › " + a.fullName + " — " + why + ` (${Math.round(a.duration ?? 0)}ms)`);
+          }
       const row = {
         id,
         input,
