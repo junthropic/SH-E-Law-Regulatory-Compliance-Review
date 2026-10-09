@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join, resolve, dirname, basename } from "node:path";
 import { Store, sha } from "../server/store.js";
 import type { Evidence, Rule, ReviewRequest } from "../shared/types.js";
+import { koreaDate } from "../shared/dates.js";
 export function testStore() {
   const dir = mkdtempSync(join(tmpdir(), "she-test-"));
   const store = new Store(dir);
@@ -85,7 +86,8 @@ export function request(): ReviewRequest {
     prompt: "시험용 위험물 검토 상황을 기록합니다.",
     region: "경기도",
     municipality: "시험시",
-    asOf: new Date().toISOString().slice(0, 10),
+    // The app compares review dates with Korea's civil date (shared/dates.ts), not the UTC date.
+    asOf: koreaDate(),
     documentIds: [],
     model: "",
     useAi: false,
