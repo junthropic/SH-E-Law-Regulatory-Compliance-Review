@@ -1,0 +1,660 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "dirty": true,
+  "sourceDigest": "26dc4d816b8caa152bc551bd28f6dbdfcc6b6654b4db6fc078c85ee0afea938a",
+  "at": "2026-10-08T13:47:18.887Z",
+  "scope": "격리 개발·가상 시험. 운영·실제 사업장·법적 승인 아님",
+  "isolatedDirectory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-validation-2jt8ec",
+  "copiedFiles": [
+    {
+      "path": "AGENTS.md",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "index.html",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "package-lock.json",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "package.json",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/approve.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/audit-v2.mjs",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/audit-v3.mjs",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/backup.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/collect-official-v3.mjs",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/e2e-additional-apis.mjs",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/e2e-dossier.mjs",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/e2e-intake.mjs",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/e2e-public-apis.mjs",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/e2e-v3.mjs",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/e2e-verification.mjs",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/e2e.mjs",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/local-watchdog.py",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/public-check.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/source-probe.mjs",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/sync.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/test-local-watchdog.py",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/validate-isolated-v2.mjs",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "scripts/validate-isolated-v3.mjs",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/additional-apis.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/ai.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/app.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/approval.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/auth.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/backup-v3.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/backup.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/bundles.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/case-assessment.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/collection-journal-v2.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/collection-service-v3.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/compliance-api-v2.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/compliance-v2.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/deadlines-v2.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/documents.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/dossier.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/egress-v3.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/evidence-policies-v2.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/exports.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/extraction.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/fact-checks.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/fact-provenance.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/index.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/intake.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/jobs-v3.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/legacy-address.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/legacy-bridge-v3.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/legal.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/management-v3.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/mcp.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/parse-worker.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/periods-v3.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/petitions.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/policies-v3.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/public-api-probes.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/public-api-transport.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/public-apis.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/public-bundle.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/public-match.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/public-records.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/reference-collection.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/reviews.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/schemas.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/source-lifecycle-v3.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/sources.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/store.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/vault.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "server/verification.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "shared/additional-search.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "shared/connection-catalog.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "shared/dates.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "shared/dossier.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "shared/identifiers.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "shared/information-notice.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "shared/intake.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "shared/jurisdictions.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "shared/public-apis.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "shared/result-language.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "shared/review-domains.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "shared/types.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "shared/verification.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "src/App.tsx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "src/Dossier.tsx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "src/Intake.tsx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "src/PublicApis.tsx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "src/ReviewApproval.tsx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "src/Tools.tsx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "src/Verification.tsx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "src/main.tsx",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "src/style.css",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/a07-transport.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/additional-apis.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/ai-auth.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/app.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/case-audit.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/collection-hardening.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/collection-v2.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/compliance-v2.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/dossier.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/fact-provenance.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/helpers.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/intake.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/legacy-address.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/legal.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/mcp-vault.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/petitions-documents.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/public-api-probes.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/public-apis.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/public-bundle.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/reference-collection.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/result-language.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/reviews.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/sources.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/store.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/v2-fixture.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/v2-golden.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/v3-collection.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/v3-policies.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/v3-runtime.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/v3-workflow.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tests/verification.test.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tsconfig.json",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "tsconfig.server.json",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "vite.config.ts",
+      "exists": true,
+      "matches": true
+    },
+    {
+      "path": "vitest.config.ts",
+      "exists": true,
+      "matches": true
+    }
+  ],
+  "notCopiedOrChanged": [],
+  "node": "v26.7.0",
+  "platform": "win32",
+  "architecture": "x64",
+  "lockfileHash": "15b64b412767caea1f41dd3a9efc852d5dcae734a1a80d2e5951eb9a8b653ab1",
+  "migrationVersions": [
+    2,
+    3
+  ],
+  "productionBuildWritten": false
+}

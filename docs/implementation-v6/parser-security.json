@@ -1,0 +1,30 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "reused": "extraction-v5 / parser-worker-v5",
+  "runtimePermissionEnforced": true,
+  "auditMode": false,
+  "resourcePermissions": {
+    "network": false,
+    "fileWrite": false,
+    "childProcess": false,
+    "addons": false,
+    "WASI": false,
+    "FFI": false,
+    "inspector": false
+  },
+  "fixedRuntimeCapabilities": "node --help v26.7.0에서 옵션 존재 확인",
+  "OSMaliciousFileSandboxVerified": false,
+  "OCRInstalled": false,
+  "externalOCRCalls": 0,
+  "imageState": "needs_ocr",
+  "decisiveCellsVerified": false,
+  "remaining": [
+    "이미지 OCR·원문 셀 대조·OS 격리 평가",
+    "전종 파일 parser resource/corpus 전수"
+  ]
+}

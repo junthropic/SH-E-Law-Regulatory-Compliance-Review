@@ -1,0 +1,11 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "directory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-validation-RSAYkw",
+  "mismatches": [],
+  "allFinalSourceBytesMatched": true
+}

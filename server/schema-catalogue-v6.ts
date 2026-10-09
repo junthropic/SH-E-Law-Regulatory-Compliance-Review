@@ -1,0 +1,8 @@
+// A model match is public specification evidence, never an observed API response.
+export function compareOfficialModel(endpoint:string,schema:any){const u=new URL(endpoint);let path:string|undefined;
+  for(const key of Object.keys(schema.paths||{})){const full=new URL("https://"+schema.host+(schema.basePath||"")+key);if(full.hostname===u.hostname&&full.pathname===u.pathname)path=key;}
+  if(!path)return {matched:false,reason:"공식 명세의 endpoint 경로 불일치",request:[],response:[],model:null};
+  const op=schema.paths[path].get;if(!op?.responses?.["200"]?.schema)return {matched:false,reason:"공식 성공 응답 모델 없음",request:[],response:[],model:null};
+  const vo=(schema.swaggerOprtinVOs||[]).find((v:any)=>v.operationId===op.operationId||v.gwSvcNm===op.operationId),request=(vo?.reqList||[...(schema.paths[path].parameters||[]),...(op.parameters||[])]).map((r:any)=>({name:r.paramtrNm||r.name,type:r.paramtrTy||r.type,required:r.paramtrDivision==="필수"||r.required===true,fixedOrExample:r.paramtrBassValue??r.default??null}));
+  const response:any[]=[];function fields(model:any,parent="",depth=0){if(depth>15)return;if(model?.$ref){const name=model.$ref.split("/").at(-1);return fields(schema.definitions?.[name],parent,depth+1);}for(const [key,value] of Object.entries(model?.properties||{}) as [string,any][]){response.push({path:parent?parent+"."+key:key,type:value.type||null});fields(value,parent?parent+"."+key:key,depth+1);}if(model?.items)fields(model.items,parent+"[]",depth+1);}
+  fields(op.responses["200"].schema);return {matched:request.length>0&&response.length>0,reason:request.length&&response.length?null:"공식 request/response model 불완전",path,operationId:op.operationId,request,response,model:op.responses["200"].schema};}

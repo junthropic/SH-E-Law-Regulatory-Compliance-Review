@@ -9,6 +9,7 @@ import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { Store, sha } from "./store.js";
 import { BackupSchema } from "./schemas.js";
+import { resetFactVerification } from "./fact-provenance.js";
 import type { DocumentRecord } from "../shared/types.js";
 
 export function makeBackup(store: Store) {
@@ -28,6 +29,10 @@ export function makeBackup(store: Store) {
   };
 }
 export function restoreBackup(store: Store, input: unknown) {
+  const restoredAttachments = (e: import("../shared/types.js").Evidence) => ({ ...e,
+    attachments: e.attachments?.map(a => ({ ...a, state: "missing" as const,
+      originalRef: undefined, note: "백업에 법규 첨부 바이너리는 포함되지 않습니다. 원본을 다시 확보하세요." })),
+  });
   // Validate the entire backup before touching either the database or originals.
   const b = BackupSchema.parse(input);
   for (const d of b.documents)
@@ -55,12 +60,14 @@ export function restoreBackup(store: Store, input: unknown) {
     }
     for (const e of b.evidence)
       store.saveEvidence(
-        { ...e, verified: false, verificationNote: "백업 복원 후 재검증 필요" },
+        { ...restoredAttachments(e), verified: false, verificationNote: "백업 복원 후 재검증 필요" },
         false,
       );
     for (const r of b.reviews)
       store.saveReview({
         ...r,
+        facts: r.facts.map(resetFactVerification),
+        evidence: r.evidence.map(e => ({...restoredAttachments(e), verified:false})),
         status: r.status === "running" ? "failed" : r.status,
         needsReview: true,
         coverage: { ...r.coverage, complete: false },

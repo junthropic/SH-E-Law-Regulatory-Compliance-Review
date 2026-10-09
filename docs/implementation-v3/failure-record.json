@@ -1,0 +1,43 @@
+{
+  "sourceDigest": "26dc4d816b8caa152bc551bd28f6dbdfcc6b6654b4db6fc078c85ee0afea938a",
+  "records": [
+    {
+      "stage": "initial compile",
+      "finding": "PublicQuery type alias and unknown error handler",
+      "classification": "development compile error",
+      "result": "fixed; final tsc passed"
+    },
+    {
+      "stage": "HTTP harness",
+      "finding": "createApp returns an object containing app; omitted headers must not be undefined",
+      "classification": "test harness",
+      "result": "fixed; V3-H01~04 passed"
+    },
+    {
+      "stage": "A07 fixture",
+      "finding": "additional API mode requires search",
+      "classification": "test fixture",
+      "result": "fixed without changing client schema; V3-F01 passed"
+    },
+    {
+      "stage": "calendar review",
+      "finding": "counted first day may move into next month; missing corresponding day uses month-end",
+      "classification": "source/code review correction",
+      "result": "V3-C07 regression passed"
+    },
+    {
+      "stage": "v3 browser",
+      "finding": "waited for previous issue heading after projection",
+      "classification": "test selector",
+      "log": "logs/initial-v3-e2e-failure.log",
+      "result": "corrected selector; final v3 E2E passed"
+    },
+    {
+      "stage": "official history article",
+      "finding": "HTTP 200 shell without article text",
+      "classification": "source collection partial response",
+      "result": "preserved shell; full lsInfoR original and supplement acquired, no automatic legal approval"
+    }
+  ],
+  "discardedPriorUnknowns": 0
+}

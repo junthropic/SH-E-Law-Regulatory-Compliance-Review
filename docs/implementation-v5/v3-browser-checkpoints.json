@@ -1,0 +1,11 @@
+{
+  "scope": "synthetic only; external provider mocked, internal app/DB/auth/worker real",
+  "checkpoints": [
+    "S1 browser upload→question→v2 trace→six independent holds",
+    "façade delayed legacy error→background real worker→cached existing schema/browser result",
+    "S3 browser check-completion/submission separated, unknowns retained"
+  ],
+  "externalCalls": 2,
+  "uiChanged": false,
+  "productionTouched": false
+}

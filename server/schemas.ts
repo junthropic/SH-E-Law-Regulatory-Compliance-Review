@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { ReviewRequestSchema } from "../shared/types.js";
+import { comparisonInput } from "../shared/dossier.js";
 
 const date = z
   .string()
@@ -12,6 +13,13 @@ const date = z
 const optionalDate = z.union([date, z.literal("")]);
 const text = z.string().max(1_500_000);
 export const EvidenceSchema = z.object({
+  sourceConflicts: z.array(z.string().max(3000)).max(30).optional(),
+  attachments: z.array(z.object({
+    title: z.string(), url: z.string().max(2000), version: z.string(), effectiveFrom: optionalDate,
+    fetchedAt: z.string().datetime(), state: z.enum(["collected", "missing", "extraction_failed"]),
+    originalHash: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+    originalRef: z.string().regex(/^[a-f0-9]{64}\.bin$/).optional(), note: z.string(),
+  })).max(2000).optional(),
   id: z.string().uuid(),
   sourceId: z.string().min(1).max(500),
   kind: z.enum([
@@ -25,7 +33,7 @@ export const EvidenceSchema = z.object({
   title: z.string().min(1).max(500),
   region: z.string().max(100),
   article: z.string().max(500),
-  text,
+  text: z.string().max(8_000_000),
   url: z
     .string()
     .url()
@@ -49,6 +57,15 @@ export const EvidenceSchema = z.object({
   links: z.array(z.string().max(2000)).max(2000),
 });
 export const DocumentSchema = z.object({
+  officialSources: z
+    .array(
+      z.object({
+        url: z.string().url().max(2000),
+        fetchedAt: z.string().datetime(),
+      }),
+    )
+    .max(20)
+    .optional(),
   id: z.string().uuid(),
   name: z.string().min(1).max(500),
   createdAt: z.string().datetime(),
@@ -110,7 +127,140 @@ const IssueSchema = z.object({
   severity: z.enum(["unspecified", "low", "medium", "high"]),
   ruleId: z.string().optional(),
 });
+const ComparisonSchema = comparisonInput.extend({
+  id: z.string().uuid(),
+  createdAt: z.string().datetime(),
+  evidenceHash: z.string().regex(/^[a-f0-9]{64}$/),
+  evidenceIdentity: z.string().regex(/^[a-f0-9]{64}$/),
+  documentHash: z.string().regex(/^[a-f0-9]{64}$/),
+  documentTextHash: z.string().regex(/^[a-f0-9]{64}$/),
+  documentName: z.string().max(500),
+  provenance: z.enum(["downloaded", "user_provided"]),
+  changes: z
+    .array(
+      z.object({
+        value: z.string().max(40000),
+        added: z.boolean().optional(),
+        removed: z.boolean().optional(),
+      }),
+    )
+    .max(20000),
+  checks: z
+    .array(
+      z.object({
+        label: z.string().max(100),
+        state: z.enum(["match", "difference", "unconfirmed"]),
+        detail: z.string().max(2000),
+      }),
+    )
+    .max(30),
+  numbers: z.object({
+    law: z.array(z.string()).max(10000),
+    document: z.array(z.string()).max(10000),
+  }),
+  markers: z.object({
+    law: z.array(z.string()).max(1000),
+    document: z.array(z.string()).max(1000),
+  }),
+  review: z
+    .object({
+      reviewer: z.string().max(100),
+      note: z.string().max(3000),
+      reviewedAt: z.string().datetime(),
+    })
+    .optional(),
+});
+const AssessmentSchema = z.object({
+  facts: z
+    .array(
+      z.object({
+        key: z.string(),
+        label: z.string(),
+        value: text,
+        state: z.enum(["confirmed", "incomplete", "missing", "conflict"]),
+        question: z.string(),
+      }),
+    )
+    .max(30),
+  conditions: z
+    .array(
+      z.object({
+        id: z.string(),
+        evidenceId: z.string().uuid(),
+        quote: z.string().max(5000),
+        kind: z.string(),
+        factKeys: z.array(z.string()),
+        missing: z.array(z.string()),
+      }),
+    )
+    .max(100),
+  totalConditions: z.number().int().nonnegative(),
+  decisions: z
+    .array(
+      z.object({
+        conditionId: z.string(),
+        reviewer: z.string().max(100),
+        note: z.string().max(3000),
+        decision: z.enum(["applies", "excluded", "uncertain"]),
+        basisHash: z.string(),
+        factsHash: z.string(),
+        createdAt: z.string().datetime(),
+      }),
+    )
+    .max(500),
+});
+const CheckSchema = z.object({
+  key: z.string(),
+  label: z.string(),
+  state: z.enum(["checked", "missing", "review"]),
+  detail: text,
+});
+const VerificationSchema = z.object({
+  version: z.literal(1),
+  checkedAt: z.string().datetime(),
+  checks: z.array(CheckSchema).max(100),
+  basis: z
+    .array(
+      z.object({
+        evidenceId: z.string().uuid(),
+        checks: z.array(CheckSchema).max(100),
+        references: z
+          .array(
+            z.object({
+              title: z.string(),
+              evidenceIds: z.array(z.string().uuid()).max(2000),
+              state: z.enum(["candidate", "missing", "ambiguous"]),
+            }),
+          )
+          .max(100),
+        passages: z
+          .array(
+            z.object({
+              kind: z.enum(["annex", "supplement", "exception", "delegation"]),
+              quote: z.string().max(5000),
+              offset: z.number().int().nonnegative(),
+            }),
+          )
+          .max(100),
+        passagesTotal: z.number().int().nonnegative(),
+        referencesTotal: z.number().int().nonnegative(),
+      }),
+    )
+    .max(2000),
+});
 export const ReviewSchema = z.object({
+  verification: VerificationSchema.optional(),
+  comparisons: z.array(ComparisonSchema).max(100).optional(),
+  caseAssessment: AssessmentSchema.optional(),
+  referenceCollection: z
+    .object({
+      parentReviewId: z.string().uuid(),
+      title: z.string().max(150),
+      state: z.enum(["running", "collected", "failed"]),
+      message: text,
+      evidenceId: z.string().uuid().optional(),
+    })
+    .optional(),
   id: z.string().uuid(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
@@ -126,6 +276,18 @@ export const ReviewSchema = z.object({
         unit: z.string().optional(),
         source: z.string(),
         confirmed: z.boolean(),
+        provenance: z.object({
+          assertionSource: z.enum(["user", "model", "derived"]),
+          userAttested: z.boolean(),
+          verificationStatus: z.enum(["unverified", "document_reviewed", "site_verified"]),
+          evidenceIds: z.array(z.string().uuid()).max(100),
+          conflictIds: z.array(z.string().max(100)).max(100),
+          recordedAt: z.string().datetime(),
+          subjectId: z.string().max(200).optional(),
+          measurementBasis: z.string().max(200).optional(),
+          scope: z.string().max(1000).optional(),
+          validFrom: date.optional(), validTo: date.optional(),
+        }).optional(),
       }),
     )
     .max(200),

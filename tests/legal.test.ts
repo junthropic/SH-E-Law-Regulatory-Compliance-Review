@@ -70,10 +70,10 @@ describe("법률 판정 검증", () => {
     expect(invalid.conclusion).toContain("보류");
     expect(invalid.citations).toHaveLength(0);
   });
-  it("검토 규칙·사실·예외·원문이 모두 맞아야 clear_risk", () => {
+  it("기존 수량 조건 규칙은 사용자 진술만으로 위반을 확정하지 않는다", () => {
     const es = basis();
     expect(evaluateRule(rule(es), facts, es, "경기도", today)?.category).toBe(
-      "clear_risk",
+      "human_review",
     );
   });
   it.each([

@@ -1,0 +1,285 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "rows": [
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: stage_write 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 64.65710000000036
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: stage_write 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 53.6919999999991
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: stage_write 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 54.78199999999924
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: stage_write 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 56.304299999999785
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: legacy_restored 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 78.4503999999979
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: legacy_restored 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 79.51209999999992
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: legacy_restored 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 78.65659999999843
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: legacy_restored 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 76.3878999999979
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: protected_restored 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 80.65229999999792
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: protected_restored 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 80.41509999999835
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: protected_restored 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 81.28780000000188
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: protected_restored 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 80.51670000000013
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: manifest_validate 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 81.09029999999984
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: manifest_validate 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 80.09200000000055
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: manifest_validate 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 80.78960000000006
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: manifest_validate 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 83.26310000000012
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: db_flush 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 80.88360000000102
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: db_flush 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 84.52730000000156
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: db_flush 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 86.29079999999885
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: db_flush 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 80.69760000000315
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: pointer_write 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 79.14870000000155
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: pointer_write 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 80.51070000000254
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: pointer_write 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 82.10279999999693
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: pointer_write 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 79.51940000000104
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: pointer_flush 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 81.84879999999976
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: pointer_flush 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 80.97779999999693
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: pointer_flush 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 84.45920000000115
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: pointer_flush 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 81.63290000000052
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: pointer_rename 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 85.95780000000013
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: pointer_rename 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 80.14660000000003
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: pointer_rename 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 81.33280000000013
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B01: pointer_rename 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원",
+      "status": "passed",
+      "duration": 81.47940000000017
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B02: 이미 공개된 유효 세대는 다른 archive 실패로 교체되지 않음",
+      "status": "passed",
+      "duration": 52.498200000001816
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B03: 백업 snapshot_begin 실패에도 운영 대상 아닌 원본·DB를 그대로 보존",
+      "status": "passed",
+      "duration": 15.040100000001985
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B03: 백업 snapshot_captured 실패에도 운영 대상 아닌 원본·DB를 그대로 보존",
+      "status": "passed",
+      "duration": 17.639299999995274
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B03: 백업 manifest_build 실패에도 운영 대상 아닌 원본·DB를 그대로 보존",
+      "status": "passed",
+      "duration": 105.119200000001
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B04: snapshot 이후 원본 replace는 hash 대조 실패로 보류",
+      "status": "passed",
+      "duration": 511.50419999999576
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B04: snapshot 이후 원본 delete는 hash 대조 실패로 보류",
+      "status": "passed",
+      "duration": 7586.670599999998
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B05: archive 잘림·키버전·다른 영역·살아있는 잠금과 ADS 경로 거부",
+      "status": "passed",
+      "duration": 17.6649000000034
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B06: 암호 봉투가 정상이어도 manifest의 참조·길이 변경은 거부",
+      "status": "passed",
+      "duration": 13.596300000004703
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B07: 부모 누락은 복원 공개 이전에 실패",
+      "status": "passed",
+      "duration": 123.41050000000541
+    },
+    {
+      "file": "tests/v6-restore.test.ts",
+      "name": "V6-B08: 실제 Windows junction과 상위 연결 경로는 복원 대상으로 거부",
+      "status": "passed",
+      "duration": 14.04649999999674
+    }
+  ],
+  "matrixPhases": 8,
+  "injectedErrorCodes": [
+    "ENOSPC",
+    "EACCES",
+    "EPERM",
+    "EIO"
+  ],
+  "injectedPairs": 32,
+  "realOSDiskFull": 0,
+  "realWindowsACLChanges": 0,
+  "realPowerLoss": 0,
+  "realOwnedJunctionTest": true,
+  "invariants": [
+    "공개 pointer 없음·temp pointer/lock 정리·재복원",
+    "다른 archive는 유효 세대 교체 불가",
+    "manifest length/hash/reference와 부모 누락 거부",
+    "wrong scope/key·잘림·살아있는 lock·ADS·상위 junction 거부"
+  ],
+  "untested": [
+    "전원 차단·실제 디스크 부족·실제 ACL 실패",
+    "동시 파일 공유/alias·TOCTOU 전수",
+    "모든 backup writer 경쟁·디렉터리 fsync 보장"
+  ]
+}

@@ -1,0 +1,597 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "policies": [
+    {
+      "id": "training.periodic",
+      "group": "training",
+      "label": "산업안전보건 교육",
+      "previousGroup": {
+        "group": "training",
+        "label": "산업안전보건 교육",
+        "duties": [
+          "periodic",
+          "recruitment",
+          "work_change",
+          "special",
+          "supervisor"
+        ],
+        "elements": [
+          "익명 대상자",
+          "교육 종류·기간",
+          "시간·내용",
+          "강사·형태",
+          "면제·감경·간주 방향"
+        ],
+        "insufficient": [
+          "출석명단 단독",
+          "참고양식 미사용"
+        ],
+        "gaps": [
+          "기준일 교육시간·내용 별표 및 고시",
+          "일반 교육기록 법정 보존기간 미확정"
+        ],
+        "version": "candidate-v2",
+        "status": "candidate",
+        "enabled": false,
+        "alternativePaths": [
+          "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+          "적용 요건에 맞는 전자기록",
+          "필요한 범위의 현장 확인"
+        ],
+        "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+        "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+      },
+      "selected": false,
+      "implementation": "기존 후보 유지; 실행 구현 미완료",
+      "officialSources": [],
+      "automaticTests": [],
+      "legalProfile": "실제 해석 승인 대기; 합성 profile만 시험",
+      "expertApproval": "미승인",
+      "realSite": "미검증",
+      "enabled": false,
+      "remaining": [
+        "실제 대상·자료·권한자 확인",
+        "예외·기간·방식별 법적 충분성 전문가 검토",
+        "기타 특례의 보류 분기"
+      ],
+      "v3Status": "기존 후보 유지; 실행 구현 미완료",
+      "v4Implementation": "v3 상태 유지",
+      "realLegalReview": "미완료",
+      "previous": {
+        "id": "training.periodic",
+        "group": "training",
+        "label": "산업안전보건 교육",
+        "previousGroup": {
+          "group": "training",
+          "label": "산업안전보건 교육",
+          "duties": [
+            "periodic",
+            "recruitment",
+            "work_change",
+            "special",
+            "supervisor"
+          ],
+          "elements": [
+            "익명 대상자",
+            "교육 종류·기간",
+            "시간·내용",
+            "강사·형태",
+            "면제·감경·간주 방향"
+          ],
+          "insufficient": [
+            "출석명단 단독",
+            "참고양식 미사용"
+          ],
+          "gaps": [
+            "기준일 교육시간·내용 별표 및 고시",
+            "일반 교육기록 법정 보존기간 미확정"
+          ],
+          "version": "candidate-v2",
+          "status": "candidate",
+          "enabled": false,
+          "alternativePaths": [
+            "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+            "적용 요건에 맞는 전자기록",
+            "필요한 범위의 현장 확인"
+          ],
+          "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+          "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+        },
+        "selected": false,
+        "implementation": "기존 후보 유지; 실행 구현 미완료",
+        "officialSources": [],
+        "automaticTests": [],
+        "legalProfile": "실제 해석 승인 대기; 합성 profile만 시험",
+        "expertApproval": "없음",
+        "realSite": "미검증",
+        "enabled": false,
+        "remaining": [
+          "기준일 교육시간·내용 별표 및 고시",
+          "일반 교육기록 법정 보존기간 미확정"
+        ],
+        "v3Status": "기존 후보 유지; 실행 구현 미완료",
+        "v4Implementation": "v3 상태 유지",
+        "realLegalReview": "미완료"
+      },
+      "v6Implementation": "독립 실행·source-backed 후보·수동 버전·독립 합성 사실 검토·기존 검토/일반 Markdown export",
+      "v6Tested": true
+    },
+    {
+      "id": "training.recruitment",
+      "group": "training",
+      "label": "산업안전보건 교육",
+      "previousGroup": {
+        "group": "training",
+        "label": "산업안전보건 교육",
+        "duties": [
+          "periodic",
+          "recruitment",
+          "work_change",
+          "special",
+          "supervisor"
+        ],
+        "elements": [
+          "익명 대상자",
+          "교육 종류·기간",
+          "시간·내용",
+          "강사·형태",
+          "면제·감경·간주 방향"
+        ],
+        "insufficient": [
+          "출석명단 단독",
+          "참고양식 미사용"
+        ],
+        "gaps": [
+          "기준일 교육시간·내용 별표 및 고시",
+          "일반 교육기록 법정 보존기간 미확정"
+        ],
+        "version": "candidate-v2",
+        "status": "candidate",
+        "enabled": false,
+        "alternativePaths": [
+          "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+          "적용 요건에 맞는 전자기록",
+          "필요한 범위의 현장 확인"
+        ],
+        "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+        "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+      },
+      "selected": false,
+      "implementation": "기존 후보 유지; 실행 구현 미완료",
+      "officialSources": [],
+      "automaticTests": [],
+      "legalProfile": "실제 해석 승인 대기; 합성 profile만 시험",
+      "expertApproval": "미승인",
+      "realSite": "미검증",
+      "enabled": false,
+      "remaining": [
+        "실제 대상·자료·권한자 확인",
+        "예외·기간·방식별 법적 충분성 전문가 검토",
+        "기타 특례의 보류 분기"
+      ],
+      "v3Status": "기존 후보 유지; 실행 구현 미완료",
+      "v4Implementation": "v3 상태 유지",
+      "realLegalReview": "미완료",
+      "previous": {
+        "id": "training.recruitment",
+        "group": "training",
+        "label": "산업안전보건 교육",
+        "previousGroup": {
+          "group": "training",
+          "label": "산업안전보건 교육",
+          "duties": [
+            "periodic",
+            "recruitment",
+            "work_change",
+            "special",
+            "supervisor"
+          ],
+          "elements": [
+            "익명 대상자",
+            "교육 종류·기간",
+            "시간·내용",
+            "강사·형태",
+            "면제·감경·간주 방향"
+          ],
+          "insufficient": [
+            "출석명단 단독",
+            "참고양식 미사용"
+          ],
+          "gaps": [
+            "기준일 교육시간·내용 별표 및 고시",
+            "일반 교육기록 법정 보존기간 미확정"
+          ],
+          "version": "candidate-v2",
+          "status": "candidate",
+          "enabled": false,
+          "alternativePaths": [
+            "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+            "적용 요건에 맞는 전자기록",
+            "필요한 범위의 현장 확인"
+          ],
+          "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+          "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+        },
+        "selected": false,
+        "implementation": "기존 후보 유지; 실행 구현 미완료",
+        "officialSources": [],
+        "automaticTests": [],
+        "legalProfile": "실제 해석 승인 대기; 합성 profile만 시험",
+        "expertApproval": "없음",
+        "realSite": "미검증",
+        "enabled": false,
+        "remaining": [
+          "기준일 교육시간·내용 별표 및 고시",
+          "일반 교육기록 법정 보존기간 미확정"
+        ],
+        "v3Status": "기존 후보 유지; 실행 구현 미완료",
+        "v4Implementation": "v3 상태 유지",
+        "realLegalReview": "미완료"
+      },
+      "v6Implementation": "독립 실행·source-backed 후보·수동 버전·독립 합성 사실 검토·기존 검토/일반 Markdown export",
+      "v6Tested": true
+    },
+    {
+      "id": "training.work_change",
+      "group": "training",
+      "label": "산업안전보건 교육",
+      "previousGroup": {
+        "group": "training",
+        "label": "산업안전보건 교육",
+        "duties": [
+          "periodic",
+          "recruitment",
+          "work_change",
+          "special",
+          "supervisor"
+        ],
+        "elements": [
+          "익명 대상자",
+          "교육 종류·기간",
+          "시간·내용",
+          "강사·형태",
+          "면제·감경·간주 방향"
+        ],
+        "insufficient": [
+          "출석명단 단독",
+          "참고양식 미사용"
+        ],
+        "gaps": [
+          "기준일 교육시간·내용 별표 및 고시",
+          "일반 교육기록 법정 보존기간 미확정"
+        ],
+        "version": "candidate-v2",
+        "status": "candidate",
+        "enabled": false,
+        "alternativePaths": [
+          "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+          "적용 요건에 맞는 전자기록",
+          "필요한 범위의 현장 확인"
+        ],
+        "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+        "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+      },
+      "selected": false,
+      "implementation": "기존 후보 유지; 실행 구현 미완료",
+      "officialSources": [],
+      "automaticTests": [],
+      "legalProfile": "실제 해석 승인 대기; 합성 profile만 시험",
+      "expertApproval": "미승인",
+      "realSite": "미검증",
+      "enabled": false,
+      "remaining": [
+        "실제 대상·자료·권한자 확인",
+        "예외·기간·방식별 법적 충분성 전문가 검토",
+        "기타 특례의 보류 분기"
+      ],
+      "v3Status": "기존 후보 유지; 실행 구현 미완료",
+      "v4Implementation": "v3 상태 유지",
+      "realLegalReview": "미완료",
+      "previous": {
+        "id": "training.work_change",
+        "group": "training",
+        "label": "산업안전보건 교육",
+        "previousGroup": {
+          "group": "training",
+          "label": "산업안전보건 교육",
+          "duties": [
+            "periodic",
+            "recruitment",
+            "work_change",
+            "special",
+            "supervisor"
+          ],
+          "elements": [
+            "익명 대상자",
+            "교육 종류·기간",
+            "시간·내용",
+            "강사·형태",
+            "면제·감경·간주 방향"
+          ],
+          "insufficient": [
+            "출석명단 단독",
+            "참고양식 미사용"
+          ],
+          "gaps": [
+            "기준일 교육시간·내용 별표 및 고시",
+            "일반 교육기록 법정 보존기간 미확정"
+          ],
+          "version": "candidate-v2",
+          "status": "candidate",
+          "enabled": false,
+          "alternativePaths": [
+            "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+            "적용 요건에 맞는 전자기록",
+            "필요한 범위의 현장 확인"
+          ],
+          "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+          "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+        },
+        "selected": false,
+        "implementation": "기존 후보 유지; 실행 구현 미완료",
+        "officialSources": [],
+        "automaticTests": [],
+        "legalProfile": "실제 해석 승인 대기; 합성 profile만 시험",
+        "expertApproval": "없음",
+        "realSite": "미검증",
+        "enabled": false,
+        "remaining": [
+          "기준일 교육시간·내용 별표 및 고시",
+          "일반 교육기록 법정 보존기간 미확정"
+        ],
+        "v3Status": "기존 후보 유지; 실행 구현 미완료",
+        "v4Implementation": "v3 상태 유지",
+        "realLegalReview": "미완료"
+      },
+      "v6Implementation": "독립 실행·source-backed 후보·수동 버전·독립 합성 사실 검토·기존 검토/일반 Markdown export",
+      "v6Tested": true
+    },
+    {
+      "id": "training.special",
+      "group": "training",
+      "label": "산업안전보건 교육",
+      "previousGroup": {
+        "group": "training",
+        "label": "산업안전보건 교육",
+        "duties": [
+          "periodic",
+          "recruitment",
+          "work_change",
+          "special",
+          "supervisor"
+        ],
+        "elements": [
+          "익명 대상자",
+          "교육 종류·기간",
+          "시간·내용",
+          "강사·형태",
+          "면제·감경·간주 방향"
+        ],
+        "insufficient": [
+          "출석명단 단독",
+          "참고양식 미사용"
+        ],
+        "gaps": [
+          "기준일 교육시간·내용 별표 및 고시",
+          "일반 교육기록 법정 보존기간 미확정"
+        ],
+        "version": "candidate-v2",
+        "status": "candidate",
+        "enabled": false,
+        "alternativePaths": [
+          "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+          "적용 요건에 맞는 전자기록",
+          "필요한 범위의 현장 확인"
+        ],
+        "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+        "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+      },
+      "selected": false,
+      "implementation": "기존 후보 유지; 실행 구현 미완료",
+      "officialSources": [],
+      "automaticTests": [],
+      "legalProfile": "실제 해석 승인 대기; 합성 profile만 시험",
+      "expertApproval": "미승인",
+      "realSite": "미검증",
+      "enabled": false,
+      "remaining": [
+        "실제 대상·자료·권한자 확인",
+        "예외·기간·방식별 법적 충분성 전문가 검토",
+        "기타 특례의 보류 분기"
+      ],
+      "v3Status": "기존 후보 유지; 실행 구현 미완료",
+      "v4Implementation": "v3 상태 유지",
+      "realLegalReview": "미완료",
+      "previous": {
+        "id": "training.special",
+        "group": "training",
+        "label": "산업안전보건 교육",
+        "previousGroup": {
+          "group": "training",
+          "label": "산업안전보건 교육",
+          "duties": [
+            "periodic",
+            "recruitment",
+            "work_change",
+            "special",
+            "supervisor"
+          ],
+          "elements": [
+            "익명 대상자",
+            "교육 종류·기간",
+            "시간·내용",
+            "강사·형태",
+            "면제·감경·간주 방향"
+          ],
+          "insufficient": [
+            "출석명단 단독",
+            "참고양식 미사용"
+          ],
+          "gaps": [
+            "기준일 교육시간·내용 별표 및 고시",
+            "일반 교육기록 법정 보존기간 미확정"
+          ],
+          "version": "candidate-v2",
+          "status": "candidate",
+          "enabled": false,
+          "alternativePaths": [
+            "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+            "적용 요건에 맞는 전자기록",
+            "필요한 범위의 현장 확인"
+          ],
+          "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+          "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+        },
+        "selected": false,
+        "implementation": "기존 후보 유지; 실행 구현 미완료",
+        "officialSources": [],
+        "automaticTests": [],
+        "legalProfile": "실제 해석 승인 대기; 합성 profile만 시험",
+        "expertApproval": "없음",
+        "realSite": "미검증",
+        "enabled": false,
+        "remaining": [
+          "기준일 교육시간·내용 별표 및 고시",
+          "일반 교육기록 법정 보존기간 미확정"
+        ],
+        "v3Status": "기존 후보 유지; 실행 구현 미완료",
+        "v4Implementation": "v3 상태 유지",
+        "realLegalReview": "미완료"
+      },
+      "v6Implementation": "독립 실행·source-backed 후보·수동 버전·독립 합성 사실 검토·기존 검토/일반 Markdown export",
+      "v6Tested": true
+    },
+    {
+      "id": "training.supervisor",
+      "group": "training",
+      "label": "산업안전보건 교육",
+      "previousGroup": {
+        "group": "training",
+        "label": "산업안전보건 교육",
+        "duties": [
+          "periodic",
+          "recruitment",
+          "work_change",
+          "special",
+          "supervisor"
+        ],
+        "elements": [
+          "익명 대상자",
+          "교육 종류·기간",
+          "시간·내용",
+          "강사·형태",
+          "면제·감경·간주 방향"
+        ],
+        "insufficient": [
+          "출석명단 단독",
+          "참고양식 미사용"
+        ],
+        "gaps": [
+          "기준일 교육시간·내용 별표 및 고시",
+          "일반 교육기록 법정 보존기간 미확정"
+        ],
+        "version": "candidate-v2",
+        "status": "candidate",
+        "enabled": false,
+        "alternativePaths": [
+          "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+          "적용 요건에 맞는 전자기록",
+          "필요한 범위의 현장 확인"
+        ],
+        "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+        "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+      },
+      "selected": false,
+      "implementation": "기존 후보 유지; 실행 구현 미완료",
+      "officialSources": [],
+      "automaticTests": [],
+      "legalProfile": "실제 해석 승인 대기; 합성 profile만 시험",
+      "expertApproval": "미승인",
+      "realSite": "미검증",
+      "enabled": false,
+      "remaining": [
+        "실제 대상·자료·권한자 확인",
+        "예외·기간·방식별 법적 충분성 전문가 검토",
+        "기타 특례의 보류 분기"
+      ],
+      "v3Status": "기존 후보 유지; 실행 구현 미완료",
+      "v4Implementation": "v3 상태 유지",
+      "realLegalReview": "미완료",
+      "previous": {
+        "id": "training.supervisor",
+        "group": "training",
+        "label": "산업안전보건 교육",
+        "previousGroup": {
+          "group": "training",
+          "label": "산업안전보건 교육",
+          "duties": [
+            "periodic",
+            "recruitment",
+            "work_change",
+            "special",
+            "supervisor"
+          ],
+          "elements": [
+            "익명 대상자",
+            "교육 종류·기간",
+            "시간·내용",
+            "강사·형태",
+            "면제·감경·간주 방향"
+          ],
+          "insufficient": [
+            "출석명단 단독",
+            "참고양식 미사용"
+          ],
+          "gaps": [
+            "기준일 교육시간·내용 별표 및 고시",
+            "일반 교육기록 법정 보존기간 미확정"
+          ],
+          "version": "candidate-v2",
+          "status": "candidate",
+          "enabled": false,
+          "alternativePaths": [
+            "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+            "적용 요건에 맞는 전자기록",
+            "필요한 범위의 현장 확인"
+          ],
+          "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+          "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+        },
+        "selected": false,
+        "implementation": "기존 후보 유지; 실행 구현 미완료",
+        "officialSources": [],
+        "automaticTests": [],
+        "legalProfile": "실제 해석 승인 대기; 합성 profile만 시험",
+        "expertApproval": "없음",
+        "realSite": "미검증",
+        "enabled": false,
+        "remaining": [
+          "기준일 교육시간·내용 별표 및 고시",
+          "일반 교육기록 법정 보존기간 미확정"
+        ],
+        "v3Status": "기존 후보 유지; 실행 구현 미완료",
+        "v4Implementation": "v3 상태 유지",
+        "realLegalReview": "미완료"
+      },
+      "v6Implementation": "독립 실행·source-backed 후보·수동 버전·독립 합성 사실 검토·기존 검토/일반 Markdown export",
+      "v6Tested": true
+    }
+  ],
+  "refs": [
+    "official/training-annex4-mcp.json",
+    "official/training-annex5-mcp.json",
+    "official/training-26.html",
+    "official/training-27.html",
+    "official/law-training-29.html",
+    "official/reference/v6-adminrule-methods-and-risk-history.json"
+  ],
+  "facts": "익명 대상/사업장·업종/규모·지위·계약·입사/변경·특별작업·출석/강사/방식·예외; source object/original hash와 JSON pointer",
+  "review": "author와 독립 actor를 분리. 원문/수동 version 변경은 검토·export를 보류",
+  "generalEducationFiveYears": "내부 권고와 법정 의무 구별. 법정 5년 위반 규칙 생성 0",
+  "specialOtherExceptions": "경력/반복 일용/복수 조합은 보류; 신규 법적 활성화 없음"
+}

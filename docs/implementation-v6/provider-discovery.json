@@ -1,0 +1,39 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "providers": [
+    {
+      "id": "accident-files",
+      "fields": [
+        "filepath",
+        "filenm",
+        "boardno"
+      ],
+      "boardno": "alphanumeric string / leading zero 보존",
+      "fixedcallApiId": "공식 VO 1070",
+      "link": "accident 목록→boardno→실제 detail capture→정확 file policy",
+      "workerSynthetic": true
+    },
+    {
+      "id": "guide",
+      "fields": [
+        "fileDownloadUrl",
+        "techGdlnOfancYmd"
+      ],
+      "queryDate": "ofancYmd와 응답 날짜 구별",
+      "fixedcallApiId": "공식 VO 1050",
+      "workerSynthetic": true
+    },
+    {
+      "id": "sif",
+      "fields": [],
+      "status": "support_unverified",
+      "reason": "현재 공식 schema에 첨부 필드 없음; 추측 URL 미생성"
+    }
+  ],
+  "callerURLTrusted": false
+}

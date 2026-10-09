@@ -1,5 +1,6 @@
 import { it, expect, vi } from "vitest";
 import { gzipSync } from "node:zlib";
+import { request as httpRequest } from "node:http";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join, resolve, dirname, basename } from "node:path";
 import { tmpdir } from "node:os";
@@ -8,6 +9,73 @@ import { Store } from "../server/store.js";
 import { request, basis, rule } from "./helpers.js";
 import { approveReviewBasis, hasCoverageApproval } from "../server/approval.js";
 import { testStore } from "./helpers.js";
+it("응답 수신 중단 시 작업 완료 전에는 잠금을 유지하고 완료 후에는 저장을 허용한다", async () => {
+  const { store, clean } = testStore();
+  const { app } = await createApp(store, true);
+  let release!: (value: Response) => void;
+  const fetcher = vi.fn(
+    () =>
+      new Promise<Response>((resolve) => {
+        release = resolve;
+      }),
+  );
+  vi.stubGlobal("fetch", fetcher);
+  try {
+    await app.listen({ port: 0, host: "127.0.0.1" });
+    const port = (app.server.address() as { port: number }).port;
+    const b = await app.inject({
+      url: "/api/bootstrap",
+      headers: { host: `127.0.0.1:${port}` },
+    });
+    const headers = {
+      host: `127.0.0.1:${port}`,
+      cookie: `${b.cookies[0].name}=${b.cookies[0].value}`,
+      "x-csrf-token": b.json().csrf,
+    };
+    const req = httpRequest({
+      host: "127.0.0.1",
+      port,
+      path: "/api/public/update",
+      method: "POST",
+      headers,
+    });
+    req.on("error", () => {});
+    req.end();
+    await vi.waitFor(() => expect(fetcher).toHaveBeenCalled());
+    const closed = new Promise<void>((resolve) =>
+      req.once("close", () => resolve()),
+    );
+    req.destroy();
+    await closed;
+    const save = () =>
+      app.inject({
+        method: "POST",
+        url: "/api/public-apis/grievance/key",
+        headers,
+        payload: { key: "syntheticAfterDisconnect" },
+      });
+    expect((await save()).statusCode).toBe(409);
+    release(
+      new Response(
+        new Uint8Array(
+          gzipSync(
+            JSON.stringify({
+              schemaVersion: 1,
+              createdAt: new Date().toISOString(),
+              evidence: [],
+              sources: [],
+            }),
+          ),
+        ),
+      ),
+    );
+    await vi.waitFor(async () => expect((await save()).statusCode).toBe(200));
+  } finally {
+    vi.unstubAllGlobals();
+    await app.close();
+    clean();
+  }
+});
 it("인증 저장소 장애가 자료함·설정 상태 조회를 막지 않는다", async () => {
   const { store, clean } = testStore();
   const { app, vault } = await createApp(store, true);

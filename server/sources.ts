@@ -92,6 +92,13 @@ export function flatten(value: any, path = ""): string {
 export function annexUrls(value: any): string[] {
   const urls: string[] = [];
   function visit(v: any, key = "") {
+    if (Array.isArray(v)) { for (const item of v) visit(item, key); return; }
+    if (typeof v === "string") {
+      for (const match of v.matchAll(/<img\b[^>]*\bsrc\s*=\s*["']([^"']+)["']/gi)) {
+        const link = match[1].replace(/&amp;/g, "&").replace(/^\/flDownload\.do/, "/LSW/flDownload.do");
+        try { const url = publicLawUrl(link); if (/\/flDownload\.do$/.test(new URL(url).pathname)) urls.push(url); } catch {}
+      }
+    }
     if (
       typeof v === "string" &&
       /링크|link|url/i.test(key) &&
@@ -148,7 +155,7 @@ export function normalizeLaw(
   ]
     .filter(Boolean)
     .join("\n\n");
-  if (!title || (!repealed && text.length < 30) || text.length > 1_200_000)
+  if (!title || (!repealed && text.length < 30) || text.length > 7_500_000)
     throw new Error(
       "전문을 확인할 수 없거나 처리 크기를 넘었습니다. 목록 정보만으로 저장하지 않습니다.",
     );
@@ -244,22 +251,31 @@ export class LawConnector {
     }).toString();
     let error: Error = new Error("법제처 요청 실패");
     for (let attempt = 0; attempt < 3; attempt++) {
+      let terminal = false;
       try {
         const r = await this.fetcher(url, {
           signal: AbortSignal.timeout(20000),
           redirect: "error",
         });
-        if (!r.ok) throw new Error("법제처 응답 HTTP " + r.status);
+        if (!r.ok) {
+          await r.body?.cancel();
+          terminal = r.status >= 400 && r.status < 500;
+          throw new Error("법제처 응답 HTTP " + r.status);
+        }
         const text = await r.text();
         if (text.length > 12_000_000) throw new Error("법규 본문 용량 초과");
         parseBody(text);
         return text;
       } catch (e) {
+        const known =
+          e instanceof Error &&
+          /^(법제처 응답 HTTP \d+$|법규 본문 용량 초과$)/.test(e.message);
         error = new Error(
-          e instanceof Error
-            ? e.message.replaceAll(this.oc, "[인증값]")
-            : "수집 실패",
+          known
+            ? (e as Error).message
+            : "법제처 요청·응답 확인 실패. 통신·시간 제한·응답 형식을 확인하세요.",
         );
+        if (terminal) break;
         if (attempt < 2)
           await new Promise((r) => setTimeout(r, 500 * (attempt + 1)));
       }
@@ -270,11 +286,12 @@ export class LawConnector {
     target: string,
     query: string,
     extra: Record<string, string> = {},
+    maxPages = 100,
   ) {
     const records: any[] = [];
     let total = 0;
     const seen = new Set<string>();
-    for (let page = 1; page <= 100; page++) {
+    for (let page = 1; page <= maxPages; page++) {
       const raw = await this.request("lawSearch.do", {
         target,
         query,
@@ -315,12 +332,87 @@ export class LawConnector {
     }
     throw new Error("목록 수집 한도 초과: 범위를 줄여 재시도해야 합니다.");
   }
-  async attachmentText(raw: string, store: Store) {
-    const urls = annexUrls(parseBody(raw));
+  async attachmentText(raw: string, store: Store, evidence?: Evidence,
+    batch: { offset?: number; limit?: number } = {}) {
+    const parsed = parseBody(raw);
+    const urls = annexUrls(parsed);
+    const records: import("../shared/types.js").AnnexRecord[] = [];
+    const titles = new Map<string, string>();
+    const identify = (v: any) => {
+      if (!v || typeof v !== "object") return;
+      const title = v.별표제목 || v.별표제목문자열 || v.별표명 || v.별표서식명 || v.조제목;
+      if (title) for (const url of annexUrls(v)) titles.set(url, String(title));
+      for (const child of Object.values(v)) if (child && typeof child === "object") identify(child);
+    };
+    identify(parsed);
+    let discoveryFailed = false;
+    if (evidence?.kind === "ordinance") {
+      const expected = new Set<string>();
+      const visit = (v: any) => {
+        if (!v || typeof v !== "object") return;
+        for (const [k, value] of Object.entries(v)) {
+          if (k === "별표키" && /^\d+$/.test(String(value)))
+            expected.add(String(value));
+          else if (value && typeof value === "object") visit(value);
+        }
+      };
+      visit(parsed);
+      if (expected.size) {
+        try {
+          const found = new Set<string>();
+          for (let page = 1; page <= 3; page++) {
+            const list = parseBody(
+              await this.request("lawSearch.do", {
+                target: "ordinbyl",
+                type: "JSON",
+                search: "2",
+                query: evidence.title,
+                display: "100",
+                page: String(page),
+              }),
+            );
+            const root = list.licBylSearch;
+            if (!root || !/^\d+$/.test(String(root.totalCnt)))
+              throw new Error("별표 목록 형식 확인 필요");
+            const rows = arr(root.ordinbyl);
+            for (const row of rows) {
+              const cleanTitle = String(row.관련자치법규명 || "")
+                .replace(/<[^>]*>/g, "")
+                .replace(/\s/g, "");
+              const id = String(row.별표일련번호 || "");
+              if (
+                !expected.has(id) ||
+                String(row.관련자치법규일련번호) !== evidence.version ||
+                dateIso(row.자치법규시행일자) !== evidence.effectiveFrom ||
+                cleanTitle !== evidence.title.replace(/\s/g, "")
+              )
+                continue;
+              const link = publicLawUrl(String(row.별표서식파일링크 || ""));
+              if (!/\/flDownload\.do$/.test(new URL(link).pathname)) continue;
+              titles.set(link, String(row.별표명 || "별표·서식 " + id));
+              if (!urls.includes(link)) urls.push(link);
+              found.add(id);
+            }
+            if (page * 100 >= Number(root.totalCnt)) break;
+          }
+          discoveryFailed = [...expected].some((id) => !found.has(id));
+        } catch {
+          discoveryFailed = true;
+        }
+      }
+    }
     const excerpts: string[] = [];
-    let failed = urls.length > 30;
+    const offset = Math.max(0, Math.floor(batch.offset || 0));
+    const limit = Math.min(100, Math.max(1, Math.floor(batch.limit || 30)));
+    let failed = discoveryFailed || offset > 0 || urls.length > offset + limit;
     let remaining = 250000;
-    for (const url of urls.slice(0, 30)) {
+    for (const url of urls.slice(offset, offset + limit)) {
+      const record: import("../shared/types.js").AnnexRecord = {
+        title: titles.get(url) || "별표·서식 원본", url,
+        version: evidence?.version || "", effectiveFrom: evidence?.effectiveFrom || "",
+        fetchedAt: new Date().toISOString(), state: "missing", note: "원본 미확보",
+      };
+      records.push(record);
       try {
         const r = await this.fetcher(url, {
           signal: AbortSignal.timeout(20000),
@@ -343,6 +435,19 @@ export class LawConnector {
           reader.releaseLock();
         }
         const buffer = Buffer.concat(chunks);
+        if (/^\s*(?:<!doctype|<html|<\?xml.*<error)/i.test(buffer.subarray(0, 300).toString("utf8")))
+          throw new Error("첨부파일 대신 오류 문서가 반환되었습니다.");
+        mkdirSync(join(store.dir, "legal-attachments"), { recursive: true });
+        record.originalHash = sha(buffer);
+        record.originalRef = record.originalHash + ".bin";
+        writeFileSync(join(store.dir, "legal-attachments", record.originalRef), buffer);
+        record.state = "extraction_failed";
+        record.note = "원본 확보, 추출문 미확보 또는 형식 확인 필요";
+        if (buffer.subarray(0, 6).toString("ascii").startsWith("GIF8")) {
+          record.note = "이미지형 별표 원본 확보. 텍스트 추출 미지원으로 OCR 및 표·수치 원본 대조 필요";
+          failed = true;
+          continue;
+        }
         const { extractDocument } = await import("./extraction.js");
         const result = await extractDocument(buffer);
         if (!result.success || result.markdown.trim().length < 20)
@@ -352,6 +457,9 @@ export class LawConnector {
           join(store.dir, "legal-attachments", sha(buffer) + ".bin"),
           buffer,
         );
+        record.state = "collected";
+        record.note = "원본·추출문 확보. 표·수치·법적 적용은 원본 대조 전";
+        writeFileSync(join(store.dir, "legal-attachments", record.originalHash + ".txt"), result.markdown);
         const excerpt = result.markdown.slice(0, Math.min(50000, remaining));
         remaining -= excerpt.length;
         if (excerpt)
@@ -362,7 +470,14 @@ export class LawConnector {
         failed = true;
       }
     }
-    return { text: excerpts.join("\n\n"), count: urls.length, failed };
+    if (discoveryFailed || offset > 0 || urls.length > offset + limit) records.push({
+      title: "추가 별표·서식", url: evidence?.url || "", version: evidence?.version || "",
+      effectiveFrom: evidence?.effectiveFrom || "", fetchedAt: new Date().toISOString(),
+      state: "missing", note: discoveryFailed ? "목록·버전 일치 파일 미확보" : `이번 수집 범위 ${offset + 1}~${Math.min(offset + limit, urls.length)} / 전체 ${urls.length}개. 나머지 범위는 이어서 수집 필요`,
+    });
+    if (evidence) evidence.attachments = records;
+    return { text: excerpts.join("\n\n"), count: urls.length, failed,
+      nextOffset: offset + limit < urls.length ? offset + limit : null };
   }
   async collect(
     region: string,
@@ -417,12 +532,12 @@ export class LawConnector {
       const name = sha(raw) + ".json";
       if (target === "eflaw" && e.effectiveFrom.replaceAll("-", "") !== efYd)
         throw new Error("요청한 시행 버전과 응답 본문이 다릅니다.");
-      const attachments = await this.attachmentText(raw, store);
+      const attachments = await this.attachmentText(raw, store, e);
       if (attachments.text) {
         e.text += "\n\n" + attachments.text;
         e.hash = sha(e.text);
       }
-      if (attachments.count) {
+      if (attachments.count || attachments.failed) {
         e.annexesComplete = false;
         e.verificationNote += attachments.failed
           ? " 별표 일부 다운로드·추출 실패."

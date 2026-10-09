@@ -1,0 +1,73 @@
+{
+  "directory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-validation-cv3Swd",
+  "at": "2026-10-08T19:02:20.114Z",
+  "productionTouched": false,
+  "steps": [
+    {
+      "command": "npm run check -- -- --reporter=default --reporter=json --outputFile=work/final-tests.json",
+      "code": 0,
+      "elapsedMs": 44133,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-cv3Swd-check.log"
+    },
+    {
+      "command": "npm run test:e2e",
+      "code": 0,
+      "elapsedMs": 2732,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-cv3Swd-test-e2e.log"
+    },
+    {
+      "command": "npm run test:e2e:intake",
+      "code": 0,
+      "elapsedMs": 1527,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-cv3Swd-test-e2e-intake.log"
+    },
+    {
+      "command": "npm run test:e2e:additional",
+      "code": 0,
+      "elapsedMs": 4018,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-cv3Swd-test-e2e-additional.log"
+    },
+    {
+      "command": "npm run test:e2e:verification",
+      "code": 0,
+      "elapsedMs": 1831,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-cv3Swd-test-e2e-verification.log"
+    },
+    {
+      "command": "npm run test:e2e:dossier",
+      "code": 0,
+      "elapsedMs": 2980,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-cv3Swd-test-e2e-dossier.log"
+    },
+    {
+      "command": "npm run test:e2e:public",
+      "code": 0,
+      "elapsedMs": 22164,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-cv3Swd-test-e2e-public.log"
+    },
+    {
+      "command": "node scripts/e2e-v3.mjs",
+      "code": 0,
+      "elapsedMs": 2412,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-cv3Swd-test-e2e-v3.log"
+    },
+    {
+      "command": "node scripts/e2e-v4.mjs",
+      "code": 0,
+      "elapsedMs": 1443,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-cv3Swd-test-e2e-v4.log"
+    },
+    {
+      "command": "node scripts/e2e-v5.mjs",
+      "code": 0,
+      "elapsedMs": 1288,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-cv3Swd-test-e2e-v5.log"
+    },
+    {
+      "command": "node scripts/e2e-v6.mjs",
+      "code": 0,
+      "elapsedMs": 1602,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-cv3Swd-test-e2e-v6.log"
+    }
+  ]
+}

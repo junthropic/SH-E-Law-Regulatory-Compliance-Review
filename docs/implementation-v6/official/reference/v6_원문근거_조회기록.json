@@ -1,0 +1,257 @@
+{
+  "legalReferenceDate": "2026-10-08",
+  "researchedAt": "2026-10-08T17:24:48.860Z",
+  "scope": "읽기전용 v5 코드검토·공식 공개 자료·MCP·v6 지시문. 앱 구현/시험재실행/운영 아님",
+  "baseline": {
+    "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+    "sourceDigest": "630ad6a52597c544ef16590c4c15c9f0d1e3ad5c7dbe4fbeef50c0c4bb03b005",
+    "testsReported": 404,
+    "browserReported": 9,
+    "frozen": 29,
+    "acceptance": 72,
+    "originalPolicies": 43,
+    "additionalPolicies": 2,
+    "services": 32,
+    "operations": 52,
+    "originalExecutableReported": 12,
+    "originalRemainingReported": 31,
+    "sourceManifestRehashedHere": false,
+    "testsRerunHere": false
+  },
+  "newResearch": {
+    "educationGuide": {
+      "url": "https://www.moel.go.kr/common/downloadFile.do?file_seq=20260701173&bbs_seq=20260700685&bbs_id=29&file_ext=zip",
+      "zipBytes": 3610153,
+      "pdfBytes": 4458061,
+      "pages": 253,
+      "lawCutoff": "2026-07-01",
+      "pdfSHA256": "833666998c09a52db13ed42561514e9d2258104e79836d39e44194aef4fbc45c",
+      "visuallyCheckedPDFPages": [
+        24,
+        38
+      ],
+      "appDownloaderOrParserProof": false
+    },
+    "operationSchemaScreens": [
+      {
+        "stableId": "accident-files:Disaster_attach_api02",
+        "url": "https://www.data.go.kr/data/15121008/openapi.do",
+        "fixedCallApiId": "미확보",
+        "responseExampleClass": "swagger-generated-model-not-independent-response"
+      },
+      {
+        "stableId": "guide:getKoshaGuide",
+        "url": "https://www.data.go.kr/data/15144147/openapi.do",
+        "documentedCallApiId": "1050",
+        "responseExampleClass": "swagger-generated-model-not-independent-response"
+      }
+    ],
+    "riskBoundary": {
+      "before": {
+        "date": "2026-05-31",
+        "mst": "271485",
+        "article": "제37조",
+        "title": "위험성평가 실시내용 및 결과의 기록ㆍ보존"
+      },
+      "after": {
+        "date": "2026-06-01",
+        "mst": "286657",
+        "article": "제37조",
+        "title": "위험성평가의 방법, 절차 및 시기"
+      },
+      "current": {
+        "mst": "288431",
+        "articles": [
+          "제37조",
+          "제37조의2",
+          "제37조의3",
+          "제37조의4"
+        ]
+      },
+      "law36EffectiveFrom": "2026-06-01",
+      "officialAmendmentURL": "https://www.law.go.kr/LSW/lsRvsDocListP.do?lsId=001766&chrClsCd=010102"
+    },
+    "adminRuleFullResponse": {
+      "id": "2100000269024",
+      "declaredFullChars": 85390,
+      "receivedChars": 49942,
+      "complete": false,
+      "separatelyRequestedArticles": [
+        "제2조",
+        "제3조",
+        "제4조",
+        "제5조",
+        "제6조",
+        "제7조",
+        "제9조"
+      ]
+    },
+    "protocolFailuresPreserved": [
+      "lawName만 넣은 get_law_text INVALID_PARAMETER",
+      "jo:부칙 조회 패턴 실패",
+      "Swagger URL textbox가 비어서 fetch URL 오류"
+    ],
+    "evidenceFileHashesAtInitialSnapshot": [
+      {
+        "file": "사용자_v5결과_첨부원문.txt",
+        "bytes": 12477,
+        "sha256": "46d4108afb8e1afa64d123cef55fcf928c4513dea6376f2dd634451f0b17eef1"
+      },
+      {
+        "file": "v5-backup-manifest.json",
+        "bytes": 2049,
+        "sha256": "2c5d9f468ffba353d573691d23fa8b99d0a8421352b43feb4a1e3c0b0b8ce4b0"
+      },
+      {
+        "file": "v5-egress-paths.json",
+        "bytes": 1468,
+        "sha256": "03be385df34a2e5228e36a452c02c60452a685b451ac69e3127c85ec0fc7a07d"
+      },
+      {
+        "file": "v5-metrics.json",
+        "bytes": 958,
+        "sha256": "bb7531a8f54548dc48b98acc0929ce94f394aa5a94edb14000faa7362e408ff1"
+      },
+      {
+        "file": "v5-migration-status.json",
+        "bytes": 719,
+        "sha256": "0902eaba30c2698bbc338f24eaa9ab1d4500fbcd0a183ee646f6324822b74222"
+      },
+      {
+        "file": "v5-policy-contracts.json",
+        "bytes": 95905,
+        "sha256": "51d43e69fcde68483a854ee018432506d8e80859e70d6751e6c71cd738fcb1bd"
+      },
+      {
+        "file": "v5-provider-discovery.json",
+        "bytes": 1894,
+        "sha256": "e81bb50b9fc9e5275f9a539c42c36649e6d2868360b608a38cb54c0e6f017826"
+      },
+      {
+        "file": "v5-release-gate.json",
+        "bytes": 6884,
+        "sha256": "7e29a2a0807621f8390d49709f5ba0cc272c4c863e0ac17ba9f8a0e6121a453c"
+      },
+      {
+        "file": "v5-source-manifest.json",
+        "bytes": 23013,
+        "sha256": "e96e10231adfb3b14a75c2fe9750816242f4b80d3ddf055b2d2699d6683159c4"
+      },
+      {
+        "file": "v6-2026-training-guide.pdf",
+        "bytes": 4458061,
+        "sha256": "833666998c09a52db13ed42561514e9d2258104e79836d39e44194aef4fbc45c"
+      },
+      {
+        "file": "v6-2026-training-guide.zip",
+        "bytes": 3610153,
+        "sha256": "63fc2f6349c402b060482ab06e656b0e8d00d1a69f85acd21771181c8d0ffebf"
+      },
+      {
+        "file": "v6-accident-files-page.txt",
+        "bytes": 15960,
+        "sha256": "5df7eb1972971d27a46a9f78f48b9de4c1c2afd3b7af8257f8d498360eb85595"
+      },
+      {
+        "file": "v6-admin-parts-and-risk-profile.json",
+        "bytes": 7511,
+        "sha256": "b223a5a606e00710f5d2dae2bf7d78b18dedd613e435ceff9b219f4f9598103b"
+      },
+      {
+        "file": "v6-adminrule-methods-and-risk-history.json",
+        "bytes": 11814,
+        "sha256": "ee4177ac6369ea8f7137613c782c9a21c65bc9e933e4f681a429c74339f45c6c"
+      },
+      {
+        "file": "v6-education-adminrule-full.txt",
+        "bytes": 99814,
+        "sha256": "c293c2b991a53f707fec679a10be5ea8378b4d1c80f278ae30f904e90ae6ed71"
+      },
+      {
+        "file": "v6-education-adminrule-search.txt",
+        "bytes": 332,
+        "sha256": "1043e6c61d2a63001c3d99b7a0e94c0522f90064c7e7ffd0cfe79135cafad22f"
+      },
+      {
+        "file": "v6-guide-api-page.txt",
+        "bytes": 17105,
+        "sha256": "65cc5712c081ed33f7fb88c54e5ed7ac058283c3ae9128507d1893e43737b8cd"
+      },
+      {
+        "file": "v6-law-amendments-webfetch.txt",
+        "bytes": 403525,
+        "sha256": "53711dfbdfd477f150d9ea950c9a1c4ee845c08f9cee43a6c76d99a6442b1b58"
+      },
+      {
+        "file": "v6-law-boundary-retry.json",
+        "bytes": 15909,
+        "sha256": "89c90f08fc8c4585ab2353e9cc361d07fc7cc9bb069d105a94ebf45efa50a80c"
+      },
+      {
+        "file": "v6-risk-subarticles.json",
+        "bytes": 8878,
+        "sha256": "98e80127897fb34a11e8136ff09f72503000677cfdca9da2e131adca80579d11"
+      },
+      {
+        "file": "v6-scope-and-records.json",
+        "bytes": 10336,
+        "sha256": "68da5c30e8f93fc6a14885a09f3876a1a04fd2be83c4e14aa97a9ef686f61eb9"
+      },
+      {
+        "file": "v6-training-annexes.json",
+        "bytes": 44336,
+        "sha256": "c2c0c084279bdeea76842a19d4a2dadb2c7221f0aa5d8839f3c6f0fd9f4fb4c0"
+      },
+      {
+        "file": "v6-training-guide-text.json",
+        "bytes": 547358,
+        "sha256": "59c16a8223c202783b72b23f40091b535ad84bac31d531507bf908a69e128872"
+      },
+      {
+        "file": "v6-training-laws.json",
+        "bytes": 17808,
+        "sha256": "4c92229b4799250a35164a04497fe29c3ef29af5ed33d2e6a3244684e0993555"
+      },
+      {
+        "file": "v6-training-supplement.json",
+        "bytes": 19841,
+        "sha256": "003ad955489973e9d73c62f601d33a1c333b2f7f920637992f6e9205479d1102"
+      }
+    ]
+  },
+  "technicalSources": [
+    {
+      "url": "https://nodejs.org/api/permissions.html",
+      "citation": "QCzBiq0Woj8LZeK4jlXws",
+      "claim": "Permission model is not OS sandbox; audit mode not denial; latest flags require runtime capability confirmation"
+    },
+    {
+      "url": "https://nodejs.org/api/tls.html",
+      "citation": "y0O6kt42UPJW7JmmG5r7u",
+      "claim": "SNI/hostname/certificate validation; failure cause not inferred"
+    },
+    {
+      "url": "https://www.sqlite.org/atomiccommit.html",
+      "citation": "Rnf375FFFyBhcZlCdf9Tk",
+      "claim": "DB commit atomicity not whole app external file restore proof"
+    },
+    {
+      "url": "https://www.sqlite.org/rescode.html",
+      "citation": "I-VVhaS3R_izUb6jXmnxH",
+      "claim": "FULL/BUSY/IOERR distinct fault outcomes"
+    }
+  ],
+  "independentLegalApproval": false,
+  "productionReady": false,
+  "appEdited": false,
+  "liveKeyCalls": 0,
+  "safetyReview": {
+    "status": "문제없음",
+    "checks": [
+      "29개동결/shared/동기HTTP/운영키/평문삭제금지",
+      "증거등급분리",
+      "31→26조건부",
+      "로컬/외부권한분리"
+    ]
+  }
+}

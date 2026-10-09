@@ -1,0 +1,110 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "exact": {
+    "documents": "server stored objectHash·originalHash 재대조",
+    "case": "현재 후보 version/hash identity",
+    "review": "현재 review object hash + case/source 부모",
+    "AI": "실제 직렬화 body의 derived node + 알려진 관리 입력·문서 부모",
+    "MCP": "실제 args + context parents, 결과 부모 유지",
+    "export": "현재 review/source/case roots 읽기와 document 목적 검사"
+  },
+  "callerParentsTrusted": false,
+  "unknownExternalPrivateResultComplete": false,
+  "tests": [
+    {
+      "file": "tests/v6-egress.test.ts",
+      "name": "V6-E01: 실제 review call site admission·응답 부모·재사용 철회",
+      "status": "passed",
+      "duration": 303.2813
+    },
+    {
+      "file": "tests/v6-egress.test.ts",
+      "name": "V6-E01: 실제 extract call site admission·응답 부모·재사용 철회",
+      "status": "passed",
+      "duration": 269.25440000000003
+    },
+    {
+      "file": "tests/v6-egress.test.ts",
+      "name": "V6-E02: token 대기 중 cross-process revoke commit 뒤 실제 send는 0회",
+      "status": "passed",
+      "duration": 221.43520000000012
+    },
+    {
+      "file": "tests/v6-egress.test.ts",
+      "name": "V6-E03: 실제 HTTP 응답 스트림 진행 중 부모 철회·취소·결과 재사용 없음",
+      "status": "passed",
+      "duration": 229.4622999999999
+    },
+    {
+      "file": "tests/v6-egress.test.ts",
+      "name": "V6-E04: 이미 등록된 private 자료는 context 누락·잘못된 부모·다른 tenant fallback 거절",
+      "status": "passed",
+      "duration": 32.59460000000013
+    },
+    {
+      "file": "tests/v6-egress.test.ts",
+      "name": "V6-E05: 실제 MCP SDK·stdio peer·admission·결과 부모 자동 연결",
+      "status": "passed",
+      "duration": 133.6052000000002
+    },
+    {
+      "file": "tests/v6-egress.test.ts",
+      "name": "V6-E06: local-read만으로 외부 전송 불가·외부 권한만으로 local-read 불가",
+      "status": "passed",
+      "duration": 30.99889999999982
+    },
+    {
+      "file": "tests/v6-egress.test.ts",
+      "name": "V6-E07: 진행 중 실제 MCP call의 cross-process 철회·취소·결과 부모 미생성",
+      "status": "passed",
+      "duration": 344.47350000000006
+    },
+    {
+      "file": "tests/v6-egress.test.ts",
+      "name": "V6-E08: query 호환 경로에도 알려진 관리 문서 부모는 local-read 검사 유지",
+      "status": "passed",
+      "duration": 27.071800000000167
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-C01: training.periodic 원문→수동 보완→독립 검토→기존 검토·일반 export",
+      "status": "passed",
+      "duration": 174.48360000000002
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-C01: training.recruitment 원문→수동 보완→독립 검토→기존 검토·일반 export",
+      "status": "passed",
+      "duration": 82.01220000000012
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-C01: training.work_change 원문→수동 보완→독립 검토→기존 검토·일반 export",
+      "status": "passed",
+      "duration": 82.96810000000005
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-C01: training.special 원문→수동 보완→독립 검토→기존 검토·일반 export",
+      "status": "passed",
+      "duration": 84.89699999999993
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-C01: training.supervisor 원문→수동 보완→독립 검토→기존 검토·일반 export",
+      "status": "passed",
+      "duration": 91.66349999999989
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-C02: 교체된 문서 버전과 다른 영역은 후보·파생의 부모로 재사용 거절",
+      "status": "passed",
+      "duration": 30.060199999999895
+    }
+  ]
+}

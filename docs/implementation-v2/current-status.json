@@ -1,0 +1,137 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2",
+  "at": "2026-10-08T11:34:53.229Z",
+  "statusVocabulary": [
+    "완료",
+    "부분완료",
+    "미완료",
+    "미검증",
+    "차단",
+    "범위제외"
+  ],
+  "scope": "완료는 대상 칼럼에 적힌 범위에 한함. 도메인/API 정상 상태와 별개인 작업 상태.",
+  "stages": [
+    {
+      "name": "명세",
+      "status": "부분완료",
+      "target": "주 지시·참고자료 채택과 계약 명세",
+      "remaining": "업무별 수치·예외·권한 운영 계약 확정",
+      "owner": "개발자·법률/실무 검토자",
+      "evidence": "README.md",
+      "checkedAt": "2026-10-08T11:34:53.229Z",
+      "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+      "buildId": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2"
+    },
+    {
+      "name": "코드",
+      "status": "부분완료",
+      "target": "v2 모델·게이트·기한·승인·수집 일지·영속 제한",
+      "remaining": "README의 미구현 목록 및 기존 검토 흐름 연결",
+      "owner": "개발자",
+      "evidence": "source-manifest.json",
+      "checkedAt": "2026-10-08T11:34:53.229Z",
+      "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+      "buildId": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2"
+    },
+    {
+      "name": "빌드·정적검사",
+      "status": "완료",
+      "target": "동일 소스 격리 복사본 npm run check",
+      "remaining": "운영 빌드로 배포하지 않음",
+      "owner": "개발자",
+      "evidence": "execution.json",
+      "checkedAt": "2026-10-08T11:34:53.229Z",
+      "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+      "buildId": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2"
+    },
+    {
+      "name": "단위·통합",
+      "status": "완료",
+      "target": "282/282개 시험",
+      "remaining": "기존 48개 인수 전체 충족과 별개",
+      "owner": "개발자",
+      "evidence": "test-inventory.json",
+      "checkedAt": "2026-10-08T11:34:53.229Z",
+      "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+      "buildId": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2"
+    },
+    {
+      "name": "장애·복구",
+      "status": "부분완료",
+      "target": "한도 영속·저장 실패 rollback·재개·손상 복원 차단",
+      "remaining": "전체 operation·실제 프로세스 강제 종료·다중 프로세스 시험",
+      "owner": "개발자",
+      "evidence": "test-inventory.json",
+      "checkedAt": "2026-10-08T11:34:53.229Z",
+      "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+      "buildId": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2"
+    },
+    {
+      "name": "E2E",
+      "status": "완료",
+      "target": "격리 DB·모의 API의 기존 6개 E2E",
+      "remaining": "기관 실제 응답과 신규 v2 역할의 전체 HTTP 흐름은 별도",
+      "owner": "개발자",
+      "evidence": "execution.json",
+      "checkedAt": "2026-10-08T11:34:53.229Z",
+      "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+      "buildId": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2"
+    },
+    {
+      "name": "가상 인수",
+      "status": "부분완료",
+      "target": "설계 golden 9개 및 P0 관련 시험",
+      "remaining": "48개+24개 인수 전체, 독립 holdout",
+      "owner": "개발자·실무 검토자",
+      "evidence": "acceptance-map.json",
+      "checkedAt": "2026-10-08T11:34:53.229Z",
+      "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+      "buildId": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2"
+    },
+    {
+      "name": "실무자 검토",
+      "status": "차단",
+      "target": "운영 승인 0건",
+      "remaining": "분야별 실제 검토자와 검토 기록",
+      "owner": "사업장 담당자·법률/실무 검토자",
+      "evidence": "release-gate.json",
+      "checkedAt": "2026-10-08T11:34:53.229Z",
+      "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+      "buildId": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2"
+    },
+    {
+      "name": "실제 사업장",
+      "status": "차단",
+      "target": "화성시 선택은 실제 사업장 입증이 아님",
+      "remaining": "대상 사업장·시설·기간·자료 제공",
+      "owner": "사업장 담당자",
+      "evidence": "README.md",
+      "checkedAt": "2026-10-08T11:34:53.229Z",
+      "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+      "buildId": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2"
+    },
+    {
+      "name": "운영 배포",
+      "status": "범위제외",
+      "target": "사용자 지시: 승인 없는 운영 배포 금지",
+      "remaining": "필수 검증 후 별도 배포 승인",
+      "owner": "사용자·운영 담당자",
+      "evidence": "release-gate.json",
+      "checkedAt": "2026-10-08T11:34:53.229Z",
+      "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+      "buildId": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2"
+    },
+    {
+      "name": "serving 확인",
+      "status": "부분완료",
+      "target": "기존 HTTP200·등록32·frontend asset 관측",
+      "remaining": "backend 빌드 ID 식별 경로 없음; 이번 변경 미배포",
+      "owner": "개발자",
+      "evidence": "live-observations.json",
+      "checkedAt": "2026-10-08T11:34:53.229Z",
+      "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+      "buildId": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2"
+    }
+  ]
+}

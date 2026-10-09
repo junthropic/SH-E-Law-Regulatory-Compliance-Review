@@ -1,0 +1,5 @@
+
+> sh-e-law-check@0.1.0 test:e2e:public
+> node scripts/e2e-public-apis.mjs
+
+PASS: all 32 check buttons appear only after saving and disappear after deletion/reload; 32 real-request probe paths with synthetic responses and persisted timestamps, replacement/cancellation, group/search filters, QnA detail/import and review, mobile layout. Synthetic responses only.

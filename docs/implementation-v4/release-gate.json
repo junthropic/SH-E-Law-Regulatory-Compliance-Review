@@ -1,0 +1,83 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "dirty": true,
+  "sourceDigest": "dc4b4f2029b66d306253fcb8ca724fcd46e30de2a08e2aeb854fcbbdd0688c83",
+  "at": "2026-10-08T15:04:42.233Z",
+  "runtime": "v26.7.0",
+  "scope": "격리 구현·합성 시험. 실제 사업장·법적 승인·운영 완료 아님",
+  "productionReady": false,
+  "blockers": [
+    {
+      "id": "A-attachments",
+      "status": "미완료",
+      "reason": "보안 downloader 합성 검증. accident/guide/sif·법령 별표 실제 발견→다운로드 자동 연결과 parser/OCR 미완료",
+      "close": "공식 URL/역할/원본 표본 확보 후 provider별 연결·원문 대조"
+    },
+    {
+      "id": "A-schemas",
+      "status": "미검증",
+      "reason": "52 operation 합성 adapter 실행은 완료. operation별 공식 schema/표본·변경·빈응답·quota 전체 조합은 미검증",
+      "close": "실표본·공식 사용조건 확인; 실제 키는 별도 사용자 승인 필요"
+    },
+    {
+      "id": "A-quota",
+      "status": "부분구현",
+      "reason": "각 requestOnce permit 적용. job gate 유지, provider account mapping host 공급 필요. 신규 permit 다중 프로세스 배타 시험 추가; crash/장시간 네트워크 중 fence 시험 미완료",
+      "close": "동일 credential 다른 서비스·MSDS16 실제 공유계정 규칙 검증"
+    },
+    {
+      "id": "A-conditional",
+      "status": "미완료",
+      "reason": "304/range adapter 연결 및 snapshot 변동·복구 실표본 미검증",
+      "close": "공식 conditional 지원·representation/validator 범위 확인"
+    },
+    {
+      "id": "B-egress",
+      "status": "부분구현",
+      "reason": "실제 AI/intake payload·MCP·v4 collection 생성 경로 연결. 전체 파생/export/답변 재사용의 자동 parent 해석·v3 digest 경로 대체 미완료; cross-process 권한 철회 직전 race 잔존",
+      "close": "모든 private 생성 경로의 정확한 entity/version/hash 자동 연결·lease 검증"
+    },
+    {
+      "id": "B-queue",
+      "status": "부분구현",
+      "reason": "v4 queue/raw/unit 암호화·TTL 적용. 기존 v3 평문 큐를 이관/삭제하지 않음; source·case trace 자체 기밀 저장 설계 별도",
+      "close": "운영 승인 후 이관; key rotation/hold/OS ACL 검토"
+    },
+    {
+      "id": "B-backup",
+      "status": "부분구현",
+      "reason": "v4 보호자료 계층 암호화 백업·rollback·복원 전송 거부 검증. v2/v3+v4 전체 원자 복원·작업 paused 복원 통합 미완료",
+      "close": "전체 앱 backup manifest·concurrent restore/crash/junction/ADS/공유원본 복구 시험"
+    },
+    {
+      "id": "C-cases",
+      "status": "부분구현",
+      "reason": "S2/S3/S5 기존 질문·문서→후보·보류 trace 브라우저 확인. A07/A08 raw→정확한 case fact 자동 매핑→독립 승인·문서 전과정은 미완료",
+      "close": "업체/시설/처분기간/계약·능력 원문을 단일 검토 객체에 연결"
+    },
+    {
+      "id": "D-policy",
+      "status": "부분구현",
+      "reason": "다음 6개+추가2개 후보 독립 합성시험. 날짜 profile·하위 참조·별지·효과확인 법적 태그 gate 유지",
+      "close": "원문·시행일·조건·예외·결정 셀 대조 및 실제 권한자 검토"
+    },
+    {
+      "id": "D-next",
+      "status": "미구현",
+      "reason": "교육5→안전관리자6→안전검사5→위험물/환경 잔여는 기존 후보 유지",
+      "close": "우선6의 원문/실무 gate를 닫고 독립 사실·기한식 구현"
+    },
+    {
+      "id": "E-site",
+      "status": "차단",
+      "reason": "실제 사업장 정보·보유자료·독립 전문가 승인이 없음",
+      "close": "사용자가 해당 자료/권한자 검토 제공"
+    },
+    {
+      "id": "E-production",
+      "status": "금지",
+      "reason": "이번 요청에서 운영 접속·키 사용·배포·재시작·활성화 금지",
+      "close": "후속 사용자 명시 지시"
+    }
+  ]
+}

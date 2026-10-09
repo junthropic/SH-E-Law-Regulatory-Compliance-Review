@@ -1,0 +1,14 @@
+35bb3fb327a40501ea9c49b0ea622da2e9bed8fd	2026-10-02T18:06:28+09:00	내 이름	feat: add local evidence-based Korean EHS review application
+77c1cd4f38ec2bae70f8c512c2b6fdf1cf8c6dc3	2026-10-02T18:12:47+09:00	Codex	fix: preserve source links and keep uncertain answers unconfirmed
+94ab46753e852d876d839dbb2548cd0cd19d87a1	2026-10-03T13:14:57+09:00	내 이름	fix: harden legal lifecycle, auth recovery and concurrent operations
+85bffd9ffa4d8791004f8a4011f59061d33be003	2026-10-03T13:38:55+09:00	내 이름	test: align document worker checks with runtime timeout
+00ba678aaf6b8d800f9d54b4d577c58e57474445	2026-10-03T13:59:43+09:00	내 이름	fix: preserve full legal history in compressed public bundles
+9e313cbd92935b73e901d876b79d5a9f97ce1653	2026-10-03T14:08:37+09:00	내 이름	fix: use public version links and flag uncertain API dates
+2042f6c8f46ed20f3c6a27de8a70c8092cc0aa27	2026-10-03T14:12:20+09:00	내 이름	fix: reuse recent source checks without changing verification time
+64e89f812f0884c5b1fbca59ab761e31b8cb9a2e	2026-10-03T14:21:06+09:00	내 이름	fix: validate public data independently of JSON key order
+b1b54b56293b7e4c55c2487591fd836695ad9645	2026-10-03T14:29:24+09:00	내 이름	fix: prioritize applicable statutes and avoid redundant indexing
+1fc79d1436041584837fc0eb1a0b9a34201c8aa7	2026-10-03T14:52:10+09:00	내 이름	chore: add bounded public source connectivity diagnostic
+a89924e1f12fc86164053a7563b4bec20e35135c	2026-10-03T14:56:25+09:00	내 이름	ci: use supported Node 24 action runtimes
+2483ab925798f4e937269ee394e6e7249c177d9f	2026-10-03T06:06:21Z	github-actions[bot]	data: refresh public law snapshots
+fed341c600e4131d70e1b8248eec4230a351f435	2026-10-03T15:16:49+09:00	내 이름	docs: record successful public collection and remaining verification
+e770bdefb32fbb6a010b435f372f2d13c9fb384f	2026-10-03T15:45:32+09:00	내 이름	docs: verify persisted connections and identify official Q&A API

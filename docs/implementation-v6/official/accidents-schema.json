@@ -1,0 +1,440 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "산언안전포털 홈페이지(https://portal.kosha.or.kr)에서 제공 중인 국내재해사례 게시판 정보를 실시간으로 조회하실 수 있도록 제공하는 데이터입니다.\n\n■ API 관련\n- 홈페이지(https://portal.kosha.or.kr/archive/disaster-case/accident-case/acccase-industry/manufac-industry) 에서 게시판 종류 확인이 가능합니다. (제조업/건설업/조선업 등)\n- API는 홈페이지 자료 등록일 역순으로 조회됩니다. \n\n*요청메세지 명세\nServiceKey :공공데이터포털에서 발급받은 인증키\nbusiness :  게시판 종류\nkeyword : 게시판 제목\ncallApiId :국내재해사례 게시판 조회(필수입력 고정값)\npageNo : 페이지번호\nnumOfRows : 한 페이지 결과 수",
+    "version": "1.0.0",
+    "title": "한국산업안전보건공단_국내재해사례 게시판 정보 조회서비스"
+  },
+  "host": "apis.data.go.kr/B552468/disaster_api02",
+  "basePath": "",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/getdisaster_api02": {
+      "get": {
+        "responses": {
+          "10": {
+            "description": "INVALID_REQUEST_PARAMETER_ERROR (잘못된 요청 파라메터 에러)"
+          },
+          "11": {
+            "description": "NO_MANDATORY_REQUEST_PARAMETERS_ERROR (필수요청 파라메터가 없음)"
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "contents": {
+                              "type": "string",
+                              "description": "게시판 내용",
+                              "properties": {}
+                            },
+                            "boardno": {
+                              "type": "integer",
+                              "description": "게시판 번호",
+                              "properties": {}
+                            },
+                            "business": {
+                              "type": "string",
+                              "description": "게시판 종류",
+                              "properties": {}
+                            },
+                            "keyword": {
+                              "type": "string",
+                              "description": "게시판 제목",
+                              "properties": {}
+                            },
+                            "atcflcnt": {
+                              "type": "string",
+                              "description": "게시판 첨부파일 건수",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "numOfRows": {
+                      "type": "integer",
+                      "description": "numOfRows",
+                      "properties": {}
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "전체 결과 수",
+                      "properties": {}
+                    },
+                    "pageNo": {
+                      "type": "integer",
+                      "description": "pageNo",
+                      "properties": {}
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "국내재해사례 게시판 조회",
+        "description": "게시판 번호, 종류, 제목 조건을 이용하여 국내재해사례 게시판의 제목과 내용 정보를 조회하는 기능",
+        "operationId": "getdisaster_api02",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "pageNo",
+          "description": "페이지번호",
+          "type": "integer",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "numOfRows",
+          "description": "한 페이지 결과 수",
+          "type": "integer",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "business",
+          "description": "게시판 종류",
+          "type": "string",
+          "required": false,
+          "in": "query"
+        },
+        {
+          "name": "keyword",
+          "description": "게시판 제목",
+          "type": "string",
+          "required": false,
+          "in": "query"
+        },
+        {
+          "name": "callApiId",
+          "description": "국내재해사례 게시판 조회(필수입력 고정값)",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "getdisaster_api02_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "contents": {
+                      "type": "string",
+                      "description": "게시판 내용"
+                    },
+                    "boardno": {
+                      "type": "integer",
+                      "description": "게시판 번호"
+                    },
+                    "business": {
+                      "type": "string",
+                      "description": "게시판 종류"
+                    },
+                    "keyword": {
+                      "type": "string",
+                      "description": "게시판 제목"
+                    },
+                    "atcflcnt": {
+                      "type": "string",
+                      "description": "게시판 첨부파일 건수"
+                    }
+                  }
+                }
+              }
+            },
+            "numOfRows": {
+              "type": "integer",
+              "description": "numOfRows"
+            },
+            "totalCount": {
+              "type": "integer",
+              "description": "전체 결과 수"
+            },
+            "pageNo": {
+              "type": "integer",
+              "description": "pageNo"
+            }
+          }
+        }
+      }
+    }
+  },
+  "swaggerOprtinVOs": [
+    {
+      "oprtinUrl": "https://portal.kosha.or.kr/openapi/v1/koshagw",
+      "oprtinNm": "국내재해사례 게시판 조회",
+      "oprtinDc": "게시판 번호, 종류, 제목 조건을 이용하여 국내재해사례 게시판의 제목과 내용 정보를 조회하는 기능",
+      "gwSvcNm": "getdisaster_api02",
+      "operationId": "getdisaster_api02",
+      "publicDataTyDetailCode": "PRDE02",
+      "reqList": [
+        {
+          "paramtrNm": "serviceKey",
+          "paramtrDc": "공공데이터포털에서 받은 인증키",
+          "paramtrBassValue": "-",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "pageNo",
+          "paramtrDc": "페이지번호",
+          "paramtrBassValue": "1",
+          "paramtrTy": "integer",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "numOfRows",
+          "paramtrDc": "한 페이지 결과 수",
+          "paramtrBassValue": "10",
+          "paramtrTy": "integer",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "business",
+          "paramtrDc": "게시판 종류",
+          "paramtrBassValue": "제조업",
+          "paramtrTy": "string",
+          "paramtrDivision": "옵션",
+          "ck": true
+        },
+        {
+          "paramtrNm": "keyword",
+          "paramtrDc": "게시판 제목",
+          "paramtrBassValue": "지게차",
+          "paramtrTy": "string",
+          "paramtrDivision": "옵션",
+          "ck": true
+        },
+        {
+          "paramtrNm": "callApiId",
+          "paramtrDc": "국내재해사례 게시판 조회(필수입력 고정값)",
+          "paramtrBassValue": "1060",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        }
+      ],
+      "resList": [
+        {
+          "paramtrNm": "header",
+          "paramtrDc": "header",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/header",
+          "subDefNm": "header",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "resultCode",
+              "paramtrDc": "결과코드",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "resultMsg",
+              "paramtrDc": "결과메세지",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        },
+        {
+          "paramtrNm": "body",
+          "paramtrDc": "body",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/body",
+          "subDefNm": "body",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "items",
+              "paramtrDc": "items",
+              "arrayYn": "N",
+              "paramtrDefNm": "#/definitions/items",
+              "subDefNm": "items",
+              "paramtrTy": "object",
+              "paramtrDivision": "필수",
+              "ck": true,
+              "subParam": [
+                {
+                  "paramtrNm": "item",
+                  "paramtrDc": "item",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "#/definitions/item",
+                  "subDefNm": "item",
+                  "paramtrTy": "object",
+                  "paramtrDivision": "필수",
+                  "ck": true,
+                  "subParam": [
+                    {
+                      "paramtrNm": "contents",
+                      "paramtrDc": "게시판 내용",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "boardno",
+                      "paramtrDc": "게시판 번호",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "integer",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "business",
+                      "paramtrDc": "게시판 종류",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "keyword",
+                      "paramtrDc": "게시판 제목",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "atcflcnt",
+                      "paramtrDc": "게시판 첨부파일 건수",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "paramtrNm": "numOfRows",
+              "paramtrDc": "numOfRows",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "integer",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "totalCount",
+              "paramtrDc": "전체 결과 수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "integer",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "pageNo",
+              "paramtrDc": "pageNo",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "integer",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

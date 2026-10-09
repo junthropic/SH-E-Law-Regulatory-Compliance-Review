@@ -1,0 +1,182 @@
+
+> sh-e-law-check@0.1.0 check
+> npm run build && npm test -- --reporter=default --reporter=json --outputFile=work/final-tests.json
+
+
+> sh-e-law-check@0.1.0 build
+> tsc --noEmit && tsc -p tsconfig.server.json && vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 1996 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.43 kB │ gzip:   0.33 kB
+dist/assets/index-DiiLZ3H5.css   25.47 kB │ gzip:   5.75 kB
+dist/assets/index-BivsNquf.js   430.85 kB │ gzip: 131.07 kB
+
+✓ built in 401ms
+
+> sh-e-law-check@0.1.0 test
+> vitest run --reporter=default --reporter=json --outputFile=work/final-tests.json
+
+
+ RUN  v5.0.3 C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-PSM8Yy
+
+ ✓ tests/v2-golden.test.ts (13 tests) 712ms
+ ✓ tests/ai-auth.test.ts (18 tests) 744ms
+   ✓ 원격 세션 종료 실패도 로컬 로그아웃을 완료하고 미확인을 알린다 326ms
+ ✓ tests/v4-runtime.test.ts (27 tests) 853ms
+ ✓ tests/v6-egress.test.ts (6 tests) 1225ms
+   ✓ V6-E01: 실제 review call site admission·응답 부모·재사용 철회 302ms
+ ✓ tests/v4-operation-matrix.test.ts (1 test) 529ms
+   ✓ V4-A08: 기존 52 operation 모두 실제 adapter 경유 합성 응답·capture 대조; 공식 specimen 검증은 별도 528ms
+ ✓ tests/mcp-vault.test.ts (2 tests) 1605ms
+   ✓ 설치한 고정 버전 MCP 서버와 연결하고 도구 목록을 조회한다 715ms
+   ✓ Windows DPAPI로 보호한 시험 값을 숨김 프로세스에서 왕복 처리한다 888ms
+ ✓ tests/v3-policies.test.ts (13 tests) 520ms
+ ✓ tests/petitions-documents.test.ts (6 tests) 1562ms
+   ✓ 손상된 문서는 추출 프로세스만 실패하고 다른 업로드는 정상 처리한다 1018ms
+   ✓ DOCX에서 한국어와 수량을 추출한다 375ms
+ ✓ tests/v5-process.test.ts (3 tests) 1720ms
+   ✓ V5-B04: 다른 프로세스의 revoke commit 이전·이후 admission과 취소 순서 328ms
+   ✓ V5-B05: 실제 복원 프로세스 중단 뒤 공개 세대는 없고 잠금 복구 후 재복원 1094ms
+ ✓ tests/v4-workflow.test.ts (18 tests) 930ms
+ ✓ tests/v3-collection.test.ts (3 tests) 1236ms
+   ✓ V3-F01/S2: 실제 worker·기존 façade는 느린 조회 중 다른 저장을 막지 않고 완료 결과를 재조회한다 1098ms
+ ✓ tests/store.test.ts (11 tests) 355ms
+ ✓ tests/v6-workflow.test.ts (11 tests) 1578ms
+   ✓ V6-A01: 격리 관리 route가 보존 공식 페이지→download→암호화→실제 파서를 호출 851ms
+ ✓ tests/public-bundle.test.ts (6 tests) 134ms
+ ✓ tests/compliance-v2.test.ts (11 tests) 526ms
+ ✓ tests/collection-hardening.test.ts (10 tests) 212ms
+ ✓ tests/v3-runtime.test.ts (17 tests) 2468ms
+   ✓ V3-J05: 응답 없는 transport도 총 시간 예산으로 끝난다 1037ms
+   ✓ V3-J07: 실제 두 독립 프로세스의 동시 claim은 한 worker만 획득한다 406ms
+   ✓ V3-J08: 실제 두 프로세스는 다른 작업에서도 provider/key 호출 lease를 공유한다 448ms
+   ✓ V3-J09: 프로세스 비정상 종료 뒤 마지막 저장 checkpoint에서 재개한다 416ms
+ ✓ tests/collection-v2.test.ts (4 tests) 131ms
+ ✓ tests/legacy-address.test.ts (1 test) 128ms
+ ✓ tests/sources.test.ts (19 tests) 66ms
+ ✓ tests/app.test.ts (5 tests) 397ms
+ ✓ tests/dossier.test.ts (9 tests) 290ms
+ ✓ tests/public-apis.test.ts (10 tests) 417ms
+ ✓ tests/intake.test.ts (8 tests) 272ms
+ ✓ tests/case-audit.test.ts (16 tests) 145ms
+ ✓ tests/reference-collection.test.ts (7 tests) 251ms
+ ✓ tests/reviews.test.ts (3 tests) 57ms
+ ✓ tests/a07-transport.test.ts (8 tests) 50ms
+ ✓ tests/v4-egress-backup.test.ts (2 tests) 84ms
+ ✓ tests/v6-training.test.ts (31 tests) 26ms
+ ✓ tests/legal.test.ts (21 tests) 10ms
+ ✓ tests/v3-workflow.test.ts (17 tests) 2694ms
+   ✓ V3-B03: 2MiB를 넘는 원본도 별도 HTTP 백업·복원 제한 내 왕복한다 717ms
+   ✓ V3-B04: 실제 복원 프로세스 중단 뒤 일지로 새 원본만 정리하고 재복원한다 544ms
+ ✓ tests/fact-provenance.test.ts (19 tests) 37ms
+ ✓ tests/result-language.test.ts (2 tests) 6ms
+ ✓ tests/verification.test.ts (8 tests) 28ms
+ ✓ tests/additional-apis.test.ts (34 tests) 111ms
+ ✓ tests/v5-runtime.test.ts (21 tests) 6559ms
+   ✓ V5-A01: 공식 form5 발견·암호 원문·실제 격리 파서 연결 738ms
+   ✓ V5-A01: 공식 notice 발견·암호 원문·실제 격리 파서 연결 626ms
+   ✓ V5-A03: 위험 압축 항목 ../escape.xml를 파서 진입 전 거절 393ms
+   ✓ V5-A03: 위험 압축 항목 C:stream.xml를 파서 진입 전 거절 367ms
+   ✓ V5-A03: 위험 압축 항목 Contents/payload.zip를 파서 진입 전 거절 396ms
+   ✓ V5-B01: 같은 snapshot 통합 백업→세대 복원·원본·작업 중지·전송 거부·현재 승인 무효 773ms
+   ✓ V5-B02: 미분류 자원은 통합 완료로 바꾸지 않고 복원 대상 덮어쓰기 금지 2709ms
+ ✓ tests/public-api-probes.test.ts (31 tests) 8136ms
+   ✓ waste-companies: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다 4010ms
+   ✓ waste-sanctions: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다 4014ms
+ ❯ tests/v6-restore.test.ts (41 tests | 6 failed) 92332ms
+   ✓ V6-B01: stage_write 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원 68ms
+   ✓ V6-B01: stage_write 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원 59ms
+   ✓ V6-B01: stage_write 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원 57ms
+   ✓ V6-B01: stage_write 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원 59ms
+   ✓ V6-B01: legacy_restored 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원 92ms
+   ✓ V6-B01: legacy_restored 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원 87ms
+   ✓ V6-B01: legacy_restored 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원 86ms
+   ✓ V6-B01: legacy_restored 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원 84ms
+   ✓ V6-B01: protected_restored 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원 86ms
+   ✓ V6-B01: protected_restored 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원 86ms
+   ✓ V6-B01: protected_restored 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원 86ms
+   ✓ V6-B01: protected_restored 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원 85ms
+   ✓ V6-B01: manifest_validate 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원 87ms
+   ✓ V6-B01: manifest_validate 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원 86ms
+   ✓ V6-B01: manifest_validate 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원 89ms
+   ✓ V6-B01: manifest_validate 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원 87ms
+   ✓ V6-B01: db_flush 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원 88ms
+   ✓ V6-B01: db_flush 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원 88ms
+   ✓ V6-B01: db_flush 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원 86ms
+   ✓ V6-B01: db_flush 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원 87ms
+   ✓ V6-B01: pointer_write 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원 86ms
+   ✓ V6-B01: pointer_write 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원 86ms
+   ✓ V6-B01: pointer_write 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원 88ms
+   ✓ V6-B01: pointer_write 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원 87ms
+   ✓ V6-B01: pointer_flush 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원 87ms
+   ✓ V6-B01: pointer_flush 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원 87ms
+   ✓ V6-B01: pointer_flush 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원 88ms
+   ✓ V6-B01: pointer_flush 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원 87ms
+   ✓ V6-B01: pointer_rename 단계 ENOSPC 주입 시 공개 포인터 없음·잠금 정리·재복원 88ms
+   ✓ V6-B01: pointer_rename 단계 EACCES 주입 시 공개 포인터 없음·잠금 정리·재복원 88ms
+   ✓ V6-B01: pointer_rename 단계 EPERM 주입 시 공개 포인터 없음·잠금 정리·재복원 86ms
+   ✓ V6-B01: pointer_rename 단계 EIO 주입 시 공개 포인터 없음·잠금 정리·재복원 87ms
+   × V6-B02: 이미 공개된 유효 세대는 다른 archive 실패로 교체되지 않음 30037ms
+   ✓ V6-B03: 백업 snapshot_begin 실패에도 운영 대상 아닌 원본·DB를 그대로 보존 17ms
+   ✓ V6-B03: 백업 snapshot_captured 실패에도 운영 대상 아닌 원본·DB를 그대로 보존 93ms
+   ✓ V6-B03: 백업 manifest_build 실패에도 운영 대상 아닌 원본·DB를 그대로 보존 4906ms
+   × V6-B04: snapshot 이후 원본 replace는 hash 대조 실패로 보류 5015ms
+   × V6-B04: snapshot 이후 원본 delete는 hash 대조 실패로 보류 5023ms
+   × V6-B05: archive 잘림·키버전·다른 영역·살아있는 잠금과 ADS 경로 거부 5046ms
+   × V6-B06: 암호 봉투가 정상이어도 manifest의 참조·길이 변경은 거부 5020ms
+   × V6-B07: 부모 누락은 복원 공개 이전에 실패 5056ms
+
+ Test Files  1 failed | 38 passed (39)
+      Tests  6 failed | 487 passed (493)
+   Start at  03:18:31
+   Duration  93.15s (tests 85%, import 12%, transform 3%)
+
+JSON report written to C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-PSM8Yy/work/final-tests.json
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/v6-restore.test.ts > V6-B02: 이미 공개된 유효 세대는 다른 archive 실패로 교체되지 않음
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/v6-restore.test.ts:24:1
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  tests/v6-restore.test.ts > V6-B04: snapshot 이후 원본 replace는 hash 대조 실패로 보류
+ FAIL  tests/v6-restore.test.ts > V6-B04: snapshot 이후 원본 delete는 hash 대조 실패로 보류
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/v6-restore.test.ts:26:30
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  tests/v6-restore.test.ts > V6-B05: archive 잘림·키버전·다른 영역·살아있는 잠금과 ADS 경로 거부
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/v6-restore.test.ts:29:1
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  tests/v6-restore.test.ts > V6-B06: 암호 봉투가 정상이어도 manifest의 참조·길이 변경은 거부
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/v6-restore.test.ts:33:1
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  tests/v6-restore.test.ts > V6-B07: 부모 누락은 복원 공개 이전에 실패
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/v6-restore.test.ts:34:1
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+

@@ -1,0 +1,238 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "primary": [
+    {
+      "id": "rule-before-37",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=271485&joNo=0037&joBrNo=00&docCls=jo&urlMode=lsScJoRltInfoR",
+      "seq": "271485",
+      "article": "0037",
+      "branch": "00",
+      "status": 200,
+      "hash": "0669c0df49f9462864401abc09af21bbd104f39a593ed90481899b18c0e7cf39",
+      "bytes": 73242,
+      "collectedAt": "2026-10-08T18:19:40.933Z",
+      "articleMarker": false,
+      "threeYearMarker": false,
+      "legalApproved": false
+    },
+    {
+      "id": "rule-june-37",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=286657&joNo=0037&joBrNo=00&docCls=jo&urlMode=lsScJoRltInfoR",
+      "seq": "286657",
+      "article": "0037",
+      "branch": "00",
+      "status": 200,
+      "hash": "69842735be0483839d26e31bccfbe5c6f5210450bfcc2425f632dcbaf18178c6",
+      "bytes": 73242,
+      "collectedAt": "2026-10-08T18:19:42.000Z",
+      "articleMarker": false,
+      "threeYearMarker": false,
+      "legalApproved": false
+    },
+    {
+      "id": "rule-current-37",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=288431&joNo=0037&joBrNo=00&docCls=jo&urlMode=lsScJoRltInfoR",
+      "seq": "288431",
+      "article": "0037",
+      "branch": "00",
+      "status": 200,
+      "hash": "c7343d156cb9f260e77858f22de66a4b9ff72d1e47925384cccb87b490c9f069",
+      "bytes": 77926,
+      "collectedAt": "2026-10-08T18:19:42.533Z",
+      "articleMarker": true,
+      "threeYearMarker": false,
+      "legalApproved": false
+    },
+    {
+      "id": "rule-current-37-2",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=288431&joNo=0037&joBrNo=02&docCls=jo&urlMode=lsScJoRltInfoR",
+      "seq": "288431",
+      "article": "0037",
+      "branch": "02",
+      "status": 200,
+      "hash": "4127e0a8f3d12bf66f3a6e53cfe31029f170e881e7f25da6eec6f36b171fcfc6",
+      "bytes": 75401,
+      "collectedAt": "2026-10-08T18:19:43.128Z",
+      "articleMarker": true,
+      "threeYearMarker": false,
+      "legalApproved": false
+    },
+    {
+      "id": "rule-current-37-3",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=288431&joNo=0037&joBrNo=03&docCls=jo&urlMode=lsScJoRltInfoR",
+      "seq": "288431",
+      "article": "0037",
+      "branch": "03",
+      "status": 200,
+      "hash": "0c227a0d2082f2eeef5c4f3271c08e233495dfdb3363bbd25880ef91566254f7",
+      "bytes": 75088,
+      "collectedAt": "2026-10-08T18:19:43.652Z",
+      "articleMarker": true,
+      "threeYearMarker": false,
+      "legalApproved": false
+    },
+    {
+      "id": "rule-current-37-4",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=288431&joNo=0037&joBrNo=04&docCls=jo&urlMode=lsScJoRltInfoR",
+      "seq": "288431",
+      "article": "0037",
+      "branch": "04",
+      "status": 200,
+      "hash": "49b390cd2f312d3e7968257a105e6d8b372dca56ccf5608b1543da9136c480a5",
+      "bytes": 75429,
+      "collectedAt": "2026-10-08T18:19:44.325Z",
+      "articleMarker": true,
+      "threeYearMarker": true,
+      "legalApproved": false
+    },
+    {
+      "id": "training-26",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=288431&joNo=0026&joBrNo=00&docCls=jo&urlMode=lsScJoRltInfoR",
+      "seq": "288431",
+      "article": "0026",
+      "branch": "00",
+      "status": 200,
+      "hash": "e5a6803cb1368ac0422e2b6b6f3724e09113f9cf1b7054f913df0c08c2051cff",
+      "bytes": 82812,
+      "collectedAt": "2026-10-08T18:19:44.801Z",
+      "articleMarker": true,
+      "threeYearMarker": false,
+      "legalApproved": false
+    },
+    {
+      "id": "training-27",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=288431&joNo=0027&joBrNo=00&docCls=jo&urlMode=lsScJoRltInfoR",
+      "seq": "288431",
+      "article": "0027",
+      "branch": "00",
+      "status": 200,
+      "hash": "20cae9202526b0acb1128a49ba359d877035fbd1dd2f32eb4dcae09c872da99b",
+      "bytes": 88984,
+      "collectedAt": "2026-10-08T18:19:47.404Z",
+      "articleMarker": true,
+      "threeYearMarker": false,
+      "legalApproved": false
+    },
+    {
+      "id": "law-training-29",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=283449&joNo=0029&joBrNo=00&docCls=jo&urlMode=lsScJoRltInfoR",
+      "seq": "283449",
+      "article": "0029",
+      "branch": "00",
+      "status": 200,
+      "hash": "c86e0fa995aef6d194488682da55c1b9bc1c5d18c8ed3caf13cbed49dd008471",
+      "bytes": 76447,
+      "collectedAt": "2026-10-08T18:19:47.992Z",
+      "articleMarker": true,
+      "threeYearMarker": false,
+      "legalApproved": false
+    }
+  ],
+  "publicMCP": [
+    {
+      "id": "historical-rule-37",
+      "tool": "get_law_text",
+      "args": {
+        "mst": "271485",
+        "jo": "제37조",
+        "efYd": "20260531"
+      },
+      "at": "2026-10-08T18:21:07.842Z",
+      "hash": "9ca2efc8454d91edb8d0226debbdfde81cf5111746e65414fcf124c9a4738646",
+      "bytes": 1214,
+      "isError": false,
+      "containsArticle": true,
+      "containsThreeYears": true,
+      "reportedMST": "271485",
+      "legalApproval": false,
+      "endpoint": "https://mcp.gomdori.app/law"
+    },
+    {
+      "id": "june-rule-37",
+      "tool": "get_law_text",
+      "args": {
+        "mst": "286657",
+        "jo": "제37조",
+        "efYd": "20260601"
+      },
+      "at": "2026-10-08T18:21:08.411Z",
+      "hash": "34a54f85e0db332fab2935d1a80237baf2022a7c468e7039104a8c1dc71f8bcb",
+      "bytes": 1814,
+      "isError": false,
+      "containsArticle": true,
+      "containsThreeYears": false,
+      "reportedMST": null,
+      "legalApproval": false,
+      "endpoint": "https://mcp.gomdori.app/law"
+    },
+    {
+      "id": "training-annex4",
+      "tool": "get_annexes",
+      "args": {
+        "lawName": "산업안전보건법 시행규칙",
+        "annexNo": "4",
+        "date": "2026-10-08"
+      },
+      "at": "2026-10-08T18:21:21.326Z",
+      "hash": "24ad52304f9655cb3e4156f6dba743560d56dfa9300460e93d8edca45dbbe70b",
+      "bytes": 6787,
+      "isError": false,
+      "containsArticle": false,
+      "containsThreeYears": false,
+      "reportedMST": "288431",
+      "legalApproval": false,
+      "endpoint": "https://mcp.gomdori.app/law"
+    },
+    {
+      "id": "training-annex5",
+      "tool": "get_annexes",
+      "args": {
+        "lawName": "산업안전보건법 시행규칙",
+        "annexNo": "5",
+        "date": "2026-10-08"
+      },
+      "at": "2026-10-08T18:21:24.109Z",
+      "hash": "da4a9bbb3343ba4495bdb600ea947d3c6653cb66f6dfed7eb4dca7f677c5b563",
+      "bytes": 37593,
+      "isError": false,
+      "containsArticle": false,
+      "containsThreeYears": false,
+      "reportedMST": "288431",
+      "legalApproval": false,
+      "endpoint": "https://mcp.gomdori.app/law"
+    }
+  ],
+  "historical": {
+    "previousFailureRetained": true,
+    "newSuccess": "MST271485·20260531·제37조·3년: efYd 보정 성공",
+    "directSideInfoHistoricalStillMissing": true
+  },
+  "riskDates": {
+    "obligationFirst": "2026-06-01",
+    "currentVersion": "2026-08-01",
+    "application": "시행 후 실시하는 평가부터",
+    "annual": "최초평가 연도의 다음 연도부터",
+    "draft2026461": "행정예고만 확인, 활성화 금지",
+    "followUpPublicationAbsenceProven": false
+  },
+  "trainingGuide": {
+    "hash": "833666998c09a52db13ed42561514e9d2258104e79836d39e44194aef4fbc45c",
+    "asOf": "2026-07-01",
+    "pagesVisuallyChecked": [
+      130,
+      131
+    ],
+    "printedPages": [
+      126,
+      127
+    ],
+    "generalFiveYearsStatutory": false
+  },
+  "wasteFormConflict": "제17조 인용/현행 제18조 경로 보류·음수 자동보정 금지 유지",
+  "expertApproved": false
+}

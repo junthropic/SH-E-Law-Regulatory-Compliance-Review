@@ -1,0 +1,2488 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "dirty": true,
+  "sourceDigest": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2",
+  "at": "2026-10-08T11:34:53.229Z",
+  "services": 32,
+  "operations": 52,
+  "entries": [
+    {
+      "id": "qna",
+      "code": "S01",
+      "name": "국민권익위원회 민원정책 질의응답",
+      "url": "https://www.data.go.kr/data/15074671/openapi.do",
+      "purpose": "개별 질의응답입니다. 회신 당시 법령·사실관계와 현재 사업장을 대조해야 합니다.",
+      "group": "legal",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-qna (value excluded)",
+      "agency": "국민권익위원회",
+      "inputs": [
+        [
+          "1",
+          "제목"
+        ],
+        [
+          "2",
+          "내용"
+        ]
+      ],
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/1140100/CivilPolicyQnaService/PolicyQnaList",
+          "protocol": "https:",
+          "operation": "PolicyQnaList",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "qna",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:51.925Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/1140100/CivilPolicyQnaService/PolicyQnaItem",
+          "protocol": "https:",
+          "operation": "PolicyQnaItem",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "qna",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:51.925Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fire",
+      "code": "S02",
+      "name": "소방청 국가 위험물 정보",
+      "url": "https://www.data.go.kr/data/15061055/openapi.do",
+      "purpose": "물질 참고정보입니다. 실제 제품의 성분·농도와 지정수량·조례를 별도로 확인해야 합니다.",
+      "group": "chemicals",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-fire (value excluded)",
+      "agency": "소방청",
+      "inputs": [
+        [
+          "cas",
+          "CAS 번호 상세"
+        ],
+        [
+          "list",
+          "전체 목록"
+        ]
+      ],
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/1661000/materialInfoSvc/getMaterialList",
+          "protocol": "https:",
+          "operation": "getMaterialList",
+          "keyParameter": "ServiceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "fire",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:56.581Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/1661000/materialInfoSvc/getMaterialInfo",
+          "protocol": "https:",
+          "operation": "getMaterialInfo",
+          "keyParameter": "ServiceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "fire",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:56.581Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "msds",
+      "code": "S03",
+      "name": "안전보건공단 물질안전보건자료",
+      "url": "https://www.data.go.kr/data/15157612/openapi.do",
+      "purpose": "공단 참고자료이며 공급자가 제공하는 제품별 SDS를 대체하지 않습니다. 상세 조회는 16개 항목을 요청합니다.",
+      "group": "chemicals",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-msds (value excluded)",
+      "agency": "한국산업안전보건공단",
+      "inputs": [
+        [
+          "0",
+          "국문명"
+        ],
+        [
+          "1",
+          "CAS 번호"
+        ],
+        [
+          "2",
+          "UN 번호"
+        ],
+        [
+          "3",
+          "KE 번호"
+        ],
+        [
+          "4",
+          "EN 번호"
+        ]
+      ],
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemList001",
+          "protocol": "https:",
+          "operation": "getChemList001",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail011",
+          "protocol": "https:",
+          "operation": "getChemDetail011",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail021",
+          "protocol": "https:",
+          "operation": "getChemDetail021",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail031",
+          "protocol": "https:",
+          "operation": "getChemDetail031",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail041",
+          "protocol": "https:",
+          "operation": "getChemDetail041",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail051",
+          "protocol": "https:",
+          "operation": "getChemDetail051",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail061",
+          "protocol": "https:",
+          "operation": "getChemDetail061",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail071",
+          "protocol": "https:",
+          "operation": "getChemDetail071",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail081",
+          "protocol": "https:",
+          "operation": "getChemDetail081",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail091",
+          "protocol": "https:",
+          "operation": "getChemDetail091",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail101",
+          "protocol": "https:",
+          "operation": "getChemDetail101",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail111",
+          "protocol": "https:",
+          "operation": "getChemDetail111",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail121",
+          "protocol": "https:",
+          "operation": "getChemDetail121",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail131",
+          "protocol": "https:",
+          "operation": "getChemDetail131",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail141",
+          "protocol": "https:",
+          "operation": "getChemDetail141",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail151",
+          "protocol": "https:",
+          "operation": "getChemDetail151",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail161",
+          "protocol": "https:",
+          "operation": "getChemDetail161",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "msds",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:46:58.378Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "smart",
+      "code": "S04",
+      "name": "안전보건법령 스마트검색",
+      "url": "https://www.data.go.kr/data/15123696/openapi.do",
+      "purpose": "검색 결과는 원문 대조가 필요한 후보 자료입니다. 전체 검색은 분류별 10건씩 표시합니다. 법제처 원문·시행일·별표·부칙 검증은 별도로 필요합니다.",
+      "group": "legal",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-smart (value excluded)",
+      "agency": "한국산업안전보건공단",
+      "inputs": [
+        [
+          "0",
+          "전체"
+        ],
+        [
+          "1",
+          "법률"
+        ],
+        [
+          "2",
+          "시행령"
+        ],
+        [
+          "3",
+          "시행규칙"
+        ],
+        [
+          "4",
+          "안전보건기준 규칙"
+        ],
+        [
+          "5",
+          "고시·훈령·예규"
+        ],
+        [
+          "6",
+          "미디어"
+        ],
+        [
+          "7",
+          "KOSHA GUIDE"
+        ],
+        [
+          "8",
+          "중대재해처벌법"
+        ],
+        [
+          "9",
+          "중대재해처벌법 시행령"
+        ],
+        [
+          "11",
+          "유해·위험작업 취업 제한 규칙"
+        ]
+      ],
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/srch/smartSearch",
+          "protocol": "https:",
+          "operation": "smartSearch",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "smart",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:51:03.218Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "keco",
+      "code": "S05",
+      "name": "한국환경공단 화학물질 정보",
+      "url": "https://www.data.go.kr/data/15149420/openapi.do",
+      "purpose": "지정 유형·함량·예외·고시일을 함께 보존합니다. 실제 제품 조성과 검토 기준일의 고시를 대조해야 합니다.",
+      "group": "chemicals",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-keco (value excluded)",
+      "agency": "한국환경공단",
+      "inputs": [
+        [
+          "1",
+          "영문명"
+        ],
+        [
+          "2",
+          "CAS 번호"
+        ],
+        [
+          "3",
+          "고유번호"
+        ]
+      ],
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552584/kecoapi/ncissbstn/chemSbstnList",
+          "protocol": "https:",
+          "operation": "chemSbstnList",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "keco",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:51:04.981Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "guide",
+      "code": "S06",
+      "name": "안전보건공단 기술지원규정 — KOSHA GUIDE",
+      "url": "https://www.data.go.kr/data/15144147/openapi.do",
+      "purpose": "기술지침 목록과 원문 링크를 조회합니다. 본문은 원문을 내려받아 자료함에 추가하세요. 법적 의무와 구별하여 검토합니다.",
+      "group": "legal",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-guide (value excluded)",
+      "agency": "한국산업안전보건공단",
+      "inputs": [
+        [
+          "name",
+          "규정명"
+        ],
+        [
+          "number",
+          "규정번호"
+        ]
+      ],
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/koshaguide/getKoshaGuide",
+          "protocol": "https:",
+          "operation": "getKoshaGuide",
+          "keyParameter": "serviceKey",
+          "adapter": "server/public-apis.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "guide",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T10:51:07.454Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grievance",
+      "code": "A01",
+      "name": "국민권익위원회_고충민원 결정례 조회 서비스",
+      "url": "https://www.data.go.kr/data/15102383/openapi.do",
+      "purpose": "인허가·행정처분 관련 결정례 검색",
+      "group": "legal",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-grievance (value excluded)",
+      "agency": "국민권익위원회",
+      "inputs": {
+        "keywordParam": "search",
+        "keywordLabel": "검색어",
+        "placeholder": "예: 위험물",
+        "fields": [
+          {
+            "name": "reqFrom",
+            "label": "조회 시작일",
+            "kind": "date",
+            "required": true
+          },
+          {
+            "name": "reqTo",
+            "label": "조회 종료일",
+            "kind": "date",
+            "required": true
+          }
+        ],
+        "note": "결정 당시 법령·사실관계와 현재 사업장을 대조하세요. 기간 조건에 포함된 결정례만 조회합니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/1140100/ApiDiciService/selectApiDiciList",
+          "protocol": "https:",
+          "operation": "selectApiDiciList",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "grievance",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T16:32:46.11Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/1140100/ApiDiciService/selectApiDiciDetail",
+          "protocol": "https:",
+          "operation": "selectApiDiciDetail",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "grievance",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T16:32:46.11Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ghs",
+      "code": "A02",
+      "name": "한국환경공단_유독물GHS 정보 조회 서비스",
+      "url": "https://www.data.go.kr/data/15149423/openapi.do",
+      "purpose": "CAS 기준 유해성 분류·신호어·표지 정보 대조",
+      "group": "chemicals",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-ghs (value excluded)",
+      "agency": "한국환경공단",
+      "inputs": {
+        "keywordParam": "searchNm",
+        "keywordLabel": "물질 검색어",
+        "required": true,
+        "placeholder": "예: 71-43-2",
+        "fields": [
+          {
+            "name": "searchGubun",
+            "label": "물질 검색 구분",
+            "required": true,
+            "initial": "2",
+            "options": [
+              [
+                "1",
+                "영문명"
+              ],
+              [
+                "2",
+                "CAS 번호"
+              ],
+              [
+                "3",
+                "고유번호"
+              ]
+            ]
+          }
+        ],
+        "note": "GHS 분류 참고정보입니다. 실제 제품의 성분·농도와 기준일의 고시를 별도로 대조해야 합니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552584/kecoapi/ncisghs/ghsList",
+          "protocol": "https:",
+          "operation": "ghsList",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "ghs",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T16:32:45.733Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "accidents",
+      "code": "A03",
+      "name": "한국산업안전보건공단_국내재해사례 게시판 정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15121001/openapi.do",
+      "purpose": "작업·업종에 맞는 사례 후보 검색",
+      "group": "incidents",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-accidents (value excluded)",
+      "agency": "한국산업안전보건공단",
+      "inputs": {
+        "keywordParam": "keyword",
+        "keywordLabel": "재해사례 제목",
+        "placeholder": "예: 지게차",
+        "fields": [
+          {
+            "name": "business",
+            "label": "게시판·업종",
+            "placeholder": "예: 제조업"
+          }
+        ],
+        "note": "사고사례 참고자료입니다. 사업장의 위반 사실을 입증하는 자료는 아닙니다. 상세에서 첨부파일 목록도 조회할 수 있습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/disaster_api02/getdisaster_api02",
+          "protocol": "https:",
+          "operation": "getdisaster_api02",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "accidents",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T14:44:47.242Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "accident-files",
+      "code": "A04",
+      "name": "한국산업안전보건공단_국내재해사례 게시판 첨부파일 정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15121008/openapi.do",
+      "purpose": "게시판 번호로 첨부파일 경로·파일명 확보",
+      "group": "incidents",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-accident-files (value excluded)",
+      "agency": "한국산업안전보건공단",
+      "inputs": {
+        "keywordParam": "boardno",
+        "keywordLabel": "재해사례 게시판 번호",
+        "required": true,
+        "placeholder": "A03 조회 결과의 boardno",
+        "fields": [],
+        "note": "첨부파일명과 원문 링크를 제공합니다. 파일 본문은 내려받은 뒤 자료함에 추가하세요."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/disaster_attach_api02/Disaster_attach_api02",
+          "protocol": "https:",
+          "operation": "Disaster_attach_api02",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "accident-files",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T14:45:25.681Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sif",
+      "code": "A05",
+      "name": "한국산업안전보건공단_사망사고 고위험요인(SIF) 아카이브 조회서비스",
+      "url": "https://www.data.go.kr/data/15161362/openapi.do",
+      "purpose": "설명된 작업에서 놓친 위험요인·확인 질문 보강",
+      "group": "incidents",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-sif (value excluded)",
+      "agency": "한국산업안전보건공단",
+      "inputs": {
+        "keywordParam": "disasterOverview",
+        "keywordLabel": "재해유형 검색어",
+        "required": true,
+        "placeholder": "예: 사다리",
+        "fields": [
+          {
+            "name": "cateSeCd",
+            "label": "업종 구분코드",
+            "required": true,
+            "placeholder": "공식 서비스의 업종 구분코드"
+          }
+        ],
+        "note": "고위험요인 참고자료입니다. 업무 조건과 업종을 확인한 뒤 적용하세요."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/sifArchive/view",
+          "protocol": "https:",
+          "operation": "view",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "sif",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T14:46:48.623Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chemical-accidents",
+      "code": "A06",
+      "name": "기후에너지환경부 화학물질안전원_화학사고정보",
+      "url": "https://www.data.go.kr/data/15072446/openapi.do",
+      "purpose": "물질·작업 관련 누출·화재 등 사고사례 검색",
+      "group": "incidents",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-chemical-accidents (value excluded)",
+      "agency": "기후에너지환경부 화학물질안전원",
+      "inputs": {
+        "keywordParam": "yyyy",
+        "keywordLabel": "사고 연도",
+        "placeholder": "예: 2025 (비워두면 전체)",
+        "fields": [],
+        "note": "이 API는 연도별 목록을 제공합니다. 물질·지역·사고 내용은 조회 결과에서 확인하세요."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/1480802/iciscsc/csclist",
+          "protocol": "https:",
+          "operation": "csclist",
+          "keyParameter": "ServiceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "chemical-accidents",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T14:47:42.604Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "waste-companies",
+      "code": "A07",
+      "name": "한국환경공단_폐기물 처리업체 정보 조회 서비스",
+      "url": "https://www.data.go.kr/data/15141649/openapi.do",
+      "purpose": "수탁업체의 업종·전문분야·관할청 등 조회",
+      "group": "environment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-waste-companies (value excluded)",
+      "agency": "한국환경공단",
+      "inputs": {
+        "keywordParam": "bzentyNm",
+        "keywordLabel": "폐기물 처리업체명",
+        "placeholder": "업체명 (비워두면 전체)",
+        "fields": [
+          {
+            "name": "brNo",
+            "label": "사업자등록번호"
+          },
+          {
+            "name": "addr",
+            "label": "소재지"
+          },
+          {
+            "name": "cmptncSggNm",
+            "label": "관할 시·군·구"
+          }
+        ],
+        "note": "수탁업체 후보 조회입니다. 실제 허가증의 폐기물 종류·처리능력·영업범위와 대조해야 합니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552584/kecoapi/wstdspBzentyService/getWstdspBzentyInfo",
+          "protocol": "https:",
+          "operation": "getWstdspBzentyInfo",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "표본 실행: 아래 성공·실패를 함께 확인; 전수·무장애 보장 아님",
+          "liveObservations": [
+            {
+              "code": "A07",
+              "id": "waste-companies",
+              "at": "2026-10-08T11:02:53.132Z",
+              "elapsedMs": 1747,
+              "ok": true,
+              "count": 1,
+              "total": 13424,
+              "evidence": "work/v2-audit/live.json"
+            },
+            {
+              "code": "A07",
+              "id": "waste-companies",
+              "at": "2026-10-08T11:16:31.956Z",
+              "elapsedMs": 126136,
+              "ok": false,
+              "errorCode": "timeout",
+              "phaseMeasurements": [
+                {
+                  "at": "2026-10-08T11:15:26.852Z",
+                  "phase": "headers",
+                  "elapsedMs": 60011
+                },
+                {
+                  "at": "2026-10-08T11:16:31.947Z",
+                  "phase": "headers",
+                  "elapsedMs": 60011
+                }
+              ],
+              "evidence": "work/v2-audit/live-phases.json"
+            }
+          ],
+          "storedPriorStatus": {
+            "id": "waste-companies",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-08T09:42:59.199Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 60000,
+          "retryMax": 2,
+          "persistence": "키 해시별 제한 상태; 로컬 앱 경로 연결",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "waste-sanctions",
+      "code": "A08",
+      "name": "한국환경공단_사업장폐기물 행정처분 정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15156661/openapi.do",
+      "purpose": "A07 업체의 처분 내역·기간 대조",
+      "group": "environment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-waste-sanctions (value excluded)",
+      "agency": "한국환경공단",
+      "inputs": {
+        "keywordParam": "bzentyNm",
+        "keywordLabel": "처분 대상 업체명",
+        "placeholder": "업체명 (비워두면 전체)",
+        "fields": [
+          {
+            "name": "admdspYmd",
+            "label": "행정처분일",
+            "kind": "date"
+          }
+        ],
+        "note": "처분 내역 참고자료입니다. 동일 업체 여부, 처분 기간·효력과 후속 변경을 확인하세요."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552584/wstdspGrndsInfo/getlist",
+          "protocol": "https:",
+          "operation": "getlist",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "표본 실행: 아래 성공·실패를 함께 확인; 전수·무장애 보장 아님",
+          "liveObservations": [
+            {
+              "code": "A08",
+              "id": "waste-sanctions",
+              "at": "2026-10-08T11:02:57.162Z",
+              "elapsedMs": 2019,
+              "ok": true,
+              "count": 1,
+              "total": 1154,
+              "evidence": "work/v2-audit/live.json"
+            },
+            {
+              "code": "A08",
+              "id": "waste-sanctions",
+              "at": "2026-10-08T11:17:40.667Z",
+              "elapsedMs": 66697,
+              "ok": true,
+              "count": 1,
+              "total": 1154,
+              "phaseMeasurements": [
+                {
+                  "at": "2026-10-08T11:17:34.940Z",
+                  "phase": "headers",
+                  "elapsedMs": 60018
+                },
+                {
+                  "at": "2026-10-08T11:17:40.653Z",
+                  "phase": "headers",
+                  "elapsedMs": 107
+                },
+                {
+                  "at": "2026-10-08T11:17:40.665Z",
+                  "phase": "body",
+                  "elapsedMs": 2
+                },
+                {
+                  "at": "2026-10-08T11:17:40.665Z",
+                  "phase": "parse",
+                  "elapsedMs": 0
+                }
+              ],
+              "evidence": "work/v2-audit/live-phases.json"
+            }
+          ],
+          "storedPriorStatus": {
+            "id": "waste-sanctions",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T16:06:20.831Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 60000,
+          "retryMax": 2,
+          "persistence": "키 해시별 제한 상태; 로컬 앱 경로 연결",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "environment-agencies",
+      "code": "A09",
+      "name": "행정안전부_자원환경_환경관리대행기관 조회서비스",
+      "url": "https://www.data.go.kr/data/15155021/openapi.do",
+      "purpose": "대행기관의 등록·영업 상태 등 대조",
+      "group": "environment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-environment-agencies (value excluded)",
+      "agency": "행정안전부",
+      "inputs": {
+        "keywordParam": "cond[BPLC_NM::LIKE]",
+        "keywordLabel": "사업장명",
+        "placeholder": "예: 업체명 (비워두면 전체 목록)",
+        "fields": [
+          {
+            "name": "cond[ROAD_NM_ADDR::LIKE]",
+            "label": "도로명주소"
+          },
+          {
+            "name": "cond[OPN_ATMY_GRP_CD::EQ]",
+            "label": "개방 자치단체 코드"
+          }
+        ],
+        "note": "인허가 행정자료입니다. 업체명만 같은 다른 사업장, 주소 변경, 갱신 지연을 대조해야 합니다. 검색 결과가 없다는 이유로 무허가로 판단하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/1741000/environment_management_agencies/info",
+          "protocol": "https:",
+          "operation": "info",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "environment-agencies",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:27:43.638Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "measurement-agencies",
+      "code": "A10",
+      "name": "행정안전부_자원환경_환경측정대행업 조회서비스",
+      "url": "https://www.data.go.kr/data/15155030/openapi.do",
+      "purpose": "측정 대행업체의 등록·영업 상태 대조",
+      "group": "environment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-measurement-agencies (value excluded)",
+      "agency": "행정안전부",
+      "inputs": {
+        "keywordParam": "cond[BPLC_NM::LIKE]",
+        "keywordLabel": "사업장명",
+        "placeholder": "예: 업체명 (비워두면 전체 목록)",
+        "fields": [
+          {
+            "name": "cond[ROAD_NM_ADDR::LIKE]",
+            "label": "도로명주소"
+          },
+          {
+            "name": "cond[OPN_ATMY_GRP_CD::EQ]",
+            "label": "개방 자치단체 코드"
+          }
+        ],
+        "note": "인허가 행정자료입니다. 업체명만 같은 다른 사업장, 주소 변경, 갱신 지연을 대조해야 합니다. 검색 결과가 없다는 이유로 무허가로 판단하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/1741000/environment_measurement_agencies/info",
+          "protocol": "https:",
+          "operation": "info",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "measurement-agencies",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:27:35.535Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "land-use",
+      "code": "A11",
+      "name": "국토교통부_토지이용규제정보서비스",
+      "url": "https://www.data.go.kr/data/15058410/openapi.do",
+      "purpose": "시군구·지역지구별 행위제한 조회",
+      "group": "location",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-land-use (value excluded)",
+      "agency": "국토교통부",
+      "inputs": {
+        "keywordParam": "landUseNm",
+        "keywordLabel": "토지이용행위명",
+        "required": true,
+        "placeholder": "예: 공장",
+        "fields": [
+          {
+            "name": "operation",
+            "label": "조회 내용",
+            "initial": "codes",
+            "required": true,
+            "options": [
+              [
+                "codes",
+                "행위 코드 검색"
+              ],
+              [
+                "restrictions",
+                "지역·지구별 행위제한 조회"
+              ]
+            ]
+          },
+          {
+            "name": "areaCd",
+            "label": "시·군·구 코드 (행위제한 조회 시 필수)"
+          },
+          {
+            "name": "ucodeList",
+            "label": "지역·지구 코드 (행위제한 조회 시 필수)"
+          }
+        ],
+        "note": "주소만으로 지역·지구를 추정하지 않습니다. 실제 필지의 토지이용계획과 지역·지구 코드를 확인하세요."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/1613000/arLandUseInfoService/DTsearchLunCd",
+          "protocol": "https:",
+          "operation": "DTsearchLunCd",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "land-use",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:27:26.858Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        },
+        {
+          "endpoint": "https://apis.data.go.kr/1613000/arLandUseInfoService/DTarLandUseInfo",
+          "protocol": "https:",
+          "operation": "DTarLandUseInfo",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "land-use",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:27:26.858Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "address",
+      "code": "A12",
+      "name": "주소기반산업지원서비스 — 도로명주소 검색 API",
+      "url": "https://business.juso.go.kr/jst/jstAddressApiApplicationWrite?uniqKey=cntcInfoApi",
+      "purpose": "사업장 주소 표준화·관할지역 선택 보조",
+      "group": "location",
+      "credential": "address",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-address (value excluded)",
+      "agency": "주소기반산업지원서비스 — 도로명주소 검색 API",
+      "inputs": {
+        "keywordParam": "keyword",
+        "keywordLabel": "도로명·지번주소",
+        "required": true,
+        "placeholder": "예: 세종대로 110",
+        "fields": [],
+        "note": "주소 표준화 후보입니다. 해당 필지의 용도지역·인허가·관할을 자동 확정하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://business.juso.go.kr/addrlink/addrLinkApi.do",
+          "protocol": "https:",
+          "operation": "addrLinkApi.do",
+          "keyParameter": "confmKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "address",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:27:17.802Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ppe-cert",
+      "code": "B01",
+      "name": "한국산업안전보건공단_보호구 안전인증서 진위확인 조회서비스",
+      "url": "https://www.data.go.kr/data/15149809/openapi.do",
+      "purpose": "보호구 인증번호 대조",
+      "group": "equipment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-ppe-cert (value excluded)",
+      "agency": "한국산업안전보건공단",
+      "inputs": {
+        "keywordParam": "certNo",
+        "keywordLabel": "인증·신고 번호",
+        "required": true,
+        "placeholder": "인증서에 기재된 번호 그대로 입력",
+        "fields": [],
+        "note": "인증번호에 대한 진위 확인 자료입니다. 실제 설비·제품과 인증서의 동일성을 별도로 확인하세요. 결과 0건만으로 미인증이라고 판단하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/getprotector/getprotector_api01",
+          "protocol": "https:",
+          "operation": "getprotector_api01",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "ppe-cert",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:27:09.664Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "machine-cert",
+      "code": "B02",
+      "name": "한국산업안전보건공단_위험기계기구 안전인증서 진위확인 조회서비스",
+      "url": "https://www.data.go.kr/data/15149912/openapi.do",
+      "purpose": "위험기계기구 인증번호 대조",
+      "group": "equipment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-machine-cert (value excluded)",
+      "agency": "한국산업안전보건공단",
+      "inputs": {
+        "keywordParam": "certNo",
+        "keywordLabel": "인증·신고 번호",
+        "required": true,
+        "placeholder": "인증서에 기재된 번호 그대로 입력",
+        "fields": [],
+        "note": "인증번호에 대한 진위 확인 자료입니다. 실제 설비·제품과 인증서의 동일성을 별도로 확인하세요. 결과 0건만으로 미인증이라고 판단하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/getmachine/machine_api01",
+          "protocol": "https:",
+          "operation": "machine_api01",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "machine-cert",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:27:01.355Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "guard-cert",
+      "code": "B03",
+      "name": "한국산업안전보건공단_방호장치 안전인증서 진위확인 서비스",
+      "url": "https://www.data.go.kr/data/15149897/openapi.do",
+      "purpose": "방호장치 인증번호 대조",
+      "group": "equipment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-guard-cert (value excluded)",
+      "agency": "한국산업안전보건공단",
+      "inputs": {
+        "keywordParam": "certNo",
+        "keywordLabel": "인증·신고 번호",
+        "required": true,
+        "placeholder": "인증서에 기재된 번호 그대로 입력",
+        "fields": [],
+        "note": "인증번호에 대한 진위 확인 자료입니다. 실제 설비·제품과 인증서의 동일성을 별도로 확인하세요. 결과 0건만으로 미인증이라고 판단하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/getprotect/getprotect_api01",
+          "protocol": "https:",
+          "operation": "getprotect_api01",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "guard-cert",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:26:52.369Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ppe-declaration",
+      "code": "B04",
+      "name": "한국산업안전보건공단_보호구 자율안전확인신고서 진위확인 조회서비스",
+      "url": "https://www.data.go.kr/data/15150185/openapi.do",
+      "purpose": "보호구 자율안전확인 신고서 대조",
+      "group": "equipment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-ppe-declaration (value excluded)",
+      "agency": "한국산업안전보건공단",
+      "inputs": {
+        "keywordParam": "certNo",
+        "keywordLabel": "인증·신고 번호",
+        "required": true,
+        "placeholder": "인증서에 기재된 번호 그대로 입력",
+        "fields": [],
+        "note": "인증번호에 대한 진위 확인 자료입니다. 실제 설비·제품과 인증서의 동일성을 별도로 확인하세요. 결과 0건만으로 미인증이라고 판단하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/getguard/guard_api01",
+          "protocol": "https:",
+          "operation": "guard_api01",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "ppe-declaration",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:26:43.986Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "machine-declaration",
+      "code": "B05",
+      "name": "한국산업안전보건공단_위험기계기구 자율안전확인신고서 진위확인 조회서비스",
+      "url": "https://www.data.go.kr/data/15150184/openapi.do",
+      "purpose": "기계기구 자율안전확인 신고서 대조",
+      "group": "equipment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-machine-declaration (value excluded)",
+      "agency": "한국산업안전보건공단",
+      "inputs": {
+        "keywordParam": "certNo",
+        "keywordLabel": "인증·신고 번호",
+        "required": true,
+        "placeholder": "인증서에 기재된 번호 그대로 입력",
+        "fields": [],
+        "note": "인증번호에 대한 진위 확인 자료입니다. 실제 설비·제품과 인증서의 동일성을 별도로 확인하세요. 결과 0건만으로 미인증이라고 판단하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/getmach/mach",
+          "protocol": "https:",
+          "operation": "mach",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "machine-declaration",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:26:35.558Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "guard-declaration",
+      "code": "B06",
+      "name": "한국산업안전보건공단_방호장치 자율안전확인신고서 진위확인 조회서비스",
+      "url": "https://www.data.go.kr/data/15150186/openapi.do",
+      "purpose": "방호장치 자율안전확인 신고서 대조",
+      "group": "equipment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-guard-declaration (value excluded)",
+      "agency": "한국산업안전보건공단",
+      "inputs": {
+        "keywordParam": "certNo",
+        "keywordLabel": "인증·신고 번호",
+        "required": true,
+        "placeholder": "인증서에 기재된 번호 그대로 입력",
+        "fields": [],
+        "note": "인증번호에 대한 진위 확인 자료입니다. 실제 설비·제품과 인증서의 동일성을 별도로 확인하세요. 결과 0건만으로 미인증이라고 판단하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552468/getprotection/protection_api01",
+          "protocol": "https:",
+          "operation": "protection_api01",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "guard-declaration",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:26:27.255Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fire-approval",
+      "code": "B07",
+      "name": "한국소방산업기술원_소방용품 승인정보",
+      "url": "https://www.data.go.kr/data/15077845/openapi.do",
+      "purpose": "소방용품의 승인·인증 정보 조회",
+      "group": "firegas",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-fire-approval (value excluded)",
+      "agency": "한국소방산업기술원",
+      "inputs": {
+        "keywordParam": "gdsCd",
+        "keywordLabel": "품목 코드",
+        "placeholder": "예: 04600 (가스자동소화장치)",
+        "fields": [
+          {
+            "name": "fromAprv",
+            "label": "검색 시작일",
+            "kind": "date",
+            "required": true
+          },
+          {
+            "name": "toAprv",
+            "label": "검색 종료일",
+            "kind": "date",
+            "required": true
+          },
+          {
+            "name": "gdsClCd",
+            "label": "품목 분류코드",
+            "required": true,
+            "placeholder": "예: 01 (소화기류)"
+          }
+        ],
+        "note": "소방용품 형식승인 조회입니다. 실제 제품의 승인번호·모델·제조업체를 대조하세요."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552486/opnFsuplAprv/opnFsuplAprv01",
+          "protocol": "https:",
+          "operation": "opnFsuplAprv01",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "fire-approval",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T16:06:21.25Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fire-revocation",
+      "code": "B08",
+      "name": "한국소방산업기술원_소방용품 승인취소 정보",
+      "url": "https://www.data.go.kr/data/15077894/openapi.do",
+      "purpose": "B07 승인번호와 취소 이력 대조",
+      "group": "firegas",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-fire-revocation (value excluded)",
+      "agency": "한국소방산업기술원",
+      "inputs": {
+        "keywordParam": "gdsCd",
+        "keywordLabel": "품목 코드",
+        "placeholder": "예: 00300 (소화약제)",
+        "fields": [
+          {
+            "name": "fromAprv",
+            "label": "검색 시작일",
+            "kind": "date",
+            "required": true
+          },
+          {
+            "name": "toAprv",
+            "label": "검색 종료일",
+            "kind": "date",
+            "required": true
+          },
+          {
+            "name": "gdsClCd",
+            "label": "품목 분류코드",
+            "required": true,
+            "placeholder": "예: 01 (소화기류)"
+          }
+        ],
+        "note": "소방용품 형식승인 취소 조회입니다. 승인 조회와 같은 제품·기간 조건을 사용해 대조하세요."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552486/opnFsuplRtrcn/opnFsuplRtrcn01",
+          "protocol": "https:",
+          "operation": "opnFsuplRtrcn01",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "fire-revocation",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T16:06:21.595Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "air-facilities",
+      "code": "B09",
+      "name": "행정안전부_자원환경_대기오염물질배출시설설치사업장 조회서비스",
+      "url": "https://www.data.go.kr/data/15154973/openapi.do",
+      "purpose": "사업장 인허가일자·영업 상태 대조",
+      "group": "environment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-air-facilities (value excluded)",
+      "agency": "행정안전부",
+      "inputs": {
+        "keywordParam": "cond[BPLC_NM::LIKE]",
+        "keywordLabel": "사업장명",
+        "placeholder": "예: 업체명 (비워두면 전체 목록)",
+        "fields": [
+          {
+            "name": "cond[ROAD_NM_ADDR::LIKE]",
+            "label": "도로명주소"
+          },
+          {
+            "name": "cond[OPN_ATMY_GRP_CD::EQ]",
+            "label": "개방 자치단체 코드"
+          }
+        ],
+        "note": "인허가 행정자료입니다. 업체명만 같은 다른 사업장, 주소 변경, 갱신 지연을 대조해야 합니다. 검색 결과가 없다는 이유로 무허가로 판단하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/1741000/air_pollution_facility_installation/info",
+          "protocol": "https:",
+          "operation": "info",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "air-facilities",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:26:02.519Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "water-other",
+      "code": "B10",
+      "name": "행정안전부_자원환경_수질오염원설치시설(기타) 조회서비스",
+      "url": "https://www.data.go.kr/data/15154989/openapi.do",
+      "purpose": "기타 수질오염원 관련 현황. 모든 폐수배출시설 목록으로 간주하지 않음",
+      "group": "environment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-water-other (value excluded)",
+      "agency": "행정안전부",
+      "inputs": {
+        "keywordParam": "cond[BPLC_NM::LIKE]",
+        "keywordLabel": "사업장명",
+        "placeholder": "예: 업체명 (비워두면 전체 목록)",
+        "fields": [
+          {
+            "name": "cond[ROAD_NM_ADDR::LIKE]",
+            "label": "도로명주소"
+          },
+          {
+            "name": "cond[OPN_ATMY_GRP_CD::EQ]",
+            "label": "개방 자치단체 코드"
+          }
+        ],
+        "note": "인허가 행정자료입니다. 업체명만 같은 다른 사업장, 주소 변경, 갱신 지연을 대조해야 합니다. 검색 결과가 없다는 이유로 무허가로 판단하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/1741000/water_pollution_source_other/info",
+          "protocol": "https:",
+          "operation": "info",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "water-other",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:25:54.418Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dust-business",
+      "code": "B11",
+      "name": "행정안전부_비산먼지발생사업정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15155073/openapi.do",
+      "purpose": "사업 신고 현황 및 사업장 정보 대조",
+      "group": "environment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-dust-business (value excluded)",
+      "agency": "행정안전부",
+      "inputs": {
+        "keywordParam": "cond[CNSTST_NM::LIKE]",
+        "keywordLabel": "공사장명",
+        "placeholder": "예: 업체명 (비워두면 전체 목록)",
+        "fields": [
+          {
+            "name": "cond[LCTN_ROAD_NM_ADDR::LIKE]",
+            "label": "소재지 도로명주소"
+          },
+          {
+            "name": "cond[OPN_ATMY_GRP_CD::EQ]",
+            "label": "개방 자치단체 코드"
+          }
+        ],
+        "note": "인허가 행정자료입니다. 업체명만 같은 다른 사업장, 주소 변경, 갱신 지연을 대조해야 합니다. 검색 결과가 없다는 이유로 무허가로 판단하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/1741000/dust_emission_business_info/info",
+          "protocol": "https:",
+          "operation": "info",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "dust-business",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:25:46.322Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas-business",
+      "code": "B12",
+      "name": "행정안전부_자원환경_고압가스업 조회서비스",
+      "url": "https://www.data.go.kr/data/15155163/openapi.do",
+      "purpose": "고압가스업 관련 등록 현황 대조",
+      "group": "firegas",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-gas-business (value excluded)",
+      "agency": "행정안전부",
+      "inputs": {
+        "keywordParam": "cond[BPLC_NM::LIKE]",
+        "keywordLabel": "사업장명",
+        "placeholder": "예: 업체명 (비워두면 전체 목록)",
+        "fields": [
+          {
+            "name": "cond[ROAD_NM_ADDR::LIKE]",
+            "label": "도로명주소"
+          },
+          {
+            "name": "cond[OPN_ATMY_GRP_CD::EQ]",
+            "label": "개방 자치단체 코드"
+          }
+        ],
+        "note": "인허가 행정자료입니다. 업체명만 같은 다른 사업장, 주소 변경, 갱신 지연을 대조해야 합니다. 검색 결과가 없다는 이유로 무허가로 판단하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/1741000/high_pressure_gas/info",
+          "protocol": "https:",
+          "operation": "info",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "gas-business",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:25:37.086Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "specific-gas",
+      "code": "B13",
+      "name": "행정안전부_자원환경_특정고압가스업 조회서비스",
+      "url": "https://www.data.go.kr/data/15154881/openapi.do",
+      "purpose": "특정고압가스 관련 등록 현황 대조",
+      "group": "firegas",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-specific-gas (value excluded)",
+      "agency": "행정안전부",
+      "inputs": {
+        "keywordParam": "cond[BPLC_NM::LIKE]",
+        "keywordLabel": "사업장명",
+        "placeholder": "예: 업체명 (비워두면 전체 목록)",
+        "fields": [
+          {
+            "name": "cond[ROAD_NM_ADDR::LIKE]",
+            "label": "도로명주소"
+          },
+          {
+            "name": "cond[OPN_ATMY_GRP_CD::EQ]",
+            "label": "개방 자치단체 코드"
+          }
+        ],
+        "note": "인허가 행정자료입니다. 업체명만 같은 다른 사업장, 주소 변경, 갱신 지연을 대조해야 합니다. 검색 결과가 없다는 이유로 무허가로 판단하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/1741000/specific_high_pressure_gas/info",
+          "protocol": "https:",
+          "operation": "info",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "specific-gas",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:25:28.869Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "waste-fitness",
+      "code": "B14",
+      "name": "한국환경공단_폐기물 적합성 확인",
+      "url": "https://www.data.go.kr/data/15164544/openapi.do",
+      "purpose": "최초 인허가일 기준 최초 적합성 확인 유효기간 참고. 정확한 현행 일자는 허가기관 확인 필요",
+      "group": "environment",
+      "credential": "data-go-kr",
+      "ready": true,
+      "credentialReference": "Windows DPAPI public-waste-fitness (value excluded)",
+      "agency": "한국환경공단",
+      "inputs": {
+        "keywordParam": "lcpmtBgngDt",
+        "keywordLabel": "최초 인허가일",
+        "kind": "date",
+        "required": true,
+        "placeholder": "최초 허가일을 확인하세요",
+        "fields": [],
+        "note": "최초 인허가일 기준의 적합성 확인 참고자료입니다. 현재 허가·영업 상태 전체를 대신하지 않습니다."
+      },
+      "operations": [
+        {
+          "endpoint": "https://apis.data.go.kr/B552584/ifCompatibleInfoService/getList",
+          "protocol": "https:",
+          "operation": "getList",
+          "keyParameter": "serviceKey",
+          "adapter": "server/additional-apis.ts + server/public-api-probes.ts",
+          "currentLive": "이번 실행 미검증",
+          "liveObservations": [],
+          "storedPriorStatus": {
+            "id": "waste-fitness",
+            "configured": true,
+            "state": "ok",
+            "checkedAt": "2026-10-07T15:25:20.895Z"
+          },
+          "fixtureCoverage": "개별 시험 추적표 확인",
+          "quota": "계정별 한도·초기화 시각 미확인",
+          "sourceLag": "서비스별 별도 원문 확인 필요",
+          "successSchema": "adapter의 서비스별 code·payload 구조 검사",
+          "emptySchema": "성공 의미 확인 후 빈 목록; 통신 실패와 구분",
+          "paginationGuarantee": "안정 스냅샷 전수 보장 없음",
+          "timeoutMs": 20000,
+          "retryMax": 1,
+          "persistence": "서비스별 별도 확인",
+          "illegalInferences": [
+            "0건을 비대상·무허가로 추론",
+            "목록 성공을 전체 원본 검증으로 추론"
+          ]
+        }
+      ]
+    }
+  ]
+}

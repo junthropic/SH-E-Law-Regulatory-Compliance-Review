@@ -1,0 +1,151 @@
+{
+  "at": "2026-10-08T16:52:17.000Z",
+  "files": [
+    {
+      "file": "a07-schema.json",
+      "bytes": 22799,
+      "sha256": "47f6e8588d97368bd72884415cda79af93f30a46d62d490b7e578b4666643888"
+    },
+    {
+      "file": "a07.html",
+      "bytes": 207814,
+      "sha256": "656c6d722ed6dd6436082a3bff85bad76be172c457d0478dddec844532595b62"
+    },
+    {
+      "file": "a08-schema.json",
+      "bytes": 18675,
+      "sha256": "cd82fd988eb7fb18df78cf0fc35d650f0416731669aaab4c19832636ccc3109e"
+    },
+    {
+      "file": "a08.html",
+      "bytes": 205402,
+      "sha256": "17d9cd758acce873fd74e86fc080405dc66a0ad8f52c546bad39d03db4ab8c81"
+    },
+    {
+      "file": "app-attachment-results.json",
+      "bytes": 277,
+      "sha256": "d1b8e2b3500870ec954b7f766a57638e988d29ba876fb9b831279c4e51ebde63"
+    },
+    {
+      "file": "draft.html",
+      "bytes": 261656,
+      "sha256": "b862e71235c94fbaec5209b90a1cedccb97bac64306805ae082f17395897c71a"
+    },
+    {
+      "file": "form5-detail.html",
+      "bytes": 1428,
+      "sha256": "74524d49d7d3e908496ada2637bd9edd613806a4362ce09bc5e9251abdebdf67"
+    },
+    {
+      "file": "form5-page-1.png",
+      "bytes": 130854,
+      "sha256": "e3992d4c4be899ced5d808ccf1d1be138e6085bb12235c956075d3037dec740c"
+    },
+    {
+      "file": "form5-page-2.png",
+      "bytes": 144644,
+      "sha256": "cf726d19379743fdfbefba87045086cb6acbc824cf06376e4673743f01afa478"
+    },
+    {
+      "file": "form5-page-3.png",
+      "bytes": 356256,
+      "sha256": "f5483545f7167d646177fa9f1c5009c20d23c634654a468f36b1fe6c67a87e1e"
+    },
+    {
+      "file": "form5.pdf",
+      "bytes": 96810,
+      "sha256": "b36c190a1a94d2c04f54ff636605a760d12a19a5728d37fcdccc28850f67ee8f"
+    },
+    {
+      "file": "form5.pdf.md",
+      "bytes": 14508,
+      "sha256": "29cd232688d74776afbc9ab78f5424f45df76ba05790da043ccd1d0015710f6f"
+    },
+    {
+      "file": "legal-full-results.json",
+      "bytes": 1048,
+      "sha256": "dd15cf4c9185b3e66750cdae0fc242b5993962e9d702406854a072ac25e7aca9"
+    },
+    {
+      "file": "ls.js",
+      "bytes": 115139,
+      "sha256": "3ceee310e32342b3e03593423e072300646a9a38068c429de7de3683745f1f6e"
+    },
+    {
+      "file": "lsJo.js",
+      "bytes": 45368,
+      "sha256": "eaa6a6591615aa02c894582d6872961e0de163f3c83245728e104d7b5545aefc"
+    },
+    {
+      "file": "manifest.json",
+      "bytes": 2854,
+      "sha256": "6fd3fbf96a1c1a4a2ce9bb89ae1866dc849ff3bfdbbbef1562544ef8ebf83ce7"
+    },
+    {
+      "file": "notice.html",
+      "bytes": 262129,
+      "sha256": "09a0576276184d70f4e2cc464ce06789f8e3dfb3f31ac05325e465d1a104ec75"
+    },
+    {
+      "file": "notice.hwpx",
+      "bytes": 95319,
+      "sha256": "74b7c281748d9bb669fcb2626c70f22e1cc56264a84a6b7534d3c191b9fa111d"
+    },
+    {
+      "file": "notice.hwpx.md",
+      "bytes": 54939,
+      "sha256": "eaadd9ab2cbf679e6033895c0061b53b320ddec0a279dc0d2d97f5b277a23cdb"
+    },
+    {
+      "file": "osha21374.html",
+      "bytes": 447115,
+      "sha256": "51f24a721bde2096eea86437666b95bad8ba0f2075e4bbe2956c987a060719d4"
+    },
+    {
+      "file": "osha21374.txt",
+      "bytes": 240339,
+      "sha256": "3e1b1f5b8ebe9d40397281c698d6c498648df60765ba8678681ea600a83c1f55"
+    },
+    {
+      "file": "pinned-diagnostics.json",
+      "bytes": 511,
+      "sha256": "7c112a584dbedf374665f9cf90a9590c1caebff6b109e33e0c06b85c7229e8cf"
+    },
+    {
+      "file": "rule-before-retry.html",
+      "bytes": 454,
+      "sha256": "2954ba9341bff477923ae2073c15b07cd0d241a2d63fae3957e0d0ea5a521ded"
+    },
+    {
+      "file": "rule-before.html",
+      "bytes": 454,
+      "sha256": "2954ba9341bff477923ae2073c15b07cd0d241a2d63fae3957e0d0ea5a521ded"
+    },
+    {
+      "file": "rule-before.txt",
+      "bytes": 7,
+      "sha256": "91475b9d0e00143a537ec3b294346e96b2d8ec28cdea28cb91b4d399a4286ab1"
+    },
+    {
+      "file": "rule470.html",
+      "bytes": 1313636,
+      "sha256": "5307487da97aba3ded3e516cfd8e486b2534f416444cf0bfdb3a58453efc9107"
+    },
+    {
+      "file": "rule470.txt",
+      "bytes": 367913,
+      "sha256": "45b5909d35f01e1f1bef945b49a8ea5b1e70374cc1fd19cce97ba06c9235303b"
+    },
+    {
+      "file": "waste-form-list.html",
+      "bytes": 54427,
+      "sha256": "35361a7095aa475325460a7af00fca0aeb6d3aac8b90481a9a8a8b8cec01e1c8"
+    },
+    {
+      "file": "waste-forms.html",
+      "bytes": 145681,
+      "sha256": "4c522c8b81542e246aaa105ad0d410d5f310d2f830abe659565561b7ff132984"
+    }
+  ],
+  "legalApproval": false
+}

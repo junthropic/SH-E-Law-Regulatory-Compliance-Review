@@ -1,0 +1,428 @@
+
+
+
+
+
+
+
+ 
+
+
+	<div class="data-info-tit">
+		<h2>
+			
+				
+					민원정책 질의응답 목록을 분야, 검색어, 검색구분, 등록일FROM , 등록일TO , 현재페이지 등을 조건으로 민원정책 질의응답 목록을 조회하는 서비스
+				
+				
+			
+		</h2>
+	</div>
+
+<div class="data-report-group">
+	
+		<div class="data-report">
+			<h4>API 기본 정보</h4>
+			<div class="line-box type2">
+				<ul class="info-ul">
+					<li>
+						<strong class="key">활용승인 절차</strong>
+						<div class="value">
+							개발단계 :
+							
+								
+									자동승인
+									
+								
+								
+							
+							/ 운영단계 :
+							
+								
+									자동승인
+									
+								
+								
+							
+						</div>
+					</li>
+					<li>
+						<strong class="key">신청 가능 트래픽</strong>
+						<div class="value">
+							
+								
+								
+									개발계정 : 10,000
+									/ 운영계정 : 활용사례 등록시 신청하면 트래픽 증가 가능
+								
+							
+						</div>
+					</li>
+					<li>
+						<strong class="key">요청주소</strong>
+						<div class="value">
+							
+								
+									https://apis.data.go.kr/1140100/CivilPolicyQnaService/PolicyQnaList
+								
+								
+							
+						</div>
+					</li>
+					<li>
+						<strong class="key">서비스 URL</strong>
+						<div class="value">
+							
+								
+									https://apis.data.go.kr/1140100/CivilPolicyQnaService</a>
+								
+								
+							
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	
+	
+
+		
+		
+			<div class="data-report">
+				<h4>요청변수(Request Parameter)</h4>
+				<div class="krds-table-wrap m-table">
+					<table class="tbl col bg data">
+						<caption>해당 오픈API의 요청변수(Request Parameter) 항목에 대한 표로, 국문항목명, 영문 항목명, 항목크기, 항목구분, 샘플데이터, 항목 설명순으로 나열됩니다.</caption>
+						<colgroup>
+							<col style="width: 15%;">
+							<col style="width: 18%;">
+							<col style="width: 10%;">
+							<col style="width: 10%;">
+							<col style="width: 13%;">
+							<col>
+						</colgroup>
+						<thead>
+						<tr>
+							<th scope="col">항목명(국문)</th>
+							<th scope="col">항목명(영문)</th>
+							<th scope="col">항목크기</th>
+							<th scope="col">항목구분</th>
+							<th scope="col">샘플데이터</th>
+							<th scope="col">항목설명</th>
+						</tr>
+						</thead>
+						<tbody>
+						
+							
+							
+								
+									
+										<tr>
+											<td data-paramtr-kor-nm="인증키">인증키</td>
+											<td data-paramtr-nm="serviceKey">serviceKey</td>
+											<td data-paramtr-size="100" class="just-pc">100</td>
+											<td data-paramtr-division="필" class="just-pc">필</td>
+											<td data-paramtr-bass-value="-" class="just-pc">-</td>
+											<td data-paramtr-dc="공공데이터포털에서 받은 인증키" >공공데이터포털에서 받은 인증키</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td data-paramtr-kor-nm="페이지 번호">페이지 번호</td>
+											<td data-paramtr-nm="firstIndex">firstIndex</td>
+											<td data-paramtr-size="4" class="just-pc">4</td>
+											<td data-paramtr-division="필" class="just-pc">필</td>
+											<td data-paramtr-bass-value="1" class="just-pc">1</td>
+											<td data-paramtr-dc="페이지번호" >페이지번호</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td data-paramtr-kor-nm="한 페이지 결과 수">한 페이지 결과 수</td>
+											<td data-paramtr-nm="recordCountPerPage">recordCountPerPage</td>
+											<td data-paramtr-size="3" class="just-pc">3</td>
+											<td data-paramtr-division="필" class="just-pc">필</td>
+											<td data-paramtr-bass-value="10" class="just-pc">10</td>
+											<td data-paramtr-dc="한 페이지 결과 수, 기본10" >한 페이지 결과 수, 기본10</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td data-paramtr-kor-nm="분야">분야</td>
+											<td data-paramtr-nm="type">type</td>
+											<td data-paramtr-size="1" class="just-pc">1</td>
+											<td data-paramtr-division="옵" class="just-pc">옵</td>
+											<td data-paramtr-bass-value="1" class="just-pc">1</td>
+											<td data-paramtr-dc="1:민원, 2:정책, 3:민원+정책" >1:민원, 2:정책, 3:민원+정책</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td data-paramtr-kor-nm="검색어">검색어</td>
+											<td data-paramtr-nm="keyword">keyword</td>
+											<td data-paramtr-size="100" class="just-pc">100</td>
+											<td data-paramtr-division="옵" class="just-pc">옵</td>
+											<td data-paramtr-bass-value="국세청" class="just-pc">국세청</td>
+											<td data-paramtr-dc="검색어" >검색어</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td data-paramtr-kor-nm="검색구분">검색구분</td>
+											<td data-paramtr-nm="searchType">searchType</td>
+											<td data-paramtr-size="10" class="just-pc">10</td>
+											<td data-paramtr-division="옵" class="just-pc">옵</td>
+											<td data-paramtr-bass-value="1" class="just-pc">1</td>
+											<td data-paramtr-dc="1: 제목, 2: 내용" >1: 제목, 2: 내용</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td data-paramtr-kor-nm="등록일FROM">등록일FROM</td>
+											<td data-paramtr-nm="regFrom">regFrom</td>
+											<td data-paramtr-size="8" class="just-pc">8</td>
+											<td data-paramtr-division="옵" class="just-pc">옵</td>
+											<td data-paramtr-bass-value="20201101" class="just-pc">20201101</td>
+											<td data-paramtr-dc="검색시작일자, yyyyMMdd" >검색시작일자, yyyyMMdd</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td data-paramtr-kor-nm="등록일TO	">등록일TO	</td>
+											<td data-paramtr-nm="regTo">regTo</td>
+											<td data-paramtr-size="8" class="just-pc">8</td>
+											<td data-paramtr-division="옵" class="just-pc">옵</td>
+											<td data-paramtr-bass-value="20201109" class="just-pc">20201109</td>
+											<td data-paramtr-dc="검색종료일자, yyyyMMdd" >검색종료일자, yyyyMMdd</td>
+										</tr>
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+							
+						
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="data-report">
+				<h4>출력결과(Response Element)</h4>
+				<div class="krds-table-wrap m-table">
+					<table class="tbl col bg data">
+						<caption>해당 오픈API의 출력결과(Response Element) 항목에 대한 표로, 국문항목명, 영문 항목명, 항목크기, 항목구분, 샘플데이터, 항목 설명순으로 나열됩니다.</caption>
+						<colgroup>
+							<col style="width: 15%;">
+							<col style="width: 18%;">
+							<col style="width: 10%;">
+							<col style="width: 10%;">
+							<col style="width: 13%;">
+							<col>
+						</colgroup>
+						<thead>
+						<tr>
+							<th scope="col">항목명(국문)</th>
+							<th scope="col">항목명(영문)</th>
+							<th scope="col">항목크기</th>
+							<th scope="col">항목구분</th>
+							<th scope="col">샘플데이터</th>
+							<th scope="col">항목설명</th>
+						</tr>
+						</thead>
+						<tbody>
+						
+							
+							
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+										<tr>
+											<td>결과코드</td>
+											<td>resultCode</td>
+											<td class="just-pc">10</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">S00</td>
+											<td>결과코드</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>결과메시지</td>
+											<td>resultMessage</td>
+											<td class="just-pc">50</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">42(건) 조회되었습니다</td>
+											<td>결과메시지</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>전체건수</td>
+											<td>resultCount</td>
+											<td class="just-pc">10</td>
+											<td class="just-pc">옵</td>
+											<td class="just-pc">42</td>
+											<td>전체건수</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>FAQ번호</td>
+											<td>faqNo</td>
+											<td class="just-pc">16</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">426849</td>
+											<td>FAQ번호</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>제목</td>
+											<td>title</td>
+											<td class="just-pc">200</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">외국인 세금 상담 </td>
+											<td>제목</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>처리기관명</td>
+											<td>ancName</td>
+											<td class="just-pc">100</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">국세청</td>
+											<td>처리기관명</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>처리기관코드</td>
+											<td>ancCode</td>
+											<td class="just-pc">7</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">1210000</td>
+											<td>처리기관코드</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>신청일시</td>
+											<td>regDate</td>
+											<td class="just-pc">16</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">20201109174438</td>
+											<td>신청일시 </td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>업무구분명</td>
+											<td>dutySctnNm</td>
+											<td class="just-pc">8</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">tqapttn</td>
+											<td>tqapttn:민원, tqaplcy:정책</td>
+										</tr>
+									
+								
+							
+						
+						</tbody>
+					</table>
+				</div>
+			</div>
+		
+	
+</div>
+
+
+<script type="text/javascript">
+
+	const apiObj = {
+		fn_selectApiDetailFunction: function() {
+			let dataObj = {};
+			dataObj.oprtinSeqNo = $("#open_api_detail_select").val();
+			dataObj.publicDataDetailPk	= $("#publicDataDetailPk").val();
+			dataObj.publicDataPk	= $("#publicDataPk").val();
+			
+			// 국가 중점 표준데이터인 경우 피케이가 변경돼야함.
+// 			if ($("#natCoreDataSe").val() === "Y") {
+// 				dataObj.publicDataPk	= $("#stdPublicDataPk").val();
+// 			}
+			
+			$.ajax({
+				url		: "/tcs/dss/selectApiDetailFunction.do",
+				method	: "post",
+				data	: dataObj,
+				
+				success	: function(data) {
+					$(".data-info-tit").remove();
+					$(".data-report-group").remove();
+					$("#apiDetailFunctionDiv").append(data);
+				}
+			})
+		},
+		
+		fn_goApplyReq: function() {
+			var mberId = "";
+			
+			if (fn_empty(mberId)) {
+				
+				if (confirm("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+					location.href = "/uim/login/loginView.do";
+					return;
+				} else {
+					return;
+				}
+			}
+			
+			location.href="/tcs/dss/redirectDevAcountRequestForm.do?publicDataPk=" + $("#publicDataPk").val();
+		}
+	}
+</script>

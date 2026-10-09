@@ -1,3 +1,4 @@
+import { ReviewApproval } from "./ReviewApproval.js";
 import { useState } from "react";
 import type { DocumentRecord } from "../shared/types.js";
 type Post = (url: string, body?: unknown) => Promise<any>;
@@ -84,7 +85,8 @@ export function QuantityCalculator({
       <summary>지정수량 배수 계산</summary>
       <p>
         물질 분류와 지정수량을 확인한 뒤 입력하세요. 질량과 부피는 자동 환산하지
-        않습니다.
+        않습니다. 입력값으로 계산하는 참고 도구이며, 조회 결과를 자동으로
+        가져오거나 법규 검토에 계산 결과를 자동 반영하지 않습니다.
       </p>
       <form
         onSubmit={(e) => {
@@ -251,8 +253,11 @@ export function McpSearch({ post, action }: { post: Post; action: Action }) {
 export function AdvancedSettings({
   post,
   action,
-  refresh,
+  refresh, api, reviews, publicBundle,
 }: {
+  api: (url: string) => Promise<any>;
+  reviews: {id: string; title: string; status: string}[];
+  publicBundle: {importedAt: string; publishedAt: string; count: number} | null;
   post: Post;
   action: Action;
   refresh: () => Promise<void>;
@@ -267,36 +272,22 @@ export function AdvancedSettings({
         규칙은 명확한 리스크를 생성하지 않습니다.
       </p>
       <div className="setting-buttons">
-        <label className="secondary file-button">
-          검토 확인서 등록
-          <input
-            type="file"
-            accept=".json"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file)
-                void action(async () => {
-                  await post("/basis/approve", JSON.parse(await file.text()));
-                  await refresh();
-                  setMessage("검토 확인서를 등록했습니다.");
-                });
-              e.target.value = "";
-            }}
-          />
-        </label>
         <button
           className="secondary"
           onClick={() =>
             void action(async () => {
               await post("/public/update");
               await refresh();
-              setMessage("Git의 공개 법규를 가져왔습니다.");
+              setMessage("공개 법규 자료를 업데이트했습니다.");
             })
           }
         >
-          Git 공개 법규 가져오기
+          공개 법규 자료 업데이트
         </button>
       </div>
+      <p>{publicBundle ? `최근 가져온 시각: ${new Date(publicBundle.importedAt).toLocaleString("ko-KR")} · 배포 자료 생성: ${new Date(publicBundle.publishedAt).toLocaleString("ko-KR")} · ${publicBundle.count}건` : "자료 업데이트 기록 없음"}</p>
+      <p>저장소에 배포된 공개 법규를 가져옵니다. 각 법규의 실제 수집일·시행일과 기관의 최신 원문은 별도 확인합니다.</p>
+      <ReviewApproval api={api} post={post} action={action} refresh={refresh} reviews={reviews} />
       <details>
         <summary>국민신문고 사전 승낙 후 연결</summary>
         <p>
@@ -361,18 +352,6 @@ export function AdvancedSettings({
         </div>
       </details>
       {message && <p role="status">{message}</p>}
-      <button
-        className="text-button"
-        onClick={() => {
-          if (window.confirm("로컬 앱을 종료할까요? 저장된 자료는 유지됩니다."))
-            void action(async () => {
-              await post("/shutdown");
-              setMessage("앱이 종료되었습니다. 이 탭을 닫아도 됩니다.");
-            });
-        }}
-      >
-        로컬 앱 종료
-      </button>
     </section>
   );
 }

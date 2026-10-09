@@ -1,0 +1,80 @@
+
+> sh-e-law-check@0.1.0 check
+> npm run build && npm test -- --reporter=default --reporter=json --outputFile=work/final-tests.json
+
+
+> sh-e-law-check@0.1.0 build
+> tsc --noEmit && tsc -p tsconfig.server.json && vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 1996 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.43 kB │ gzip:   0.33 kB
+dist/assets/index-DiiLZ3H5.css   25.47 kB │ gzip:   5.75 kB
+dist/assets/index-BivsNquf.js   430.85 kB │ gzip: 131.07 kB
+
+✓ built in 450ms
+
+> sh-e-law-check@0.1.0 test
+> vitest run --reporter=default --reporter=json --outputFile=work/final-tests.json
+
+
+ RUN  v5.0.3 C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v4-validation-h7K5YN
+
+ ✓ tests/v4-operation-matrix.test.ts (1 test) 407ms
+   ✓ V4-A08: 기존 52 operation 모두 실제 adapter 경유 합성 응답·capture 대조; 공식 specimen 검증은 별도 405ms
+ ✓ tests/v3-policies.test.ts (13 tests) 575ms
+ ✓ tests/v2-golden.test.ts (13 tests) 792ms
+ ✓ tests/ai-auth.test.ts (18 tests) 642ms
+   ✓ 원격 세션 종료 실패도 로컬 로그아웃을 완료하고 미확인을 알린다 323ms
+ ✓ tests/v4-runtime.test.ts (27 tests) 1028ms
+   ✓ V4-A10: 서로 다른 프로세스의 같은 계정 permit은 한 호출만 허용한다 420ms
+ ✓ tests/app.test.ts (5 tests) 422ms
+ ✓ tests/store.test.ts (11 tests) 385ms
+ ✓ tests/public-apis.test.ts (10 tests) 437ms
+ ✓ tests/compliance-v2.test.ts (11 tests) 571ms
+ ✓ tests/public-bundle.test.ts (6 tests) 147ms
+ ✓ tests/legacy-address.test.ts (1 test) 155ms
+ ✓ tests/collection-v2.test.ts (4 tests) 145ms
+ ✓ tests/collection-hardening.test.ts (10 tests) 234ms
+ ✓ tests/mcp-vault.test.ts (2 tests) 2120ms
+   ✓ 설치한 고정 버전 MCP 서버와 연결하고 도구 목록을 조회한다 916ms
+   ✓ Windows DPAPI로 보호한 시험 값을 숨김 프로세스에서 왕복 처리한다 1203ms
+ ✓ tests/v4-workflow.test.ts (18 tests) 1010ms
+ ✓ tests/v3-collection.test.ts (3 tests) 1271ms
+   ✓ V3-F01/S2: 실제 worker·기존 façade는 느린 조회 중 다른 저장을 막지 않고 완료 결과를 재조회한다 1191ms
+ ✓ tests/dossier.test.ts (9 tests) 321ms
+ ✓ tests/sources.test.ts (19 tests) 79ms
+ ✓ tests/intake.test.ts (8 tests) 282ms
+ ✓ tests/a07-transport.test.ts (8 tests) 49ms
+ ✓ tests/reference-collection.test.ts (7 tests) 259ms
+ ✓ tests/case-audit.test.ts (16 tests) 110ms
+ ✓ tests/legal.test.ts (21 tests) 11ms
+ ✓ tests/reviews.test.ts (3 tests) 61ms
+ ✓ tests/verification.test.ts (8 tests) 35ms
+ ✓ tests/fact-provenance.test.ts (19 tests) 44ms
+ ✓ tests/v4-egress-backup.test.ts (2 tests) 74ms
+ ✓ tests/result-language.test.ts (2 tests) 6ms
+ ✓ tests/v3-runtime.test.ts (17 tests) 2684ms
+   ✓ V3-J05: 응답 없는 transport도 총 시간 예산으로 끝난다 1039ms
+   ✓ V3-J07: 실제 두 독립 프로세스의 동시 claim은 한 worker만 획득한다 503ms
+   ✓ V3-J08: 실제 두 프로세스는 다른 작업에서도 provider/key 호출 lease를 공유한다 553ms
+   ✓ V3-J09: 프로세스 비정상 종료 뒤 마지막 저장 checkpoint에서 재개한다 402ms
+ ✓ tests/additional-apis.test.ts (34 tests) 143ms
+ ✓ tests/petitions-documents.test.ts (6 tests) 2859ms
+   ✓ 손상된 문서는 추출 프로세스만 실패하고 다른 업로드는 정상 처리한다 2444ms
+ ✓ tests/v3-workflow.test.ts (17 tests) 2960ms
+   ✓ V3-B03: 2MiB를 넘는 원본도 별도 HTTP 백업·복원 제한 내 왕복한다 1159ms
+   ✓ V3-B04: 실제 복원 프로세스 중단 뒤 일지로 새 원본만 정리하고 재복원한다 327ms
+ ✓ tests/public-api-probes.test.ts (31 tests) 8150ms
+   ✓ waste-companies: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다 4005ms
+   ✓ waste-sanctions: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다 4020ms
+
+ Test Files  33 passed (33)
+      Tests  380 passed (380)
+   Start at  00:01:53
+   Duration  9.75s (tests 56%, import 35%, transform 9%)
+
+JSON report written to C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v4-validation-h7K5YN/work/final-tests.json

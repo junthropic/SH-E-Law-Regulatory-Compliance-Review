@@ -1,0 +1,55 @@
+{
+  "law": [
+    {
+      "file": "waste-forms.html",
+      "hash": "4c522c8b81542e246aaa105ad0d410d5f310d2f830abe659565561b7ff132984",
+      "savedAt": "2026-10-08T16:08:51.501Z",
+      "url": "https://www.law.go.kr/LSW/lsInfoP.do?ancYnChk=0&lsId=008567"
+    },
+    {
+      "file": "ls.js",
+      "hash": "3ceee310e32342b3e03593423e072300646a9a38068c429de7de3683745f1f6e",
+      "savedAt": "2026-10-08T16:16:33.835Z",
+      "url": "https://www.law.go.kr/LSW/js/ls/ls.js",
+      "finding": "lsBylListR.do, lsBylContentsInfoR.do 경로"
+    },
+    {
+      "file": "waste-form-list.html",
+      "hash": "35361a7095aa475325460a7af00fca0aeb6d3aac8b90481a9a8a8b8cec01e1c8",
+      "savedAt": "2026-10-08T16:18:01.661Z",
+      "url": "https://www.law.go.kr/LSW/lsBylListR.do?lsiSeq=290881&lsId=008567",
+      "finding": "별지5 bylSeq18495379"
+    },
+    {
+      "file": "form5-detail.html",
+      "hash": "74524d49d7d3e908496ada2637bd9edd613806a4362ce09bc5e9251abdebdf67",
+      "savedAt": "2026-10-08T16:19:06.407Z",
+      "url": "https://www.law.go.kr/LSW/lsBylContentsInfoR.do?bylSeq=18495379&chrClsCd=010202",
+      "finding": "pdfFlSeq169879609: 게시 metadata 기반 PDF 다운로드"
+    }
+  ],
+  "moel": [
+    {
+      "file": "notice.html",
+      "hash": "09a0576276184d70f4e2cc464ce06789f8e3dfb3f31ac05325e465d1a104ec75",
+      "savedAt": "2026-10-08T16:08:51.642Z",
+      "url": "https://www.moel.go.kr/info/lawinfo/instruction/view.do?bbs_seq=20241201150",
+      "finding": "실제 href file_seq20241202005"
+    }
+  ],
+  "pinnedOutcomes": [
+    {
+      "id": "form5",
+      "status": "blocked",
+      "reason": "원문 응답·형식·연결 불일치",
+      "actualKeyUsed": false
+    },
+    {
+      "id": "notice",
+      "status": "blocked",
+      "reason": "원문 응답·형식·연결 불일치",
+      "actualKeyUsed": false
+    }
+  ],
+  "researchDownloadIsPinnedSuccess": false
+}

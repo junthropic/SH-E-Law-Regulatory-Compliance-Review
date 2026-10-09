@@ -1,0 +1,428 @@
+
+
+
+
+
+
+
+ 
+
+
+	<div class="data-info-tit">
+		<h2>
+			
+				
+					사고일자, 사고유형, 사고지역, 사고원인, 사고물질, 발생장소, 사고개요를 조회하는 국내 화학사고정보 조회 기능
+				
+				
+			
+		</h2>
+	</div>
+
+<div class="data-report-group">
+	
+		<div class="data-report">
+			<h4>API 기본 정보</h4>
+			<div class="line-box type2">
+				<ul class="info-ul">
+					<li>
+						<strong class="key">활용승인 절차</strong>
+						<div class="value">
+							개발단계 :
+							
+								
+									자동승인
+									
+								
+								
+							
+							/ 운영단계 :
+							
+								
+									자동승인
+									
+								
+								
+							
+						</div>
+					</li>
+					<li>
+						<strong class="key">신청 가능 트래픽</strong>
+						<div class="value">
+							
+								
+								
+									개발계정 : 5,000
+									/ 운영계정 : 활용사례 등록시 신청하면 트래픽 증가 가능
+								
+							
+						</div>
+					</li>
+					<li>
+						<strong class="key">요청주소</strong>
+						<div class="value">
+							
+								
+									https://apis.data.go.kr/1480802/iciscsc/csclist
+								
+								
+							
+						</div>
+					</li>
+					<li>
+						<strong class="key">서비스 URL</strong>
+						<div class="value">
+							
+								
+									https://apis.data.go.kr/1480802/iciscsc</a>
+								
+								
+							
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	
+	
+
+		
+		
+			<div class="data-report">
+				<h4>요청변수(Request Parameter)</h4>
+				<div class="krds-table-wrap m-table">
+					<table class="tbl col bg data">
+						<caption>해당 오픈API의 요청변수(Request Parameter) 항목에 대한 표로, 국문항목명, 영문 항목명, 항목크기, 항목구분, 샘플데이터, 항목 설명순으로 나열됩니다.</caption>
+						<colgroup>
+							<col style="width: 15%;">
+							<col style="width: 18%;">
+							<col style="width: 10%;">
+							<col style="width: 10%;">
+							<col style="width: 13%;">
+							<col>
+						</colgroup>
+						<thead>
+						<tr>
+							<th scope="col">항목명(국문)</th>
+							<th scope="col">항목명(영문)</th>
+							<th scope="col">항목크기</th>
+							<th scope="col">항목구분</th>
+							<th scope="col">샘플데이터</th>
+							<th scope="col">항목설명</th>
+						</tr>
+						</thead>
+						<tbody>
+						
+							
+							
+								
+									
+										<tr>
+											<td data-paramtr-kor-nm="서비스키">서비스키</td>
+											<td data-paramtr-nm="ServiceKey">ServiceKey</td>
+											<td data-paramtr-size="100" class="just-pc">100</td>
+											<td data-paramtr-division="필" class="just-pc">필</td>
+											<td data-paramtr-bass-value="-" class="just-pc">-</td>
+											<td data-paramtr-dc="공공데이터포털에서 받은 인증키" >공공데이터포털에서 받은 인증키</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td data-paramtr-kor-nm="페이지 번호">페이지 번호</td>
+											<td data-paramtr-nm="pageNo">pageNo</td>
+											<td data-paramtr-size="4" class="just-pc">4</td>
+											<td data-paramtr-division="필" class="just-pc">필</td>
+											<td data-paramtr-bass-value="1" class="just-pc">1</td>
+											<td data-paramtr-dc="페이지번호" >페이지번호</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td data-paramtr-kor-nm="한 페이지 결과 수">한 페이지 결과 수</td>
+											<td data-paramtr-nm="numOfRows">numOfRows</td>
+											<td data-paramtr-size="4" class="just-pc">4</td>
+											<td data-paramtr-division="필" class="just-pc">필</td>
+											<td data-paramtr-bass-value="10" class="just-pc">10</td>
+											<td data-paramtr-dc="한 페이지 결과 수" >한 페이지 결과 수</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td data-paramtr-kor-nm="연도">연도</td>
+											<td data-paramtr-nm="yyyy">yyyy</td>
+											<td data-paramtr-size="4" class="just-pc">4</td>
+											<td data-paramtr-division="옵" class="just-pc">옵</td>
+											<td data-paramtr-bass-value="2020" class="just-pc">2020</td>
+											<td data-paramtr-dc="검색을 원하는 연도" >검색을 원하는 연도</td>
+										</tr>
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+								
+							
+						
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="data-report">
+				<h4>출력결과(Response Element)</h4>
+				<div class="krds-table-wrap m-table">
+					<table class="tbl col bg data">
+						<caption>해당 오픈API의 출력결과(Response Element) 항목에 대한 표로, 국문항목명, 영문 항목명, 항목크기, 항목구분, 샘플데이터, 항목 설명순으로 나열됩니다.</caption>
+						<colgroup>
+							<col style="width: 15%;">
+							<col style="width: 18%;">
+							<col style="width: 10%;">
+							<col style="width: 10%;">
+							<col style="width: 13%;">
+							<col>
+						</colgroup>
+						<thead>
+						<tr>
+							<th scope="col">항목명(국문)</th>
+							<th scope="col">항목명(영문)</th>
+							<th scope="col">항목크기</th>
+							<th scope="col">항목구분</th>
+							<th scope="col">샘플데이터</th>
+							<th scope="col">항목설명</th>
+						</tr>
+						</thead>
+						<tbody>
+						
+							
+							
+								
+									
+								
+									
+								
+									
+								
+									
+								
+									
+										<tr>
+											<td>결과코드</td>
+											<td>resultCode</td>
+											<td class="just-pc">2</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">00</td>
+											<td>결과코드</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>결과메시지</td>
+											<td>resultMsg</td>
+											<td class="just-pc">50</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">OK</td>
+											<td>결과메시지</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>한 페이지 결과 수</td>
+											<td>numOfRows</td>
+											<td class="just-pc">4</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">10</td>
+											<td>한 페이지 결과 수</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>페이지 번호</td>
+											<td>pageNo</td>
+											<td class="just-pc">4</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">1</td>
+											<td>페이지번호</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>전체 결과 수</td>
+											<td>totalCount</td>
+											<td class="just-pc">4</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">3</td>
+											<td>전체 결과 수</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>일련번호</td>
+											<td>dataNo</td>
+											<td class="just-pc">10</td>
+											<td class="just-pc">필</td>
+											<td class="just-pc">2020-001</td>
+											<td>데이터 일련번호</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>사고일자</td>
+											<td>cscDe</td>
+											<td class="just-pc">10</td>
+											<td class="just-pc">옵</td>
+											<td class="just-pc"></td>
+											<td>사고일자</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>사고유형</td>
+											<td>cscTy</td>
+											<td class="just-pc">20</td>
+											<td class="just-pc">옵</td>
+											<td class="just-pc"></td>
+											<td>사고유형</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>지역</td>
+											<td>area</td>
+											<td class="just-pc">1000</td>
+											<td class="just-pc">옵</td>
+											<td class="just-pc"></td>
+											<td>지역</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>사고원인</td>
+											<td>cause</td>
+											<td class="just-pc">4000</td>
+											<td class="just-pc">옵</td>
+											<td class="just-pc"></td>
+											<td>사고원인</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>사고물질</td>
+											<td>chem</td>
+											<td class="just-pc">4000</td>
+											<td class="just-pc">옵</td>
+											<td class="just-pc"></td>
+											<td>사고물질</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>발생장소</td>
+											<td>place</td>
+											<td class="just-pc">4000</td>
+											<td class="just-pc">옵</td>
+											<td class="just-pc"></td>
+											<td>발생장소</td>
+										</tr>
+									
+								
+									
+										<tr>
+											<td>사고개요</td>
+											<td>summary</td>
+											<td class="just-pc">4000</td>
+											<td class="just-pc">옵</td>
+											<td class="just-pc"></td>
+											<td>사고개요</td>
+										</tr>
+									
+								
+							
+						
+						</tbody>
+					</table>
+				</div>
+			</div>
+		
+	
+</div>
+
+
+<script type="text/javascript">
+
+	const apiObj = {
+		fn_selectApiDetailFunction: function() {
+			let dataObj = {};
+			dataObj.oprtinSeqNo = $("#open_api_detail_select").val();
+			dataObj.publicDataDetailPk	= $("#publicDataDetailPk").val();
+			dataObj.publicDataPk	= $("#publicDataPk").val();
+			
+			// 국가 중점 표준데이터인 경우 피케이가 변경돼야함.
+// 			if ($("#natCoreDataSe").val() === "Y") {
+// 				dataObj.publicDataPk	= $("#stdPublicDataPk").val();
+// 			}
+			
+			$.ajax({
+				url		: "/tcs/dss/selectApiDetailFunction.do",
+				method	: "post",
+				data	: dataObj,
+				
+				success	: function(data) {
+					$(".data-info-tit").remove();
+					$(".data-report-group").remove();
+					$("#apiDetailFunctionDiv").append(data);
+				}
+			})
+		},
+		
+		fn_goApplyReq: function() {
+			var mberId = "";
+			
+			if (fn_empty(mberId)) {
+				
+				if (confirm("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+					location.href = "/uim/login/loginView.do";
+					return;
+				} else {
+					return;
+				}
+			}
+			
+			location.href="/tcs/dss/redirectDevAcountRequestForm.do?publicDataPk=" + $("#publicDataPk").val();
+		}
+	}
+</script>

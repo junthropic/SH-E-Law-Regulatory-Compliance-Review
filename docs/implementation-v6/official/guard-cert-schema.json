@@ -1,0 +1,369 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "한국산업안전보건공단에서 제공하는 방호장치 안전인증서 진위확인 조회서비스입니다. \n- 발급된 증명서의 안전인증 번호를 입력하세요.(-포함입력) \n\n※ 보호구 안전인증 (KCs마크) 제도란? \n안전인증 대상은 위험기계·기구의 방호장치와 유해 위험한 작업장에서 근로자가 착용하는 보호구입니다. \n의무안전인증을 받아야 하는 품목과 제조하는 자가 방호장치·보호구 안전인증기준에 의거하여 스스로 안전성을 확인하고 이를 우리 공단에 자율안전확인 신고를 하는 품목으로 구분됩니다. \n이를 통해 안전인증기준을 만족하는 제품에 KCs마크를 부착·판매토록 하여 근원적인 안전성과 신뢰성이 확보된 제품이 제조, 유통 및 사용 되도록 함으로써 산업재해를 예방하고자 추진하는 제도입니다.",
+    "version": "1.0.0",
+    "title": "한국산업안전보건공단_방호장치 안전인증서 진위확인 서비스"
+  },
+  "host": "apis.data.go.kr/B552468/getprotect",
+  "basePath": "",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/getprotect_api01": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "pageNo, numOfRows 미입력시 발생오류로, 입력하여 활용해주시기 바랍니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header    ",
+                  "properties": {
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    },
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "numOfRows": {
+                      "type": "number",
+                      "description": "한 페이지 결과 수",
+                      "properties": {}
+                    },
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "crtdcIssuYmd": {
+                              "type": "string",
+                              "description": "인증서 발급일자",
+                              "properties": {}
+                            },
+                            "docAuthYn": {
+                              "type": "string",
+                              "description": "문서 진위여부",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "totalCount": {
+                      "type": "number",
+                      "description": "전체 결과 수",
+                      "properties": {}
+                    },
+                    "pageNo": {
+                      "type": "number",
+                      "description": "페이지 번호",
+                      "properties": {}
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "방호장치 안전인증 진위확인",
+        "description": "방호장치 안전인증 번호를 입력하여 진위를 확인하는 서비스 입니다.",
+        "operationId": "getprotect_api01",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "pageNo",
+          "description": "페이지번호",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "numOfRows",
+          "description": "한 페이지 결과 수",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "callApiId",
+          "description": "방호장치 안전인증 진위확인 서비스(필수입력 고정값)",
+          "type": "number",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "certNo",
+          "description": "인증번호(-포함입력)    ",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "getprotect_api01_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header    ",
+          "properties": {
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            },
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "numOfRows": {
+              "type": "number",
+              "description": "한 페이지 결과 수"
+            },
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "crtdcIssuYmd": {
+                      "type": "string",
+                      "description": "인증서 발급일자"
+                    },
+                    "docAuthYn": {
+                      "type": "string",
+                      "description": "문서 진위여부"
+                    }
+                  }
+                }
+              }
+            },
+            "totalCount": {
+              "type": "number",
+              "description": "전체 결과 수"
+            },
+            "pageNo": {
+              "type": "number",
+              "description": "페이지 번호"
+            }
+          }
+        }
+      }
+    }
+  },
+  "swaggerOprtinVOs": [
+    {
+      "oprtinUrl": "https://portal.kosha.or.kr/openapi/v1/koshagw",
+      "oprtinNm": "방호장치 안전인증 진위확인",
+      "oprtinDc": "방호장치 안전인증 번호를 입력하여 진위를 확인하는 서비스 입니다.",
+      "gwSvcNm": "getprotect_api01",
+      "operationId": "getprotect_api01",
+      "publicDataTyDetailCode": "PRDE02",
+      "reqList": [
+        {
+          "paramtrNm": "serviceKey",
+          "paramtrDc": "공공데이터포털에서 받은 인증키",
+          "paramtrBassValue": "-",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "pageNo",
+          "paramtrDc": "페이지번호",
+          "paramtrBassValue": "1",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "numOfRows",
+          "paramtrDc": "한 페이지 결과 수",
+          "paramtrBassValue": "10",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "callApiId",
+          "paramtrDc": "방호장치 안전인증 진위확인 서비스(필수입력 고정값)",
+          "paramtrBassValue": "1100",
+          "paramtrTy": "number",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "certNo",
+          "paramtrDc": "인증번호(-포함입력)    ",
+          "paramtrBassValue": "16-AV2BL-0017",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        }
+      ],
+      "resList": [
+        {
+          "paramtrNm": "header",
+          "paramtrDc": "header    ",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/oper-1-header",
+          "subDefNm": "oper-1-header",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "resultMsg",
+              "paramtrDc": "결과메세지",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "resultCode",
+              "paramtrDc": "결과코드",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        },
+        {
+          "paramtrNm": "body",
+          "paramtrDc": "body",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/oper-1-body",
+          "subDefNm": "oper-1-body",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "numOfRows",
+              "paramtrDc": "한 페이지 결과 수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "number",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "items",
+              "paramtrDc": "items",
+              "arrayYn": "N",
+              "paramtrDefNm": "#/definitions/items",
+              "subDefNm": "items",
+              "paramtrTy": "object",
+              "paramtrDivision": "필수",
+              "ck": true,
+              "subParam": [
+                {
+                  "paramtrNm": "item",
+                  "paramtrDc": "item",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "#/definitions/item",
+                  "subDefNm": "item",
+                  "paramtrTy": "object",
+                  "paramtrDivision": "필수",
+                  "ck": true,
+                  "subParam": [
+                    {
+                      "paramtrNm": "crtdcIssuYmd",
+                      "paramtrDc": "인증서 발급일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "docAuthYn",
+                      "paramtrDc": "문서 진위여부",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "paramtrNm": "totalCount",
+              "paramtrDc": "전체 결과 수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "number",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "pageNo",
+              "paramtrDc": "페이지 번호",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "number",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        }
+      ],
+      "oprtinNo": 1
+    }
+  ]
+}

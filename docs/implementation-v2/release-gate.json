@@ -1,0 +1,13 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "dirty": true,
+  "sourceDigest": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2",
+  "at": "2026-10-08T11:34:53.229Z",
+  "productionDeployment": "범위제외: 사용자 별도 승인 없음",
+  "uiChanges": 0,
+  "realWorkplace": "차단: 실제 자료 없음",
+  "approvedLegalRules": 0,
+  "qualifiedReview": "차단: 실제 권한자·분야 검토 미제공",
+  "mandatoryAcceptanceComplete": false,
+  "releaseAllowed": false
+}

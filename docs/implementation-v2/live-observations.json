@@ -1,0 +1,350 @@
+{
+  "runs": [
+    {
+      "evidence": "work/v2-audit/live.json",
+      "at": "2026-10-08T11:02:51.383Z",
+      "scope": "official sample queries; isolated state; no deployment",
+      "apis": [
+        {
+          "code": "A07",
+          "id": "waste-companies",
+          "at": "2026-10-08T11:02:53.132Z",
+          "elapsedMs": 1747,
+          "ok": true,
+          "count": 1,
+          "total": 13424
+        },
+        {
+          "code": "A08",
+          "id": "waste-sanctions",
+          "at": "2026-10-08T11:02:57.162Z",
+          "elapsedMs": 2019,
+          "ok": true,
+          "count": 1,
+          "total": 1154
+        }
+      ],
+      "law": [
+        {
+          "title": "화성시 사무위임 조례",
+          "id": "2048299",
+          "at": "2026-10-08T11:03:00.652Z",
+          "currentVersions": [
+            "2048299"
+          ],
+          "metadata": {
+            "자치법규ID": "2144847",
+            "자치법규명": "화성시 사무위임 조례",
+            "자치법규일련번호": "2048299",
+            "지자체기관명": "경기도 화성시",
+            "시행일자": "20260201",
+            "제개정정보": "일부개정",
+            "자치법규종류": "C0001",
+            "공포번호": "2412",
+            "전화번호": "031-5189-3289",
+            "담당부서명": "정책기획관",
+            "자치법규발의종류": "",
+            "공포일자": "20251231"
+          }
+        },
+        {
+          "title": "화성시 사무위임 규칙",
+          "id": "2048313",
+          "at": "2026-10-08T11:03:03.705Z",
+          "currentVersions": [
+            "2048313"
+          ],
+          "metadata": {
+            "자치법규ID": "2145228",
+            "자치법규명": "화성시 사무위임 규칙",
+            "자치법규일련번호": "2048313",
+            "지자체기관명": "경기도 화성시",
+            "시행일자": "20260201",
+            "제개정정보": "일부개정",
+            "자치법규종류": "C0002",
+            "공포번호": "784",
+            "전화번호": "031-5189-3289",
+            "담당부서명": "정책기획관",
+            "자치법규발의종류": "",
+            "공포일자": "20260113"
+          }
+        }
+      ]
+    },
+    {
+      "evidence": "work/v2-audit/live-phases.json",
+      "at": "2026-10-08T11:14:25.819Z",
+      "scope": "official sample queries; isolated state; no deployment",
+      "apis": [
+        {
+          "code": "A07",
+          "id": "waste-companies",
+          "at": "2026-10-08T11:16:31.956Z",
+          "elapsedMs": 126136,
+          "ok": false,
+          "errorCode": "timeout",
+          "phaseMeasurements": [
+            {
+              "at": "2026-10-08T11:15:26.852Z",
+              "phase": "headers",
+              "elapsedMs": 60011
+            },
+            {
+              "at": "2026-10-08T11:16:31.947Z",
+              "phase": "headers",
+              "elapsedMs": 60011
+            }
+          ]
+        },
+        {
+          "code": "A08",
+          "id": "waste-sanctions",
+          "at": "2026-10-08T11:17:40.667Z",
+          "elapsedMs": 66697,
+          "ok": true,
+          "count": 1,
+          "total": 1154,
+          "phaseMeasurements": [
+            {
+              "at": "2026-10-08T11:17:34.940Z",
+              "phase": "headers",
+              "elapsedMs": 60018
+            },
+            {
+              "at": "2026-10-08T11:17:40.653Z",
+              "phase": "headers",
+              "elapsedMs": 107
+            },
+            {
+              "at": "2026-10-08T11:17:40.665Z",
+              "phase": "body",
+              "elapsedMs": 2
+            },
+            {
+              "at": "2026-10-08T11:17:40.665Z",
+              "phase": "parse",
+              "elapsedMs": 0
+            }
+          ]
+        }
+      ],
+      "law": [
+        {
+          "state": "이번 실행은 API 단계 계측만 수행"
+        }
+      ]
+    }
+  ],
+  "serving": {
+    "checkedAt": "2026-10-08T20:06:40.593458+09:00",
+    "http": 200,
+    "registeredCount": 32,
+    "catalogCount": 32,
+    "connections": [
+      {
+        "id": "qna",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T10:46:51.925Z"
+      },
+      {
+        "id": "fire",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T10:46:56.581Z"
+      },
+      {
+        "id": "msds",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T10:46:58.378Z"
+      },
+      {
+        "id": "smart",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T10:51:03.218Z"
+      },
+      {
+        "id": "keco",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T10:51:04.981Z"
+      },
+      {
+        "id": "guide",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T10:51:07.454Z"
+      },
+      {
+        "id": "grievance",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T16:32:46.11Z"
+      },
+      {
+        "id": "ghs",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T16:32:45.733Z"
+      },
+      {
+        "id": "accidents",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T14:44:47.242Z"
+      },
+      {
+        "id": "accident-files",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T14:45:25.681Z"
+      },
+      {
+        "id": "sif",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T14:46:48.623Z"
+      },
+      {
+        "id": "chemical-accidents",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T14:47:42.604Z"
+      },
+      {
+        "id": "waste-companies",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-08T09:42:59.199Z"
+      },
+      {
+        "id": "waste-sanctions",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T16:06:20.831Z"
+      },
+      {
+        "id": "environment-agencies",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:27:43.638Z"
+      },
+      {
+        "id": "measurement-agencies",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:27:35.535Z"
+      },
+      {
+        "id": "land-use",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:27:26.858Z"
+      },
+      {
+        "id": "address",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:27:17.802Z"
+      },
+      {
+        "id": "ppe-cert",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:27:09.664Z"
+      },
+      {
+        "id": "machine-cert",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:27:01.355Z"
+      },
+      {
+        "id": "guard-cert",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:26:52.369Z"
+      },
+      {
+        "id": "ppe-declaration",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:26:43.986Z"
+      },
+      {
+        "id": "machine-declaration",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:26:35.558Z"
+      },
+      {
+        "id": "guard-declaration",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:26:27.255Z"
+      },
+      {
+        "id": "fire-approval",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T16:06:21.25Z"
+      },
+      {
+        "id": "fire-revocation",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T16:06:21.595Z"
+      },
+      {
+        "id": "air-facilities",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:26:02.519Z"
+      },
+      {
+        "id": "water-other",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:25:54.418Z"
+      },
+      {
+        "id": "dust-business",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:25:46.322Z"
+      },
+      {
+        "id": "gas-business",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:25:37.086Z"
+      },
+      {
+        "id": "specific-gas",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:25:28.869Z"
+      },
+      {
+        "id": "waste-fitness",
+        "configured": true,
+        "state": "ok",
+        "checkedAt": "2026-10-07T15:25:20.895Z"
+      }
+    ],
+    "processes": [
+      {
+        "ProcessId": 38060,
+        "CreationDate": "2026-10-08T19:00:05.953374+09:00",
+        "CommandLine": "\"C:\\Program Files\\nodejs\\node.EXE\" \"C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\build\\server\\index.js\""
+      }
+    ],
+    "frontendAsset": "index-BivsNquf.js",
+    "frontendAssetObserved": true,
+    "backendServingBuildId": "전용 식별 API 없음: 이번 변경 미배포",
+    "deploymentPerformed": false
+  },
+  "warning": "저장된 과거 성공과 이번 live 호출을 구분. 후속 A07 제한 시간 초과, A08 재시도 성공. 장기 장애율 산정 불가."
+}

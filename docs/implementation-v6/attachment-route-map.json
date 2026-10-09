@@ -1,0 +1,69 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "registeredBy": "registerManagementV6: host explicit opt-in only",
+  "productionRegistered": false,
+  "route": {
+    "path": "server/management-v6.ts",
+    "line": 22,
+    "hash": "2a0f6160855d8977a27e4cd39499b1a214362f32e4870b10a53ab5f03e663d4e"
+  },
+  "worker": {
+    "path": "server/collection-v4.ts",
+    "line": 63,
+    "hash": "7e63e3fde0228b61b54c8ac05457299fc321ff2db9b0092e661ea304d194cd7f"
+  },
+  "serverDiscovery": {
+    "path": "server/attachment-graph-v6.ts",
+    "line": 25,
+    "hash": "86172eac068c013f93c4a30239b5546a5af76cc2458200b30bd19059d40a0206"
+  },
+  "policies": "정확 provider/fileID/URL만 host 등록; HTTP URL/discoveryHash 입력 거부",
+  "tests": [
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-A01: form5 격리 관리 route가 보존 공식 페이지→download→암호화→실제 파서를 호출",
+      "status": "passed",
+      "duration": 776.6476
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-A01: notice 격리 관리 route가 보존 공식 페이지→download→암호화→실제 파서를 호출",
+      "status": "passed",
+      "duration": 544.5430000000001
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-A02: 사고 첨부 식별자·정확 URL·GUIDE 날짜·SIF 미지원 분리",
+      "status": "passed",
+      "duration": 34.197099999999864
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-A03: accidents 실제 worker capture→식별자 metadata→정확한 정책→원본·추출",
+      "status": "passed",
+      "duration": 765.6239000000005
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-A03: guide 실제 worker capture→식별자 metadata→정확한 정책→원본·추출",
+      "status": "passed",
+      "duration": 457.4948999999997
+    }
+  ],
+  "governmentOriginalSuccess": 0,
+  "governmentOriginalDenominator": 2,
+  "representations": [
+    "공식 PDF 표현본: HWP master와 별도",
+    "고용노동부 고시 HWPX"
+  ],
+  "remaining": [
+    "정부 pin 정상 원본",
+    "현장 결정 셀·이미지 OCR",
+    "기관 redirect/download 정책 독립 확인"
+  ]
+}

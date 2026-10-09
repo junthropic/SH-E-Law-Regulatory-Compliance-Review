@@ -1,0 +1,111 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+
+
+
+
+<html>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="shortcut icon" href="/LSW/images/ico_favorites.ico"  type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="/LSW/css/lsw/common.css?Time=1791483588" />
+    <link rel="stylesheet" type="text/css" href="/LSW/js/jquery/jquery.loadmask.css?Time=1791483588" />
+    <!-- 레이아웃 관련 CSS -->
+    <link rel="stylesheet" type="text/css" href="/LSW/js/jquery/layout-default-latest.css?Time=1791483588" />
+    <link type="text/css" rel="stylesheet" href="/LSW/css/lsw/layout.css?Time=1791483588" />
+    <link type="text/css" rel="stylesheet" href="/LSW/css/lsw/board.css?Time=1791483588" />
+    <link type="text/css" rel="stylesheet" href="/LSW/css/ui_2017.css?Time=1791483588" />
+    <link type="text/css" rel="stylesheet" href="/LSW/css/fonts.css?Time=1791483588" />
+    <!-- 레이아웃 관련 CSS //-->
+
+    <script type="text/javascript" src="/LSW/js/jquery/jquery.min.js?Time=1791483588"></script>
+    <script type="text/javascript" src="/LSW/js/common/common.js?Time=1791483588"></script>
+    <script type="text/javascript" src="/LSW/js/common/drag_search.js?Time=1791483588"></script>
+    <script type="text/javascript" src="/LSW/js/common/CookieUtil.js"></script>
+    <script type="text/javascript" src="/LSW/js/jquery/jquery.loadmask.min.js?Time=1791483588"></script>
+    <script type="text/javascript" src="/LSW/js/common/jquery-custom.js?Time=1791483588"></script>
+    <!-- 레이아웃 관련 JS -->
+    <script type="text/javascript" src="/LSW/js/jquery/jquery-ui.js?Time=1791483588"></script>
+    <script type="text/javascript" src="/LSW/js/jquery/jquery-ui_2017.min.js?Time=1791483588"></script>
+    <script type="text/javascript" src="/LSW/js/jquery/jquery.layout-latest.min.js?Time=1791483588"></script>
+    <script type="text/javascript" src="/LSW/js/common/layout.js?Time=1791483588"></script>
+    <!-- 레이아웃 관련 JS //-->
+
+    <style type="text/css">
+        .ui-layout-pane {
+            padding: 0;
+            background:	#EEE;
+        }
+        .ui-layout-west {
+            background:	#CFC;
+        }
+        .ui-layout-center {
+            background:	#FFC;
+            padding:	0; /* IMPORTANT - remove padding so pane can 'collapse' to 0-width */
+        }
+
+        .ui-layout-west > .ui-layout-center {
+            background:	#CFC;
+        }
+
+        .ui-layout-west > .ui-layout-south {
+            background:	#AFE;
+        }
+        .ui-layout-pane { border-width: 0; }
+        .ui-layout-north { border-bottom-width:	1px; }
+        .ui-layout-south { border-top-width: 1px; }
+        .ui-layout-resizer-west {
+            border-width: 0;
+            border-left: 2px solid #b4b4b4;
+            background-color:white;
+        }
+        .ui-layout-toggler {
+            border: 0;
+            background-color:#fff
+        }
+        .ui-layout-toggler-west-closed {
+            background-image: url("./images/button/leslidev7_2.gif");
+            background-color:white;
+            background-repeat: no-repeat;
+        }
+        .ui-layout-toggler-west-open {
+            background-image: url("./images/button/leslidev7_1.gif");
+            background-color:white;
+            background-repeat: no-repeat;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var webRoot = '/LSW';
+    </script>
+</head>
+
+<body>
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www

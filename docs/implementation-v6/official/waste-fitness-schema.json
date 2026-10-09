@@ -1,0 +1,592 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "최초 인허가 일자에 따른 적합성 확인 유효기간을 조회하는 기간으로 유효기간 내에 행정처분이 있을시 기본 5년, 없을시 7년이며, 해당 API는 단순 참고용으로 자세한 적합성 확인 일자는 해당 지자체에 문의 바람",
+    "version": "1.0.0",
+    "title": "한국환경공단_폐기물 적합성 확인"
+  },
+  "host": "apis.data.go.kr/B552584/ifCompatibleInfoService",
+  "basePath": "",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/getList": {
+      "get": {
+        "responses": {
+          "91": {
+            "description": "오탈자로 인한 잘못된  파라미터 요청 오류"
+          },
+          "93": {
+            "description": "필수파라미터 누락 오류"
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "lcpmtBgngDt": {
+                              "type": "string",
+                              "description": "인허가시작일시",
+                              "properties": {}
+                            },
+                            "lcpmtEndDt": {
+                              "type": "string",
+                              "description": "인허가종료일시",
+                              "properties": {}
+                            },
+                            "adhcoVldPrdBgngYmd": {
+                              "type": "string",
+                              "description": "행정처분이력보유기업유효기간 시작일자",
+                              "properties": {}
+                            },
+                            "adhcoVldPrdEndYmd": {
+                              "type": "string",
+                              "description": "행정처분이력보유기업유효기간 종료일자",
+                              "properties": {}
+                            },
+                            "adhcoVldPrd2ndBgngYmd": {
+                              "type": "string",
+                              "description": "행정처분이력보유기업유효기간 2차시작일자",
+                              "properties": {}
+                            },
+                            "adhcoVldPrd2ndEndYmd": {
+                              "type": "string",
+                              "description": "행정처분이력보유기업유효기간 2차종료일자",
+                              "properties": {}
+                            },
+                            "adhcoVldPrd3rdBgngYmd": {
+                              "type": "string",
+                              "description": "행정처분이력보유기업유효기간 3차시작일자",
+                              "properties": {}
+                            },
+                            "adhcoVldPrd3rdEndYmd": {
+                              "type": "string",
+                              "description": "행정처분이력보유기업유효기간 3차종료일자",
+                              "properties": {}
+                            },
+                            "nadhcoVldPrdBgngYmd": {
+                              "type": "string",
+                              "description": "행정처분이력미보유기업유효기간 시작일자",
+                              "properties": {}
+                            },
+                            "nadhcoVldPrdEndYmd": {
+                              "type": "string",
+                              "description": "행정처분이력미보유기업유효기간 종료일자",
+                              "properties": {}
+                            },
+                            "nadhcoVldPrd2ndBgngYmd": {
+                              "type": "string",
+                              "description": "행정처분이력미보유기업유효기간 2차시작일자",
+                              "properties": {}
+                            },
+                            "nadhcoVldPrd2ndEndYmd": {
+                              "type": "string",
+                              "description": "행정처분이력미보유기업유효기간 2차종료일자",
+                              "properties": {}
+                            },
+                            "nadhcoVldPrd3rdBgngYmd": {
+                              "type": "string",
+                              "description": "행정처분이력미보유기업유효기간 3차시작일자",
+                              "properties": {}
+                            },
+                            "nadhcoVldPrd3rdEndYmd": {
+                              "type": "string",
+                              "description": "행정처분이력미보유기업유효기간 3차종료일자",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "numOfRows": {
+                      "type": "string",
+                      "description": "한 페이지 결과 수",
+                      "properties": {}
+                    },
+                    "pageNo": {
+                      "type": "string",
+                      "description": "페이지 수",
+                      "properties": {}
+                    },
+                    "totalCount": {
+                      "type": "string",
+                      "description": "데이터 총 개수",
+                      "properties": {}
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "unknown": {
+            "description": "pageNo 또는 returnType 누락 오류"
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "폐기물 적합성 확인",
+        "description": "최초 인허가 일자에 따른 적합성 확인 유효기간을 조회",
+        "operationId": "getList",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "pageNo",
+          "description": "페이지번호",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "numOfRows",
+          "description": "한 페이지 결과 수",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "returnType",
+          "description": "결과 형식",
+          "type": "string",
+          "required": false,
+          "in": "query"
+        },
+        {
+          "name": "lcpmtBgngDt",
+          "description": "최초 인허가 일자",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "getList_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "lcpmtBgngDt": {
+                      "type": "string",
+                      "description": "인허가시작일시"
+                    },
+                    "lcpmtEndDt": {
+                      "type": "string",
+                      "description": "인허가종료일시"
+                    },
+                    "adhcoVldPrdBgngYmd": {
+                      "type": "string",
+                      "description": "행정처분이력보유기업유효기간 시작일자"
+                    },
+                    "adhcoVldPrdEndYmd": {
+                      "type": "string",
+                      "description": "행정처분이력보유기업유효기간 종료일자"
+                    },
+                    "adhcoVldPrd2ndBgngYmd": {
+                      "type": "string",
+                      "description": "행정처분이력보유기업유효기간 2차시작일자"
+                    },
+                    "adhcoVldPrd2ndEndYmd": {
+                      "type": "string",
+                      "description": "행정처분이력보유기업유효기간 2차종료일자"
+                    },
+                    "adhcoVldPrd3rdBgngYmd": {
+                      "type": "string",
+                      "description": "행정처분이력보유기업유효기간 3차시작일자"
+                    },
+                    "adhcoVldPrd3rdEndYmd": {
+                      "type": "string",
+                      "description": "행정처분이력보유기업유효기간 3차종료일자"
+                    },
+                    "nadhcoVldPrdBgngYmd": {
+                      "type": "string",
+                      "description": "행정처분이력미보유기업유효기간 시작일자"
+                    },
+                    "nadhcoVldPrdEndYmd": {
+                      "type": "string",
+                      "description": "행정처분이력미보유기업유효기간 종료일자"
+                    },
+                    "nadhcoVldPrd2ndBgngYmd": {
+                      "type": "string",
+                      "description": "행정처분이력미보유기업유효기간 2차시작일자"
+                    },
+                    "nadhcoVldPrd2ndEndYmd": {
+                      "type": "string",
+                      "description": "행정처분이력미보유기업유효기간 2차종료일자"
+                    },
+                    "nadhcoVldPrd3rdBgngYmd": {
+                      "type": "string",
+                      "description": "행정처분이력미보유기업유효기간 3차시작일자"
+                    },
+                    "nadhcoVldPrd3rdEndYmd": {
+                      "type": "string",
+                      "description": "행정처분이력미보유기업유효기간 3차종료일자"
+                    }
+                  }
+                }
+              }
+            },
+            "numOfRows": {
+              "type": "string",
+              "description": "한 페이지 결과 수"
+            },
+            "pageNo": {
+              "type": "string",
+              "description": "페이지 수"
+            },
+            "totalCount": {
+              "type": "string",
+              "description": "데이터 총 개수"
+            }
+          }
+        }
+      }
+    }
+  },
+  "swaggerOprtinVOs": [
+    {
+      "oprtinUrl": "https://www.kecoapi.or.kr/kecoapi/ifCompatibleInfoService/getList",
+      "oprtinNm": "폐기물 적합성 확인",
+      "oprtinDc": "최초 인허가 일자에 따른 적합성 확인 유효기간을 조회",
+      "gwSvcNm": "getList",
+      "operationId": "getList",
+      "publicDataTyDetailCode": "PRDE02",
+      "reqList": [
+        {
+          "paramtrNm": "serviceKey",
+          "paramtrDc": "공공데이터포털에서 받은 인증키",
+          "paramtrBassValue": "-",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "pageNo",
+          "paramtrDc": "페이지번호",
+          "paramtrBassValue": "1",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "numOfRows",
+          "paramtrDc": "한 페이지 결과 수",
+          "paramtrBassValue": "10",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "returnType",
+          "paramtrDc": "결과 형식",
+          "paramtrBassValue": "json",
+          "paramtrTy": "string",
+          "paramtrDivision": "옵션",
+          "ck": true
+        },
+        {
+          "paramtrNm": "lcpmtBgngDt",
+          "paramtrDc": "최초 인허가 일자",
+          "paramtrBassValue": "2026-08-19",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        }
+      ],
+      "resList": [
+        {
+          "paramtrNm": "header",
+          "paramtrDc": "header",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/oper-1-header",
+          "subDefNm": "oper-1-header",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "resultCode",
+              "paramtrDc": "결과코드",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "resultMsg",
+              "paramtrDc": "결과메세지",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        },
+        {
+          "paramtrNm": "body",
+          "paramtrDc": "body",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/oper-1-body",
+          "subDefNm": "oper-1-body",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "items",
+              "paramtrDc": "items",
+              "arrayYn": "N",
+              "paramtrDefNm": "#/definitions/oper-1-items",
+              "subDefNm": "oper-1-items",
+              "paramtrTy": "object",
+              "paramtrDivision": "필수",
+              "ck": true,
+              "subParam": [
+                {
+                  "paramtrNm": "item",
+                  "paramtrDc": "item",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "#/definitions/oper-1-item",
+                  "subDefNm": "oper-1-item",
+                  "paramtrTy": "object",
+                  "paramtrDivision": "필수",
+                  "ck": true,
+                  "subParam": [
+                    {
+                      "paramtrNm": "lcpmtBgngDt",
+                      "paramtrDc": "인허가시작일시",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "lcpmtEndDt",
+                      "paramtrDc": "인허가종료일시",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "adhcoVldPrdBgngYmd",
+                      "paramtrDc": "행정처분이력보유기업유효기간 시작일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "adhcoVldPrdEndYmd",
+                      "paramtrDc": "행정처분이력보유기업유효기간 종료일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "adhcoVldPrd2ndBgngYmd",
+                      "paramtrDc": "행정처분이력보유기업유효기간 2차시작일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "adhcoVldPrd2ndEndYmd",
+                      "paramtrDc": "행정처분이력보유기업유효기간 2차종료일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "adhcoVldPrd3rdBgngYmd",
+                      "paramtrDc": "행정처분이력보유기업유효기간 3차시작일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "adhcoVldPrd3rdEndYmd",
+                      "paramtrDc": "행정처분이력보유기업유효기간 3차종료일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "nadhcoVldPrdBgngYmd",
+                      "paramtrDc": "행정처분이력미보유기업유효기간 시작일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "nadhcoVldPrdEndYmd",
+                      "paramtrDc": "행정처분이력미보유기업유효기간 종료일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "nadhcoVldPrd2ndBgngYmd",
+                      "paramtrDc": "행정처분이력미보유기업유효기간 2차시작일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "nadhcoVldPrd2ndEndYmd",
+                      "paramtrDc": "행정처분이력미보유기업유효기간 2차종료일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "nadhcoVldPrd3rdBgngYmd",
+                      "paramtrDc": "행정처분이력미보유기업유효기간 3차시작일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "nadhcoVldPrd3rdEndYmd",
+                      "paramtrDc": "행정처분이력미보유기업유효기간 3차종료일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "paramtrNm": "numOfRows",
+              "paramtrDc": "한 페이지 결과 수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "pageNo",
+              "paramtrDc": "페이지 수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "totalCount",
+              "paramtrDc": "데이터 총 개수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        }
+      ],
+      "oprtinNo": 1
+    }
+  ]
+}

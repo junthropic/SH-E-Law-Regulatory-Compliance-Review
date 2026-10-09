@@ -1,0 +1,181 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "dirty": true,
+  "sourceDigest": "dc4b4f2029b66d306253fcb8ca724fcd46e30de2a08e2aeb854fcbbdd0688c83",
+  "at": "2026-10-08T15:04:42.233Z",
+  "runtime": "v26.7.0",
+  "scope": "격리 구현·합성 시험. 실제 사업장·법적 승인·운영 완료 아님",
+  "nodes": [
+    {
+      "id": "osha-36",
+      "seq": "283449",
+      "article": "0036",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=283449&joNo=0036&joBrNo=00&docCls=jo&urlMode=lsScJoRltInfoR",
+      "status": 200,
+      "bytes": 77355,
+      "sha256": "6d54d7f092897cc8a19188349e87bb802c42c3459e883465b758fc887d1c3120",
+      "fetchedAt": "2026-10-08T14:41:01.051Z",
+      "articleMarkerPresent": true,
+      "legalApproval": false,
+      "raw": "docs/implementation-v4/official/osha-36.html",
+      "text": "docs/implementation-v4/official/osha-36.txt",
+      "stage": "article bytes collected; not approved",
+      "articleEffectiveDate": "separate review required; do not inherit statute header",
+      "decisiveCellsApproved": false
+    },
+    {
+      "id": "osha-rule-37-00",
+      "seq": "288431",
+      "article": "0037",
+      "branch": "00",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=288431&joNo=0037&joBrNo=00&docCls=jo&urlMode=lsScJoRltInfoR",
+      "status": 200,
+      "bytes": 77926,
+      "sha256": "82114ea39803b175febefb3675cb789f929141658d96b5b379069a44b0537338",
+      "fetchedAt": "2026-10-08T14:41:01.744Z",
+      "articleMarkerPresent": true,
+      "legalApproval": false,
+      "raw": "docs/implementation-v4/official/osha-rule-37-00.html",
+      "text": "docs/implementation-v4/official/osha-rule-37-00.txt",
+      "stage": "article bytes collected; not approved",
+      "articleEffectiveDate": "separate review required; do not inherit statute header",
+      "decisiveCellsApproved": false
+    },
+    {
+      "id": "osha-rule-37-02",
+      "seq": "288431",
+      "article": "0037",
+      "branch": "02",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=288431&joNo=0037&joBrNo=02&docCls=jo&urlMode=lsScJoRltInfoR",
+      "status": 200,
+      "bytes": 75401,
+      "sha256": "0a400dd64f0ebaeec773f4c558139378f936d8ad2164d7e1aca76a0cacaf2c37",
+      "fetchedAt": "2026-10-08T14:41:01.860Z",
+      "articleMarkerPresent": true,
+      "legalApproval": false,
+      "raw": "docs/implementation-v4/official/osha-rule-37-02.html",
+      "text": "docs/implementation-v4/official/osha-rule-37-02.txt",
+      "stage": "article bytes collected; not approved",
+      "articleEffectiveDate": "separate review required; do not inherit statute header",
+      "decisiveCellsApproved": false
+    },
+    {
+      "id": "osha-rule-37-03",
+      "seq": "288431",
+      "article": "0037",
+      "branch": "03",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=288431&joNo=0037&joBrNo=03&docCls=jo&urlMode=lsScJoRltInfoR",
+      "status": 200,
+      "bytes": 75088,
+      "sha256": "a436cb25cd168cc14f8bc7ef3e9f65114bff1d891f21403919b00c20d90cf43c",
+      "fetchedAt": "2026-10-08T14:41:02.036Z",
+      "articleMarkerPresent": true,
+      "legalApproval": false,
+      "raw": "docs/implementation-v4/official/osha-rule-37-03.html",
+      "text": "docs/implementation-v4/official/osha-rule-37-03.txt",
+      "stage": "article bytes collected; not approved",
+      "articleEffectiveDate": "separate review required; do not inherit statute header",
+      "decisiveCellsApproved": false
+    },
+    {
+      "id": "osha-rule-37-04",
+      "seq": "288431",
+      "article": "0037",
+      "branch": "04",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=288431&joNo=0037&joBrNo=04&docCls=jo&urlMode=lsScJoRltInfoR",
+      "status": 200,
+      "bytes": 75429,
+      "sha256": "ad4bf0d245ff2f09c1a1b4d6a1af9f8518bff07b17901ae8bf13a2a11ec065f2",
+      "fetchedAt": "2026-10-08T14:41:02.176Z",
+      "articleMarkerPresent": true,
+      "legalApproval": false,
+      "raw": "docs/implementation-v4/official/osha-rule-37-04.html",
+      "text": "docs/implementation-v4/official/osha-rule-37-04.txt",
+      "stage": "article bytes collected; not approved",
+      "articleEffectiveDate": "separate review required; do not inherit statute header",
+      "decisiveCellsApproved": false
+    },
+    {
+      "id": "waste-18",
+      "seq": "284397",
+      "article": "0018",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=284397&joNo=0018&joBrNo=00&docCls=jo&urlMode=lsScJoRltInfoR",
+      "status": 200,
+      "bytes": 79804,
+      "sha256": "846ef23931f5b26e6698103a751199f776e2e27020ae97c96eae6a963e7955ad",
+      "fetchedAt": "2026-10-08T14:41:02.274Z",
+      "articleMarkerPresent": true,
+      "legalApproval": false,
+      "raw": "docs/implementation-v4/official/waste-18.html",
+      "text": "docs/implementation-v4/official/waste-18.txt",
+      "stage": "article bytes collected; not approved",
+      "articleEffectiveDate": "separate review required; do not inherit statute header",
+      "decisiveCellsApproved": false
+    },
+    {
+      "id": "waste-rule-16-12",
+      "seq": "290881",
+      "article": "0016",
+      "branch": "12",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=290881&joNo=0016&joBrNo=12&docCls=jo&urlMode=lsScJoRltInfoR",
+      "status": 200,
+      "bytes": 78419,
+      "sha256": "5a068ccad844e8ba5e7ccf1836bf5795ae40a2cae7ce4a33bb7206cd71825cab",
+      "fetchedAt": "2026-10-08T14:41:02.397Z",
+      "articleMarkerPresent": true,
+      "legalApproval": false,
+      "raw": "docs/implementation-v4/official/waste-rule-16-12.html",
+      "text": "docs/implementation-v4/official/waste-rule-16-12.txt",
+      "stage": "article bytes collected; not approved",
+      "articleEffectiveDate": "separate review required; do not inherit statute header",
+      "decisiveCellsApproved": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "osha-36",
+      "to": "osha-rule-37-00",
+      "kind": "delegation",
+      "predicates": [
+        "work_scope",
+        "evaluation_trigger"
+      ],
+      "complete": false
+    },
+    {
+      "from": "osha-36",
+      "to": "osha-rule-37-02",
+      "kind": "participation",
+      "predicates": [
+        "participation_scope_reviewed"
+      ],
+      "complete": false
+    },
+    {
+      "from": "osha-36",
+      "to": "osha-rule-37-03",
+      "kind": "sharing",
+      "complete": false
+    },
+    {
+      "from": "osha-36",
+      "to": "osha-rule-37-04",
+      "kind": "retention",
+      "complete": false
+    },
+    {
+      "from": "waste-18",
+      "to": "waste-rule-16-12",
+      "kind": "conditional_consignment",
+      "complete": false
+    }
+  ],
+  "missing": [
+    "2026-05-31/06-01의 법률·부칙 전문 적용례 대조",
+    "시행규칙 제37조 이전 기록조항 version mapping",
+    "2024-76호 고시 전문·개정 연혁",
+    "2026-461호는 행정예고: 현행 규칙으로 활성화 금지",
+    "폐기물 영 제8조의4·규칙 제18조·제18조의2 대상 펼치기",
+    "별지 제5호 원본·서명·능력 산식 결정 셀"
+  ]
+}

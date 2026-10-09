@@ -1,25 +1,57 @@
 import { chromium } from "playwright-core";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, mkdtempSync } from "node:fs";
+import { resolve } from "node:path";
 import assert from "node:assert/strict";
-// Own headless browser, fresh profile, local app only. Never attaches to a user's browser.
-const browser = await chromium.launch({
-  channel: process.env.SHE_TEST_BROWSER || "chrome",
-  headless: true,
-});
-const page = await browser.newPage({ viewport: { width: 1440, height: 1080 } });
-const errors = [];
-page.on("pageerror", (e) => errors.push(e.message));
-await page.route("**/*", (route) =>
-  new URL(route.request().url()).hostname === "127.0.0.1"
-    ? route.continue()
-    : route.abort(),
+import { createApp } from "../build/server/app.js";
+import { Store } from "../build/server/store.js";
+// Always own the test server and database; never upload fixtures to a user-supplied URL.
+delete process.env.LAW_OC;
+mkdirSync("work", { recursive: true });
+const { app } = await createApp(
+  new Store(mkdtempSync(resolve("work/ui-e2e-"))),
+  true,
 );
+let browser;
 mkdirSync("playwright-report", { recursive: true });
 try {
-  await page.goto(process.env.SHE_TEST_URL || "http://127.0.0.1:4317/");
+  await app.listen({ port: 0, host: "127.0.0.1" });
+  const testUrl = `http://127.0.0.1:${app.server.address().port}`;
+  browser = await chromium.launch({
+    channel: process.env.SHE_TEST_BROWSER || "chrome",
+    headless: true,
+  });
+  const page = await browser.newPage({
+    viewport: { width: 1440, height: 1080 },
+  });
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.route("**/*", (route) =>
+    new URL(route.request().url()).origin === testUrl
+      ? route.continue()
+      : route.abort(),
+  );
+  await page.goto(testUrl);
+  await page.getByRole("heading", { name: "검토할 업무 상황" }).waitFor();
+  assert.equal(
+    await page.getByText("지정수량 배수 계산", { exact: true }).count(),
+    0,
+  );
   await page
-    .getByRole("heading", { name: "어떤 상황을 검토할까요?" })
-    .waitFor();
+    .getByRole("button", { name: "공공자료 조회", exact: true })
+    .click();
+  assert.equal(
+    await page.getByText("지정수량 배수 계산", { exact: true }).count(),
+    0,
+  );
+  await page.getByLabel("조회 서비스", { exact: true }).selectOption("fire");
+  const calculator = page
+    .locator("details")
+    .filter({ has: page.getByText("지정수량 배수 계산", { exact: true }) });
+  await calculator.waitFor();
+  assert.equal(await calculator.evaluate((el) => el.open), false);
+  await page.getByLabel("조회 서비스", { exact: true }).selectOption("qna");
+  assert.equal(await calculator.count(), 0);
+  await page.getByRole("button", { name: "워크스페이스", exact: true }).click();
   await page.screenshot({ path: "playwright-report/home.png", fullPage: true });
   await page
     .getByLabel("검토할 업무 상황")
@@ -54,6 +86,45 @@ try {
   assert.equal(await page.locator(".region-card").count(), 18);
   await page.getByRole("button", { name: "연결 설정", exact: true }).click();
   await page.getByRole("heading", { name: "ChatGPT 구독 연결" }).waitFor();
+  assert.equal(
+    await page
+      .getByRole("button", { name: "로컬 앱 종료", exact: true })
+      .count(),
+    0,
+  );
+  await page.getByRole("button", { name: "워크스페이스", exact: true }).click();
+  await page.getByRole("heading", { name: "검토할 업무 상황" }).waitFor();
+  await page.getByRole("button", { name: "연결 설정", exact: true }).click();
+  const notice = page.getByRole("region", {
+    name: "정보 처리·외부 전송 및 이용 안내",
+    exact: true,
+  });
+  await notice.waitFor();
+  assert.equal(await notice.locator("details").count(), 7);
+  assert.equal(await notice.getByRole("checkbox").count(), 0);
+  for (const summary of await notice.locator("summary").all())
+    await summary.click();
+  await notice
+    .getByRole("cell", {
+      name: "private.sqlite 로컬 데이터베이스",
+      exact: true,
+    })
+    .waitFor();
+  await notice
+    .getByRole("rowheader", {
+      name: "OpenAI / AI 분석 선택 후 실행",
+      exact: true,
+    })
+    .waitFor();
+  assert.equal(
+    await notice
+      .getByRole("link", {
+        name: "개인정보 보호법 현행 원문 (새 창)",
+        exact: true,
+      })
+      .getAttribute("href"),
+    "https://www.law.go.kr/법령/개인정보보호법",
+  );
   await page.screenshot({
     path: "playwright-report/settings.png",
     fullPage: true,
@@ -71,8 +142,12 @@ try {
   });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: UI review, upload, metadata, confirmation, 18 source cards, settings, mobile layout; no page errors.",
+    "PASS: isolated UI review, upload, metadata, confirmation, 18 source cards, workspace navigation, settings without shutdown, information notice, expanded mobile layout; no page errors.",
   );
 } finally {
-  await browser.close();
+  try {
+    await browser?.close();
+  } finally {
+    await app.close();
+  }
 }

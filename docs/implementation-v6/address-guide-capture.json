@@ -1,0 +1,16 @@
+[
+  {
+    "url": "https://business.juso.go.kr/addrlink/openApi/searchApi.do",
+    "status": 404,
+    "bytes": 0,
+    "hasConfmKey": false,
+    "hasCommon": false
+  },
+  {
+    "url": "https://business.juso.go.kr/jst/jstAddressApiIntroduction",
+    "status": 200,
+    "bytes": 1753,
+    "hasConfmKey": false,
+    "hasCommon": false
+  }
+]

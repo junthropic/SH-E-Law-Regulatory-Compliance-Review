@@ -1,0 +1,3388 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "공단 화학물질정보 시스템(https://msds.kosha.or.kr/MSDSInfo/)에서 검색가능한 화학물질 안전보건자료의 목록 및 내용을 제공합니다.\n- 물질안전보건자료대상물질 : 화학물질 또는 이를 포함한 혼합물로서 산업안전보건법 제104조에 따른 유해인자 분류기준에 해당하는 것(다만, 산업안전보건법 시행령 제86조에 따른 물질은 제외)\n※ 공단에서 제공하는 화학물질정보는 MSDS 작성과 검토 시 참고용으로만 활용이 가능하며 산업안전보건법 110조 및 11조에 의거하여 MSDS 작성과 제공은 화학물질 제조·수입자의 의무입니다.",
+    "version": "1.0.0",
+    "title": "한국산업안전보건공단_물질안전보건자료 조회 서비스"
+  },
+  "host": "apis.data.go.kr/B552468/msdschem1",
+  "basePath": "",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/getChemList001": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    },
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "전체 결과 수",
+                      "properties": {}
+                    },
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "lastDate": {
+                              "type": "string",
+                              "description": "최종 갱신일",
+                              "properties": {}
+                            },
+                            "casNo": {
+                              "type": "string",
+                              "description": "CAS No.",
+                              "properties": {}
+                            },
+                            "chemId": {
+                              "type": "integer",
+                              "description": "화학물질ID",
+                              "properties": {}
+                            },
+                            "chemNameKor": {
+                              "type": "string",
+                              "description": "화학물질명(국문명)",
+                              "properties": {}
+                            },
+                            "enNo": {
+                              "type": "string",
+                              "description": "EN No.",
+                              "properties": {}
+                            },
+                            "keNo": {
+                              "type": "string",
+                              "description": "KE No.",
+                              "properties": {}
+                            },
+                            "unNo": {
+                              "type": "string",
+                              "description": "UN No.",
+                              "properties": {}
+                            },
+                            "openYn": {
+                              "type": "string",
+                              "description": "공개여부",
+                              "properties": {}
+                            },
+                            "koshaConfirm": {
+                              "type": "string",
+                              "description": "관리자확인여부",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "numOfRows": {
+                      "type": "integer",
+                      "description": "한 페이지 결과 수",
+                      "properties": {}
+                    },
+                    "pageNo": {
+                      "type": "integer",
+                      "description": "페이지 번호",
+                      "properties": {}
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패"
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "화학물질목록",
+        "description": "공개된 화학물질안전보건자료의 목록을 제공",
+        "operationId": "getChemList001",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "searchWrd",
+          "description": "검색어는 문자열로 입력(ex. 벤젠) ",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "searchCnd",
+          "description": "검색구분(국문명 : 0, CAS No :1, UN No : 2, KE No : 3, EN No : 4)",
+          "type": "integer",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "numOfRows",
+          "description": "한 페이지 결과 수",
+          "type": "integer",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "pageNo",
+          "description": "페이지 번호",
+          "type": "integer",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail011": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가. 제품명 나. 제품의 권고 용도와 사용상의 제한 * 제품의 권고 용도 * 제품의 사용상의 제한다. 공급자 정보(수입품의 경우 긴급 연락 가능한 국내 공급자 정보 기재)  * 회사명 * 주소 * 긴급전화번호",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패"
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "1. 화학제품과 회사에 관한 정보",
+        "description": "공개된 화학물질안전보건자료의 목록을 제공",
+        "operationId": "getChemDetail011",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail021": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값※ 보건, 화재, 반응성(NFPA 기준) => 0(위험성 낮음) ~ 4(위험성 높은) ",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가.유해성·위험성 분류 나.예방조치문구를 포함한 경고표지 항목  * 그림문자 * 신호어 * 유해·위험문구 * 예방조치문구  - 예방  - 대응  - 저장  - 폐기다.유해성·위험성 분류기준에 포함되지 않는 기타 유해성·위험성(NFPA)   - 보건  - 화재  - 반응성",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패 "
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "2. 유해성·위험성",
+        "description": "‘유해성·위험성’항목 정보를 제공",
+        "operationId": "getChemDetail021",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail031": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 물질명 이명(관용명) CAS 번호 함유량(%)",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패 "
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "3. 구성성분의 명칭 및 함유량",
+        "description": "‘구성성분의 명칭 및 함유량’항목 정보를 제공",
+        "operationId": "getChemDetail031",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail041": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가.눈에 들어갔을 때 나.피부에 접촉했을 때 다.흡입했을 때 라.먹었을 때 마.기타 의사의 주의사항 ",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패"
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "4. 응급조치요령",
+        "description": "‘응급조치요령’항목 정보를 제공",
+        "operationId": "getChemDetail041",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail051": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            },
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가.적절한(부적절한) 소화제 나.화학물질로부터 생기는 특정 유해성 다.화재진압시 착용할 보호구 및 예방조치",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패 "
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "5. 폭발·화재시 대처방법",
+        "description": "‘폭발·화재시 대처방법’항목 정보를 제공",
+        "operationId": "getChemDetail051",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail061": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가.인체를 보호하기 위해 필요한 조치사항 및 보호구 나.환경을 보호하기 위해 필요한 조치사항 다.정화 또는 제거 방법 ",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패 "
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "6. 누출사고시 대처방법",
+        "description": "‘누출사고시 대처방법’항목 정보를 제공",
+        "operationId": "getChemDetail061",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail071": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가.안전취급요령 나.안전한 저장방법 ",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패 "
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "7. 취급 및 저장방법",
+        "description": "‘취급 및 저장방법’항목 정보를 제공",
+        "operationId": "getChemDetail071",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail081": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가. 화학물질의 노출기준, 생물학적 노출기준 등  * 국내규정 * ACGIH 규정 * 생물학적 노출기준나. 적절한 공학적 관리 다. 개인보호구  * 호흡기 보호 * 눈 보호 * 손 보호 * 신체 보호",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패 "
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "8. 노출방지 및 개인보호구",
+        "description": "‘노출방지 및 개인보호구’항목 정보를 제공",
+        "operationId": "getChemDetail081",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail091": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가.외관  * 성상 * 색상나.냄새 다.냄새역치 라.pH 마.녹는점/어는점 바.초기 끓는점과 끓는점 범위 사.인화점 아.증발속도 자.인화성(고체, 기체) 차.인화 또는 폭발 범위의 상한/하한 카.증기압 타.용해도 파.증기밀도 하.비중 거.n-옥탄올/물분배계수 너.자연발화온도 더.분해온도 러.점도 머.분자량 ",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패 "
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "9. 물리화학적 특성",
+        "description": "‘물리화학적 특성’항목 정보를 제공",
+        "operationId": "getChemDetail091",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail101": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가.화학적 안정성 및 유해 반응의 가능성 나.피해야 할 조건 다.피해야 할 물질 라.분해시 생성되는 유해물질  ",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패 "
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "10. 안정성 및 반응성",
+        "description": "‘안정성 및 반응성’항목 정보를 제공",
+        "operationId": "getChemDetail101",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail111": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            },
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가.가능성이 높은 노출 경로에 관한 정보 나.건강 유해성 정보  * 급성독성  - 경구  - 경피  - 흡입 * 피부부식성 또는 자극성  * 심한 눈손상 또는 자극성  * 호흡기과민성 * 피부과민성 * 발암성  - 산업안전보건법  - 고용노동부고시  - IARC  - OSHA  - ACGIH  - NTP  - EU CLP * 생식세포변이원성 * 생식독성 * 특정 표적장기 독성 (1회 노출) * 특정 표적장기 독성 (반복 노출) * 흡인유해성",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패 "
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "11. 독성에 관한 정보",
+        "description": "‘독성에 관한 정보’항목 정보를 제공",
+        "operationId": "getChemDetail111",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail121": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가. 생태독성  * 어류 * 갑각류 * 조류나. 잔류성 및 분해성  * 잔류성 * 분해성다. 생물농축성  * 농축성 * 생분해성라. 토양이동성 마. 기타 유해 영향 ",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패 "
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "12. 환경에 미치는 영향",
+        "description": "‘환경에 미치는 영향’항목 정보를 제공",
+        "operationId": "getChemDetail121",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail131": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가. 폐기방법 나. 폐기시 주의사항",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패 "
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "13. 폐기시 주의사항",
+        "description": "‘폐기시 주의사항’항목 정보를 제공",
+        "operationId": "getChemDetail131",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail141": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가. 유엔번호(UN No.) 나. 적정선적명 다. 운송에서의 위험성 등급 라. 용기등급 마. 해양오염물질 바. 사용자가 운송 또는 운송수단에 관련해 알      필요가 있거나 필요한 특별한 안전대책  * 화재시 비상조치* 유출시 비상조치",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패 "
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "14. 운송에 필요한 정보",
+        "description": "‘운송에 필요한 정보’항목 정보를 제공",
+        "operationId": "getChemDetail141",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail151": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명가.산업안전보건법에 의한 규제 나.유해화학물질관리법에 의한 규제 다.위험물안전관리법에 의한 규제 라.폐기물관리법에 의한 규제 마.기타 국내 및 외국법에 의한 규제  * 국내규제  - 잔류성유기오염물질관리법 * 국외규제  - 미국관리정보(OSHA 규정)  - 미국관리정보(CERCLA 규정)  - 미국관리정보(EPCRA 302 규정)  - 미국관리정보(EPCRA 304 규정)  - 미국관리정보(EPCRA 313 규정)  - 미국관리정보(로테르담협약물질",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패"
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "15. 법적 규제현황",
+        "description": "‘법적 규제현황’항목 정보를 제공",
+        "operationId": "getChemDetail151",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/getChemDetail161": {
+      "get": {
+        "responses": {
+          "11": {
+            "description": "NO MANDATORY REQUEST PARAMETERS ERROR. 필수요청 파라메터가 없습니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "itemDetail": {
+                              "type": "string",
+                              "description": "상세내용 - 항목에 대한 값",
+                              "properties": {}
+                            },
+                            "lev": {
+                              "type": "integer",
+                              "description": "레벨(1~3 단계)",
+                              "properties": {}
+                            },
+                            "msdsItemCode": {
+                              "type": "integer",
+                              "description": "항목코드",
+                              "properties": {}
+                            },
+                            "upMsdsItemCode": {
+                              "type": "string",
+                              "description": "상위항목코드",
+                              "properties": {}
+                            },
+                            "msdsItemNameKor": {
+                              "type": "string",
+                              "description": "항목명 가. 자료의 출처 나. 최초작성일자 다. 개정횟수 및 최종 개정일자  * 개정횟수 * 최종 개정일자라. 기타 ",
+                              "properties": {}
+                            },
+                            "msdsItemNo": {
+                              "type": "string",
+                              "description": "항목구분",
+                              "properties": {}
+                            },
+                            "ordrIdx": {
+                              "type": "integer",
+                              "description": "순서",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          },
+          "01": {
+            "description": "Gateway 인증실패 "
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "16. 그 밖의 참고사항",
+        "description": "‘그 밖의 참고사항’항목 정보를 제공",
+        "operationId": "getChemDetail161",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "chemId",
+          "description": "화학물질ID",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "getChemList001_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            },
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "totalCount": {
+              "type": "integer",
+              "description": "전체 결과 수"
+            },
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "lastDate": {
+                      "type": "string",
+                      "description": "최종 갱신일"
+                    },
+                    "casNo": {
+                      "type": "string",
+                      "description": "CAS No."
+                    },
+                    "chemId": {
+                      "type": "integer",
+                      "description": "화학물질ID"
+                    },
+                    "chemNameKor": {
+                      "type": "string",
+                      "description": "화학물질명(국문명)"
+                    },
+                    "enNo": {
+                      "type": "string",
+                      "description": "EN No."
+                    },
+                    "keNo": {
+                      "type": "string",
+                      "description": "KE No."
+                    },
+                    "unNo": {
+                      "type": "string",
+                      "description": "UN No."
+                    },
+                    "openYn": {
+                      "type": "string",
+                      "description": "공개여부"
+                    },
+                    "koshaConfirm": {
+                      "type": "string",
+                      "description": "관리자확인여부"
+                    }
+                  }
+                }
+              }
+            },
+            "numOfRows": {
+              "type": "integer",
+              "description": "한 페이지 결과 수"
+            },
+            "pageNo": {
+              "type": "integer",
+              "description": "페이지 번호"
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail011_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가. 제품명 나. 제품의 권고 용도와 사용상의 제한 * 제품의 권고 용도 * 제품의 사용상의 제한다. 공급자 정보(수입품의 경우 긴급 연락 가능한 국내 공급자 정보 기재)  * 회사명 * 주소 * 긴급전화번호"
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail021_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값※ 보건, 화재, 반응성(NFPA 기준) => 0(위험성 낮음) ~ 4(위험성 높은) "
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가.유해성·위험성 분류 나.예방조치문구를 포함한 경고표지 항목  * 그림문자 * 신호어 * 유해·위험문구 * 예방조치문구  - 예방  - 대응  - 저장  - 폐기다.유해성·위험성 분류기준에 포함되지 않는 기타 유해성·위험성(NFPA)   - 보건  - 화재  - 반응성"
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail031_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 물질명 이명(관용명) CAS 번호 함유량(%)"
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail041_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가.눈에 들어갔을 때 나.피부에 접촉했을 때 다.흡입했을 때 라.먹었을 때 마.기타 의사의 주의사항 "
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail051_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    },
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가.적절한(부적절한) 소화제 나.화학물질로부터 생기는 특정 유해성 다.화재진압시 착용할 보호구 및 예방조치"
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail061_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가.인체를 보호하기 위해 필요한 조치사항 및 보호구 나.환경을 보호하기 위해 필요한 조치사항 다.정화 또는 제거 방법 "
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail071_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가.안전취급요령 나.안전한 저장방법 "
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail081_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가. 화학물질의 노출기준, 생물학적 노출기준 등  * 국내규정 * ACGIH 규정 * 생물학적 노출기준나. 적절한 공학적 관리 다. 개인보호구  * 호흡기 보호 * 눈 보호 * 손 보호 * 신체 보호"
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail091_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가.외관  * 성상 * 색상나.냄새 다.냄새역치 라.pH 마.녹는점/어는점 바.초기 끓는점과 끓는점 범위 사.인화점 아.증발속도 자.인화성(고체, 기체) 차.인화 또는 폭발 범위의 상한/하한 카.증기압 타.용해도 파.증기밀도 하.비중 거.n-옥탄올/물분배계수 너.자연발화온도 더.분해온도 러.점도 머.분자량 "
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail101_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가.화학적 안정성 및 유해 반응의 가능성 나.피해야 할 조건 다.피해야 할 물질 라.분해시 생성되는 유해물질  "
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail111_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    },
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가.가능성이 높은 노출 경로에 관한 정보 나.건강 유해성 정보  * 급성독성  - 경구  - 경피  - 흡입 * 피부부식성 또는 자극성  * 심한 눈손상 또는 자극성  * 호흡기과민성 * 피부과민성 * 발암성  - 산업안전보건법  - 고용노동부고시  - IARC  - OSHA  - ACGIH  - NTP  - EU CLP * 생식세포변이원성 * 생식독성 * 특정 표적장기 독성 (1회 노출) * 특정 표적장기 독성 (반복 노출) * 흡인유해성"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail121_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가. 생태독성  * 어류 * 갑각류 * 조류나. 잔류성 및 분해성  * 잔류성 * 분해성다. 생물농축성  * 농축성 * 생분해성라. 토양이동성 마. 기타 유해 영향 "
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail131_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가. 폐기방법 나. 폐기시 주의사항"
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail141_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가. 유엔번호(UN No.) 나. 적정선적명 다. 운송에서의 위험성 등급 라. 용기등급 마. 해양오염물질 바. 사용자가 운송 또는 운송수단에 관련해 알      필요가 있거나 필요한 특별한 안전대책  * 화재시 비상조치* 유출시 비상조치"
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail151_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명가.산업안전보건법에 의한 규제 나.유해화학물질관리법에 의한 규제 다.위험물안전관리법에 의한 규제 라.폐기물관리법에 의한 규제 마.기타 국내 및 외국법에 의한 규제  * 국내규제  - 잔류성유기오염물질관리법 * 국외규제  - 미국관리정보(OSHA 규정)  - 미국관리정보(CERCLA 규정)  - 미국관리정보(EPCRA 302 규정)  - 미국관리정보(EPCRA 304 규정)  - 미국관리정보(EPCRA 313 규정)  - 미국관리정보(로테르담협약물질"
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getChemDetail161_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "itemDetail": {
+                      "type": "string",
+                      "description": "상세내용 - 항목에 대한 값"
+                    },
+                    "lev": {
+                      "type": "integer",
+                      "description": "레벨(1~3 단계)"
+                    },
+                    "msdsItemCode": {
+                      "type": "integer",
+                      "description": "항목코드"
+                    },
+                    "upMsdsItemCode": {
+                      "type": "string",
+                      "description": "상위항목코드"
+                    },
+                    "msdsItemNameKor": {
+                      "type": "string",
+                      "description": "항목명 가. 자료의 출처 나. 최초작성일자 다. 개정횟수 및 최종 개정일자  * 개정횟수 * 최종 개정일자라. 기타 "
+                    },
+                    "msdsItemNo": {
+                      "type": "string",
+                      "description": "항목구분"
+                    },
+                    "ordrIdx": {
+                      "type": "integer",
+                      "description": "순서"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "swaggerOprtinVOs": [
+    {
+      "oprtinUrl": "https://msds.kosha.or.kr/openapi/service/msdschem/getChemDetail16",
+      "oprtinNm": "16. 그 밖의 참고사항",
+      "oprtinDc": "‘그 밖의 참고사항’항목 정보를 제공",
+      "gwSvcNm": "getChemDetail161",
+      "operationId": "getChemDetail161",
+      "publicDataTyDetailCode": "PRDE02",
+      "reqList": [
+        {
+          "paramtrNm": "chemId",
+          "paramtrDc": "화학물질ID",
+          "paramtrBassValue": "001008",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "serviceKey",
+          "paramtrDc": "공공데이터포털에서 받은 인증키",
+          "paramtrBassValue": "",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        }
+      ],
+      "resList": [
+        {
+          "paramtrNm": "header",
+          "paramtrDc": "header",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/getChemDetail16_header",
+          "subDefNm": "getChemDetail16_header",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "resultCode",
+              "paramtrDc": "결과코드",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "resultMsg",
+              "paramtrDc": "결과메세지",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        },
+        {
+          "paramtrNm": "body",
+          "paramtrDc": "body",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/getChemDetail16_body",
+          "subDefNm": "getChemDetail16_body",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "items",
+              "paramtrDc": "items",
+              "arrayYn": "N",
+              "paramtrDefNm": "#/definitions/getChemDetail16_items",
+              "subDefNm": "getChemDetail16_items",
+              "paramtrTy": "object",
+              "paramtrDivision": "필수",
+              "ck": true,
+              "subParam": [
+                {
+                  "paramtrNm": "item",
+                  "paramtrDc": "item",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "#/definitions/getChemDetail16_item",
+                  "subDefNm": "getChemDetail16_item",
+                  "paramtrTy": "object",
+                  "paramtrDivision": "필수",
+                  "ck": true,
+                  "subParam": [
+                    {
+                      "paramtrNm": "itemDetail",
+                      "paramtrDc": "상세내용 - 항목에 대한 값",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "lev",
+                      "paramtrDc": "레벨(1~3 단계)",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "integer",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "msdsItemCode",
+                      "paramtrDc": "항목코드",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "integer",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "upMsdsItemCode",
+                      "paramtrDc": "상위항목코드",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "msdsItemNameKor",
+                      "paramtrDc": "항목명 가. 자료의 출처 나. 최초작성일자 다. 개정횟수 및 최종 개정일자  * 개정횟수 * 최종 개정일자라. 기타 ",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "msdsItemNo",
+                      "paramtrDc": "항목구분",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "옵션",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "ordrIdx",
+                      "paramtrDc": "순서",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "integer",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

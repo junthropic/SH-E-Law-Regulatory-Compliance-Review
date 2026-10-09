@@ -1,0 +1,48 @@
+{
+  "checkpoints": [
+    {
+      "id": "training.periodic",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    },
+    {
+      "id": "training.recruitment",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    },
+    {
+      "id": "training.work_change",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    },
+    {
+      "id": "training.special",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    },
+    {
+      "id": "training.supervisor",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    }
+  ],
+  "oldUIUsed": true,
+  "actualKeys": 0,
+  "realSiteVerified": false,
+  "productionTouched": false
+}

@@ -1,0 +1,318 @@
+{
+  "version": 2,
+  "productionEnabled": false,
+  "candidates": [
+    {
+      "group": "risk_assessment",
+      "label": "위험성평가",
+      "duties": [
+        "evaluation",
+        "worker_participation",
+        "risk_reduction",
+        "effectiveness",
+        "retention"
+      ],
+      "elements": [
+        "공정·작업",
+        "유해요인",
+        "평가방법",
+        "근로자 참여",
+        "조치·효과"
+      ],
+      "insufficient": [
+        "양식 파일 존재"
+      ],
+      "gaps": [
+        "제36조·시행규칙·고시·방법별 요건 및 부칙"
+      ],
+      "version": "candidate-v2",
+      "status": "candidate",
+      "enabled": false,
+      "alternativePaths": [
+        "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+        "적용 요건에 맞는 전자기록",
+        "필요한 범위의 현장 확인"
+      ],
+      "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+      "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+    },
+    {
+      "group": "training",
+      "label": "산업안전보건 교육",
+      "duties": [
+        "periodic",
+        "recruitment",
+        "work_change",
+        "special",
+        "supervisor"
+      ],
+      "elements": [
+        "익명 대상자",
+        "교육 종류·기간",
+        "시간·내용",
+        "강사·형태",
+        "면제·감경·간주 방향"
+      ],
+      "insufficient": [
+        "출석명단 단독",
+        "참고양식 미사용"
+      ],
+      "gaps": [
+        "기준일 교육시간·내용 별표 및 고시",
+        "일반 교육기록 법정 보존기간 미확정"
+      ],
+      "version": "candidate-v2",
+      "status": "candidate",
+      "enabled": false,
+      "alternativePaths": [
+        "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+        "적용 요건에 맞는 전자기록",
+        "필요한 범위의 현장 확인"
+      ],
+      "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+      "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+    },
+    {
+      "group": "safety_manager",
+      "label": "산업안전보건 안전관리자",
+      "duties": [
+        "appointment",
+        "qualification",
+        "dedication",
+        "report",
+        "dismissal_report",
+        "performance"
+      ],
+      "elements": [
+        "업종·규모",
+        "선임",
+        "자격",
+        "전담·공동선임",
+        "보고 사건·일자"
+      ],
+      "insufficient": [
+        "보고 접수증으로 실체 요건 전체 확인"
+      ],
+      "gaps": [
+        "별표3·4",
+        "신고 수리 성격",
+        "해임보고 적용례"
+      ],
+      "version": "candidate-v2",
+      "status": "candidate",
+      "enabled": false,
+      "alternativePaths": [
+        "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+        "적용 요건에 맞는 전자기록",
+        "필요한 범위의 현장 확인"
+      ],
+      "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+      "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+    },
+    {
+      "group": "safety_inspection",
+      "label": "산업안전보건 안전검사",
+      "duties": [
+        "application",
+        "inspection",
+        "pass",
+        "marking",
+        "use_prohibition"
+      ],
+      "elements": [
+        "기계·규격·형식번호",
+        "설치장소",
+        "검사·합격·유효기간",
+        "실제 사용",
+        "면제·자율검사"
+      ],
+      "insufficient": [
+        "검사 신청",
+        "다른 설비 합격증"
+      ],
+      "gaps": [
+        "검사 고시·면제·구조변경",
+        "만료 후 신청만 있는 경우의 사용 가능성"
+      ],
+      "version": "candidate-v2",
+      "status": "candidate",
+      "enabled": false,
+      "alternativePaths": [
+        "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+        "적용 요건에 맞는 전자기록",
+        "필요한 범위의 현장 확인"
+      ],
+      "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+      "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+    },
+    {
+      "group": "hazmat_permit",
+      "label": "위험물 설치·변경·완공",
+      "duties": [
+        "installation",
+        "change_permission",
+        "completion_pass",
+        "partial_use"
+      ],
+      "elements": [
+        "시설별 변경 범위",
+        "허가",
+        "공사·완공검사 범위",
+        "변경공사 무관 사용 범위",
+        "신청 시 화재예방 조치서류"
+      ],
+      "insufficient": [
+        "변경 사실만으로 변경허가 의무",
+        "부분 합격으로 전체 합격"
+      ],
+      "gaps": [
+        "별표1의2 시설별 전체",
+        "별지16·17·27호 및 추가 기관 절차"
+      ],
+      "version": "candidate-v2",
+      "status": "candidate",
+      "enabled": false,
+      "alternativePaths": [
+        "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+        "적용 요건에 맞는 전자기록",
+        "필요한 범위의 현장 확인"
+      ],
+      "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+      "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+    },
+    {
+      "group": "hazmat_manager",
+      "label": "위험물 안전관리자",
+      "duties": [
+        "first_appointment",
+        "replacement",
+        "appointment_report",
+        "deputy",
+        "deputy_period",
+        "supervision"
+      ],
+      "elements": [
+        "대상 제조소",
+        "자격",
+        "해임·퇴직일",
+        "선임일",
+        "부재·대리 기간"
+      ],
+      "insufficient": [
+        "신고 미제공을 미선임으로 판단",
+        "재선임 기한을 최초 선임 유예로 적용"
+      ],
+      "gaps": [
+        "시행령 대상·자격·예외",
+        "지역 위임·위탁"
+      ],
+      "version": "candidate-v2",
+      "status": "candidate",
+      "enabled": false,
+      "alternativePaths": [
+        "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+        "적용 요건에 맞는 전자기록",
+        "필요한 범위의 현장 확인"
+      ],
+      "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+      "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+    },
+    {
+      "group": "hazmat_check",
+      "label": "위험물 점검·제출·검사·교육",
+      "duties": [
+        "check_performed",
+        "record_retention",
+        "result_submission",
+        "periodic_inspection",
+        "education"
+      ],
+      "elements": [
+        "시설·수량·탱크",
+        "점검 실시일",
+        "제출 사실",
+        "최초 확인증 발급일",
+        "반복 검사 사건일"
+      ],
+      "insufficient": [
+        "제출 누락을 미점검으로 판단",
+        "직접 제재 미발견을 의무 없음으로 판단"
+      ],
+      "gaps": [
+        "세부 대상 별표·고시",
+        "기산점과 휴일 계산 근거",
+        "기관 접수·재교부 절차"
+      ],
+      "version": "candidate-v2",
+      "status": "candidate",
+      "enabled": false,
+      "alternativePaths": [
+        "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+        "적용 요건에 맞는 전자기록",
+        "필요한 범위의 현장 확인"
+      ],
+      "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+      "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+    },
+    {
+      "group": "environment",
+      "label": "대기·수질·폐기물·화학물질",
+      "duties": [
+        "permit",
+        "change",
+        "operation_start",
+        "measurement",
+        "records",
+        "manager",
+        "waste_contractor"
+      ],
+      "elements": [
+        "사업장·시설 동일성",
+        "물질·조성·물성",
+        "용량·처리량·배출량",
+        "허가 범위·효력",
+        "측정 조건",
+        "위탁 범위"
+      ],
+      "insufficient": [
+        "공개 목록 0건",
+        "CAS만 일치",
+        "시험성적서 하나로 전 기간 이행"
+      ],
+      "gaps": [
+        "업무별 별표·고시·수치·예외",
+        "관할·허가 조건"
+      ],
+      "version": "candidate-v2",
+      "status": "candidate",
+      "enabled": false,
+      "alternativePaths": [
+        "해당 대상·기간을 확인할 수 있는 기관 대장·재교부 자료",
+        "적용 요건에 맞는 전자기록",
+        "필요한 범위의 현장 확인"
+      ],
+      "lawRequirementVsInternalPolicy": "법정 원본·양식 의무는 별도 근거 확인. 위 대체 경로는 일반 법정 허용 보장이 아닌 검토 후보.",
+      "releaseCondition": "미확인 원문·예외·기한·대상 증빙을 확보하고 분야별 검토자가 해당 버전을 승인"
+    }
+  ],
+  "sourceChecks": [
+    {
+      "id": "hazmat-15",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=259933&joNo=0015&joBrNo=00&docCls=jo&urlMode=lsScJoRltInfoR",
+      "version": "259933",
+      "checkedAt": "2026-10-08",
+      "status": "article_read",
+      "scope": "제15조 본문: 최초·재선임·신고·대리 분리",
+      "remaining": "하위법·부칙·지역 권한·기간 계산·실제 대상 미확정"
+    },
+    {
+      "id": "hazmat-18",
+      "url": "https://www.law.go.kr/LSW/lsSideInfoP.do?lsiSeq=259933&joNo=0018&joBrNo=00&docCls=jo&urlMode=lsScJoRltInfoR",
+      "version": "259933",
+      "checkedAt": "2026-10-08",
+      "status": "article_read",
+      "scope": "제18조 본문: 점검·기록·제출·검사 분리",
+      "remaining": "시행령 대상·별표·위임·기간 계산·실제 대상 미확정"
+    }
+  ]
+}

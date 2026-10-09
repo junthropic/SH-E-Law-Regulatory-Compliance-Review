@@ -1,0 +1,5 @@
+
+> sh-e-law-check@0.1.0 test:e2e
+> node scripts/e2e.mjs
+
+PASS: isolated UI review, upload, metadata, confirmation, 18 source cards, workspace navigation, settings without shutdown, information notice, expanded mobile layout; no page errors.

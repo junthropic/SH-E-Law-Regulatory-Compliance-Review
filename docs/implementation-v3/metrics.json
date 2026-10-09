@@ -1,0 +1,268 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "dirty": true,
+  "sourceDigest": "26dc4d816b8caa152bc551bd28f6dbdfcc6b6654b4db6fc078c85ee0afea938a",
+  "at": "2026-10-08T13:47:18.887Z",
+  "scope": "격리 개발·가상 시험. 운영·실제 사업장·법적 승인 아님",
+  "testCaseCounts": {
+    "denominator": 332,
+    "failed": 0
+  },
+  "legalAccuracy": null,
+  "independentGoldenCases": 0,
+  "legalFalseRisk": {
+    "denominator": 0,
+    "errors": null,
+    "rate": null
+  },
+  "falseCompliance": {
+    "denominator": 0,
+    "errors": null,
+    "rate": null
+  },
+  "falseOutOfScope": {
+    "denominator": 0,
+    "errors": null,
+    "rate": null
+  },
+  "unnecessaryHold": {
+    "denominator": 0,
+    "errors": null,
+    "rate": null
+  },
+  "qualifiedReviewerAgreement": null,
+  "liveLatencyP95": null,
+  "technicalOnly": {
+    "permissionTests": [
+      {
+        "file": "tests/v3-workflow.test.ts",
+        "name": "V3-H01: 전체 앱 HTTP에서 cookie·CSRF·업무 권한을 독립 확인한다",
+        "status": "passed",
+        "durationMs": 133.66820000000007
+      },
+      {
+        "file": "tests/v3-workflow.test.ts",
+        "name": "V3-H02: HTTP 저장·자기 승인 차단·독립 승인·반려·철회·변경 이력을 보존한다",
+        "status": "passed",
+        "durationMs": 55.20980000000009
+      },
+      {
+        "file": "tests/v3-workflow.test.ts",
+        "name": "V3-H03: 권한 공급 없는 앱은 v2 관리 경로를 활성화하지 않는다",
+        "status": "passed",
+        "durationMs": 33.02729999999997
+      },
+      {
+        "file": "tests/v3-workflow.test.ts",
+        "name": "V3-H04: 자료 보완→정책→판정→조치까지 HTTP 역할별 승인 후 원문 변경은 관련 판단만 무효화한다",
+        "status": "passed",
+        "durationMs": 117.74310000000014
+      }
+    ],
+    "dateTests": [
+      {
+        "file": "tests/v3-policies.test.ts",
+        "name": "V3-C01: hazmat_manager.replacement 후보 실행·독립 가상 승인·자료 누락 보류",
+        "status": "passed",
+        "durationMs": 131.14779999999996
+      },
+      {
+        "file": "tests/v3-policies.test.ts",
+        "name": "V3-C01: hazmat_manager.appointment_report 후보 실행·독립 가상 승인·자료 누락 보류",
+        "status": "passed",
+        "durationMs": 78.99220000000003
+      },
+      {
+        "file": "tests/v3-policies.test.ts",
+        "name": "V3-C01: hazmat_manager.deputy 후보 실행·독립 가상 승인·자료 누락 보류",
+        "status": "passed",
+        "durationMs": 87.83309999999994
+      },
+      {
+        "file": "tests/v3-policies.test.ts",
+        "name": "V3-C01: hazmat_manager.deputy_period 후보 실행·독립 가상 승인·자료 누락 보류",
+        "status": "passed",
+        "durationMs": 90.44960000000003
+      },
+      {
+        "file": "tests/v3-policies.test.ts",
+        "name": "V3-C01: hazmat_check.record_retention 후보 실행·독립 가상 승인·자료 누락 보류",
+        "status": "passed",
+        "durationMs": 105.40930000000003
+      },
+      {
+        "file": "tests/v3-policies.test.ts",
+        "name": "V3-C01: hazmat_check.result_submission 후보 실행·독립 가상 승인·자료 누락 보류",
+        "status": "passed",
+        "durationMs": 93.42359999999996
+      },
+      {
+        "file": "tests/v3-policies.test.ts",
+        "name": "V3-C02/S3: 보존 3·25·30년과 미확인 종류, 제출 개정 적용례를 분리한다",
+        "status": "passed",
+        "durationMs": 0.5606000000000222
+      },
+      {
+        "file": "tests/v3-policies.test.ts",
+        "name": "V3-C03/S1/S3: 후임 선임·신고·대리·점검·제출의 불이행 사실을 서로 대체하지 않는다",
+        "status": "passed",
+        "durationMs": 0.5896999999999935
+      },
+      {
+        "file": "tests/v3-policies.test.ts",
+        "name": "V3-C04: 미승인 profile·잘못된 기산 사건·실제 영역의 모의 승인은 unknown이다",
+        "status": "passed",
+        "durationMs": 1.0497000000000298
+      },
+      {
+        "file": "tests/v3-policies.test.ts",
+        "name": "V3-C05: 반기·연간·직전 사건 반복을 명시적으로 계산하고 법정값으로 자동 지정하지 않는다",
+        "status": "passed",
+        "durationMs": 0.7413000000001375
+      },
+      {
+        "file": "tests/v3-policies.test.ts",
+        "name": "V3-C07: 월말 초일 제외의 실제 기산일과 해당일 없는 달의 말일을 구분한다",
+        "status": "passed",
+        "durationMs": 0.30389999999988504
+      },
+      {
+        "file": "tests/v3-policies.test.ts",
+        "name": "V3-C08: 감경량·연장일이 미확인이면 효과를 적용하지 않고 잔존 의무를 보존한다",
+        "status": "passed",
+        "durationMs": 1.28449999999998
+      },
+      {
+        "file": "tests/v3-policies.test.ts",
+        "name": "V3-C06/AC28: 간주 방향·대상·기간과 승인 요구 여부, 잔존 의무를 구분한다",
+        "status": "passed",
+        "durationMs": 0.5093000000001666
+      },
+      {
+        "file": "tests/v3-runtime.test.ts",
+        "name": "V3-P01: 날짜 포함·제외 왕복, 윤년과 변경 경계를 보존한다",
+        "status": "passed",
+        "durationMs": 2.8518000000000256
+      },
+      {
+        "file": "tests/v3-runtime.test.ts",
+        "name": "V3-P02: 열린 종료와 미확인 종료를 실제 종료일로 만들지 않는다",
+        "status": "passed",
+        "durationMs": 0.3201999999999998
+      },
+      {
+        "file": "tests/v3-runtime.test.ts",
+        "name": "V3-P03: 시각 경계에 하루를 더하지 않고 서울 자정을 구분한다",
+        "status": "passed",
+        "durationMs": 18.379300000000057
+      }
+    ],
+    "workerTests": [
+      {
+        "file": "tests/v3-collection.test.ts",
+        "name": "V3-F01/S2: 실제 worker·기존 façade는 느린 조회 중 다른 저장을 막지 않고 완료 결과를 재조회한다",
+        "status": "passed",
+        "durationMs": 1191.8844
+      },
+      {
+        "file": "tests/v3-collection.test.ts",
+        "name": "V3-F02: 실제 parser→목록·상세 실패·첨부 미지원 그래프가 부분 상태로 보존된다",
+        "status": "passed",
+        "durationMs": 33.621200000000044
+      },
+      {
+        "file": "tests/v3-collection.test.ts",
+        "name": "V3-F03: HTTP 200 오류 응답을 정상 0건으로 저장하지 않는다",
+        "status": "passed",
+        "durationMs": 36.35349999999971
+      },
+      {
+        "file": "tests/v3-runtime.test.ts",
+        "name": "V3-J10: 검색 0건·일시 오류는 원천 삭제가 아니며 확인된 비공개 이력도 과거 근거를 보존한다",
+        "status": "passed",
+        "durationMs": 27.31970000000001
+      },
+      {
+        "file": "tests/v3-runtime.test.ts",
+        "name": "V3-J01: 접수 반복은 동일 ID, 내용 충돌과 다른 영역 접근은 차단한다",
+        "status": "passed",
+        "durationMs": 26.570100000000025
+      },
+      {
+        "file": "tests/v3-runtime.test.ts",
+        "name": "V3-J02: 만료된 worker와 취소 이후 응답은 저장하지 않는다",
+        "status": "passed",
+        "durationMs": 31.218399999999974
+      },
+      {
+        "file": "tests/v3-runtime.test.ts",
+        "name": "V3-J03: 원문·checkpoint는 함께 rollback되고 0건과 실패가 구분된다",
+        "status": "passed",
+        "durationMs": 34.18060000000003
+      },
+      {
+        "file": "tests/v3-runtime.test.ts",
+        "name": "V3-J04: 공유 quota 차단은 다른 작업에도 적용되고 권한 없는 해제를 거절한다",
+        "status": "passed",
+        "durationMs": 34.1078
+      },
+      {
+        "file": "tests/v3-runtime.test.ts",
+        "name": "V3-J05: 응답 없는 transport도 총 시간 예산으로 끝난다",
+        "status": "passed",
+        "durationMs": 1042.1091000000001
+      },
+      {
+        "file": "tests/v3-runtime.test.ts",
+        "name": "V3-J06: 304는 대응 원문과 query·validator가 있어야 재사용한다",
+        "status": "passed",
+        "durationMs": 0.4984999999999218
+      },
+      {
+        "file": "tests/v3-runtime.test.ts",
+        "name": "V3-J07: 실제 두 독립 프로세스의 동시 claim은 한 worker만 획득한다",
+        "status": "passed",
+        "durationMs": 542.2949999999998
+      },
+      {
+        "file": "tests/v3-runtime.test.ts",
+        "name": "V3-J08: 실제 두 프로세스는 다른 작업에서도 provider/key 호출 lease를 공유한다",
+        "status": "passed",
+        "durationMs": 473.49659999999994
+      },
+      {
+        "file": "tests/v3-runtime.test.ts",
+        "name": "V3-J09: 프로세스 비정상 종료 뒤 마지막 저장 checkpoint에서 재개한다",
+        "status": "passed",
+        "durationMs": 311.6138000000001
+      }
+    ],
+    "egressTests": [
+      {
+        "file": "tests/v3-workflow.test.ts",
+        "name": "V3-E01: AI 분석·사실 추출의 전송 unknown는 실제 fetch 0회",
+        "status": "passed",
+        "durationMs": 25.598199999999906
+      },
+      {
+        "file": "tests/v3-workflow.test.ts",
+        "name": "V3-E01: AI 분석·사실 추출의 전송 false는 실제 fetch 0회",
+        "status": "passed",
+        "durationMs": 24.729700000000093
+      },
+      {
+        "file": "tests/v3-workflow.test.ts",
+        "name": "V3-E02: 질문 허용만으로 첨부 원문·다른 목적·다른 제공자 전송을 허용하지 않는다",
+        "status": "passed",
+        "durationMs": 22.359899999999925
+      },
+      {
+        "file": "tests/v3-workflow.test.ts",
+        "name": "V3-E03: 금지 원본의 요약·인코딩 파생자료는 허용 표시가 있어도 전송되지 않는다",
+        "status": "passed",
+        "durationMs": 31.6241
+      }
+    ]
+  },
+  "warning": "0개 독립 정답 분모는 산정 불가. 합성 설계 시험 성공을 법률 정확도 100%로 표현하지 않음"
+}

@@ -1,0 +1,434 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "한국산업안전보건공단에서 제공하는 기술지원규정(KOSHA GUIDE) 조회 서비스 입니다.\n- 규정명, 규정번호, 규정 공표일자, 규정 다운로드 링크를 조회 할 수 있습니다.\n- 기술지원규정은 산업안전보건법령에서 정한 최소한의 수준이 아니라, 사업장에서 좀 더 높은 수준의 안전보건 향상을 위해 참고할 수 있는 기술적 내용을 기술한 자율적 안전보건가이드입니다.\n- 산업안전보건법과 같은 강제적인 법률이 아닌 권고 기술준으로서 한국산업안전보건공단에 의해서 제정, 개정 되고 있는 규정입니다.\n- 사업장의 안전·보건을 확보하기 위하여 위험설비·공정, 작업에 대한 선진 각국의 기술수준 및 국제표준을 참고하여 우리나라 실정에 맞게 일반, 기계, 전기, 화공, 보건 등 전문분야별로 세분화하여 기술지원규정을 제정·공표하여 사업장에 보급·활용되고 있습니다.\n※ 기술지침은 법적 기준이 아닌 사업장의 이해를 돕기 위해 작성된 기술적 권고로, 법적 구속력(효력)은 없습니다.",
+    "version": "1.0.0",
+    "title": "한국산업안전보건공단_기술지원규정(코샤가이드) 조회 서비스"
+  },
+  "host": "apis.data.go.kr/B552468/koshaguide",
+  "basePath": "",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/getKoshaGuide": {
+      "get": {
+        "responses": {
+          "99": {
+            "description": "callApiId 미입력시 발생오류로, callApiId = 1050 입력하여 활용해주시기 바랍니다."
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메시지",
+                      "properties": {}
+                    },
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "totalCount": {
+                      "type": "string",
+                      "description": "전체 결과 수",
+                      "properties": {}
+                    },
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "techGdlnOfancYmd": {
+                              "type": "string",
+                              "description": "기술지원규정 공표일자",
+                              "properties": {}
+                            },
+                            "techGdlnNm": {
+                              "type": "string",
+                              "description": "기술지원규정명",
+                              "properties": {}
+                            },
+                            "techGdlnNo": {
+                              "type": "string",
+                              "description": "기술지원규정번호",
+                              "properties": {}
+                            },
+                            "fileDownloadUrl": {
+                              "type": "string",
+                              "description": "파일 다운로드 주소",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "numOfRows": {
+                      "type": "string",
+                      "description": "한 페이지 결과 수",
+                      "properties": {}
+                    },
+                    "pageNo": {
+                      "type": "string",
+                      "description": "페이지번호",
+                      "properties": {}
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "기술지원규정 조회",
+        "description": "명칭, 규정 번호, 공표일자를 검색하여 기술지원규정을 조회하는 서비스",
+        "operationId": "getKoshaGuide",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "pageNo",
+          "description": "페이지번호",
+          "type": "string",
+          "required": false,
+          "in": "query"
+        },
+        {
+          "name": "numOfRows",
+          "description": "한 페이지 결과 수",
+          "type": "string",
+          "required": false,
+          "in": "query"
+        },
+        {
+          "name": "callApiId",
+          "description": "기술지원규정 호출(필수입력 고정값)",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "techGdlnNm",
+          "description": "기술지원규정명",
+          "type": "string",
+          "required": false,
+          "in": "query"
+        },
+        {
+          "name": "techGdlnNo",
+          "description": "기술지원규정번호",
+          "type": "string",
+          "required": false,
+          "in": "query"
+        },
+        {
+          "name": "ofancYmd",
+          "description": "기술지원규정 공표일자",
+          "type": "string",
+          "required": false,
+          "in": "query"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "getKoshaGuide_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메시지"
+            },
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "totalCount": {
+              "type": "string",
+              "description": "전체 결과 수"
+            },
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "techGdlnOfancYmd": {
+                      "type": "string",
+                      "description": "기술지원규정 공표일자"
+                    },
+                    "techGdlnNm": {
+                      "type": "string",
+                      "description": "기술지원규정명"
+                    },
+                    "techGdlnNo": {
+                      "type": "string",
+                      "description": "기술지원규정번호"
+                    },
+                    "fileDownloadUrl": {
+                      "type": "string",
+                      "description": "파일 다운로드 주소"
+                    }
+                  }
+                }
+              }
+            },
+            "numOfRows": {
+              "type": "string",
+              "description": "한 페이지 결과 수"
+            },
+            "pageNo": {
+              "type": "string",
+              "description": "페이지번호"
+            }
+          }
+        }
+      }
+    }
+  },
+  "swaggerOprtinVOs": [
+    {
+      "oprtinUrl": "https://portal.kosha.or.kr/openapi/v1/koshagw",
+      "oprtinNm": "기술지원규정 조회",
+      "oprtinDc": "명칭, 규정 번호, 공표일자를 검색하여 기술지원규정을 조회하는 서비스",
+      "gwSvcNm": "getKoshaGuide",
+      "operationId": "getKoshaGuide",
+      "publicDataTyDetailCode": "PRDE02",
+      "reqList": [
+        {
+          "paramtrNm": "serviceKey",
+          "paramtrDc": "공공데이터포털에서 받은 인증키",
+          "paramtrBassValue": "-",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "pageNo",
+          "paramtrDc": "페이지번호",
+          "paramtrBassValue": "1",
+          "paramtrTy": "string",
+          "paramtrDivision": "옵션",
+          "ck": true
+        },
+        {
+          "paramtrNm": "numOfRows",
+          "paramtrDc": "한 페이지 결과 수",
+          "paramtrBassValue": "10",
+          "paramtrTy": "string",
+          "paramtrDivision": "옵션",
+          "ck": true
+        },
+        {
+          "paramtrNm": "callApiId",
+          "paramtrDc": "기술지원규정 호출(필수입력 고정값)",
+          "paramtrBassValue": "1050",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "techGdlnNm",
+          "paramtrDc": "기술지원규정명",
+          "paramtrBassValue": "작업환경측정",
+          "paramtrTy": "string",
+          "paramtrDivision": "옵션",
+          "ck": true
+        },
+        {
+          "paramtrNm": "techGdlnNo",
+          "paramtrDc": "기술지원규정번호",
+          "paramtrBassValue": "A",
+          "paramtrTy": "string",
+          "paramtrDivision": "옵션",
+          "ck": true
+        },
+        {
+          "paramtrNm": "ofancYmd",
+          "paramtrDc": "기술지원규정 공표일자",
+          "paramtrBassValue": "20181127",
+          "paramtrTy": "string",
+          "paramtrDivision": "옵션",
+          "ck": true
+        }
+      ],
+      "resList": [
+        {
+          "paramtrNm": "header",
+          "paramtrDc": "header",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/header-1",
+          "subDefNm": "header-1",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "resultMsg",
+              "paramtrDc": "결과메시지",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "resultCode",
+              "paramtrDc": "결과코드",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        },
+        {
+          "paramtrNm": "body",
+          "paramtrDc": "body",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/body-1",
+          "subDefNm": "body-1",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "totalCount",
+              "paramtrDc": "전체 결과 수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "items",
+              "paramtrDc": "items",
+              "arrayYn": "N",
+              "paramtrDefNm": "#/definitions/items",
+              "subDefNm": "items",
+              "paramtrTy": "object",
+              "paramtrDivision": "필수",
+              "ck": true,
+              "subParam": [
+                {
+                  "paramtrNm": "item",
+                  "paramtrDc": "item",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "#/definitions/item",
+                  "subDefNm": "item",
+                  "paramtrTy": "object",
+                  "paramtrDivision": "필수",
+                  "ck": true,
+                  "subParam": [
+                    {
+                      "paramtrNm": "techGdlnOfancYmd",
+                      "paramtrDc": "기술지원규정 공표일자",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "techGdlnNm",
+                      "paramtrDc": "기술지원규정명",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "techGdlnNo",
+                      "paramtrDc": "기술지원규정번호",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "fileDownloadUrl",
+                      "paramtrDc": "파일 다운로드 주소",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "paramtrNm": "numOfRows",
+              "paramtrDc": "한 페이지 결과 수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "pageNo",
+              "paramtrDc": "페이지번호",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

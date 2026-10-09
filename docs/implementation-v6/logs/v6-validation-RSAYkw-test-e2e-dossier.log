@@ -1,0 +1,5 @@
+
+> sh-e-law-check@0.1.0 test:e2e:dossier
+> node scripts/e2e-dossier.mjs
+
+PASS: synthetic Hwaseong case, original comparison, differences, reviewer record, missing-fact hold, follow-up answers, new review preserving comparison, packet, reload and mobile. No production data or real approvals used.

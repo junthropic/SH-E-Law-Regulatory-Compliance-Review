@@ -1,0 +1,79 @@
+[
+  {
+    "file": "waste-forms.html",
+    "url": "https://www.law.go.kr/LSW/lsInfoP.do?ancYnChk=0&lsId=008567",
+    "status": 200,
+    "type": "text/html;charset=UTF-8",
+    "bytes": 145681,
+    "hash": "4c522c8b81542e246aaa105ad0d410d5f310d2f830abe659565561b7ff132984",
+    "at": "2026-10-08T16:08:51.500Z",
+    "retrieval": "research-fetch-not-app-pinned-downloader",
+    "legalApproval": false
+  },
+  {
+    "file": "notice.html",
+    "url": "https://www.moel.go.kr/info/lawinfo/instruction/view.do?bbs_seq=20241201150",
+    "status": 200,
+    "type": "text/html; charset=UTF-8",
+    "bytes": 262129,
+    "hash": "09a0576276184d70f4e2cc464ce06789f8e3dfb3f31ac05325e465d1a104ec75",
+    "at": "2026-10-08T16:08:51.641Z",
+    "retrieval": "research-fetch-not-app-pinned-downloader",
+    "legalApproval": false
+  },
+  {
+    "file": "a07.html",
+    "url": "https://www.data.go.kr/data/15141649/openapi.do",
+    "status": 200,
+    "type": "text/html;charset=UTF-8",
+    "bytes": 207814,
+    "hash": "656c6d722ed6dd6436082a3bff85bad76be172c457d0478dddec844532595b62",
+    "at": "2026-10-08T16:08:52.041Z",
+    "retrieval": "research-fetch-not-app-pinned-downloader",
+    "legalApproval": false
+  },
+  {
+    "file": "a08.html",
+    "url": "https://www.data.go.kr/data/15156661/openapi.do",
+    "status": 200,
+    "type": "text/html;charset=UTF-8",
+    "bytes": 205402,
+    "hash": "17d9cd758acce873fd74e86fc080405dc66a0ad8f52c546bad39d03db4ab8c81",
+    "at": "2026-10-08T16:08:52.354Z",
+    "retrieval": "research-fetch-not-app-pinned-downloader",
+    "legalApproval": false
+  },
+  {
+    "file": "form5.pdf",
+    "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=169879609&bylClsCd=110202",
+    "status": 200,
+    "type": "application/pdf;;charset=UTF-8",
+    "bytes": 96810,
+    "hash": "b36c190a1a94d2c04f54ff636605a760d12a19a5728d37fcdccc28850f67ee8f",
+    "at": "2026-10-08T16:08:52.406Z",
+    "retrieval": "research-fetch-not-app-pinned-downloader",
+    "legalApproval": false
+  },
+  {
+    "file": "notice.hwpx",
+    "url": "https://www.moel.go.kr/common/downloadFile.do?file_seq=20241202005&bbs_seq=20241201150&bbs_id=19&file_ext=hwpx",
+    "status": 200,
+    "type": "application/octet-stream;charset=UTF-8",
+    "bytes": 95319,
+    "hash": "74b7c281748d9bb669fcb2626c70f22e1cc56264a84a6b7534d3c191b9fa111d",
+    "at": "2026-10-08T16:08:52.439Z",
+    "retrieval": "research-fetch-not-app-pinned-downloader",
+    "legalApproval": false
+  },
+  {
+    "file": "draft.html",
+    "url": "https://www.moel.go.kr/info/lawinfo/lawmaking/view.do?bbs_seq=20260900747",
+    "status": 200,
+    "type": "text/html; charset=UTF-8",
+    "bytes": 261656,
+    "hash": "b862e71235c94fbaec5209b90a1cedccb97bac64306805ae082f17395897c71a",
+    "at": "2026-10-08T16:08:52.564Z",
+    "retrieval": "research-fetch-not-app-pinned-downloader",
+    "legalApproval": false
+  }
+]

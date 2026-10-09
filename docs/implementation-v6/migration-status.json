@@ -1,0 +1,83 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "previous": {
+    "tables": [
+      "v3_jobs",
+      "v3_job_units",
+      "v3_job_events",
+      "v3_shadow"
+    ],
+    "sequence": [
+      "read-only inventory",
+      "protected copy",
+      "hash and scope verification",
+      "marker",
+      "deletion eligibility review pending"
+    ],
+    "idempotenceTested": true,
+    "originalPlaintextDeleted": false,
+    "queueResumeVerified": false,
+    "ttl": {
+      "queueHours": 24,
+      "payloadDays": 7,
+      "legalRetentionApproved": false
+    },
+    "remaining": [
+      "v3 source/case/trace·오류·일반 audit 평문 전체 이관",
+      "정확한 evidence/version/hash 없는 v3 digest는 deny",
+      "법적 hold/TTL 승인",
+      "OS ACL·실제 키 회전",
+      "운영 평문 삭제는 별도 지시 필요"
+    ]
+  },
+  "protectedCopyVerified": true,
+  "readPathMigrated": true,
+  "queueResumeVerified": true,
+  "allTraceCovered": false,
+  "plaintextRemovalComplete": false,
+  "sourcePlaintextRetained": true,
+  "route": {
+    "path": "server/migration-resume-v6.ts",
+    "line": 12,
+    "hash": "beefeec6ec4e4f04785676b9a4fa20dfe6e52b5a3fb5172072091578e4b582e7"
+  },
+  "tests": [
+    {
+      "file": "tests/v6-resume-process.test.ts",
+      "name": "V6-Q02: copy/switch 경계 실제 child 중단→동일 marker 복구→다른 worker 보호 원본 재개",
+      "status": "passed",
+      "duration": 922.7803000000001
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-Q01: 보호 이관 read switch·checkpoint 재개·중복 이관과 실제 worker",
+      "status": "passed",
+      "duration": 100.8759
+    }
+  ],
+  "checkpoint": "copy/switch 전후 실제 task-owned child exit→marker 복구→다른 worker",
+  "TTL": {
+    "queueHours": 24,
+    "payloadDays": 7,
+    "legalRetentionApproved": false
+  },
+  "blocked": [
+    {
+      "item": "원본 평문 삭제·운영 cutover",
+      "reason": "이번 사용자 금지"
+    },
+    {
+      "item": "일반 audit/미연결 source·case·error의 전체 보호 읽기",
+      "reason": "영역 소유권·정확 version 부모 전수 연결 미완료; 임의 귀속 안 함"
+    },
+    {
+      "item": "hold/TTL 법적 충분성",
+      "reason": "권한자·실제 자료·법률 승인 없음"
+    }
+  ]
+}

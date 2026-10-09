@@ -1,0 +1,65 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "records": [
+    {
+      "phase": "targeted-initial",
+      "result": "31 training passed; workflow fixture suffix/CSRF/no-route check failures",
+      "correction": "既 UI supports TXT, existing CSRF header retained, hasRoute checks actual registration. Security checks not relaxed"
+    },
+    {
+      "phase": "targeted-send",
+      "result": "completed expected vs finished fixture typo",
+      "correction": "existing admission completed code unchanged; tests corrected"
+    },
+    {
+      "phase": "targeted-restore",
+      "result": "initial 5s timeouts, 31 matrix timeouts; later 32 matrix passed",
+      "correction": "reuse one immutable empty synthetic archive for independent fault injection, each target fresh; 30s per restore scenario, final actual results used"
+    },
+    {
+      "phase": "full-check",
+      "result": "new test union/type annotation errors",
+      "correction": "explicit test types; frozen TypeScript config unchanged"
+    },
+    {
+      "phase": "accident-worker",
+      "result": "fixture excluded by actual keyword filter",
+      "correction": "fixture keyword supplied; real adapter filtering preserved"
+    },
+    {
+      "phase": "education-browser",
+      "result": "검토 기준일/자료 불일치로 publish 거부",
+      "correction": "기존 날짜 입력으로 법률 기준일2026-10-08을 명시; mismatch guard 유지"
+    },
+    {
+      "phase": "public-context-regression",
+      "result": "공공 API legacy query context에 local-read 요구가 확대되어 브라우저 실패",
+      "correction": "기존 공공 query 계약 유지; AI/intake/MCP private call site만 local-read를 명시, exact managed source 외부 경로는 추가 검사"
+    },
+    {
+      "phase": "local-read-regression",
+      "result": "기존 trace 등록 개수1/2 차이",
+      "correction": "digest node 등록 계약 유지 후 local-read 검사; 외부 송신 전 차단 유지"
+    },
+    {
+      "phase": "government-pin",
+      "result": "2 HTTP200 HTML errors, MIME/signature false",
+      "correction": "failed original state preserved; no TLS/header/WAF bypass"
+    },
+    {
+      "phase": "historical-law",
+      "result": "direct historical SideInfo returned navigation without article",
+      "correction": "failed attempt kept; public MCP valid efYd requery succeeded"
+    },
+    {
+      "phase": "address-spec",
+      "result": "old official guide404, new intro error page",
+      "correction": "address spec remains unverified; no key/cookie fallback"
+    }
+  ]
+}

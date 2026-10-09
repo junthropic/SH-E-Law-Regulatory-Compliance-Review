@@ -1,0 +1,132 @@
+[
+  {
+    "path": "docs/development-history/early-deliverables/EHS-architecture-audit-2026-10-05.md",
+    "origin": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\EHS-architecture-audit-2026-10-05.md",
+    "sha256": "ec245302af5464835a03e00df54f7f5989bc4b01858741e11c38c4a366f0f320"
+  },
+  {
+    "path": "docs/development-history/early-deliverables/EHS-첨부자료-검토와-개발계획-2026-10-04.md",
+    "origin": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\EHS-첨부자료-검토와-개발계획-2026-10-04.md",
+    "sha256": "a6096324d7be63900f4cdd4e45f307c63b789fa44335e348af05879a947f1187"
+  },
+  {
+    "path": "docs/development-history/early-deliverables/EHS-추가-설계질문-200-2026-10-05.md",
+    "origin": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\EHS-추가-설계질문-200-2026-10-05.md",
+    "sha256": "a30f5e50400c3f6a374efaa0c74829b572cf255f29f45c63f8c089d99dd4122c"
+  },
+  {
+    "path": "docs/development-history/early-deliverables/구현결과.md",
+    "origin": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\구현결과.md",
+    "sha256": "fd5df3e1a95180dd1b530b84f90aad33f31b1a2bfb06ffcb4d91fcc54a323240"
+  },
+  {
+    "path": "docs/development-history/early-deliverables/실수집-확인기록.md",
+    "origin": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\실수집-확인기록.md",
+    "sha256": "eac64f74a4827191c44763bade9f0c6d57e631659bde32c92ff6d103582fde27"
+  },
+  {
+    "path": "docs/development-history/early-deliverables/실연동-가상사례-결과.md",
+    "origin": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\실연동-가상사례-결과.md",
+    "sha256": "ccc31ecf0a96b5f30384e5179969f40b9ff5d6a003291e18bf063994bff68ad8"
+  },
+  {
+    "path": "docs/development-history/early-deliverables/재검토-결과화면.png",
+    "origin": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\재검토-결과화면.png",
+    "sha256": "e009790beecd16ebf5f9d4bc55749d83155a7e90473481025be92921edbdffcc"
+  },
+  {
+    "path": "docs/development-history/early-deliverables/화성시-소량위험물-운영검증안.md",
+    "origin": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\화성시-소량위험물-운영검증안.md",
+    "sha256": "0c910300df31440f53f3571a5a8a2f9d8d3d9450f83815fd41cc2c823844f933"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/EHS_법령조회_API_카탈로그.xlsx",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\EHS_법령조회_API_카탈로그.xlsx",
+    "sha256": "2418d7144558dcb7389f26078a651324612e60e23f24e9bb343068ba58aa7209"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/EHS_공공데이터_API_파일데이터_목록.xlsx",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\EHS_공공데이터_API_파일데이터_목록.xlsx",
+    "sha256": "4ef3b9c1acbadf69dd14f5cb640bcd1be24bd8aebbd785fa174f4a840d6e9fc4"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/EHS_법령조회_파이프라인_가이드.md",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\EHS_법령조회_파이프라인_가이드.md",
+    "sha256": "1e0af2219997a985795c6c411882bd3bfe35411aa6c8397a553f8c88785d2232"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/README.md",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\README.md",
+    "sha256": "9c58b3df748fffadff5c79a715380ac5618a60f6ee3b92cf8f5ab3e1f75929a5"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/run_trace.py",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\run_trace.py",
+    "sha256": "be8eeedddc9e344d052abe5a49a3e6701053ddd51bdb8653b5b1f5f6d700ef1c"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/ehs_lookup/http.py",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\ehs_lookup\\http.py",
+    "sha256": "b17ed554cc243d658974b3eedeca0872080db40241cbe8139f0e8395c1221e42"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/ehs_lookup/law_api.py",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\ehs_lookup\\law_api.py",
+    "sha256": "2bd2c13aea963ceca578b9dac9fed59960e9e77d86c533eff5b3164c5590aaca"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/ehs_lookup/local_qna.py",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\ehs_lookup\\local_qna.py",
+    "sha256": "39599c43628f1e844d26b390cf0a834523d014c48dfc53fd54c00a1e0df39558"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/ehs_lookup/pipeline.py",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\ehs_lookup\\pipeline.py",
+    "sha256": "376a873fefd5dd1588a745dddc0958923c0f8ff75fec72a04ab32e2a02c675c7"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/ehs_lookup/qna_api.py",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\ehs_lookup\\qna_api.py",
+    "sha256": "3f5102a352db216e13ebb8297d8d1f53adaf5142b5ec18897c9c65ffb80a3aaa"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/ehs_lookup/__init__.py",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\ehs_lookup\\__init__.py",
+    "sha256": "e8d31ac969e628453908a6452acf406d8ecf15249da0240743a3e576a141124f"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/out/산업안전보건법_제114조.json",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\out\\산업안전보건법_제114조.json",
+    "sha256": "85ed05ed0ea20d08f6aedf6d24251553b0e36c1979515c5a72e22d6b79dd1a2e"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/out/산업안전보건법_제114조.md",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\out\\산업안전보건법_제114조.md",
+    "sha256": "76ef6d7113433136854817c27fa4bf9d9d4ccae9bde0c90e1a21733054e288d1"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/out/위험물안전관리법_제4조_경기도.json",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\out\\위험물안전관리법_제4조_경기도.json",
+    "sha256": "a92ceea0ebf6c4b009154721edd7fdf2ee1e16f21a336c989a0ab44bbbbe3c96"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/out/위험물안전관리법_제4조_경기도.md",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\out\\위험물안전관리법_제4조_경기도.md",
+    "sha256": "86f72a219b5c7f6ece9b63d20b85ddd23b6cf2fa92cc74a1e81175596937c24f"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/out/폐기물관리법_제17조_강원.json",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\out\\폐기물관리법_제17조_강원.json",
+    "sha256": "0f48f25af5fff6cceb44b2775cd99e23f6f01b0a8b12bb1378c4900c41291be8"
+  },
+  {
+    "path": "docs/development-history/initial-inputs/ehs_lookup/out/폐기물관리법_제17조_강원.md",
+    "origin": "C:\\Users\\유준호\\.aside\\u\\0\\sessions\\2026-10-04_Xjn0KEmK8uGoMqcd\\artifacts\\ehs_lookup\\out\\폐기물관리법_제17조_강원.md",
+    "sha256": "cbbfa591410935478f3ad67ca7f8a43e4b2cfd70ee5418d2c88c4d43ae3097fa"
+  },
+  {
+    "path": "docs/specifications/화학물질_EHS_판정_자료_API_자동갱신_기준.md",
+    "origin": "C:\\Users\\유준호\\Downloads\\화학물질_EHS_판정_자료_API_자동갱신_기준.md",
+    "sha256": "09c118d9c9f8313396d8c66943210eb5fe1cb67e86dad257365c3e43666de861"
+  }
+]

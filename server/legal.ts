@@ -1,13 +1,15 @@
 import { randomUUID } from "node:crypto";
 import { diffLines } from "diff";
 import type { CaseFact, Evidence, LegalIssue, Rule } from "../shared/types.js";
+import { factConflict, factClarification } from "./fact-checks.js";
+import { compareDecimal } from "./fact-provenance.js";
 import { koreaDate } from "../shared/dates.js";
 
 export const normalize = (s: string) => s.replace(/\s+/g, " ").trim();
 export function confirmedAnswer(value: string) {
   return (
     !!value.trim() &&
-    !/모름|모르|미확인|확인\s*중|확인\s*필요|알\s*수\s*없|아직|확인\s*안|unknown/i.test(
+    !/모름|모르|미확인|확인\s*중|확인\s*필요|알\s*수\s*없|아직|확인\s*안|미제공|미제출|미업로드|미정|예정|추정|불명|확인되지|제공되지|(?:서류|자료|기록|문서)\s*(?:가|이)?\s*없|조회\s*(?:결과\s*)?0\s*건|조회\s*실패|응답\s*시간\s*초과|unknown/i.test(
       value,
     )
   );
@@ -43,6 +45,7 @@ export function evidenceGaps(
   if (!e.some((x) => x.kind === "ordinance" && x.region === region))
     gaps.push("해당 지역 조례 전문을 확인하지 못했습니다.");
   for (const x of e.filter((x) => ["law", "ordinance"].includes(x.kind))) {
+    for (const conflict of x.sourceConflicts || []) gaps.push(x.title + ": 출처 간 정보 불일치 — " + conflict);
     if (!x.complete)
       gaps.push(x.title + ": 전문 또는 연결 조문이 불완전합니다.");
     if (!x.annexesComplete)
@@ -71,9 +74,10 @@ export function enforceIssue(
     ),
   );
   const broken = valid.length !== issue.citations.length;
+  const onlyReference = valid.length > 0 && valid.every(c => ["petition", "interpretation", "document"].includes(evidence.find(e => e.id === c.evidenceId)?.kind || ""));
   // Only deterministic reviewed rules may produce clear_risk; model assertions never do.
   const category =
-    broken || !valid.length
+    broken || !valid.length || onlyReference
       ? "more_data"
       : issue.category === "clear_risk"
         ? "human_review"
@@ -84,10 +88,13 @@ export function enforceIssue(
     conclusion:
       broken || !valid.length
         ? "모델의 판단을 원문으로 검증할 수 없어 보류했습니다. 확인 가능한 근거를 확보한 뒤 재검토하세요."
+        : onlyReference ? "개별 회신·참고자료만으로 현재 사업장의 의무 또는 위반을 확정할 수 없습니다. 당시 법령·사실관계와 현재 적용 근거를 대조하세요."
+        : issue.category === "clear_risk" ? "모델이 제안한 쟁점입니다. 적용 조건·예외와 확인된 사실을 검토자가 대조하기 전에는 위반 여부를 확정할 수 없습니다."
         : issue.conclusion,
     citations: valid,
     missing: [
       ...issue.missing,
+      ...(onlyReference ? ["현재 기준일의 법령·조례 원문 및 사업장 사실과의 일치 확인"] : []),
       ...(broken
         ? ["인용 원문이 일치하지 않아 해당 인용을 제외했습니다."]
         : []),
@@ -135,8 +142,9 @@ export function evaluateRule(
     )
   )
     return;
-  for (const key of [...rule.requiredFacts, ...rule.exceptionFacts])
-    if (!facts.some((f) => f.key === key && f.confirmed && f.value.trim()))
+  for (const key of [...rule.requiredFacts, ...rule.exceptionFacts, rule.predicate.fact])
+    if (facts.filter(f => f.key === key).length !== 1 ||
+        !facts.some((f) => f.key === key && f.confirmed && confirmedAnswer(f.value) && !factConflict(key, f.value) && !factClarification(key, f.value) && !f.provenance?.conflictIds.length))
       return;
   if (
     rule.exceptionFacts.some(
@@ -147,36 +155,35 @@ export function evaluateRule(
   const fact = facts.find((f) => f.key === rule.predicate.fact && f.confirmed);
   if (!fact) return;
   const p = rule.predicate;
-  const n = Number(fact.value),
-    v = Number(p.value);
+  const compared = compareDecimal(fact.value, String(p.value));
   const matched =
     p.operator === "eq"
       ? fact.value === String(p.value)
-      : fact.value.trim() !== "" &&
-        Number.isFinite(n) &&
-        Number.isFinite(v) &&
+      : compared !== undefined &&
         (p.operator === "gte"
-          ? n >= v
+          ? compared >= 0
           : p.operator === "gt"
-            ? n > v
+            ? compared > 0
             : p.operator === "lt"
-              ? n < v
-              : n <= v);
+              ? compared < 0
+              : compared <= 0);
   if (!matched) return;
   return {
     id: randomUUID(),
-    category: "clear_risk",
+    // Legacy rules describe a threshold, not an independently proven breach of an obligation.
+    // Do not promote them until obligation-specific proof, scope and due-date gates exist.
+    category: "human_review",
     title: rule.title,
-    conclusion: rule.conclusion,
+    conclusion: "검토 규칙의 입력 조건이 일치합니다. 실제 적용 대상·이행 기한·예외와 의무 불이행을 입증하는 자료를 대조하기 전에는 위반 여부를 확정할 수 없습니다.",
     conditions: rule.requiredFacts.map(
-      (k) => `${k}: ${facts.find((f) => f.key === k)?.value}`,
+      (k) => `${facts.find((f) => f.key === k)?.label || "확인 항목"}: ${facts.find((f) => f.key === k)?.value}`,
     ),
     citations: supported.map((e) => ({
       evidenceId: e.id,
       quote: rule.quotes[e.hash],
     })),
-    exceptions: rule.exceptionFacts,
-    missing: [],
+    exceptions: rule.exceptionFacts.map(k => facts.find(f => f.key === k)?.label || "예외 확인 항목"),
+    missing: ["사업장 사실의 증빙·현장 대조", "해당 의무의 적용·기한·예외 및 불이행 입증 검토"],
     nextActions: ["근거와 입력 사실을 확인하고 필요한 조치를 진행하세요."],
     severity: "unspecified",
     ruleId: rule.id + "@" + rule.version,

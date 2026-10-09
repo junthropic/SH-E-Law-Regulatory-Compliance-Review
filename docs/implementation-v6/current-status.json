@@ -1,0 +1,87 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "uiChanged": 0,
+  "productionReady": false,
+  "implementationFinished": false,
+  "runExecutedOnce": true,
+  "largeGates": [
+    "A-attachments",
+    "A-schemas",
+    "A-quota",
+    "A-conditional",
+    "B-egress",
+    "B-queue",
+    "B-backup",
+    "C-cases",
+    "D-policy",
+    "D-next",
+    "E-site",
+    "E-production"
+  ],
+  "preservedDenominators": {
+    "tests": 404,
+    "browser": 9,
+    "acceptance": 72,
+    "policies": 43,
+    "additionalPolicies": 2,
+    "services": 32,
+    "operations": 52,
+    "frozen": 29,
+    "gates": 12
+  },
+  "remaining": [
+    {
+      "id": "A-attachments",
+      "reason": "정부 pin 2건 HTML 실패·이미지 OCR/결정 셀 원문 대조·공식 download 정책 미확인"
+    },
+    {
+      "id": "A-schemas",
+      "reason": "8개 typed/wrapper model 미완료(7개 공식 평면 표 추가 확보), 독립/API 실응답 52개 미검증"
+    },
+    {
+      "id": "A-quota",
+      "reason": "공개 개발 트래픽을 보존, 기관 공유계정·reset·운영 한도 공식 규칙 미확인"
+    },
+    {
+      "id": "A-conditional",
+      "reason": "기관 지원 공식 근거 없음: 비활성·원문 없는 304 재사용 금지 유지"
+    },
+    {
+      "id": "B-egress",
+      "reason": "미등록 legacy/private 전수 연결·출처 불명 외부 tool 결과·물리적 첫 byte race"
+    },
+    {
+      "id": "B-queue",
+      "reason": "source/case/error/audit의 모든 보호 read routing·hold/TTL 승인·평문 삭제 금지"
+    },
+    {
+      "id": "B-backup",
+      "reason": "실제 disk/ACL/powerloss·alias/TOCTOU·directory fsync와 모든 writer 경쟁 미검증"
+    },
+    {
+      "id": "C-cases",
+      "reason": "가상 사실 후보 연결 확인. 실제 업체/시설/직원·처분 효력·독립 현장 자료 없음"
+    },
+    {
+      "id": "D-policy",
+      "reason": "교육 특례·폐기물 위임·예외·후속 공표 전수·분야 전문가 승인 없음"
+    },
+    {
+      "id": "D-next",
+      "reason": "교육5 구현; 안전관리자6→안전검사5→나머지26 후보 미구현"
+    },
+    {
+      "id": "E-site",
+      "reason": "실제 사업장 자료·권한자 승인 없음, 이번 합성 시험만 허용"
+    },
+    {
+      "id": "E-production",
+      "reason": "사용자가 운영 접속·실키·배포·재시작·활성화 금지"
+    }
+  ]
+}

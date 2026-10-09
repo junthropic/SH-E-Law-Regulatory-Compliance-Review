@@ -1,4 +1,6 @@
+import { withPayloadExecution, type Execution } from "./egress-execution-v4.js";
 import Fastify from "fastify";
+import { presentReview } from "../shared/result-language.js";
 import cookie from "@fastify/cookie";
 import multipart from "@fastify/multipart";
 import staticPlugin from "@fastify/static";
@@ -16,27 +18,56 @@ import {
   type ReviewResult,
 } from "../shared/types.js";
 import { newReview, runReview } from "./reviews.js";
+import {
+  collectReference,
+  saveLinkedBasis,
+  ReferenceCollectionError,
+} from "./reference-collection.js";
+import { buildVerification } from "./verification.js";
 import { syncSources, PetitionConnector, regionRegistry } from "./sources.js";
 import { ingestDocument, removeDocument } from "./documents.js";
 import { versionDiff, quantityRatio } from "./legal.js";
 import { markdown, csv } from "./exports.js";
 import { makeBackup, restoreBackup } from "./backup.js";
-import { approveReviewBasis } from "./approval.js";
+import { approveReviewBasis, approvalContext } from "./approval.js";
 import { queryMcp } from "./mcp.js";
 import { PetitionCollector } from "./petitions.js";
 import { updatePublicBundle } from "./bundles.js";
+import { registerPublicApis } from "./public-apis.js";
+import { registerIntake, intakeForReview } from "./intake.js";
+import { registerDossier } from "./dossier.js";
+import { registerComplianceV2 } from "./compliance-api-v2.js";
+import type { Principal } from "./compliance-v2.js";
+import { LegacyBridge } from "./legacy-bridge-v3.js";
+import { guardManagedExport } from "./records-v6.js";
+import { EgressGate,EgressDenied } from "./egress-v3.js";
+import { CollectionService } from "./collection-service-v3.js";
+import { registerManagementV3 } from "./management-v3.js";
 
-export async function createApp(store = new Store(), test = false) {
-  const app = Fastify({ logger: false, bodyLimit: 2 * 1024 * 1024 });
+export async function createApp(store = new Store(), test = false, complianceGrants?: ReadonlyMap<string, Principal>, v3?: {adapter?:"v3"|"v4"|"v6";principal:Principal;mode:"shadow"|"project";collect?:boolean;backupKey?:{key:Buffer;id:string}}, enforcement?: () => Execution) {
+  if(v3 && (!test || !v3.principal.synthetic))throw new Error("v3 연결은 명시된 격리 가상 환경에서만 실행합니다.");
+  const bridge=v3?new LegacyBridge(store,v3.adapter||"v3"):undefined;
+  const finalize=v3&&bridge?(r:ReviewResult)=>{bridge.attach(v3.principal,r,v3.mode);}:undefined;
+  const app = Fastify({
+    logger: false,
+    bodyLimit: 2 * 1024 * 1024,
+    requestTimeout: 60000,
+  });
+  // No default users, approvals or production migration. Host must supply authenticated role grants.
+  if (complianceGrants?.size) registerComplianceV2(app, store, complianceGrants);
   const memoryAuth = test || process.env.SHE_EPHEMERAL_AUTH === "1";
   const vault = new Vault(store.dir, memoryAuth);
-  const auth = new ChatGPTAuth(store, vault);
+  const collection=v3?new CollectionService(store,vault,180000,new EgressGate(store),job=>{
+    const p=[...(complianceGrants?.values()||[])].find(p=>p.id===job.requester&&p.tenant===job.tenant&&p.synthetic===job.synthetic);
+    if(!p)throw new Error("수집 요청자 업무 권한 확인 필요");return p;
+  }):undefined;
+  const auth = new ChatGPTAuth(store, vault, undefined, v3?{gate:new EgressGate(store),principal:v3.principal}:undefined);
   const sessions = new Map<string, string>();
   let syncing = false;
   const jobs = new Set<Promise<unknown>>();
-  // Reserve before reading request bodies: uploads and long-running connectors
-  // must not race a restore, public import or shutdown.
+  // Hold the lock for the operation, not for delivery of its HTTP response.
   const mutations = new Set<string>();
+  const executing = new Set<string>();
   let closing = false;
   const origin = () => `http://127.0.0.1:${process.env.PORT || 4317}`;
   const petitions = new PetitionCollector(store, vault);
@@ -80,7 +111,11 @@ export async function createApp(store = new Store(), test = false) {
       )
         return reply.code(403).send({ error: "요청 인증이 만료되었습니다." });
     }
+  });
+  app.addHook("preHandler", async (req, reply) => {
     const path = req.url.split("?")[0];
+    // These legacy paths lack a complete derivation/consent link. Keep them closed in the v3 pilot.
+    if(v3&&req.method==="POST"&&(/^\/api\/intake\/[^/]+\/execute$/.test(path)||path==="/api/mcp/query"))throw new EgressDenied();
     const mutating =
       path.startsWith("/api/") && !["GET", "HEAD"].includes(req.method);
     if (closing && path.startsWith("/api/"))
@@ -99,7 +134,25 @@ export async function createApp(store = new Store(), test = false) {
     mutations.delete(req.id);
   });
   app.addHook("onRequestAbort", async (req) => {
-    mutations.delete(req.id);
+    if (!executing.has(req.id)) mutations.delete(req.id);
+  });
+  app.addHook("onRoute", (route) => {
+    const methods = Array.isArray(route.method) ? route.method : [route.method];
+    if (
+      !route.url.startsWith("/api/") ||
+      methods.every((method) => ["GET", "HEAD"].includes(method))
+    )
+      return;
+    const handler = route.handler;
+    route.handler = async function (req, reply) {
+      executing.add(req.id);
+      try {
+        return await (enforcement ? withPayloadExecution(enforcement(),async()=>handler.call(this, req, reply)) : handler.call(this, req, reply));
+      } finally {
+        executing.delete(req.id);
+        mutations.delete(req.id);
+      }
+    };
   });
   app.setErrorHandler((err, req, reply) => {
     const message =
@@ -115,6 +168,13 @@ export async function createApp(store = new Store(), test = false) {
         : 400;
     reply.code(code >= 400 && code < 600 ? code : 400).send({ error: message });
   });
+  if(v3&&collection&&complianceGrants?.size){
+    registerManagementV3(app,store,complianceGrants,collection,v3.backupKey);
+    if(v3.collect){app.addHook("onReady",async()=>{collection.start();});app.addHook("onClose",async()=>{await collection.stop();});}
+  }
+  registerPublicApis(app, store, vault, memoryAuth,v3?.collect&&collection?(service,query)=>collection.facade(v3.principal,service,query):undefined);
+  registerIntake(app, store, vault, auth, jobs);
+  registerDossier(app, store);
   app.get("/api/bootstrap", async (req, reply) => {
     let token = req.cookies.she_session;
     if (!token || !sessions.has(token)) {
@@ -151,7 +211,8 @@ export async function createApp(store = new Store(), test = false) {
       lawStorageError,
       sources: store.sources(),
       syncing,
-      petition: new PetitionConnector(store).status(),
+      petition: petitions.status(),
+      publicBundle: store.setting("public-bundle-status", null),
       rules: store.rules().length,
       notice: "현장·전국 법규 검증 전 개발 버전",
     };
@@ -199,10 +260,121 @@ export async function createApp(store = new Store(), test = false) {
       return reply
         .code(429)
         .send({ error: "진행 중인 검토가 끝난 뒤 다시 요청하세요." });
-    const input = ReviewRequestSchema.parse(req.body);
+    let input = ReviewRequestSchema.parse(req.body);
+    const preparation = z
+      .object({ intakeId: z.string().uuid().optional() })
+      .parse(req.body);
+    if (preparation.intakeId)
+      input = ReviewRequestSchema.parse(
+        intakeForReview(store, preparation.intakeId, input),
+      );
     const r = newReview(input);
     store.saveReview(r);
-    const job = runReview(store, vault, auth, r);
+    const job = runReview(store, vault, auth, r, undefined, finalize);
+    jobs.add(job);
+    void job.then(
+      () => jobs.delete(job),
+      () => jobs.delete(job),
+    );
+    return reply.code(202).send({ id: r.id });
+  });
+  app.post("/api/reviews/:id/resolve-reference", async (req, reply) => {
+    const { id } = z.object({ id: z.string().uuid() }).parse(req.params);
+    const { title, useAi } = z
+      .object({
+        title: z.string().trim().min(2).max(150),
+        useAi: z.boolean().default(false),
+      })
+      .parse(req.body);
+    const parent = store.review(id);
+    if (!parent || parent.status !== "completed")
+      return reply
+        .code(409)
+        .send({ error: "완료된 검토에서 연결 원문을 선택하세요." });
+    const references = (
+      parent.verification ||
+      buildVerification(parent.evidence, parent.request, false)
+    ).basis.flatMap((b) => b.references);
+    if (!references.some((r) => r.title === title && r.state === "missing"))
+      return reply.code(400).send({
+        error:
+          "이 검토에서 누락된 것으로 확인된 연결 법규만 수집할 수 있습니다.",
+      });
+    if ((parent.request.linkedEvidenceIds?.length || 0) >= 30)
+      return reply.code(400).send({
+        error: "검토별 연결 원문 30개 한도입니다. 검토 범위를 나누세요.",
+      });
+    if (useAi && (!parent.request.useAi || !parent.request.model))
+      return reply.code(400).send({
+        error: "AI 분석을 사용했던 검토에서 재분석을 선택할 수 있습니다.",
+      });
+    const lock = "reference:" + id;
+    if (jobs.size >= 2 || executing.has(lock))
+      return reply
+        .code(409)
+        .send({ error: "진행 중인 원문 수집·검토가 끝난 뒤 다시 요청하세요." });
+    executing.add(lock);
+    let oc: string;
+    try {
+      oc =
+        process.env.LAW_OC ||
+        (await vault.read<{ lawOc: string }>("law"))?.lawOc ||
+        "";
+    } catch {
+      executing.delete(lock);
+      return reply
+        .code(400)
+        .send({ error: "저장된 법제처 인증정보를 읽지 못했습니다." });
+    }
+    if (!oc) {
+      executing.delete(lock);
+      return reply
+        .code(400)
+        .send({ error: "연결 설정에 법제처 OC를 저장하세요." });
+    }
+    const r = newReview(
+      ReviewRequestSchema.parse({ ...parent.request, useAi }),
+    );
+    r.referenceCollection = {
+      parentReviewId: id,
+      title,
+      state: "running",
+      message: "공식 목록에서 제목·지역·기준일 버전을 확인하고 있습니다.",
+    };
+    r.progress = r.referenceCollection.message;
+    store.saveReview(r);
+    const job = (async () => {
+      try {
+        const evidence = await collectReference(store, oc, r.request, title);
+        saveLinkedBasis(store, r.request, evidence);
+        r.request.linkedEvidenceIds = [
+          ...new Set([...(r.request.linkedEvidenceIds || []), evidence.id]),
+        ];
+        r.referenceCollection = {
+          ...r.referenceCollection!,
+          state: "collected",
+          evidenceId: evidence.id,
+          message:
+            "제목·기준일 원문 후보를 확보했습니다. 별표·공보·예외 적용은 별도 대조 대상입니다.",
+        };
+        await runReview(store, vault, auth, r, undefined, finalize);
+      } catch (error) {
+        r.status = "failed";
+        r.error =
+          error instanceof ReferenceCollectionError
+            ? error.message
+            : "연결 원문 수집을 완료하지 못했습니다. 제목·지역·기준일 버전의 일치 여부, 법제처 응답 및 조회 한도를 확인하세요. 기존 검토는 보존되어 있습니다.";
+        r.referenceCollection = {
+          ...r.referenceCollection!,
+          state: "failed",
+          message: r.error,
+        };
+        r.progress = r.error;
+        store.saveReview(r);
+      } finally {
+        executing.delete(lock);
+      }
+    })();
     jobs.add(job);
     void job.then(
       () => jobs.delete(job),
@@ -212,7 +384,7 @@ export async function createApp(store = new Store(), test = false) {
   });
   app.get("/api/reviews/:id", async (req, reply) => {
     const r = store.review((req.params as any).id);
-    return r || reply.code(404).send({ error: "검토를 찾을 수 없습니다." });
+    return r ? presentReview(r) : reply.code(404).send({ error: "검토를 찾을 수 없습니다." });
   });
   app.get("/api/reviews/:id/events", async (req, reply) => {
     const id = (req.params as any).id;
@@ -226,7 +398,7 @@ export async function createApp(store = new Store(), test = false) {
     let timer: ReturnType<typeof setInterval> | undefined;
     const send = () => {
       const r = store.review(id);
-      reply.raw.write("data: " + JSON.stringify(r) + "\n\n");
+      reply.raw.write("data: " + JSON.stringify(r ? presentReview(r) : r) + "\n\n");
       if (!r || r.status !== "running") {
         if (timer) clearInterval(timer);
         reply.raw.end();
@@ -242,6 +414,7 @@ export async function createApp(store = new Store(), test = false) {
     const r = store.review((req.params as any).id);
     if (!r) return reply.code(404).send({ error: "검토 없음" });
     const format = (req.query as any).format;
+    guardManagedExport(store,r.id,enforcement?.());
     reply.header(
       "Content-Disposition",
       `attachment; filename="review-${r.id}.${format === "csv" ? "csv" : "md"}"`,
@@ -255,9 +428,20 @@ export async function createApp(store = new Store(), test = false) {
       .send(format === "csv" ? csv(r) : markdown(r));
   });
   app.get("/api/documents", async () =>
-    store
-      .all<DocumentRecord>("documents")
-      .map((d) => ({ ...d, text: d.text.slice(0, 60000) })),
+    store.all<DocumentRecord>("documents").map((d) => {
+      // Older lookup reports predate origin metadata. Verify the saved link;
+      // a user-uploaded file with a similar name must remain selectable.
+      const match = /^자동조회-([a-f0-9-]{36})\.txt$/i.exec(d.name);
+      const linked =
+        match &&
+        store.get<{ reportId?: string }>("settings", "intake-" + match[1])
+          ?.reportId === d.id;
+      return {
+        ...d,
+        origin: d.origin || (linked ? "intake" : "upload"),
+        text: d.text.slice(0, 60000),
+      };
+    }),
   );
   app.post("/api/documents", async (req) => {
     const part = await req.file();
@@ -305,14 +489,22 @@ export async function createApp(store = new Store(), test = false) {
   app.get("/api/evidence", async () =>
     store.all<Evidence>("evidence").map((e) => ({ ...e, text: "" })),
   );
+  const evidenceById = (id: string) =>
+    store.get<Evidence>("evidence", id) ||
+    store.setting<{ evidence: Evidence } | null>("linked-basis:" + id, null)
+      ?.evidence ||
+    store
+      .all<ReviewResult>("reviews")
+      .flatMap((r) => r.evidence)
+      .find((e) => e.id === id);
   app.get(
     "/api/evidence/:id",
     async (req, reply) =>
-      store.get<Evidence>("evidence", (req.params as any).id) ||
+      evidenceById((req.params as any).id) ||
       reply.code(404).send({ error: "근거 없음" }),
   );
   app.get("/api/evidence/:id/diff", async (req) => {
-    const e = store.get<Evidence>("evidence", (req.params as any).id);
+    const e = evidenceById((req.params as any).id);
     if (!e) throw new Error("근거 없음");
     const other = store
       .all<Evidence>("evidence")
@@ -372,6 +564,7 @@ export async function createApp(store = new Store(), test = false) {
     if (jobs.size) throw new Error("진행 중인 작업이 끝난 뒤 복원하세요.");
     return restoreBackup(store, req.body);
   });
+  app.get("/api/basis/context/:id", async req => approvalContext(store, (req.params as {id:string}).id));
   app.post("/api/basis/approve", async (req) => {
     if (jobs.size) throw new Error("진행 중인 작업이 끝난 뒤 검증하세요.");
     return approveReviewBasis(store, req.body);
@@ -415,7 +608,13 @@ export async function createApp(store = new Store(), test = false) {
     return queryMcp(oc, b.tool, b.params);
   });
   if (existsSync(resolve("dist/index.html"))) {
-    await app.register(staticPlugin, { root: resolve("dist") });
+    await app.register(staticPlugin, {
+      root: resolve("dist"),
+      setHeaders(response, path) {
+        if (path.endsWith("index.html"))
+          response.header("Cache-Control", "no-store");
+      },
+    });
     app.setNotFoundHandler((req, reply) =>
       req.url.startsWith("/api/")
         ? reply.code(404).send({ error: "API 없음" })

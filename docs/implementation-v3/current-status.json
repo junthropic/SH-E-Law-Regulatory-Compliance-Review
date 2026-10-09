@@ -1,0 +1,36 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "dirty": true,
+  "sourceDigest": "26dc4d816b8caa152bc551bd28f6dbdfcc6b6654b4db6fc078c85ee0afea938a",
+  "at": "2026-10-08T13:47:18.887Z",
+  "scope": "격리 개발·가상 시험. 운영·실제 사업장·법적 승인 아님",
+  "stages": [
+    {
+      "id": "V3-A",
+      "status": "격리 연결·HTTP·기간 시험 통과; 실제 권한 provision 미연결"
+    },
+    {
+      "id": "V3-B",
+      "status": "worker·façade·A07/A08 모의 시험 통과; 전체 operation 원문/첨부·실계정 quota 미완료"
+    },
+    {
+      "id": "V3-C",
+      "status": "6개 실행 후보·기간·예외 엔진 시험; 37개 후보와 법적 적용 검토 미완료"
+    },
+    {
+      "id": "V3-D",
+      "status": "AI/가상 공개검색 전송 차단·관리 암호백업 시험; legacy 화면 백업은 기존 평문 계약 유지"
+    },
+    {
+      "id": "V3-E",
+      "status": "S1/S3 기존 브라우저·S2/S4 HTTP/DB 가상 연결 시험; 실제 사업장·분야 전문가 인수 미검증"
+    }
+  ],
+  "liveA07A08": "이번 실행 안 함; v2 과거 표본을 현재 성공으로 재표시하지 않음",
+  "uiChanges": 0,
+  "productionDeployments": 0,
+  "productionRestarts": 0,
+  "realLegalRulesEnabled": 0,
+  "original72Preserved": true,
+  "original43Preserved": true
+}

@@ -32,12 +32,21 @@ export const ReviewRequestSchema = z.object({
         new Date(v).toISOString().slice(0, 10) === v,
     ),
   documentIds: z.array(z.string().uuid()).max(20).default([]),
+  linkedEvidenceIds: z.array(z.string().uuid()).max(30).optional(),
+  comparisonIds: z.array(z.string().uuid()).max(100).optional(),
   model: z.string().max(100).default(""),
   useAi: z.boolean().default(false),
   answers: z.record(z.string(), z.string().max(6000)).default({}),
 });
 export type ReviewRequest = z.infer<typeof ReviewRequestSchema>;
+export type AnnexRecord = {
+  title: string; url: string; version: string; effectiveFrom: string;
+  fetchedAt: string; state: "collected" | "missing" | "extraction_failed";
+  originalHash?: string; originalRef?: string; note: string;
+};
 export type Evidence = {
+  attachments?: AnnexRecord[];
+  sourceConflicts?: string[];
   id: string;
   sourceId: string;
   kind:
@@ -74,6 +83,20 @@ export type CaseFact = {
   unit?: string;
   source: string;
   confirmed: boolean;
+  // `confirmed` is the legacy input-completeness flag, not documentary proof.
+  provenance?: {
+    assertionSource: "user" | "model" | "derived";
+    userAttested: boolean;
+    verificationStatus: "unverified" | "document_reviewed" | "site_verified";
+    evidenceIds: string[];
+    conflictIds: string[];
+    recordedAt: string;
+    subjectId?: string;
+    measurementBasis?: string;
+    scope?: string;
+    validFrom?: string;
+    validTo?: string;
+  };
 };
 export type Citation = { evidenceId: string; quote: string };
 export type LegalIssue = {
@@ -111,10 +134,22 @@ export type ReviewResult = {
   model: string;
   rulesVersion: string;
   needsReview: boolean;
+  verification?: import("./verification.js").VerificationReport;
+  comparisons?: import("./dossier.js").ComparisonRecord[];
+  caseAssessment?: import("./dossier.js").CaseAssessment;
+  referenceCollection?: {
+    parentReviewId: string;
+    title: string;
+    state: "running" | "collected" | "failed";
+    message: string;
+    evidenceId?: string;
+  };
   error?: string;
 };
 export type DocumentRecord = {
+  officialSources?: { url: string; fetchedAt: string }[];
   id: string;
+  origin?: "upload" | "intake";
   name: string;
   createdAt: string;
   type: string;

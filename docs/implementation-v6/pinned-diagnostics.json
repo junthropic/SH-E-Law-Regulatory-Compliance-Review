@@ -1,0 +1,48 @@
+[
+  {
+    "id": "form5",
+    "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=169879609&bylClsCd=110202",
+    "at": "2026-10-08T18:19:48.304Z",
+    "host": "www.law.go.kr",
+    "SNI": "www.law.go.kr",
+    "TLSVerification": true,
+    "redirectAllowed": false,
+    "encoding": "identity",
+    "observed": true,
+    "DNS": [
+      "27.101.207.66"
+    ],
+    "pinnedAddress": "27.101.207.66",
+    "status": 200,
+    "MIME": "text/html",
+    "peer": "27.101.207.66",
+    "bytes": 5786,
+    "hash": "783a1e5f40d52d918a813e7dfaed92f1821421abd2dffda258be00030ff6ae60",
+    "signatureExpected": false,
+    "original": false,
+    "errorExcerptHash": "224db95f67e2b0c0eb049b98cc52a61206883f40f2bf050c669a62f53518c8ab"
+  },
+  {
+    "id": "notice",
+    "url": "https://www.moel.go.kr/common/downloadFile.do?file_seq=20241202005&bbs_seq=20241201150&bbs_id=19&file_ext=hwpx",
+    "at": "2026-10-08T18:19:48.402Z",
+    "host": "www.moel.go.kr",
+    "SNI": "www.moel.go.kr",
+    "TLSVerification": true,
+    "redirectAllowed": false,
+    "encoding": "identity",
+    "observed": true,
+    "DNS": [
+      "27.101.220.190"
+    ],
+    "pinnedAddress": "27.101.220.190",
+    "status": 200,
+    "MIME": "text/html",
+    "peer": "27.101.220.190",
+    "bytes": 1897,
+    "hash": "cea66f6ab8f577e36403ffe0c742b03940136ea22ee83dfaac1f789d6a056b73",
+    "signatureExpected": false,
+    "original": false,
+    "errorExcerptHash": "cea66f6ab8f577e36403ffe0c742b03940136ea22ee83dfaac1f789d6a056b73"
+  }
+]

@@ -1,0 +1,64 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "technical": {
+    "tests": 565,
+    "passed": 565,
+    "failed": 0,
+    "existing404Preserved": 404,
+    "newTests": 161,
+    "browser": {
+      "existing": 9,
+      "new": 1,
+      "newScenarios": 5,
+      "passed": 10
+    },
+    "frozen": 29,
+    "frozenChanged": 0
+  },
+  "policies": {
+    "original": 43,
+    "additional": 2,
+    "before": 12,
+    "after": 17,
+    "remainingBefore": 31,
+    "remainingAfter": 26,
+    "implementedReduction": 5,
+    "enabled": 0,
+    "expertApproved": 0
+  },
+  "specifications": {
+    "operations": 52,
+    "before": 2,
+    "after": 44,
+    "typedModelUnverifiedBefore": 50,
+    "typedModelUnverifiedAfter": 8,
+    "typedModelReduction": 42,
+    "officialFlatTables": 7,
+    "anyOfficialContract": 51,
+    "independentObserved": 0,
+    "live": 0
+  },
+  "trackedTechnicalSubchecks": {
+    "denominator": 101,
+    "baselineUnverified": 99,
+    "currentUnverified": 8,
+    "newlyVerified": 91
+  },
+  "originalGates": 12,
+  "largeGatesClosed": 0,
+  "legal": {
+    "denominator": 0,
+    "value": null
+  },
+  "realSite": {
+    "denominator": 0,
+    "value": null
+  },
+  "production": false,
+  "prohibitedActions": 0
+}

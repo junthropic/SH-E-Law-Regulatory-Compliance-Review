@@ -1,0 +1,2604 @@
+[
+  {
+    "id": "qna:PolicyQnaList",
+    "service": "qna",
+    "source": {
+      "url": "https://www.data.go.kr/tcs/dss/selectApiDetailFunction.do",
+      "publicDataPk": "15074671",
+      "publicDataDetailPk": "uddi:bbf0f6f9-3d75-4565-aba8-8d9c91430279_202012161450",
+      "oprtinSeqNo": "28330"
+    },
+    "endpoint": "https://apis.data.go.kr/1140100/CivilPolicyQnaService/PolicyQnaList",
+    "status": 200,
+    "collectedAt": "2026-10-08T18:37:58.674Z",
+    "bytes": 11486,
+    "hash": "b66a165aff10f73c87fc408cffa117d585d6b612090839135bf44f942c45da3f",
+    "request": [
+      {
+        "label": "인증키",
+        "name": "serviceKey",
+        "size": "100",
+        "required": true,
+        "example": "-",
+        "description": "공공데이터포털에서 받은 인증키",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "firstIndex",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "recordCountPerPage",
+        "size": "3",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수, 기본10",
+        "type": null
+      },
+      {
+        "label": "분야",
+        "name": "type",
+        "size": "1",
+        "required": false,
+        "example": "1",
+        "description": "1:민원, 2:정책, 3:민원+정책",
+        "type": null
+      },
+      {
+        "label": "검색어",
+        "name": "keyword",
+        "size": "100",
+        "required": false,
+        "example": "국세청",
+        "description": "검색어",
+        "type": null
+      },
+      {
+        "label": "검색구분",
+        "name": "searchType",
+        "size": "10",
+        "required": false,
+        "example": "1",
+        "description": "1: 제목, 2: 내용",
+        "type": null
+      },
+      {
+        "label": "등록일FROM",
+        "name": "regFrom",
+        "size": "8",
+        "required": false,
+        "example": "20201101",
+        "description": "검색시작일자, yyyyMMdd",
+        "type": null
+      },
+      {
+        "label": "등록일TO",
+        "name": "regTo",
+        "size": "8",
+        "required": false,
+        "example": "20201109",
+        "description": "검색종료일자, yyyyMMdd",
+        "type": null
+      }
+    ],
+    "response": [
+      {
+        "label": "결과코드",
+        "name": "resultCode",
+        "size": "10",
+        "required": true,
+        "example": "S00",
+        "description": "결과코드",
+        "type": null
+      },
+      {
+        "label": "결과메시지",
+        "name": "resultMessage",
+        "size": "50",
+        "required": true,
+        "example": "42(건) 조회되었습니다",
+        "description": "결과메시지",
+        "type": null
+      },
+      {
+        "label": "전체건수",
+        "name": "resultCount",
+        "size": "10",
+        "required": false,
+        "example": "42",
+        "description": "전체건수",
+        "type": null
+      },
+      {
+        "label": "FAQ번호",
+        "name": "faqNo",
+        "size": "16",
+        "required": true,
+        "example": "426849",
+        "description": "FAQ번호",
+        "type": null
+      },
+      {
+        "label": "제목",
+        "name": "title",
+        "size": "200",
+        "required": true,
+        "example": "외국인 세금 상담",
+        "description": "제목",
+        "type": null
+      },
+      {
+        "label": "처리기관명",
+        "name": "ancName",
+        "size": "100",
+        "required": true,
+        "example": "국세청",
+        "description": "처리기관명",
+        "type": null
+      },
+      {
+        "label": "처리기관코드",
+        "name": "ancCode",
+        "size": "7",
+        "required": true,
+        "example": "1210000",
+        "description": "처리기관코드",
+        "type": null
+      },
+      {
+        "label": "신청일시",
+        "name": "regDate",
+        "size": "16",
+        "required": true,
+        "example": "20201109174438",
+        "description": "신청일시",
+        "type": null
+      },
+      {
+        "label": "업무구분명",
+        "name": "dutySctnNm",
+        "size": "8",
+        "required": true,
+        "example": "tqapttn",
+        "description": "tqapttn:민원, tqaplcy:정책",
+        "type": null
+      }
+    ],
+    "typeModelComplete": false,
+    "nestedResponseComplete": false,
+    "independentResponse": false,
+    "legalApproval": false
+  },
+  {
+    "id": "qna:PolicyQnaItem",
+    "service": "qna",
+    "source": {
+      "url": "https://www.data.go.kr/tcs/dss/selectApiDetailFunction.do",
+      "publicDataPk": "15074671",
+      "publicDataDetailPk": "uddi:bbf0f6f9-3d75-4565-aba8-8d9c91430279_202012161450",
+      "oprtinSeqNo": "28331"
+    },
+    "endpoint": "https://apis.data.go.kr/1140100/CivilPolicyQnaService/PolicyQnaItem",
+    "status": 200,
+    "collectedAt": "2026-10-08T18:37:59.138Z",
+    "bytes": 11777,
+    "hash": "51ea30703fb1d011257b39c85bcad794623605e917387526824bd9efa650bccb",
+    "request": [
+      {
+        "label": "인증키",
+        "name": "serviceKey",
+        "size": "100",
+        "required": true,
+        "example": "-",
+        "description": "공공데이터포털에서 받은 인증키",
+        "type": null
+      },
+      {
+        "label": "FAQ번호",
+        "name": "faqNo",
+        "size": "16",
+        "required": true,
+        "example": "426849",
+        "description": "FAQ번호",
+        "type": null
+      },
+      {
+        "label": "업무구분명",
+        "name": "dutySctnNm",
+        "size": "8",
+        "required": true,
+        "example": "tqapttn",
+        "description": "tqapttn:민원, tqaplcy:정책",
+        "type": null
+      }
+    ],
+    "response": [
+      {
+        "label": "결과코드",
+        "name": "resultCode",
+        "size": "10",
+        "required": true,
+        "example": "S00",
+        "description": "결과코드",
+        "type": null
+      },
+      {
+        "label": "결과메시지",
+        "name": "resultMessage",
+        "size": "50",
+        "required": true,
+        "example": "1(건) 조회되었습니다",
+        "description": "결과메시지",
+        "type": null
+      },
+      {
+        "label": "FAQ번호",
+        "name": "faqNo",
+        "size": "16",
+        "required": true,
+        "example": "426849",
+        "description": "FAQ번호",
+        "type": null
+      },
+      {
+        "label": "업무구분명",
+        "name": "dutySctnNm",
+        "size": "8",
+        "required": true,
+        "example": "tqapttn",
+        "description": "tqapttn:민원, tqaplcy:정책",
+        "type": null
+      },
+      {
+        "label": "제목",
+        "name": "qnaTitl",
+        "size": "200",
+        "required": true,
+        "example": "클린주유소 설치기준이 무엇인가요?",
+        "description": "제목",
+        "type": null
+      },
+      {
+        "label": "질의내용",
+        "name": "qstnCntnCl",
+        "size": "10000",
+        "required": true,
+        "example": "클린주유소 설치기준에 대해 알려주세요",
+        "description": "질의 내용, CLOB",
+        "type": null
+      },
+      {
+        "label": "답변내용",
+        "name": "ansCntnCl",
+        "size": "10000",
+        "required": true,
+        "example": "클린주유소 설치기준에는 이중벽탱크, 이중배관등이 있습니다",
+        "description": "답변 내용, CLOB",
+        "type": null
+      },
+      {
+        "label": "담당기관명",
+        "name": "ancName",
+        "size": "100",
+        "required": false,
+        "example": "부산광역시교육청",
+        "description": "기관명",
+        "type": null
+      },
+      {
+        "label": "담당부서명",
+        "name": "deptName",
+        "size": "200",
+        "required": false,
+        "example": "부산광역시교육청 부산광역시남부교육지원청 행정지원국 시설과",
+        "description": "부서전체명",
+        "type": null
+      },
+      {
+        "label": "신청일",
+        "name": "regDate",
+        "size": "8",
+        "required": false,
+        "example": "20201009",
+        "description": "신청일, yyyyMMdd",
+        "type": null
+      },
+      {
+        "label": "기관코드",
+        "name": "ancCode",
+        "size": "7",
+        "required": false,
+        "example": "7150000",
+        "description": "기관코드",
+        "type": null
+      },
+      {
+        "label": "부서코드",
+        "name": "deptCode",
+        "size": "7",
+        "required": false,
+        "example": "7181216",
+        "description": "부서코드",
+        "type": null
+      },
+      {
+        "label": "법령전체명",
+        "name": "fullName",
+        "size": "1000",
+        "required": false,
+        "example": "설치•유지 및 안전관리에 관한 법률 시행령 / 제22조(소방안전관리자를 두어야 하는 특정소방대상물)",
+        "description": "법령전체명",
+        "type": null
+      },
+      {
+        "label": "법령명",
+        "name": "lwrdNm",
+        "size": "500",
+        "required": false,
+        "example": "소방시설 설치•유지 및 안전관리에 관한 법률 시행령",
+        "description": "법령명",
+        "type": null
+      },
+      {
+        "label": "토픽번호",
+        "name": "subjectNo",
+        "size": "10",
+        "required": false,
+        "example": "1437",
+        "description": "토픽번호",
+        "type": null
+      },
+      {
+        "label": "토픽명",
+        "name": "subjectName",
+        "size": "200",
+        "required": false,
+        "example": "토픽명",
+        "description": "토픽명",
+        "type": null
+      },
+      {
+        "label": "토픽내용",
+        "name": "subjectCont",
+        "size": "10000",
+        "required": false,
+        "example": "토픽내용",
+        "description": "토픽내용, CLOB",
+        "type": null
+      }
+    ],
+    "typeModelComplete": false,
+    "nestedResponseComplete": false,
+    "independentResponse": false,
+    "legalApproval": false
+  },
+  {
+    "id": "fire:getMaterialList",
+    "service": "fire",
+    "source": {
+      "url": "https://www.data.go.kr/tcs/dss/selectApiDetailFunction.do",
+      "publicDataPk": "15061055",
+      "publicDataDetailPk": "uddi:026925f5-d984-46d1-9d28-a23a2821b7e0_202008210935",
+      "oprtinSeqNo": "25785"
+    },
+    "endpoint": "https://apis.data.go.kr/1661000/materialInfoSvc/getMaterialList",
+    "status": 200,
+    "collectedAt": "2026-10-08T18:37:59.633Z",
+    "bytes": 9328,
+    "hash": "3b956dbcf7717218cc66462f8066a70fbb7954cb917ece06d48a485d4698cb43",
+    "request": [
+      {
+        "label": "서비스 키",
+        "name": "ServiceKey",
+        "size": "255",
+        "required": true,
+        "example": "공공데이터포털에서 받은 인증키",
+        "description": "서비스 키",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "5",
+        "required": true,
+        "example": "1",
+        "description": "페이지 번호",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "2",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      }
+    ],
+    "response": [
+      {
+        "label": "결과코드",
+        "name": "resultCode",
+        "size": "2",
+        "required": true,
+        "example": "00",
+        "description": "결과코드",
+        "type": null
+      },
+      {
+        "label": "결과메시지",
+        "name": "resultMsg",
+        "size": "50",
+        "required": true,
+        "example": "NORMAL SERVICE",
+        "description": "결과메시지",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지당 표출 데이터 수",
+        "type": null
+      },
+      {
+        "label": "페이지 수",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지 수",
+        "type": null
+      },
+      {
+        "label": "데이터 총 개수",
+        "name": "totalCount",
+        "size": "4",
+        "required": true,
+        "example": "6480",
+        "description": "데이터 총 개수",
+        "type": null
+      },
+      {
+        "label": "CAS 번호",
+        "name": "casno",
+        "size": "20",
+        "required": true,
+        "example": "67-56-1",
+        "description": "CAS 번호",
+        "type": null
+      },
+      {
+        "label": "물질명",
+        "name": "chemicalname",
+        "size": "50",
+        "required": false,
+        "example": "메틸 알코올",
+        "description": "물질명",
+        "type": null
+      },
+      {
+        "label": "Chemical번호",
+        "name": "chemicalno",
+        "size": "5",
+        "required": true,
+        "example": "2991",
+        "description": "물질 번호",
+        "type": null
+      },
+      {
+        "label": "위험물안전관리법상 품명",
+        "name": "hazardmaterialclass",
+        "size": "200",
+        "required": false,
+        "example": "제4류 인화성액체 알코올류",
+        "description": "위험물안전관리법상 품명",
+        "type": null
+      },
+      {
+        "label": "UN 번호",
+        "name": "unno",
+        "size": "10",
+        "required": false,
+        "example": "1230",
+        "description": "UN 번호",
+        "type": null
+      }
+    ],
+    "typeModelComplete": false,
+    "nestedResponseComplete": false,
+    "independentResponse": false,
+    "legalApproval": false
+  },
+  {
+    "id": "fire:getMaterialInfo",
+    "service": "fire",
+    "source": {
+      "url": "https://www.data.go.kr/tcs/dss/selectApiDetailFunction.do",
+      "publicDataPk": "15061055",
+      "publicDataDetailPk": "uddi:026925f5-d984-46d1-9d28-a23a2821b7e0_202008210935",
+      "oprtinSeqNo": "25786"
+    },
+    "endpoint": "https://apis.data.go.kr/1661000/materialInfoSvc/getMaterialInfo",
+    "status": 200,
+    "collectedAt": "2026-10-08T18:38:00.001Z",
+    "bytes": 26136,
+    "hash": "6208c636875c44a43c1f6dec02b651f59639fccf7d7ecce35bd31d4a400cee6a",
+    "request": [
+      {
+        "label": "서비스키",
+        "name": "ServiceKey",
+        "size": "255",
+        "required": true,
+        "example": "공공데이터포털에서 받은 인증키",
+        "description": "서비스 키",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "5",
+        "required": true,
+        "example": "1",
+        "description": "페이지 번호",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "2",
+        "required": true,
+        "example": "1",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "CAS 번호",
+        "name": "casNo",
+        "size": "20",
+        "required": true,
+        "example": "67-56-1",
+        "description": "CAS 번호",
+        "type": null
+      }
+    ],
+    "response": [
+      {
+        "label": "결과코드",
+        "name": "resultCode",
+        "size": "2",
+        "required": true,
+        "example": "00",
+        "description": "결과코드",
+        "type": null
+      },
+      {
+        "label": "결과메시지",
+        "name": "resultMsg",
+        "size": "50",
+        "required": true,
+        "example": "NORMAL SERVICE",
+        "description": "결과메시지",
+        "type": null
+      },
+      {
+        "label": "대기와의 반응성",
+        "name": "atmospheric",
+        "size": "4",
+        "required": false,
+        "example": "모든 비율로 물에 용해됨 ..",
+        "description": "대기와의 반응성",
+        "type": null
+      },
+      {
+        "label": "끓는점",
+        "name": "boilingpoint",
+        "size": "50",
+        "required": false,
+        "example": "64.7℃ at 760mmHg ·64.6 ℃",
+        "description": "끓는점",
+        "type": null
+      },
+      {
+        "label": "Breakthrough time",
+        "name": "breakthroughtime",
+        "size": "200",
+        "required": false,
+        "example": "http://hazmat.mpss.kfi.or.kr/upload/material/20150116/1421392767654_194",
+        "description": "Breakthrough time",
+        "type": null
+      },
+      {
+        "label": "CAS 번호",
+        "name": "casno",
+        "size": "20",
+        "required": true,
+        "example": "67-56-1",
+        "description": "CAS 번호",
+        "type": null
+      },
+      {
+        "label": "화학식",
+        "name": "chemicalformula",
+        "size": "100",
+        "required": false,
+        "example": "CH3OH",
+        "description": "화학식",
+        "type": null
+      },
+      {
+        "label": "물질번호",
+        "name": "chemicalno",
+        "size": "5",
+        "required": false,
+        "example": "2991",
+        "description": "물질번호",
+        "type": null
+      },
+      {
+        "label": "CHRIS code",
+        "name": "chriscode",
+        "size": "20",
+        "required": false,
+        "example": "",
+        "description": "CHRIS code",
+        "type": null
+      },
+      {
+        "label": "연소생성물",
+        "name": "combustionmaterial",
+        "size": "1000",
+        "required": false,
+        "example": "화재는 자극성, 부식성 그리고/또는 독성…",
+        "description": "연소생성물",
+        "type": null
+      },
+      {
+        "label": "방제약품 및 장비",
+        "name": "controlequipment",
+        "size": "4000",
+        "required": false,
+        "example": "증기 억제 폼은….",
+        "description": "방제약품 및 장비",
+        "type": null
+      },
+      {
+        "label": "운송정보",
+        "name": "deliveryinfo",
+        "size": "150",
+        "required": false,
+        "example": "UN No. 1230&lt;br&gt; ㅇ선적명 ….",
+        "description": "운송정보",
+        "type": null
+      },
+      {
+        "label": "폐기시 주의사항",
+        "name": "disuseattendion",
+        "size": "4000",
+        "required": false,
+        "example": "·폐기방법 : 폐기물관리법에 ….",
+        "description": "폐기시 주의사항",
+        "type": null
+      },
+      {
+        "label": "DOT정보",
+        "name": "dotinfo",
+        "size": "150",
+        "required": false,
+        "example": "Flammable Liquid…",
+        "description": "DOT정보",
+        "type": null
+      },
+      {
+        "label": "초기이격거리",
+        "name": "earlydistance",
+        "size": "500",
+        "required": false,
+        "example": "즉시 예방책을 ….",
+        "description": "초기이격거리",
+        "type": null
+      },
+      {
+        "label": "EC번호",
+        "name": "ecno",
+        "size": "50",
+        "required": false,
+        "example": "603-001-00-X",
+        "description": "EC번호",
+        "type": null
+      },
+      {
+        "label": "응급조치",
+        "name": "emergencymeasures",
+        "size": "4000",
+        "required": false,
+        "example": "신선한 공기가 …",
+        "description": "응급조치",
+        "type": null
+      },
+      {
+        "label": "폭발상한범위",
+        "name": "explosionmaximum",
+        "size": "50",
+        "required": false,
+        "example": "36 %&lt;br&gt; ·36.5 %",
+        "description": "폭발상한범위",
+        "type": null
+      },
+      {
+        "label": "폭발하한범위",
+        "name": "explosionminimum",
+        "size": "50",
+        "required": false,
+        "example": "6.00 %",
+        "description": "폭발하한범위",
+        "type": null
+      },
+      {
+        "label": "소화제 및 장비",
+        "name": "extinguishequipment",
+        "size": "1500",
+        "required": false,
+        "example": "다량의 안개형 …",
+        "description": "소화제 및 장비",
+        "type": null
+      },
+      {
+        "label": "소화방법",
+        "name": "extinguishfire",
+        "size": "4000",
+        "required": false,
+        "example": "유출을 멈추게 …",
+        "description": "소화방법",
+        "type": null
+      },
+      {
+        "label": "화재 및 폭발위험",
+        "name": "fireexplosion",
+        "size": "4000",
+        "required": false,
+        "example": "고인화성 물질 …",
+        "description": "화재 및 폭발위험",
+        "type": null
+      },
+      {
+        "label": "인화점",
+        "name": "flashpoint",
+        "size": "100",
+        "required": false,
+        "example": "15.6 ℃(열린계) …",
+        "description": "인화점",
+        "type": null
+      },
+      {
+        "label": "어는점",
+        "name": "freezingpoint",
+        "size": "100",
+        "required": false,
+        "example": "알려진 내용 …",
+        "description": "어는점",
+        "type": null
+      },
+      {
+        "label": "일반적 대처요령",
+        "name": "generalhandle",
+        "size": "4000",
+        "required": false,
+        "example": "화재가 없는 누출…",
+        "description": "일반적 대처요령",
+        "type": null
+      },
+      {
+        "label": "취급 및 저장방법",
+        "name": "handlemethod",
+        "size": "4000",
+        "required": false,
+        "example": "점화원과 가까이 …",
+        "description": "취급 및 저장방법",
+        "type": null
+      },
+      {
+        "label": "위험물안전관리법상 품명",
+        "name": "hazardmaterialclass",
+        "size": "100",
+        "required": false,
+        "example": "제4류 인화성액체의 알코올류",
+        "description": "위험물안전관리법상 품명",
+        "type": null
+      },
+      {
+        "label": "헨리상수",
+        "name": "henrylaw",
+        "size": "50",
+        "required": false,
+        "example": "4.55E-06",
+        "description": "헨리상수",
+        "type": null
+      },
+      {
+        "label": "발화점",
+        "name": "ignitionpoint",
+        "size": "100",
+        "required": false,
+        "example": "·464 ℃&lt;br&gt; ·463.89 ℃",
+        "description": "발화점",
+        "type": null
+      },
+      {
+        "label": "흡입시 조치",
+        "name": "imbibition",
+        "size": "1000",
+        "required": false,
+        "example": "즉시 오염 지역 …",
+        "description": "흡입시 조치",
+        "type": null
+      },
+      {
+        "label": "IMDG code",
+        "name": "imdgcode",
+        "size": "50",
+        "required": false,
+        "example": "Class 3",
+        "description": "IMDG code",
+        "type": null
+      },
+      {
+        "label": "ICSC번호",
+        "name": "iscsno",
+        "size": "20",
+        "required": false,
+        "example": "0057",
+        "description": "ICSC번호",
+        "type": null
+      },
+      {
+        "label": "누출 방지 및 개인보호구",
+        "name": "leakprotecting",
+        "size": "4000",
+        "required": false,
+        "example": "양압의 자급식 공기호흡기를 …",
+        "description": "누출 방지 및 개인보호구",
+        "type": null
+      },
+      {
+        "label": "색상",
+        "name": "materialcolor",
+        "size": "200",
+        "required": false,
+        "example": "무색",
+        "description": "색상",
+        "type": null
+      },
+      {
+        "label": "물질영문명",
+        "name": "materialengname",
+        "size": "200",
+        "required": false,
+        "example": "Methyl alcohol",
+        "description": "물질영문명",
+        "type": null
+      },
+      {
+        "label": "물질국문명",
+        "name": "materialkorname",
+        "size": "200",
+        "required": false,
+        "example": "메틸 알코올",
+        "description": "물질국문명",
+        "type": null
+      },
+      {
+        "label": "냄새",
+        "name": "materialodor",
+        "size": "200",
+        "required": false,
+        "example": "알코올성 냄새: ….",
+        "description": "냄새",
+        "type": null
+      },
+      {
+        "label": "PH",
+        "name": "materialph",
+        "size": "200",
+        "required": false,
+        "example": "자료없음",
+        "description": "PH",
+        "type": null
+      },
+      {
+        "label": "물리적 상태",
+        "name": "materialstate",
+        "size": "200",
+        "required": false,
+        "example": "액체",
+        "description": "물리적 상태",
+        "type": null
+      },
+      {
+        "label": "맛",
+        "name": "materialtaste",
+        "size": "100",
+        "required": false,
+        "example": "자료없음",
+        "description": "맛",
+        "type": null
+      },
+      {
+        "label": "녹는점",
+        "name": "meltingpoint",
+        "size": "100",
+        "required": false,
+        "example": "-97.8 ℃",
+        "description": "녹는점",
+        "type": null
+      },
+      {
+        "label": "분자식",
+        "name": "molecularformula",
+        "size": "100",
+        "required": false,
+        "example": "C-H4-O",
+        "description": "분자식",
+        "type": null
+      },
+      {
+        "label": "분자량",
+        "name": "molecularweight",
+        "size": "100",
+        "required": false,
+        "example": "32.04",
+        "description": "분자량",
+        "type": null
+      },
+      {
+        "label": "NFPA코드",
+        "name": "nfpacode",
+        "size": "100",
+        "required": false,
+        "example": "H:1 F:3 I:0 S:none",
+        "description": "NFPA코드",
+        "type": null
+      },
+      {
+        "label": "옥탄올 물분배계수",
+        "name": "octanolwaterpartition",
+        "size": "100",
+        "required": false,
+        "example": "-0.77",
+        "description": "옥탄올 물분배계수",
+        "type": null
+      },
+      {
+        "label": "안구",
+        "name": "permeatedeye",
+        "size": "2000",
+        "required": false,
+        "example": "우선, 환자의 콘택트렌즈 …",
+        "description": "안구",
+        "type": null
+      },
+      {
+        "label": "경구",
+        "name": "permeatedmouse",
+        "size": "2000",
+        "required": false,
+        "example": "삼켰다면, 구토를 ..",
+        "description": "경구",
+        "type": null
+      },
+      {
+        "label": "경피",
+        "name": "permeatedskin",
+        "size": "2000",
+        "required": false,
+        "example": "오염된 옷을 ..",
+        "description": "경피",
+        "type": null
+      },
+      {
+        "label": "방호활동거리",
+        "name": "protectivedistance",
+        "size": "1000",
+        "required": false,
+        "example": "풍하(downwind)방향으로 ….",
+        "description": "방호활동거리",
+        "type": null
+      },
+      {
+        "label": "RTECS번호",
+        "name": "rtecsno",
+        "size": "50",
+        "required": true,
+        "example": "PC1400000",
+        "description": "RTECS번호",
+        "type": null
+      },
+      {
+        "label": "유사명",
+        "name": "similarname",
+        "size": "500",
+        "required": true,
+        "example": "Methyl alcohol",
+        "description": "유사명",
+        "type": null
+      },
+      {
+        "label": "냄새역치",
+        "name": "smellthresholdva",
+        "size": "500",
+        "required": true,
+        "example": "공기에서 메탄올 …",
+        "description": "냄새역치",
+        "type": null
+      },
+      {
+        "label": "용해도",
+        "name": "solubility",
+        "size": "700",
+        "required": true,
+        "example": "Miscible in water ...",
+        "description": "용해도",
+        "type": null
+      },
+      {
+        "label": "비중",
+        "name": "specificgravity",
+        "size": "100",
+        "required": true,
+        "example": "0.81 at 0℃/4℃",
+        "description": "비중",
+        "type": null
+      },
+      {
+        "label": "증기압",
+        "name": "steampressure",
+        "size": "100",
+        "required": true,
+        "example": "127 mmHg @ 25 ℃",
+        "description": "증기압",
+        "type": null
+      },
+      {
+        "label": "구조식",
+        "name": "structuralformula",
+        "size": "200",
+        "required": true,
+        "example": "http://hazmat.mpss.kfi.or.kr/upload/material/20150818/1439878278475_388",
+        "description": "구조식",
+        "type": null
+      },
+      {
+        "label": "UN 번호",
+        "name": "unno",
+        "size": "200",
+        "required": true,
+        "example": "1230",
+        "description": "UN 번호",
+        "type": null
+      },
+      {
+        "label": "사용용도",
+        "name": "usepurpose",
+        "size": "700",
+        "required": true,
+        "example": "화학 물질을 만드.",
+        "description": "사용용도",
+        "type": null
+      },
+      {
+        "label": "증기밀도",
+        "name": "vapordensity",
+        "size": "100",
+        "required": true,
+        "example": "1.11(공기=1)",
+        "description": "증기밀도",
+        "type": null
+      },
+      {
+        "label": "점도",
+        "name": "viscosity",
+        "size": "100",
+        "required": true,
+        "example": "0.61 cp",
+        "description": "점도",
+        "type": null
+      },
+      {
+        "label": "수용해도",
+        "name": "watersolubility",
+        "size": "400",
+        "required": true,
+        "example": "·20 ℃ 일때 …",
+        "description": "수용해도",
+        "type": null
+      }
+    ],
+    "typeModelComplete": false,
+    "nestedResponseComplete": false,
+    "independentResponse": false,
+    "legalApproval": false
+  },
+  {
+    "id": "chemical-accidents:csclist",
+    "service": "chemical-accidents",
+    "source": {
+      "url": "https://www.data.go.kr/tcs/dss/selectApiDetailFunction.do",
+      "publicDataPk": "15072446",
+      "publicDataDetailPk": "uddi:8b0119bd-ef67-458f-be1f-bcef381caeca_202109301019",
+      "oprtinSeqNo": "34941"
+    },
+    "endpoint": "https://apis.data.go.kr/1480802/iciscsc/csclist",
+    "status": 200,
+    "collectedAt": "2026-10-08T18:38:00.516Z",
+    "bytes": 10472,
+    "hash": "07bd0c24754efa3016fa2bbb0032765b976e99a617ed85f395115f84f6be63f4",
+    "request": [
+      {
+        "label": "서비스키",
+        "name": "ServiceKey",
+        "size": "100",
+        "required": true,
+        "example": "-",
+        "description": "공공데이터포털에서 받은 인증키",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "연도",
+        "name": "yyyy",
+        "size": "4",
+        "required": false,
+        "example": "2020",
+        "description": "검색을 원하는 연도",
+        "type": null
+      }
+    ],
+    "response": [
+      {
+        "label": "결과코드",
+        "name": "resultCode",
+        "size": "2",
+        "required": true,
+        "example": "00",
+        "description": "결과코드",
+        "type": null
+      },
+      {
+        "label": "결과메시지",
+        "name": "resultMsg",
+        "size": "50",
+        "required": true,
+        "example": "OK",
+        "description": "결과메시지",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "전체 결과 수",
+        "name": "totalCount",
+        "size": "4",
+        "required": true,
+        "example": "3",
+        "description": "전체 결과 수",
+        "type": null
+      },
+      {
+        "label": "일련번호",
+        "name": "dataNo",
+        "size": "10",
+        "required": true,
+        "example": "2020-001",
+        "description": "데이터 일련번호",
+        "type": null
+      },
+      {
+        "label": "사고일자",
+        "name": "cscDe",
+        "size": "10",
+        "required": false,
+        "example": "",
+        "description": "사고일자",
+        "type": null
+      },
+      {
+        "label": "사고유형",
+        "name": "cscTy",
+        "size": "20",
+        "required": false,
+        "example": "",
+        "description": "사고유형",
+        "type": null
+      },
+      {
+        "label": "지역",
+        "name": "area",
+        "size": "1000",
+        "required": false,
+        "example": "",
+        "description": "지역",
+        "type": null
+      },
+      {
+        "label": "사고원인",
+        "name": "cause",
+        "size": "4000",
+        "required": false,
+        "example": "",
+        "description": "사고원인",
+        "type": null
+      },
+      {
+        "label": "사고물질",
+        "name": "chem",
+        "size": "4000",
+        "required": false,
+        "example": "",
+        "description": "사고물질",
+        "type": null
+      },
+      {
+        "label": "발생장소",
+        "name": "place",
+        "size": "4000",
+        "required": false,
+        "example": "",
+        "description": "발생장소",
+        "type": null
+      },
+      {
+        "label": "사고개요",
+        "name": "summary",
+        "size": "4000",
+        "required": false,
+        "example": "",
+        "description": "사고개요",
+        "type": null
+      }
+    ],
+    "typeModelComplete": false,
+    "nestedResponseComplete": false,
+    "independentResponse": false,
+    "legalApproval": false
+  },
+  {
+    "id": "fire-approval:opnFsuplAprv01",
+    "service": "fire-approval",
+    "source": {
+      "url": "https://www.data.go.kr/tcs/dss/selectApiDetailFunction.do",
+      "publicDataPk": "15077845",
+      "publicDataDetailPk": "uddi:f2d086a8-e6f5-484f-8e6f-d28875d37d3c_202104191606",
+      "oprtinSeqNo": "31527"
+    },
+    "endpoint": "https://apis.data.go.kr/B552486/opnFsuplAprv/opnFsuplAprv01",
+    "status": 200,
+    "collectedAt": "2026-10-08T18:38:01.067Z",
+    "bytes": 12405,
+    "hash": "4f9045b423838c1ec2ac147a254477744c0eec22bcbde101bd91adf29320969d",
+    "request": [
+      {
+        "label": "서비스키",
+        "name": "ServiceKey",
+        "size": "4",
+        "required": true,
+        "example": "-",
+        "description": "공공데이터포털에서 받은 인증키",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "검색 시작일",
+        "name": "fromAprv",
+        "size": "8",
+        "required": true,
+        "example": "20020101",
+        "description": "검색 시작일",
+        "type": null
+      },
+      {
+        "label": "검색 종료일",
+        "name": "toAprv",
+        "size": "8",
+        "required": true,
+        "example": "20210218",
+        "description": "검색 종료일",
+        "type": null
+      },
+      {
+        "label": "품목 분류코드",
+        "name": "gdsClCd",
+        "size": "2",
+        "required": true,
+        "example": "01",
+        "description": "품목 분류코드",
+        "type": null
+      },
+      {
+        "label": "품목 코드",
+        "name": "gdsCd",
+        "size": "5",
+        "required": false,
+        "example": "04600",
+        "description": "품목 코드",
+        "type": null
+      }
+    ],
+    "response": [
+      {
+        "label": "결과코드",
+        "name": "resultCode",
+        "size": "2",
+        "required": true,
+        "example": "00",
+        "description": "결과코드",
+        "type": null
+      },
+      {
+        "label": "결과메시지",
+        "name": "resultMsg",
+        "size": "50",
+        "required": true,
+        "example": "NORMAL_CODE",
+        "description": "결과메시지",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "전체 결과 수",
+        "name": "totalCount",
+        "size": "4",
+        "required": true,
+        "example": "329",
+        "description": "전체 결과 수",
+        "type": null
+      },
+      {
+        "label": "검색 시작일",
+        "name": "fromAprv",
+        "size": "8",
+        "required": true,
+        "example": "20020101",
+        "description": "검색 시작일",
+        "type": null
+      },
+      {
+        "label": "검색 종료일",
+        "name": "toAprv",
+        "size": "8",
+        "required": true,
+        "example": "20210218",
+        "description": "검색 종료일",
+        "type": null
+      },
+      {
+        "label": "품목 분류코드",
+        "name": "gdsClCd",
+        "size": "2",
+        "required": true,
+        "example": "01",
+        "description": "품목 분류코드",
+        "type": null
+      },
+      {
+        "label": "품목 코드",
+        "name": "gdsCd",
+        "size": "5",
+        "required": false,
+        "example": "04600",
+        "description": "품목코드",
+        "type": null
+      },
+      {
+        "label": "제조업체명",
+        "name": "cmpyNm",
+        "size": "200",
+        "required": true,
+        "example": "(주)로타렉스루스테크",
+        "description": "제조업체명",
+        "type": null
+      },
+      {
+        "label": "품목명",
+        "name": "gdsNm",
+        "size": "200",
+        "required": true,
+        "example": "가스자동소화장치",
+        "description": "품목명",
+        "type": null
+      },
+      {
+        "label": "승인(인정)번호",
+        "name": "ctfcnNo",
+        "size": "20",
+        "required": true,
+        "example": "소공20-17",
+        "description": "승인인정 번호",
+        "type": null
+      },
+      {
+        "label": "승인(인정)일자",
+        "name": "ctfcnYmd",
+        "size": "10",
+        "required": true,
+        "example": "2020-11-02",
+        "description": "승인인정 일자",
+        "type": null
+      },
+      {
+        "label": "형식명",
+        "name": "ctfcnFomNm",
+        "size": "2000",
+        "required": true,
+        "example": "열감지튜브형 148 ℃, HFC-227ea, 1 kg(N₂ 축압식, 알루미늄제), 소화등급(A급 : 2등급, B급 : 2등급",
+        "description": "형식명",
+        "type": null
+      }
+    ],
+    "typeModelComplete": false,
+    "nestedResponseComplete": false,
+    "independentResponse": false,
+    "legalApproval": false
+  },
+  {
+    "id": null,
+    "service": "fire-approval",
+    "source": {
+      "url": "https://www.data.go.kr/tcs/dss/selectApiDetailFunction.do",
+      "publicDataPk": "15077845",
+      "publicDataDetailPk": "uddi:f2d086a8-e6f5-484f-8e6f-d28875d37d3c_202104191606",
+      "oprtinSeqNo": "31528"
+    },
+    "endpoint": "https://apis.data.go.kr/B552486/opnFsuplAprv/opnFsuplAprv02",
+    "status": 200,
+    "collectedAt": "2026-10-08T18:38:01.596Z",
+    "bytes": 12316,
+    "hash": "a2439da9277188d78282c2376eae75117ce8607510b2ceb3f9e6ce41a48c6f3d",
+    "request": [
+      {
+        "label": "서비스키",
+        "name": "ServiceKey",
+        "size": "4",
+        "required": true,
+        "example": "-",
+        "description": "공공데이터포털에서 받은 인증키",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "검색 시작일",
+        "name": "fromAprv",
+        "size": "8",
+        "required": true,
+        "example": "20020101",
+        "description": "검색 시작일",
+        "type": null
+      },
+      {
+        "label": "검색 종료일",
+        "name": "toAprv",
+        "size": "8",
+        "required": true,
+        "example": "20210220",
+        "description": "검색 종료일",
+        "type": null
+      },
+      {
+        "label": "품목 분류코드",
+        "name": "gdsClCd",
+        "size": "2",
+        "required": true,
+        "example": "01",
+        "description": "품목 분류코드",
+        "type": null
+      },
+      {
+        "label": "품목 코드",
+        "name": "gdsCd",
+        "size": "5",
+        "required": false,
+        "example": "11100",
+        "description": "품목 코드",
+        "type": null
+      }
+    ],
+    "response": [
+      {
+        "label": "결과코드",
+        "name": "resultCode",
+        "size": "2",
+        "required": true,
+        "example": "00",
+        "description": "결과코드",
+        "type": null
+      },
+      {
+        "label": "결과메시지",
+        "name": "resultMsg",
+        "size": "50",
+        "required": true,
+        "example": "NORMAL_CODE",
+        "description": "결과메시지",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "전체 결과 수",
+        "name": "totalCount",
+        "size": "4",
+        "required": true,
+        "example": "185",
+        "description": "전체 결과 수",
+        "type": null
+      },
+      {
+        "label": "검색 시작일",
+        "name": "fromAprv",
+        "size": "8",
+        "required": true,
+        "example": "20020101",
+        "description": "검색 시작일",
+        "type": null
+      },
+      {
+        "label": "검색 종료일",
+        "name": "toAprv",
+        "size": "8",
+        "required": true,
+        "example": "20210220",
+        "description": "검색 종료일",
+        "type": null
+      },
+      {
+        "label": "품목 분류코드",
+        "name": "gdsClCd",
+        "size": "2",
+        "required": true,
+        "example": "01",
+        "description": "품목 분류코드",
+        "type": null
+      },
+      {
+        "label": "품목 코드",
+        "name": "gdsCd",
+        "size": "5",
+        "required": false,
+        "example": "11100",
+        "description": "품목 코드",
+        "type": null
+      },
+      {
+        "label": "제조업체명",
+        "name": "cmpyNm",
+        "size": "200",
+        "required": true,
+        "example": "썬브라이트(주)",
+        "description": "제조업체명",
+        "type": null
+      },
+      {
+        "label": "품목명",
+        "name": "gdsNm",
+        "size": "200",
+        "required": true,
+        "example": "지시압력계",
+        "description": "품목명",
+        "type": null
+      },
+      {
+        "label": "승인(인정)번호",
+        "name": "ctfcnNo",
+        "size": "20",
+        "required": true,
+        "example": "지압21-3",
+        "description": "승인(인정)번호",
+        "type": null
+      },
+      {
+        "label": "승인(인정)일자",
+        "name": "ctfcnYmd",
+        "size": "10",
+        "required": true,
+        "example": "2021-02-10",
+        "description": "승인(인정)일자",
+        "type": null
+      },
+      {
+        "label": "형식명",
+        "name": "ctfcnFomNm",
+        "size": "2000",
+        "required": true,
+        "example": "강화액, (0.75 ~ 0.98) Mpa, M 10 - P 1.0",
+        "description": "형식명",
+        "type": null
+      }
+    ],
+    "typeModelComplete": false,
+    "nestedResponseComplete": false,
+    "independentResponse": false,
+    "legalApproval": false
+  },
+  {
+    "id": null,
+    "service": "fire-approval",
+    "source": {
+      "url": "https://www.data.go.kr/tcs/dss/selectApiDetailFunction.do",
+      "publicDataPk": "15077845",
+      "publicDataDetailPk": "uddi:f2d086a8-e6f5-484f-8e6f-d28875d37d3c_202104191606",
+      "oprtinSeqNo": "31529"
+    },
+    "endpoint": "https://apis.data.go.kr/B552486/opnFsuplAprv/opnFsuplAprv03",
+    "status": 200,
+    "collectedAt": "2026-10-08T18:38:02.164Z",
+    "bytes": 12347,
+    "hash": "23c914b03b0dfdaa92ebb5e0b6b1a0819446555274e2c44abcf98db71f8d42f5",
+    "request": [
+      {
+        "label": "서비스키",
+        "name": "ServiceKey",
+        "size": "4",
+        "required": true,
+        "example": "-",
+        "description": "공공데이터포털에서 받은 인증키",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "검색 시작일",
+        "name": "fromAprv",
+        "size": "8",
+        "required": true,
+        "example": "20020101",
+        "description": "검색 시작일",
+        "type": null
+      },
+      {
+        "label": "검색 종료일",
+        "name": "toAprv",
+        "size": "8",
+        "required": true,
+        "example": "20210220",
+        "description": "검색 종료일",
+        "type": null
+      },
+      {
+        "label": "품목 분류코드",
+        "name": "gdsClCd",
+        "size": "2",
+        "required": true,
+        "example": "01",
+        "description": "품목 분류코드",
+        "type": null
+      },
+      {
+        "label": "품목 코드",
+        "name": "gdsCd",
+        "size": "5",
+        "required": false,
+        "example": "26200",
+        "description": "품목 코드",
+        "type": null
+      }
+    ],
+    "response": [
+      {
+        "label": "결과코드",
+        "name": "resultCode",
+        "size": "2",
+        "required": true,
+        "example": "00",
+        "description": "결과코드",
+        "type": null
+      },
+      {
+        "label": "결과메시지",
+        "name": "resultMsg",
+        "size": "50",
+        "required": true,
+        "example": "NORMAL_CDE",
+        "description": "결과메시지",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "전체 결과 수",
+        "name": "totalCount",
+        "size": "4",
+        "required": true,
+        "example": "42",
+        "description": "전체 결과 수",
+        "type": null
+      },
+      {
+        "label": "검색 시작일",
+        "name": "fromAprv",
+        "size": "8",
+        "required": true,
+        "example": "20020101",
+        "description": "검색 시작일",
+        "type": null
+      },
+      {
+        "label": "검색 종료일",
+        "name": "toAprv",
+        "size": "8",
+        "required": true,
+        "example": "20210220",
+        "description": "검색 종료일",
+        "type": null
+      },
+      {
+        "label": "품목 분류코드",
+        "name": "gdsClCd",
+        "size": "2",
+        "required": true,
+        "example": "01",
+        "description": "품목 분류코드",
+        "type": null
+      },
+      {
+        "label": "품목 코드",
+        "name": "gdsCd",
+        "size": "5",
+        "required": false,
+        "example": "26200",
+        "description": "품목 코드",
+        "type": null
+      },
+      {
+        "label": "제조업체명",
+        "name": "cmpyNm",
+        "size": "200",
+        "required": true,
+        "example": "창창한 주식회사",
+        "description": "제조업체명",
+        "type": null
+      },
+      {
+        "label": "품목명",
+        "name": "gdsNm",
+        "size": "200",
+        "required": true,
+        "example": "소공간용소화공구",
+        "description": "품목명",
+        "type": null
+      },
+      {
+        "label": "승인(인정)번호",
+        "name": "ctfcnNo",
+        "size": "20",
+        "required": true,
+        "example": "소구21-5",
+        "description": "승인(인정)번호",
+        "type": null
+      },
+      {
+        "label": "승인(인정)일자",
+        "name": "ctfcnYmd",
+        "size": "10",
+        "required": true,
+        "example": "2021-02-16",
+        "description": "승인(인정)일자",
+        "type": null
+      },
+      {
+        "label": "형식명",
+        "name": "ctfcnFomNm",
+        "size": "2000",
+        "required": true,
+        "example": "HFC-125 170 g, 설계방호체적(A급 : 0.25 ㎥, B급 : 0.25 ㎥)",
+        "description": "형식명",
+        "type": null
+      }
+    ],
+    "typeModelComplete": false,
+    "nestedResponseComplete": false,
+    "independentResponse": false,
+    "legalApproval": false
+  },
+  {
+    "id": "fire-revocation:opnFsuplRtrcn01",
+    "service": "fire-revocation",
+    "source": {
+      "url": "https://www.data.go.kr/tcs/dss/selectApiDetailFunction.do",
+      "publicDataPk": "15077894",
+      "publicDataDetailPk": "uddi:a4d0a108-9040-4417-b188-ff3a6a388af6_202104191556",
+      "oprtinSeqNo": "31524"
+    },
+    "endpoint": "https://apis.data.go.kr/B552486/opnFsuplRtrcn/opnFsuplRtrcn01",
+    "status": 200,
+    "collectedAt": "2026-10-08T18:38:02.678Z",
+    "bytes": 12643,
+    "hash": "7630c79b78cf0e59a6cbf0be52838b654daad101e3dbb8da616ed12a6d89d8f3",
+    "request": [
+      {
+        "label": "서비스키",
+        "name": "ServiceKey",
+        "size": "4",
+        "required": true,
+        "example": "-",
+        "description": "공공데이터포털에서 받은 인증키",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "검색 시작일",
+        "name": "fromAprv",
+        "size": "8",
+        "required": true,
+        "example": "20020101",
+        "description": "검색 시작일",
+        "type": null
+      },
+      {
+        "label": "검색 종료일",
+        "name": "toAprv",
+        "size": "8",
+        "required": true,
+        "example": "20210220",
+        "description": "검색 종료일",
+        "type": null
+      },
+      {
+        "label": "품목 분류코드",
+        "name": "gdsClCd",
+        "size": "2",
+        "required": true,
+        "example": "01",
+        "description": "품목 분류코드",
+        "type": null
+      },
+      {
+        "label": "품목 코드",
+        "name": "gdsCd",
+        "size": "5",
+        "required": false,
+        "example": "00300",
+        "description": "품목 코드",
+        "type": null
+      }
+    ],
+    "response": [
+      {
+        "label": "결과코드",
+        "name": "resultCode",
+        "size": "2",
+        "required": true,
+        "example": "00",
+        "description": "결과코드",
+        "type": null
+      },
+      {
+        "label": "결과메시지",
+        "name": "resultMsg",
+        "size": "50",
+        "required": true,
+        "example": "NORMAL_CODE",
+        "description": "결과메시지",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "전체 결과 수",
+        "name": "totalCount",
+        "size": "4",
+        "required": true,
+        "example": "261",
+        "description": "전체 결과 수",
+        "type": null
+      },
+      {
+        "label": "검색 시작일",
+        "name": "fromAprv",
+        "size": "8",
+        "required": true,
+        "example": "20020101",
+        "description": "검색 시작일",
+        "type": null
+      },
+      {
+        "label": "검색 종료일",
+        "name": "toAprv",
+        "size": "8",
+        "required": true,
+        "example": "20210220",
+        "description": "검색 종료일",
+        "type": null
+      },
+      {
+        "label": "품목 분류코드",
+        "name": "gdsClCd",
+        "size": "2",
+        "required": true,
+        "example": "01",
+        "description": "품목 분류코드",
+        "type": null
+      },
+      {
+        "label": "품목 코드",
+        "name": "gdsCd",
+        "size": "5",
+        "required": false,
+        "example": "00300",
+        "description": "품목 코드",
+        "type": null
+      },
+      {
+        "label": "제조업체 명",
+        "name": "cmpyNm",
+        "size": "200",
+        "required": true,
+        "example": "(주)가이아기체연구소",
+        "description": "제조업체 명",
+        "type": null
+      },
+      {
+        "label": "품목 명",
+        "name": "gdsNm",
+        "size": "200",
+        "required": true,
+        "example": "소화약제",
+        "description": "품목명",
+        "type": null
+      },
+      {
+        "label": "승인(인정)번호",
+        "name": "ctfcnNo",
+        "size": "20",
+        "required": true,
+        "example": "약11-1",
+        "description": "승인(인정)번호",
+        "type": null
+      },
+      {
+        "label": "승인 취소일자",
+        "name": "rtrcnYmd",
+        "size": "10",
+        "required": true,
+        "example": "2017-07-25",
+        "description": "승인취소일자",
+        "type": null
+      },
+      {
+        "label": "형식명",
+        "name": "ctfcnFomNm",
+        "size": "2000",
+        "required": true,
+        "example": "할로겐화합물(HFC-125, 설비용 B급 소화농도 8.7%)",
+        "description": "형식명",
+        "type": null
+      },
+      {
+        "label": "취소사유",
+        "name": "dspsCn",
+        "size": "1000",
+        "required": true,
+        "example": "자진취하",
+        "description": "취소사유",
+        "type": null
+      }
+    ],
+    "typeModelComplete": false,
+    "nestedResponseComplete": false,
+    "independentResponse": false,
+    "legalApproval": false
+  },
+  {
+    "id": null,
+    "service": "fire-revocation",
+    "source": {
+      "url": "https://www.data.go.kr/tcs/dss/selectApiDetailFunction.do",
+      "publicDataPk": "15077894",
+      "publicDataDetailPk": "uddi:a4d0a108-9040-4417-b188-ff3a6a388af6_202104191556",
+      "oprtinSeqNo": "31525"
+    },
+    "endpoint": "https://apis.data.go.kr/B552486/opnFsuplRtrcn/opnFsuplRtrcn02",
+    "status": 200,
+    "collectedAt": "2026-10-08T18:38:03.258Z",
+    "bytes": 12663,
+    "hash": "7babcc9be89afc25395b83b5ce368a8550851fe81f5752fa38c989639f4cd447",
+    "request": [
+      {
+        "label": "서비스키",
+        "name": "ServiceKey",
+        "size": "4",
+        "required": true,
+        "example": "-",
+        "description": "공공데이터포털에서 받은 인증키",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "검색 시작일",
+        "name": "fromAprv",
+        "size": "8",
+        "required": true,
+        "example": "20020101",
+        "description": "검색 시작일",
+        "type": null
+      },
+      {
+        "label": "검색 종료일",
+        "name": "toAprv",
+        "size": "8",
+        "required": true,
+        "example": "20210220",
+        "description": "검색 종료일",
+        "type": null
+      },
+      {
+        "label": "품목 분류코드",
+        "name": "gdsClCd",
+        "size": "2",
+        "required": true,
+        "example": "01",
+        "description": "품목 분류코드",
+        "type": null
+      },
+      {
+        "label": "품목 코드",
+        "name": "gdsCd",
+        "size": "5",
+        "required": false,
+        "example": "11100",
+        "description": "품목코드",
+        "type": null
+      }
+    ],
+    "response": [
+      {
+        "label": "결과코드",
+        "name": "resultCode",
+        "size": "2",
+        "required": true,
+        "example": "00",
+        "description": "결과코드",
+        "type": null
+      },
+      {
+        "label": "결과메시지",
+        "name": "resultMsg",
+        "size": "50",
+        "required": true,
+        "example": "NORMAL_CODE",
+        "description": "결과메시지",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "전체 결과 수",
+        "name": "totalCount",
+        "size": "4",
+        "required": true,
+        "example": "12",
+        "description": "전체 결과 수",
+        "type": null
+      },
+      {
+        "label": "검색 시작일",
+        "name": "fromAprv",
+        "size": "8",
+        "required": true,
+        "example": "20020101",
+        "description": "검색 시작일",
+        "type": null
+      },
+      {
+        "label": "검색 종료일",
+        "name": "toAprv",
+        "size": "8",
+        "required": true,
+        "example": "20210220",
+        "description": "검색 종료일",
+        "type": null
+      },
+      {
+        "label": "품목 분류코드",
+        "name": "gdsClCd",
+        "size": "2",
+        "required": true,
+        "example": "01",
+        "description": "품목 분류코드",
+        "type": null
+      },
+      {
+        "label": "품목 코드",
+        "name": "gdsCd",
+        "size": "5",
+        "required": false,
+        "example": "11100",
+        "description": "품목코드",
+        "type": null
+      },
+      {
+        "label": "제조업체 명",
+        "name": "cmpyNm",
+        "size": "200",
+        "required": true,
+        "example": "(주)세진과 대학학원",
+        "description": "제조업체 명",
+        "type": null
+      },
+      {
+        "label": "품목 명",
+        "name": "gdsNm",
+        "size": "200",
+        "required": true,
+        "example": "지시압력계",
+        "description": "품목명",
+        "type": null
+      },
+      {
+        "label": "승인(인정)번호",
+        "name": "ctfcnNo",
+        "size": "20",
+        "required": true,
+        "example": "지압98-7",
+        "description": "승인(인정)번호",
+        "type": null
+      },
+      {
+        "label": "승인취소일자",
+        "name": "rtrcnYmd",
+        "size": "10",
+        "required": true,
+        "example": "2016-04-06",
+        "description": "승인취소일자",
+        "type": null
+      },
+      {
+        "label": "형식명",
+        "name": "ctfcnFomNm",
+        "size": "2000",
+        "required": true,
+        "example": "소화기용,분말용,강화액용 (7-9kg f/cm*2) PF1/8-28",
+        "description": "형식명",
+        "type": null
+      },
+      {
+        "label": "취소사유",
+        "name": "dspsCn",
+        "size": "1000",
+        "required": true,
+        "example": "생산중단에 따른 자진취하",
+        "description": "취소사유",
+        "type": null
+      }
+    ],
+    "typeModelComplete": false,
+    "nestedResponseComplete": false,
+    "independentResponse": false,
+    "legalApproval": false
+  },
+  {
+    "id": null,
+    "service": "fire-revocation",
+    "source": {
+      "url": "https://www.data.go.kr/tcs/dss/selectApiDetailFunction.do",
+      "publicDataPk": "15077894",
+      "publicDataDetailPk": "uddi:a4d0a108-9040-4417-b188-ff3a6a388af6_202104191556",
+      "oprtinSeqNo": "31526"
+    },
+    "endpoint": "https://apis.data.go.kr/B552486/opnFsuplRtrcn/opnFsuplRtrcn03",
+    "status": 200,
+    "collectedAt": "2026-10-08T18:38:03.626Z",
+    "bytes": 12749,
+    "hash": "431fe214bdc5b1eb20ab33a9bbe840b44be502c4b430afa7d1935ffa110dcad7",
+    "request": [
+      {
+        "label": "서비스키",
+        "name": "ServiceKey",
+        "size": "4",
+        "required": true,
+        "example": "-",
+        "description": "공공데이터포털에서 받은 인증키",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "검색 시작일",
+        "name": "fromAprv",
+        "size": "8",
+        "required": true,
+        "example": "20020101",
+        "description": "검색 시작일",
+        "type": null
+      },
+      {
+        "label": "검색 종료일",
+        "name": "toAprv",
+        "size": "8",
+        "required": true,
+        "example": "20210220",
+        "description": "검색 종료일",
+        "type": null
+      },
+      {
+        "label": "품목 분류코드",
+        "name": "gdsClCd",
+        "size": "2",
+        "required": true,
+        "example": "01",
+        "description": "품목 분류코드",
+        "type": null
+      },
+      {
+        "label": "품목 코드",
+        "name": "gdsCd",
+        "size": "5",
+        "required": false,
+        "example": "22500",
+        "description": "품목 코드",
+        "type": null
+      }
+    ],
+    "response": [
+      {
+        "label": "결과코드",
+        "name": "resultCode",
+        "size": "2",
+        "required": true,
+        "example": "00",
+        "description": "결과코드",
+        "type": null
+      },
+      {
+        "label": "결과메시지",
+        "name": "resultMsg",
+        "size": "50",
+        "required": true,
+        "example": "OK",
+        "description": "결과메시지",
+        "type": null
+      },
+      {
+        "label": "한 페이지 결과 수",
+        "name": "numOfRows",
+        "size": "4",
+        "required": true,
+        "example": "10",
+        "description": "한 페이지 결과 수",
+        "type": null
+      },
+      {
+        "label": "페이지 번호",
+        "name": "pageNo",
+        "size": "4",
+        "required": true,
+        "example": "1",
+        "description": "페이지번호",
+        "type": null
+      },
+      {
+        "label": "전체 결과 수",
+        "name": "totalCount",
+        "size": "4",
+        "required": true,
+        "example": "190",
+        "description": "전체 결과 수",
+        "type": null
+      },
+      {
+        "label": "검색 시작일",
+        "name": "fromAprv",
+        "size": "8",
+        "required": true,
+        "example": "20020101",
+        "description": "검색 시작일",
+        "type": null
+      },
+      {
+        "label": "검색 종료일",
+        "name": "toAprv",
+        "size": "8",
+        "required": true,
+        "example": "20210220",
+        "description": "검색 종료일",
+        "type": null
+      },
+      {
+        "label": "제조업체명",
+        "name": "cmpyNm",
+        "size": "200",
+        "required": true,
+        "example": "고려화공(주) 고성공장",
+        "description": "제조업체명",
+        "type": null
+      },
+      {
+        "label": "품목명",
+        "name": "gdsNm",
+        "size": "200",
+        "required": true,
+        "example": "고체에어로졸자동소화장치",
+        "description": "품목명",
+        "type": null
+      },
+      {
+        "label": "승인(인정)번호",
+        "name": "ctfcnNo",
+        "size": "20",
+        "required": true,
+        "example": "고소08-13",
+        "description": "승인(인정)번호",
+        "type": null
+      },
+      {
+        "label": "승인취소일자",
+        "name": "rtrcnYmd",
+        "size": "10",
+        "required": true,
+        "example": "2019-06-14",
+        "description": "승인취소일자",
+        "type": null
+      },
+      {
+        "label": "형식명",
+        "name": "ctfcnFomNm",
+        "size": "2000",
+        "required": true,
+        "example": "감지기(열,연)형,850g,소화성능(중합재,유류),STS제,정격전압 AC220V DC24V 600mA",
+        "description": "형식명",
+        "type": null
+      },
+      {
+        "label": "취소사유",
+        "name": "dspsCn",
+        "size": "1000",
+        "required": true,
+        "example": "kfi인정등에관한규칙제10조제1항제6호 해당기준 폐기",
+        "description": "취소사유",
+        "type": null
+      },
+      {
+        "label": "품목 분류코드",
+        "name": "gdsClCd",
+        "size": "2",
+        "required": true,
+        "example": "01",
+        "description": "품목 분류코드",
+        "type": null
+      },
+      {
+        "label": "품목 코드",
+        "name": "gdsCd",
+        "size": "5",
+        "required": false,
+        "example": "22500",
+        "description": "품목 코드",
+        "type": null
+      }
+    ],
+    "typeModelComplete": false,
+    "nestedResponseComplete": false,
+    "independentResponse": false,
+    "legalApproval": false
+  }
+]

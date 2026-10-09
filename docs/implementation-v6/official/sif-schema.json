@@ -1,0 +1,533 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "한국산업안전보건공단이 제공하는 “사망사고 고위험요인(SIF) 아카이브 조회서비스”는 국내 산업현장에서 발생한 사망·중상해 사례를 고위험작업·상황(Potential) 및 재해유발요인(Precursor) 별로 체계 정리한 데이터베이스입니다. 사고 유형(추락·충돌·기계·전기 등), 작업 환경, 위험성 평가 결과, 발생 시점·원인 분석, 연계 법규·안전지침 등을 포함해 상세히 기록합니다.  \n\n데이터는 연도·산업·업종별로 구분돼 연도별·업종별 추이를 손쉽게 파악할 수 있으며, 키워드 검색·고위험요인 필터링 기능을 통해 특정 위험 요소에 대한 사례를 빠르게 조회할 수 있습니다. 이를 활용해 위험성 평가·예방 대책 수립, 안전관리 정책 개발 등에 활용할 수 있습니다.  \n\n공공데이터포털에서 제공되는 이 서비스는 안전관리 담당자·연구자·기업·시민 모두가 접근 가능한 무료 데이터이며, CSV·XLSX 등 다양한 포맷으로 다운로드가 가능해 분석·시각화 작업에 용이합니다. 데이터 최신성 유지와 지속적인 업데이트를 통해 산업안전 문화 확산에 기여하고 있습니다.",
+    "version": "1.0.0",
+    "title": "한국산업안전보건공단_사망사고 고위험요인(SIF) 아카이브 조회서비스"
+  },
+  "host": "apis.data.go.kr/B552468/sifArchive",
+  "basePath": "",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/view": {
+      "get": {
+        "responses": {
+          "10": {
+            "description": "INVALID_REQUEST_PARAMETER_ERROR(잘못된 요청 파라메터 에러입니다.)"
+          },
+          "11": {
+            "description": "NO_MANDATORY_REQUEST_PARAMETERS_ERROR(필수요청 파라메터가 없습니다.)"
+          },
+          "99": {
+            "description": "UNKNOWN_ERROR(기타 에러입니다.)"
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "cateSeNm": {
+                              "type": "string",
+                              "description": "건설업, 전업종 구분",
+                              "properties": {}
+                            },
+                            "sifLclsfNm": {
+                              "type": "string",
+                              "description": "재해사례의 산재업종 대분류 (공종)",
+                              "properties": {}
+                            },
+                            "sifMclsfNm": {
+                              "type": "string",
+                              "description": "재해사례의 산재업종 중분류 (작업명)",
+                              "properties": {}
+                            },
+                            "sifSclsfNm": {
+                              "type": "string",
+                              "description": "재해사례의 산재업종 소분류 (단위작업명)",
+                              "properties": {}
+                            },
+                            "disasterType": {
+                              "type": "string",
+                              "description": "재해종류 (건설업만 출력)",
+                              "properties": {}
+                            },
+                            "disasterOverview": {
+                              "type": "string",
+                              "description": "재해사례의 개요",
+                              "properties": {}
+                            },
+                            "orgtNm": {
+                              "type": "string",
+                              "description": "재해사례의 기인물",
+                              "properties": {}
+                            },
+                            "situation": {
+                              "type": "string",
+                              "description": "재해사례의 고위험작업 상황 (건설업 외 출력)",
+                              "properties": {}
+                            },
+                            "disasterFactor": {
+                              "type": "string",
+                              "description": "재해사례의 재해유발요인",
+                              "properties": {}
+                            },
+                            "dcrsCntrplnCn": {
+                              "type": "string",
+                              "description": "재해사례의 위험성 감소대책 예시",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "pageNo": {
+                      "type": "string",
+                      "description": "페이지 번호",
+                      "properties": {}
+                    },
+                    "totalCount": {
+                      "type": "string",
+                      "description": "전체 결과 수",
+                      "properties": {}
+                    },
+                    "numOfRows": {
+                      "type": "string",
+                      "description": "한 페이지 결과 수",
+                      "properties": {}
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "사망사고 고위험요인(SIF) 아카이브 조회서비스",
+        "description": "재해개요 검색어를 통해 일치하는 재해개요 및 해당 산재업종 정보, 기인물, 고위험작업·상황, 재해유발요인, 위험성 감소대책(예시)를 조회하는 기능",
+        "operationId": "view",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "callApiId",
+          "description": "api 호출 아이디",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "cateSeCd",
+          "description": "업종 구분에 따른 사업재해 고위험요인 조회",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "disasterOverview",
+          "description": "재해유형 검색어에 따른 산업재해 고위험요인 조회",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "pageNo",
+          "description": "페이지 번호",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "numOfRows",
+          "description": "페이지당 게시글 수",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "view_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "cateSeNm": {
+                      "type": "string",
+                      "description": "건설업, 전업종 구분"
+                    },
+                    "sifLclsfNm": {
+                      "type": "string",
+                      "description": "재해사례의 산재업종 대분류 (공종)"
+                    },
+                    "sifMclsfNm": {
+                      "type": "string",
+                      "description": "재해사례의 산재업종 중분류 (작업명)"
+                    },
+                    "sifSclsfNm": {
+                      "type": "string",
+                      "description": "재해사례의 산재업종 소분류 (단위작업명)"
+                    },
+                    "disasterType": {
+                      "type": "string",
+                      "description": "재해종류 (건설업만 출력)"
+                    },
+                    "disasterOverview": {
+                      "type": "string",
+                      "description": "재해사례의 개요"
+                    },
+                    "orgtNm": {
+                      "type": "string",
+                      "description": "재해사례의 기인물"
+                    },
+                    "situation": {
+                      "type": "string",
+                      "description": "재해사례의 고위험작업 상황 (건설업 외 출력)"
+                    },
+                    "disasterFactor": {
+                      "type": "string",
+                      "description": "재해사례의 재해유발요인"
+                    },
+                    "dcrsCntrplnCn": {
+                      "type": "string",
+                      "description": "재해사례의 위험성 감소대책 예시"
+                    }
+                  }
+                }
+              }
+            },
+            "pageNo": {
+              "type": "string",
+              "description": "페이지 번호"
+            },
+            "totalCount": {
+              "type": "string",
+              "description": "전체 결과 수"
+            },
+            "numOfRows": {
+              "type": "string",
+              "description": "한 페이지 결과 수"
+            }
+          }
+        }
+      }
+    }
+  },
+  "swaggerOprtinVOs": [
+    {
+      "oprtinUrl": "https://portal.kosha.or.kr/openapi/v1/koshagw",
+      "oprtinNm": "사망사고 고위험요인(SIF) 아카이브 조회서비스",
+      "oprtinDc": "재해개요 검색어를 통해 일치하는 재해개요 및 해당 산재업종 정보, 기인물, 고위험작업·상황, 재해유발요인, 위험성 감소대책(예시)를 조회하는 기능",
+      "gwSvcNm": "view",
+      "operationId": "view",
+      "publicDataTyDetailCode": "PRDE02",
+      "reqList": [
+        {
+          "paramtrNm": "serviceKey",
+          "paramtrDc": "공공데이터포털에서 받은 인증키",
+          "paramtrBassValue": "-",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "callApiId",
+          "paramtrDc": "api 호출 아이디",
+          "paramtrBassValue": "1170",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "cateSeCd",
+          "paramtrDc": "업종 구분에 따른 사업재해 고위험요인 조회",
+          "paramtrBassValue": "1",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "disasterOverview",
+          "paramtrDc": "재해유형 검색어에 따른 산업재해 고위험요인 조회",
+          "paramtrBassValue": "사다리",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "pageNo",
+          "paramtrDc": "페이지 번호",
+          "paramtrBassValue": "1",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "numOfRows",
+          "paramtrDc": "페이지당 게시글 수",
+          "paramtrBassValue": "10",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        }
+      ],
+      "resList": [
+        {
+          "paramtrNm": "header",
+          "paramtrDc": "header",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/oper-1-header",
+          "subDefNm": "oper-1-header",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "resultCode",
+              "paramtrDc": "결과코드",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "resultMsg",
+              "paramtrDc": "결과메세지",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        },
+        {
+          "paramtrNm": "body",
+          "paramtrDc": "body",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/oper-1-body",
+          "subDefNm": "oper-1-body",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "items",
+              "paramtrDc": "items",
+              "arrayYn": "N",
+              "paramtrDefNm": "#/definitions/items",
+              "subDefNm": "items",
+              "paramtrTy": "object",
+              "paramtrDivision": "필수",
+              "ck": true,
+              "subParam": [
+                {
+                  "paramtrNm": "item",
+                  "paramtrDc": "item",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "#/definitions/item",
+                  "subDefNm": "item",
+                  "paramtrTy": "object",
+                  "paramtrDivision": "필수",
+                  "ck": true,
+                  "subParam": [
+                    {
+                      "paramtrNm": "cateSeNm",
+                      "paramtrDc": "건설업, 전업종 구분",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "sifLclsfNm",
+                      "paramtrDc": "재해사례의 산재업종 대분류 (공종)",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "sifMclsfNm",
+                      "paramtrDc": "재해사례의 산재업종 중분류 (작업명)",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "sifSclsfNm",
+                      "paramtrDc": "재해사례의 산재업종 소분류 (단위작업명)",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "disasterType",
+                      "paramtrDc": "재해종류 (건설업만 출력)",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "disasterOverview",
+                      "paramtrDc": "재해사례의 개요",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "orgtNm",
+                      "paramtrDc": "재해사례의 기인물",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "situation",
+                      "paramtrDc": "재해사례의 고위험작업 상황 (건설업 외 출력)",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "disasterFactor",
+                      "paramtrDc": "재해사례의 재해유발요인",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "dcrsCntrplnCn",
+                      "paramtrDc": "재해사례의 위험성 감소대책 예시",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "paramtrNm": "pageNo",
+              "paramtrDc": "페이지 번호",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "totalCount",
+              "paramtrDc": "전체 결과 수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "numOfRows",
+              "paramtrDc": "한 페이지 결과 수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "tables": [
+    "v3_jobs",
+    "v3_job_units",
+    "v3_job_events",
+    "v3_shadow"
+  ],
+  "sequence": [
+    "read-only inventory",
+    "protected copy",
+    "hash and scope verification",
+    "marker",
+    "deletion eligibility review pending"
+  ],
+  "idempotenceTested": true,
+  "originalPlaintextDeleted": false,
+  "queueResumeVerified": false,
+  "ttl": {
+    "queueHours": 24,
+    "payloadDays": 7,
+    "legalRetentionApproved": false
+  },
+  "remaining": [
+    "v3 source/case/trace·오류·일반 audit 평문 전체 이관",
+    "정확한 evidence/version/hash 없는 v3 digest는 deny",
+    "법적 hold/TTL 승인",
+    "OS ACL·실제 키 회전",
+    "운영 평문 삭제는 별도 지시 필요"
+  ]
+}

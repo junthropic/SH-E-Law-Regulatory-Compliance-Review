@@ -51,7 +51,7 @@ export class Store {
     mkdirSync(dir, { recursive: true });
     mkdirSync(join(dir, "originals"), { recursive: true });
     this.db = new DatabaseSync(join(dir, "private.sqlite"));
-    this.db.exec(`PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON;
+    this.db.exec(`PRAGMA busy_timeout=2000; PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON;
       CREATE TABLE IF NOT EXISTS reviews(id TEXT PRIMARY KEY, body TEXT NOT NULL);
       CREATE TABLE IF NOT EXISTS evidence(id TEXT PRIMARY KEY, sourceId TEXT, hash TEXT, body TEXT NOT NULL);
       CREATE INDEX IF NOT EXISTS evidence_source_id ON evidence(sourceId);
@@ -270,6 +270,8 @@ export class Store {
         });
       for (const s of d.sources)
         this.put("sources", s.id, { ...s, verified: false });
+      this.put("settings", "public-bundle-status", { importedAt: new Date().toISOString(),
+        publishedAt: d.createdAt, count: d.evidence.length });
       this.db.exec("RELEASE public_import");
     } catch (error) {
       this.db.exec("ROLLBACK TO public_import; RELEASE public_import");

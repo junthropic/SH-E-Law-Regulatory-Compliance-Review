@@ -1,0 +1,977 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "산업안전보건법.령.규칙, 기준에 관한 규칙.고시.훈령.예규, 중대재해처벌법.령, 안전보건기술지침(KOSHA GUIDE), 안전보건 미디어 자료, 유해·위험작업의 취업 제한에 관한 규칙 등 필요한 정보를 검색할 수 있습니다. 기존 검색 시스템과 차이점은 키워드 중심 뿐만 아니라 인공지능(AI) 및 단어사전 등을 통해 이용자가 검색하는 단어와 유사한 단어를 검색하는 기능도 포함시켜 법률 용어에 익숙하지 않은 이용자도 쉽고 편리하게 이용 가능합니다. (예시) '보호구' 검색 시 안전대, 방진마스크, 안전인증 등 관련 자료 표출 '스카이' 검색 시 고소작업대 관련 조항 표출",
+    "version": "1.0.0",
+    "title": "한국산업안전보건공단_안전보건법령 스마트검색"
+  },
+  "host": "apis.data.go.kr/B552468/srch",
+  "basePath": "",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/smartSearch": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메세지",
+                      "properties": {}
+                    },
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "categorycount": {
+                      "type": "object",
+                      "description": "카테고리 개수",
+                      "properties": {
+                        "0": {
+                          "type": "string",
+                          "description": "전체",
+                          "properties": {}
+                        },
+                        "1": {
+                          "type": "string",
+                          "description": "산업안전보건법",
+                          "properties": {}
+                        },
+                        "2": {
+                          "type": "string",
+                          "description": "산업안전보건법시행령",
+                          "properties": {}
+                        },
+                        "3": {
+                          "type": "string",
+                          "description": "산업안전보건법시행규칙",
+                          "properties": {}
+                        },
+                        "4": {
+                          "type": "string",
+                          "description": "산업안전보건기준에관한규칙",
+                          "properties": {}
+                        },
+                        "5": {
+                          "type": "string",
+                          "description": "고시.훈령.예규",
+                          "properties": {}
+                        },
+                        "6": {
+                          "type": "string",
+                          "description": "미디어",
+                          "properties": {}
+                        },
+                        "7": {
+                          "type": "string",
+                          "description": "KOSHA GUIDE",
+                          "properties": {}
+                        }
+                      }
+                    },
+                    "total_media": {
+                      "type": "object",
+                      "description": "첨부파일",
+                      "properties": {
+                        "media": {
+                          "type": "object",
+                          "description": "첨부파일, 이미지등",
+                          "properties": {
+                            "med_thumb_yn": {
+                              "type": "string",
+                              "description": "썸네일 YN",
+                              "properties": {}
+                            },
+                            "image_path": {
+                              "type": "string",
+                              "description": "첨부이미지 목록",
+                              "properties": {}
+                            },
+                            "highlight_content": {
+                              "type": "string",
+                              "description": "검색 내용 강조 표시",
+                              "properties": {}
+                            },
+                            "keyword": {
+                              "type": "string",
+                              "description": "관련 키워드",
+                              "properties": {}
+                            },
+                            "content": {
+                              "type": "string",
+                              "description": "관련내용",
+                              "properties": {}
+                            },
+                            "doc_id": {
+                              "type": "string",
+                              "description": "관련문서ID",
+                              "properties": {}
+                            },
+                            "filepath": {
+                              "type": "string",
+                              "description": "첨부파일 목록",
+                              "properties": {}
+                            },
+                            "score": {
+                              "type": "number",
+                              "description": "유사도 및 중요도",
+                              "properties": {}
+                            },
+                            "title": {
+                              "type": "string",
+                              "description": "관련 제목",
+                              "properties": {}
+                            },
+                            "category": {
+                              "type": "string",
+                              "description": "카테고리",
+                              "properties": {}
+                            },
+                            "media_style": {
+                              "type": "string",
+                              "description": "미디어 종류",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "items": {
+                      "type": "object",
+                      "description": "결과목록",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "결과",
+                          "properties": {
+                            "category": {
+                              "type": "string",
+                              "description": "0:전체, 1:산업안전보건법, 2:산업안전보건법 시행령, 3:산업안전보건법 시행규칙, 4:산업안전보건 기준에 관한 규칙, 5:고시ᆞ훈령ᆞ예규, 6: 미디어, 7:KOSHA GUIDE, 8:중대재해처벌법, 9:중대재해처벌법 시행령, 11:유해·위험작업의 취업 제한에 관한 규칙 ",
+                              "properties": {}
+                            },
+                            "content": {
+                              "type": "string",
+                              "description": "내용",
+                              "properties": {}
+                            },
+                            "doc_id": {
+                              "type": "string",
+                              "description": "법령 문서 ID",
+                              "properties": {}
+                            },
+                            "score": {
+                              "type": "number",
+                              "description": "유사도 및 중요도",
+                              "properties": {}
+                            },
+                            "title": {
+                              "type": "string",
+                              "description": "제목",
+                              "properties": {}
+                            },
+                            "image_path": {
+                              "type": "string",
+                              "description": "이미지경로",
+                              "properties": {}
+                            },
+                            "highlight_content": {
+                              "type": "string",
+                              "description": "강조 문항",
+                              "properties": {}
+                            },
+                            "filepath": {
+                              "type": "string",
+                              "description": "파일 경로",
+                              "properties": {}
+                            },
+                            "keyword": {
+                              "type": "string",
+                              "description": "검색어",
+                              "properties": {}
+                            },
+                            "med_thumb_yn": {
+                              "type": "string",
+                              "description": "썸네일 YN",
+                              "properties": {}
+                            },
+                            "media_style": {
+                              "type": "string",
+                              "description": "미디어 형태",
+                              "properties": {}
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "associated_word": {
+                      "type": "string",
+                      "description": "연관 검색어",
+                      "properties": {}
+                    },
+                    "totalCount": {
+                      "type": "string",
+                      "description": "카테고리 전체 개수",
+                      "properties": {}
+                    },
+                    "pageNo": {
+                      "type": "string",
+                      "description": "페이지 번호",
+                      "properties": {}
+                    },
+                    "numOfRows": {
+                      "type": "string",
+                      "description": "카테고리별 결과 수",
+                      "properties": {}
+                    },
+                    "dataType": {
+                      "type": "string",
+                      "description": "응답데이터형태(JSON)",
+                      "properties": {}
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "스마트검색(smartSearch)",
+        "description": "산업안전보건법.령.규칙, 기준에 관한 규칙.고시.훈령.예규, 중대재해처벌법.령, 안전보건기술지침(KOSHA GUIDE), 안전보건 미디어자료에서 필요한 정보를 검색할 수 있습니다.",
+        "operationId": "smartSearch",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "pageNo",
+          "description": "페이지번호",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "numOfRows",
+          "description": "한 페이지 결과 수",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "searchValue",
+          "description": "검색어(예시 : 사다리)",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "category",
+          "description": "0:전체, 1:산업안전보건법, 2:산업안전보건법 시행령, 3:산업안전보건법 시행규칙, 4:산업안전보건 기준에 관한 규칙, 5:고시ᆞ훈령ᆞ예규, 6: 미디어, 7:KOSHA GUIDE, 8:중대재해처벌법, 9:중대재해처벌법 시행령, 11:유해·위험작업의 취업 제한에 관한 규칙 ",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "smartSearch_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메세지"
+            },
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "categorycount": {
+              "type": "object",
+              "description": "카테고리 개수",
+              "properties": {
+                "0": {
+                  "type": "string",
+                  "description": "전체"
+                },
+                "1": {
+                  "type": "string",
+                  "description": "산업안전보건법"
+                },
+                "2": {
+                  "type": "string",
+                  "description": "산업안전보건법시행령"
+                },
+                "3": {
+                  "type": "string",
+                  "description": "산업안전보건법시행규칙"
+                },
+                "4": {
+                  "type": "string",
+                  "description": "산업안전보건기준에관한규칙"
+                },
+                "5": {
+                  "type": "string",
+                  "description": "고시.훈령.예규"
+                },
+                "6": {
+                  "type": "string",
+                  "description": "미디어"
+                },
+                "7": {
+                  "type": "string",
+                  "description": "KOSHA GUIDE"
+                }
+              }
+            },
+            "total_media": {
+              "type": "object",
+              "description": "첨부파일",
+              "properties": {
+                "media": {
+                  "type": "object",
+                  "description": "첨부파일, 이미지등",
+                  "properties": {
+                    "med_thumb_yn": {
+                      "type": "string",
+                      "description": "썸네일 YN"
+                    },
+                    "image_path": {
+                      "type": "string",
+                      "description": "첨부이미지 목록"
+                    },
+                    "highlight_content": {
+                      "type": "string",
+                      "description": "검색 내용 강조 표시"
+                    },
+                    "keyword": {
+                      "type": "string",
+                      "description": "관련 키워드"
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "관련내용"
+                    },
+                    "doc_id": {
+                      "type": "string",
+                      "description": "관련문서ID"
+                    },
+                    "filepath": {
+                      "type": "string",
+                      "description": "첨부파일 목록"
+                    },
+                    "score": {
+                      "type": "number",
+                      "description": "유사도 및 중요도"
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "관련 제목"
+                    },
+                    "category": {
+                      "type": "string",
+                      "description": "카테고리"
+                    },
+                    "media_style": {
+                      "type": "string",
+                      "description": "미디어 종류"
+                    }
+                  }
+                }
+              }
+            },
+            "items": {
+              "type": "object",
+              "description": "결과목록",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "결과",
+                  "properties": {
+                    "category": {
+                      "type": "string",
+                      "description": "0:전체, 1:산업안전보건법, 2:산업안전보건법 시행령, 3:산업안전보건법 시행규칙, 4:산업안전보건 기준에 관한 규칙, 5:고시ᆞ훈령ᆞ예규, 6: 미디어, 7:KOSHA GUIDE, 8:중대재해처벌법, 9:중대재해처벌법 시행령, 11:유해·위험작업의 취업 제한에 관한 규칙 "
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "내용"
+                    },
+                    "doc_id": {
+                      "type": "string",
+                      "description": "법령 문서 ID"
+                    },
+                    "score": {
+                      "type": "number",
+                      "description": "유사도 및 중요도"
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "제목"
+                    },
+                    "image_path": {
+                      "type": "string",
+                      "description": "이미지경로"
+                    },
+                    "highlight_content": {
+                      "type": "string",
+                      "description": "강조 문항"
+                    },
+                    "filepath": {
+                      "type": "string",
+                      "description": "파일 경로"
+                    },
+                    "keyword": {
+                      "type": "string",
+                      "description": "검색어"
+                    },
+                    "med_thumb_yn": {
+                      "type": "string",
+                      "description": "썸네일 YN"
+                    },
+                    "media_style": {
+                      "type": "string",
+                      "description": "미디어 형태"
+                    }
+                  }
+                }
+              }
+            },
+            "associated_word": {
+              "type": "string",
+              "description": "연관 검색어"
+            },
+            "totalCount": {
+              "type": "string",
+              "description": "카테고리 전체 개수"
+            },
+            "pageNo": {
+              "type": "string",
+              "description": "페이지 번호"
+            },
+            "numOfRows": {
+              "type": "string",
+              "description": "카테고리별 결과 수"
+            },
+            "dataType": {
+              "type": "string",
+              "description": "응답데이터형태(JSON)"
+            }
+          }
+        }
+      }
+    }
+  },
+  "swaggerOprtinVOs": [
+    {
+      "oprtinUrl": "https://smartsearch.kosha.or.kr/public/api/kosha/srch/smartSearch",
+      "oprtinNm": "스마트검색(smartSearch)",
+      "oprtinDc": "산업안전보건법.령.규칙, 기준에 관한 규칙.고시.훈령.예규, 중대재해처벌법.령, 안전보건기술지침(KOSHA GUIDE), 안전보건 미디어자료에서 필요한 정보를 검색할 수 있습니다.",
+      "gwSvcNm": "smartSearch",
+      "operationId": "smartSearch",
+      "publicDataTyDetailCode": "PRDE02",
+      "reqList": [
+        {
+          "paramtrNm": "serviceKey",
+          "paramtrBassValue": "-",
+          "paramtrDc": "공공데이터포털에서 받은 인증키",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "pageNo",
+          "paramtrBassValue": "1",
+          "paramtrDc": "페이지번호",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "numOfRows",
+          "paramtrBassValue": "10",
+          "paramtrDc": "한 페이지 결과 수",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "searchValue",
+          "paramtrBassValue": "사다리",
+          "paramtrDc": "검색어(예시 : 사다리)",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "category",
+          "paramtrBassValue": "0",
+          "paramtrDc": "0:전체, 1:산업안전보건법, 2:산업안전보건법 시행령, 3:산업안전보건법 시행규칙, 4:산업안전보건 기준에 관한 규칙, 5:고시ᆞ훈령ᆞ예규, 6: 미디어, 7:KOSHA GUIDE, 8:중대재해처벌법, 9:중대재해처벌법 시행령, 11:유해·위험작업의 취업 제한에 관한 규칙 ",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        }
+      ],
+      "resList": [
+        {
+          "paramtrNm": "header",
+          "paramtrDc": "header",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/smartSearch-header",
+          "subDefNm": "smartSearch-header",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "resultMsg",
+              "paramtrDc": "결과메세지",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "resultCode",
+              "paramtrDc": "결과코드",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        },
+        {
+          "paramtrNm": "body",
+          "paramtrDc": "body",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/smartSearch-body",
+          "subDefNm": "smartSearch-body",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "categorycount",
+              "paramtrDc": "카테고리 개수",
+              "arrayYn": "N",
+              "paramtrDefNm": "#/definitions/smartSearch-categoryCount",
+              "subDefNm": "smartSearch-categoryCount",
+              "paramtrTy": "object",
+              "paramtrDivision": "필수",
+              "ck": true,
+              "subParam": [
+                {
+                  "paramtrNm": "7",
+                  "paramtrDc": "KOSHA GUIDE",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "",
+                  "paramtrTy": "string",
+                  "paramtrDivision": "필수",
+                  "ck": true
+                },
+                {
+                  "paramtrNm": "0",
+                  "paramtrDc": "전체",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "",
+                  "paramtrTy": "string",
+                  "paramtrDivision": "필수",
+                  "ck": true
+                },
+                {
+                  "paramtrNm": "1",
+                  "paramtrDc": "산업안전보건법",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "",
+                  "paramtrTy": "string",
+                  "paramtrDivision": "필수",
+                  "ck": true
+                },
+                {
+                  "paramtrNm": "2",
+                  "paramtrDc": "산업안전보건법시행령",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "",
+                  "paramtrTy": "string",
+                  "paramtrDivision": "필수",
+                  "ck": true
+                },
+                {
+                  "paramtrNm": "3",
+                  "paramtrDc": "산업안전보건법시행규칙",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "",
+                  "paramtrTy": "string",
+                  "paramtrDivision": "필수",
+                  "ck": true
+                },
+                {
+                  "paramtrNm": "4",
+                  "paramtrDc": "산업안전보건기준에관한규칙",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "",
+                  "paramtrTy": "string",
+                  "paramtrDivision": "필수",
+                  "ck": true
+                },
+                {
+                  "paramtrNm": "5",
+                  "paramtrDc": "고시.훈령.예규",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "",
+                  "paramtrTy": "string",
+                  "paramtrDivision": "필수",
+                  "ck": true
+                },
+                {
+                  "paramtrNm": "6",
+                  "paramtrDc": "미디어",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "",
+                  "paramtrTy": "string",
+                  "paramtrDivision": "필수",
+                  "ck": true
+                }
+              ]
+            },
+            {
+              "paramtrNm": "total_media",
+              "paramtrDc": "첨부파일",
+              "arrayYn": "N",
+              "paramtrDefNm": "#/definitions/smartSearch-total_media",
+              "subDefNm": "smartSearch-total_media",
+              "paramtrTy": "object",
+              "paramtrDivision": "옵션",
+              "ck": true,
+              "subParam": [
+                {
+                  "paramtrNm": "media",
+                  "paramtrDc": "첨부파일, 이미지등",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "#/definitions/smartSearch-media",
+                  "subDefNm": "smartSearch-media",
+                  "paramtrTy": "object",
+                  "paramtrDivision": "옵션",
+                  "ck": true,
+                  "subParam": [
+                    {
+                      "paramtrNm": "med_thumb_yn",
+                      "paramtrDc": "썸네일 YN",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "image_path",
+                      "paramtrDc": "첨부이미지 목록",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "highlight_content",
+                      "paramtrDc": "검색 내용 강조 표시",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "keyword",
+                      "paramtrDc": "관련 키워드",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "content",
+                      "paramtrDc": "관련내용",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "doc_id",
+                      "paramtrDc": "관련문서ID",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "filepath",
+                      "paramtrDc": "첨부파일 목록",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "score",
+                      "paramtrDc": "유사도 및 중요도",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "number",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "title",
+                      "paramtrDc": "관련 제목",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "category",
+                      "paramtrDc": "카테고리",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "media_style",
+                      "paramtrDc": "미디어 종류",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "paramtrNm": "items",
+              "paramtrDc": "결과목록",
+              "arrayYn": "N",
+              "paramtrDefNm": "#/definitions/smartSearch-items",
+              "subDefNm": "smartSearch-items",
+              "paramtrTy": "object",
+              "paramtrDivision": "필수",
+              "ck": true,
+              "subParam": [
+                {
+                  "paramtrNm": "item",
+                  "paramtrDc": "결과",
+                  "arrayYn": "N",
+                  "paramtrDefNm": "#/definitions/smartSearch-item",
+                  "subDefNm": "smartSearch-item",
+                  "paramtrTy": "object",
+                  "paramtrDivision": "필수",
+                  "ck": true,
+                  "subParam": [
+                    {
+                      "paramtrNm": "category",
+                      "paramtrDc": "0:전체, 1:산업안전보건법, 2:산업안전보건법 시행령, 3:산업안전보건법 시행규칙, 4:산업안전보건 기준에 관한 규칙, 5:고시ᆞ훈령ᆞ예규, 6: 미디어, 7:KOSHA GUIDE, 8:중대재해처벌법, 9:중대재해처벌법 시행령, 11:유해·위험작업의 취업 제한에 관한 규칙 ",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "content",
+                      "paramtrDc": "내용",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "doc_id",
+                      "paramtrDc": "법령 문서 ID",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "score",
+                      "paramtrDc": "유사도 및 중요도",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "number",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "title",
+                      "paramtrDc": "제목",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "image_path",
+                      "paramtrDc": "이미지경로",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "highlight_content",
+                      "paramtrDc": "강조 문항",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "filepath",
+                      "paramtrDc": "파일 경로",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "keyword",
+                      "paramtrDc": "검색어",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "med_thumb_yn",
+                      "paramtrDc": "썸네일 YN",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "media_style",
+                      "paramtrDc": "미디어 형태",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "paramtrNm": "associated_word",
+              "paramtrDc": "연관 검색어",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "totalCount",
+              "paramtrDc": "카테고리 전체 개수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "pageNo",
+              "paramtrDc": "페이지 번호",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "numOfRows",
+              "paramtrDc": "카테고리별 결과 수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "dataType",
+              "paramtrDc": "응답데이터형태(JSON)",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

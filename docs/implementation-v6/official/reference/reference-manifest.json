@@ -1,0 +1,79 @@
+[
+  {
+    "file": "v6-training-laws.json",
+    "hash": "4c92229b4799250a35164a04497fe29c3ef29af5ed33d2e6a3244684e0993555",
+    "bytes": 17808,
+    "origin": "user-referenced-public-research",
+    "independentApproval": false
+  },
+  {
+    "file": "v6-training-annexes.json",
+    "hash": "c2c0c084279bdeea76842a19d4a2dadb2c7221f0aa5d8839f3c6f0fd9f4fb4c0",
+    "bytes": 44336,
+    "origin": "user-referenced-public-research",
+    "independentApproval": false
+  },
+  {
+    "file": "v6-training-supplement.json",
+    "hash": "003ad955489973e9d73c62f601d33a1c333b2f7f920637992f6e9205479d1102",
+    "bytes": 19841,
+    "origin": "user-referenced-public-research",
+    "independentApproval": false
+  },
+  {
+    "file": "v6-adminrule-methods-and-risk-history.json",
+    "hash": "ee4177ac6369ea8f7137613c782c9a21c65bc9e933e4f681a429c74339f45c6c",
+    "bytes": 11814,
+    "origin": "user-referenced-public-research",
+    "independentApproval": false
+  },
+  {
+    "file": "v6-law-boundary-retry.json",
+    "hash": "89c90f08fc8c4585ab2353e9cc361d07fc7cc9bb069d105a94ebf45efa50a80c",
+    "bytes": 15909,
+    "origin": "user-referenced-public-research",
+    "independentApproval": false
+  },
+  {
+    "file": "v6-risk-subarticles.json",
+    "hash": "98e80127897fb34a11e8136ff09f72503000677cfdca9da2e131adca80579d11",
+    "bytes": 8878,
+    "origin": "user-referenced-public-research",
+    "independentApproval": false
+  },
+  {
+    "file": "v6-admin-parts-and-risk-profile.json",
+    "hash": "b223a5a606e00710f5d2dae2bf7d78b18dedd613e435ceff9b219f4f9598103b",
+    "bytes": 7511,
+    "origin": "user-referenced-public-research",
+    "independentApproval": false
+  },
+  {
+    "file": "v6-education-adminrule-full.txt",
+    "hash": "c293c2b991a53f707fec679a10be5ea8378b4d1c80f278ae30f904e90ae6ed71",
+    "bytes": 99814,
+    "origin": "user-referenced-public-research",
+    "independentApproval": false
+  },
+  {
+    "file": "v6-2026-training-guide.pdf",
+    "hash": "833666998c09a52db13ed42561514e9d2258104e79836d39e44194aef4fbc45c",
+    "bytes": 4458061,
+    "origin": "user-referenced-public-research",
+    "independentApproval": false
+  },
+  {
+    "file": "v6-file-hashes.json",
+    "hash": "76379349e75c5845f829222965eda4b529de2f0d4c2d516f0a329c3df520b153",
+    "bytes": 4733,
+    "origin": "user-referenced-public-research",
+    "independentApproval": false
+  },
+  {
+    "file": "v6_원문근거_조회기록.json",
+    "hash": "7be65b1fda23546c76fccbe4c10400bc8cf3b601209856de9cb27afd109d295d",
+    "bytes": 8506,
+    "origin": "user-referenced-public-research",
+    "independentApproval": false
+  }
+]

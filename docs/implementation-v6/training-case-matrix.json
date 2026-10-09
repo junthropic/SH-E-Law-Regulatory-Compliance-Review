@@ -1,0 +1,324 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "policyPaths": [
+    {
+      "id": "training.periodic",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    },
+    {
+      "id": "training.recruitment",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    },
+    {
+      "id": "training.work_change",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    },
+    {
+      "id": "training.special",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    },
+    {
+      "id": "training.supervisor",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    }
+  ],
+  "rows": [
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T01: office 교육표의 기본 시간 6와 주기 분리",
+      "status": "passed",
+      "duration": 8.163900000000012
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T01: sales 교육표의 기본 시간 6와 주기 분리",
+      "status": "passed",
+      "duration": 0.8756999999999948
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T01: other 교육표의 기본 시간 12와 주기 분리",
+      "status": "passed",
+      "duration": 0.5219999999999914
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T01: supervisor 교육표의 기본 시간 16와 주기 분리",
+      "status": "passed",
+      "duration": 0.37120000000001596
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T02: 미확인 업종·규모·지위와 비대상은 분리",
+      "status": "passed",
+      "duration": 0.6399000000000115
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T03: 회계 반기 주장은 검토된 계획 없이는 기산일로 채택하지 않음",
+      "status": "passed",
+      "duration": 0.4222000000000037
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T04: 다른 반기의 이수는 가산하지 않으며 중도 입사 시간을 비례감경하지 않음",
+      "status": "passed",
+      "duration": 2.223399999999998
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T05: 계약 종료 2026-08-21의 달력 경계 week 및 채용시간 1",
+      "status": "passed",
+      "duration": 0.4146000000000072
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T05: 계약 종료 2026-08-22의 달력 경계 month 및 채용시간 4",
+      "status": "passed",
+      "duration": 0.36930000000000973
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T05: 계약 종료 2026-09-14의 달력 경계 month 및 채용시간 4",
+      "status": "passed",
+      "duration": 0.2779999999999916
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T05: 계약 종료 2026-09-15의 달력 경계 other 및 채용시간 8",
+      "status": "passed",
+      "duration": 0.22970000000000823
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T06: 1개월을 30일로 바꾸지 않고 월말·윤년을 달력으로 계산",
+      "status": "passed",
+      "duration": 1.011199999999974
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T07: 자료 미제공은 미실시가 아니며 기한 이후 이수가 과거 지연을 지우지 않음",
+      "status": "passed",
+      "duration": 0.5427000000000248
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T08: 동일 날짜만으로 작업 전 교육을 확정하지 않음",
+      "status": "passed",
+      "duration": 0.8310000000000173
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T09: 작업 실질 변경·단순 이동·불명을 구분",
+      "status": "passed",
+      "duration": 0.6758999999999844
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T10: 일용·1주 이내 특별작업 1의 시간 2",
+      "status": "passed",
+      "duration": 0.32080000000001974
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T10: 일용·1주 이내 특별작업 39의 시간 8",
+      "status": "passed",
+      "duration": 0.24439999999998463
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T11: 옛 제40호를 현행 제39호로 자동 대체하지 않음",
+      "status": "passed",
+      "duration": 0.6629999999999825
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T12: 4시간 선행과 3개월 내 12시간을 독립 확인",
+      "status": "passed",
+      "duration": 0.9427000000000021
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T13: 선행 4시간 없는 16시간과 분할 기한 이후 교육 보류",
+      "status": "passed",
+      "duration": 0.6345000000000027
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T14: 단기간·간헐적 작업 정의 검토를 생략하지 않음",
+      "status": "passed",
+      "duration": 0.40330000000000155
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T15: 관리자 별도 표가 일반 단기계약보다 우선하고 직무교육을 합산하지 않음",
+      "status": "passed",
+      "duration": 0.49039999999999395
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T16: API 0건을 무재해 감경의 증거로 사용하지 않음",
+      "status": "passed",
+      "duration": 1.0482000000000085
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T17: 복수 감경을 무조건 중첩하지 않고 대상 불일치 보류",
+      "status": "passed",
+      "duration": 0.4435000000000002
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T18: attendance 미확인을 수료증만으로 이행 처리하지 않음",
+      "status": "passed",
+      "duration": 0.4963000000000193
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T18: content 미확인을 수료증만으로 이행 처리하지 않음",
+      "status": "passed",
+      "duration": 0.352800000000002
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T18: instructor 미확인을 수료증만으로 이행 처리하지 않음",
+      "status": "passed",
+      "duration": 0.24150000000000205
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T18: method 미확인을 수료증만으로 이행 처리하지 않음",
+      "status": "passed",
+      "duration": 0.20470000000000255
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T19: 동일 세션·중복 시간·다른 대상·다른 특별작업 교육을 가산하지 않음",
+      "status": "passed",
+      "duration": 0.5415999999999883
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T20: 일반 교육 자료 보관 5년은 법정 위반 규칙이 아님",
+      "status": "passed",
+      "duration": 0.2043000000000177
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T21: 교육 질문만 기존 5개 ID로 선택하며 다른 직무 의무를 새로 완성하지 않음",
+      "status": "passed",
+      "duration": 1.8020999999999958
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T22: on-site 방식에서 원문별 실행 증거 누락은 보류",
+      "status": "passed",
+      "duration": 0.3071000000000197
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T22: internet 방식에서 원문별 실행 증거 누락은 보류",
+      "status": "passed",
+      "duration": 0.3929000000000258
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T22: live 방식에서 원문별 실행 증거 누락은 보류",
+      "status": "passed",
+      "duration": 0.6728999999999985
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T22: correspondence 방식에서 원문별 실행 증거 누락은 보류",
+      "status": "passed",
+      "duration": 0.22800000000000864
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T22: unknown 방식에서 원문별 실행 증거 누락은 보류",
+      "status": "passed",
+      "duration": 0.35890000000000555
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T23: 원격 수강을 작업·운전 중 수강 또는 실시간 상호작용 없이 인정하지 않음",
+      "status": "passed",
+      "duration": 0.6476000000000113
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T24: 안전관리자 직무·건설기초·특고·외국인 기초교육을 일반 5개 완료로 선택하지 않음",
+      "status": "passed",
+      "duration": 0.47159999999999513
+    },
+    {
+      "file": "tests/v6-training.test.ts",
+      "name": "V6-T25: 관리감독자 정기교육과 채용·특별교육의 주제 ID를 독립 선택",
+      "status": "passed",
+      "duration": 0.5574000000000012
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-C01: training.periodic 원문→수동 보완→독립 검토→기존 검토·일반 export",
+      "status": "passed",
+      "duration": 174.48360000000002
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-C01: training.recruitment 원문→수동 보완→독립 검토→기존 검토·일반 export",
+      "status": "passed",
+      "duration": 82.01220000000012
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-C01: training.work_change 원문→수동 보완→독립 검토→기존 검토·일반 export",
+      "status": "passed",
+      "duration": 82.96810000000005
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-C01: training.special 원문→수동 보완→독립 검토→기존 검토·일반 export",
+      "status": "passed",
+      "duration": 84.89699999999993
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-C01: training.supervisor 원문→수동 보완→독립 검토→기존 검토·일반 export",
+      "status": "passed",
+      "duration": 91.66349999999989
+    },
+    {
+      "file": "tests/v6-workflow.test.ts",
+      "name": "V6-C02: 교체된 문서 버전과 다른 영역은 후보·파생의 부모로 재사용 거절",
+      "status": "passed",
+      "duration": 30.060199999999895
+    }
+  ],
+  "legalApproved": 0,
+  "realEmployees": 0
+}

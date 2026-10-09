@@ -1,0 +1,47 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "dirty": true,
+  "sourceDigest": "26dc4d816b8caa152bc551bd28f6dbdfcc6b6654b4db6fc078c85ee0afea938a",
+  "at": "2026-10-08T13:47:18.887Z",
+  "scope": "격리 개발·가상 시험. 운영·실제 사업장·법적 승인 아님",
+  "released": false,
+  "productionServing": "이번 실행 확인·교체 안 함",
+  "blocks": [
+    {
+      "id": "real-workplace",
+      "state": "자료 미제공",
+      "needed": "실제 대상·시설·물질·수량·기간·허가 및 증빙",
+      "owner": "사용자/사업장"
+    },
+    {
+      "id": "expert",
+      "state": "실제 법적 승인 없음",
+      "needed": "6개 의무의 원문·예외·기간·적용 범위 독립 승인",
+      "owner": "분야 검토자"
+    },
+    {
+      "id": "provision",
+      "state": "가상 principal만 시험",
+      "needed": "실사용 신원·권한·만료·철회 운영 정책",
+      "owner": "운영 관리자"
+    },
+    {
+      "id": "full-collection",
+      "state": "32/52 전체 상세·첨부/원문 대응 미완료",
+      "needed": "operation별 fixture+제한 표본+quota 증빙",
+      "owner": "개발자/기관"
+    },
+    {
+      "id": "deployment",
+      "state": "명시적으로 금지",
+      "needed": "별도 운영 배포·재시작 승인",
+      "owner": "사용자"
+    }
+  ],
+  "notScopeExcluded": [
+    "미검증 인수항목",
+    "나머지 37개 정책",
+    "원문·첨부·부칙·위임 범위",
+    "실제 사업장 적합성"
+  ]
+}

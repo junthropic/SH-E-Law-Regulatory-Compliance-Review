@@ -16,7 +16,8 @@ export function testStore() {
         !basename(dir).startsWith("she-test-")
       )
         throw new Error("Unsafe test cleanup path");
-      rmSync(dir, { recursive: true, force: true });
+      // Windows child-process exit can precede release of the SQLite directory handle.
+      rmSync(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 });
     },
   };
 }

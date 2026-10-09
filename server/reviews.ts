@@ -1,8 +1,11 @@
+import { reviewDomains } from "../shared/review-domains.js";
+import { ordinanceScope } from "../shared/jurisdictions.js";
 import { randomUUID } from "node:crypto";
 import { Store } from "./store.js";
 import { Vault } from "./vault.js";
 import { ChatGPTAuth } from "./auth.js";
 import { analyze } from "./ai.js";
+import { EgressDenied,requireEgress,requestDigest } from "./egress-v3.js";
 import {
   evidenceGaps,
   enforceIssue,
@@ -11,6 +14,11 @@ import {
 } from "./legal.js";
 import { syncSources } from "./sources.js";
 import { hasCoverageApproval } from "./approval.js";
+import { buildVerification, verificationGaps } from "./verification.js";
+import { attachLinkedBasis, collectReference, saveLinkedBasis } from "./reference-collection.js";
+import { assessCase } from "./case-assessment.js";
+import { recordAssertion } from "./fact-provenance.js";
+import { attachComparisons } from "./dossier.js";
 import type {
   ReviewResult,
   ReviewRequest,
@@ -92,6 +100,7 @@ export async function runReview(
   auth: ChatGPTAuth,
   r: ReviewResult,
   refresh = syncSources,
+  finalize?: (review: ReviewResult) => void,
 ) {
   const progress = (s: string) => {
     r.progress = s;
@@ -125,7 +134,7 @@ export async function runReview(
         source: "사용자 추가 답변",
         confirmed: confirmedAnswer(value),
       })),
-    ];
+    ].map(f => recordAssertion(f, "user", r.createdAt));
     const oc =
       process.env.LAW_OC || (await vault.read<{ lawOc: string }>("law"))?.lawOc;
     let checkedAt = recentSourceCheck(store.sources(), r.request.region);
@@ -147,27 +156,70 @@ export async function runReview(
       );
     r.evidence = store.search(
       r.request.prompt +
-        " 위험물 저장 취급 허가 " +
+        " " + reviewDomains(r.request.prompt).flatMap(p => [...p.laws]).join(" ") + " " +
         Object.values(r.request.answers).join(" "),
       r.request.region,
       r.request.asOf,
     );
+    r.evidence = attachLinkedBasis(store, r.request, r.evidence).filter(
+      (e) =>
+        e.kind !== "ordinance" ||
+        ordinanceScope(e.title, r.request.region, r.request.municipality) !==
+          "other",
+    );
+    // Extend actual review collection beyond the dangerous-goods pilot. Keep
+    // collected versions bound to this request; failures remain explicit gaps.
+    const extraLaws = [...new Set(reviewDomains(r.request.prompt).filter(p => p.id !== "dangerous").flatMap(p => [...p.laws]))];
+    for (const title of extraLaws) {
+      if (r.evidence.some(e => e.title.replace(/\s/g, "") === title.replace(/\s/g, ""))) continue;
+      if (!oc || (r.request.linkedEvidenceIds?.length || 0) >= 30) continue;
+      progress(title + "의 기준일 원문을 수집하고 있습니다.");
+      try {
+        const collected = await collectReference(store, oc, r.request, title);
+        saveLinkedBasis(store, r.request, collected);
+        r.request.linkedEvidenceIds = [...(r.request.linkedEvidenceIds || []), collected.id];
+        r.evidence.push(collected);
+      } catch {
+        r.gaps.push(title + ": 자동 원문 수집 실패. 목록·버전·기관 응답과 원본을 확인하세요.");
+      }
+    }
+    attachComparisons(store, r);
     r.gaps.push(...evidenceGaps(r.evidence, r.request.region, r.request.asOf));
-    if (
-      !hasCoverageApproval(
-        store,
-        r.request.region,
-        r.request.municipality,
-        r.request.asOf,
-        r.evidence,
-      )
-    )
+    const approved = hasCoverageApproval(
+      store,
+      r.request.region,
+      r.request.municipality,
+      r.request.asOf,
+      r.evidence,
+    );
+    r.verification = buildVerification(r.evidence, r.request, approved);
+    r.gaps.push(...verificationGaps(r.verification, r.evidence));
+    if (!approved)
       r.gaps.push(
         "지자체 공보와의 대조 및 관련 시·군·구 위임 규정 확인이 필요합니다.",
       );
-    r.questions = questions.filter(
-      (q) => !confirmedAnswer(r.request.answers[q.key] || ""),
-    );
+    r.caseAssessment = assessCase(r);
+    if (r.facts.some(f => !["region", "asOf"].includes(f.key)))
+      r.gaps.push("입력된 사업장 사실은 사용자 진술입니다. 답변 작성이나 자료의 추출문 확인만으로 증빙 대조·현장 확인이 완료되지는 않습니다.");
+    for (const fact of r.facts) {
+      const checked = r.caseAssessment.facts.find(f => f.key === fact.key);
+      if (checked && checked.state !== "confirmed") fact.confirmed = false;
+    }
+    for (const fact of r.caseAssessment.facts.filter(f => f.state === "conflict"))
+      r.gaps.push(fact.label + ": " + fact.question);
+    for (const doc of docs.filter(d => d.responseDate || d.agency))
+      r.gaps.push(doc.name + ": 개별 회신의 회신일·당시 법령·사실관계·적용 범위를 현재 질문과 대조해야 합니다.");
+    for (const profile of reviewDomains(r.request.prompt))
+      for (const title of profile.laws)
+        if (!r.evidence.some(e => e.title.replace(/\s/g, "") === title.replace(/\s/g, "")))
+          r.gaps.push(title + ": 이번 업무의 연결 원문 미확보. 원문 수집·재검토가 필요합니다.");
+    r.questions = r.caseAssessment.facts
+      .filter((f) => f.state !== "confirmed")
+      .map((f) => ({ key: f.key, label: f.question }));
+    if (r.caseAssessment.totalConditions > r.caseAssessment.conditions.length)
+      r.gaps.push(
+        `적용 조건 후보 ${r.caseAssessment.totalConditions}개 중 ${r.caseAssessment.conditions.length}개를 표시합니다. 나머지 조건은 전문에서 추가 대조해야 합니다.`,
+      );
     for (const rule of store
       .rules()
       .filter(
@@ -188,12 +240,22 @@ export async function runReview(
           });
     for (const d of docs)
       if (!d.confirmed) r.gaps.push(d.name + ": 추출문 미확인");
-    if (r.request.useAi) {
+    let canTransmit=r.request.useAi;
+    if(canTransmit){try{requireEgress(auth.egress,[requestDigest(r.request),...docs.map(d=>d.hash),...r.evidence.map(e=>e.hash)],"review");}catch(e){if(!(e instanceof EgressDenied))throw e;canTransmit=false;r.gaps.push(e.message);}}
+    if (canTransmit) {
       progress("근거를 연결하고 해석 쟁점을 분석하고 있습니다.");
-      const result = await analyze(auth, r.request, r.evidence, docs, progress);
+      const result = await analyze(
+        auth,
+        r.request,
+        r.evidence,
+        docs,
+        progress,
+        r.verification,
+        r.caseAssessment,
+      );
       r.facts.push(
         ...result.data.facts
-          .map((f) => ({ ...f, confirmed: false }))
+          .map((f) => recordAssertion({ ...f, confirmed: false }, "model", new Date().toISOString()))
           .filter((f) => !r.facts.some((x) => x.key === f.key)),
       );
       r.questions.push(
@@ -255,6 +317,10 @@ export async function runReview(
       complete: !r.gaps.length && !missing.length,
       sources: [...new Set(r.evidence.map((e) => e.url))],
     };
+    if(finalize){try{finalize(r);}catch{
+      r.issues=r.issues.map(i=>({...i,category:"more_data"}));
+      r.gaps.push("연결 평가 처리 실패: 확정 판단을 보류합니다.");r.coverage.complete=false;
+    }}
     r.status = "completed";
     progress(
       r.request.useAi

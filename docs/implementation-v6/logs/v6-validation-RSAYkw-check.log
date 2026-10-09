@@ -1,0 +1,105 @@
+
+> sh-e-law-check@0.1.0 check
+> npm run build && npm test -- --reporter=default --reporter=json --outputFile=work/final-tests.json
+
+
+> sh-e-law-check@0.1.0 build
+> tsc --noEmit && tsc -p tsconfig.server.json && vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 1996 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.43 kB │ gzip:   0.33 kB
+dist/assets/index-DiiLZ3H5.css   25.47 kB │ gzip:   5.75 kB
+dist/assets/index-BivsNquf.js   430.85 kB │ gzip: 131.07 kB
+
+✓ built in 350ms
+
+> sh-e-law-check@0.1.0 test
+> vitest run --reporter=default --reporter=json --outputFile=work/final-tests.json
+
+
+ RUN  v5.0.3 C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-RSAYkw
+
+ ✓ tests/v2-golden.test.ts (13 tests) 708ms
+ ✓ tests/v4-runtime.test.ts (27 tests) 844ms
+ ✓ tests/v6-resume-process.test.ts (1 test) 924ms
+   ✓ V6-Q02: copy/switch 경계 실제 child 중단→동일 marker 복구→다른 worker 보호 원본 재개 923ms
+ ✓ tests/mcp-vault.test.ts (2 tests) 1512ms
+   ✓ 설치한 고정 버전 MCP 서버와 연결하고 도구 목록을 조회한다 678ms
+   ✓ Windows DPAPI로 보호한 시험 값을 숨김 프로세스에서 왕복 처리한다 832ms
+ ✓ tests/petitions-documents.test.ts (6 tests) 1446ms
+   ✓ 손상된 문서는 추출 프로세스만 실패하고 다른 업로드는 정상 처리한다 950ms
+   ✓ DOCX에서 한국어와 수량을 추출한다 353ms
+ ✓ tests/ai-auth.test.ts (18 tests) 623ms
+   ✓ 원격 세션 종료 실패도 로컬 로그아웃을 완료하고 미확인을 알린다 330ms
+ ✓ tests/v3-policies.test.ts (13 tests) 505ms
+ ✓ tests/v4-workflow.test.ts (18 tests) 945ms
+ ✓ tests/v6-egress.test.ts (9 tests) 1594ms
+   ✓ V6-E01: 실제 review call site admission·응답 부모·재사용 철회 303ms
+   ✓ V6-E07: 진행 중 실제 MCP call의 cross-process 철회·취소·결과 부모 미생성 344ms
+ ✓ tests/v3-collection.test.ts (3 tests) 1240ms
+   ✓ V3-F01/S2: 실제 worker·기존 façade는 느린 조회 중 다른 저장을 막지 않고 완료 결과를 재조회한다 1179ms
+ ✓ tests/v4-operation-matrix.test.ts (1 test) 546ms
+   ✓ V4-A08: 기존 52 operation 모두 실제 adapter 경유 합성 응답·capture 대조; 공식 specimen 검증은 별도 545ms
+ ✓ tests/v3-runtime.test.ts (17 tests) 2318ms
+   ✓ V3-J05: 응답 없는 transport도 총 시간 예산으로 끝난다 1029ms
+   ✓ V3-J07: 실제 두 독립 프로세스의 동시 claim은 한 worker만 획득한다 386ms
+   ✓ V3-J08: 실제 두 프로세스는 다른 작업에서도 provider/key 호출 lease를 공유한다 390ms
+   ✓ V3-J09: 프로세스 비정상 종료 뒤 마지막 저장 checkpoint에서 재개한다 353ms
+ ✓ tests/store.test.ts (11 tests) 315ms
+ ✓ tests/compliance-v2.test.ts (11 tests) 480ms
+ ✓ tests/collection-v2.test.ts (4 tests) 118ms
+ ✓ tests/public-bundle.test.ts (6 tests) 131ms
+ ✓ tests/public-apis.test.ts (10 tests) 408ms
+ ✓ tests/app.test.ts (5 tests) 368ms
+ ✓ tests/collection-hardening.test.ts (10 tests) 207ms
+ ✓ tests/dossier.test.ts (9 tests) 270ms
+ ✓ tests/intake.test.ts (8 tests) 241ms
+ ✓ tests/reference-collection.test.ts (7 tests) 215ms
+ ✓ tests/legacy-address.test.ts (1 test) 100ms
+ ✓ tests/sources.test.ts (19 tests) 71ms
+ ✓ tests/case-audit.test.ts (16 tests) 102ms
+ ✓ tests/v6-specifications.test.ts (56 tests) 102ms
+ ✓ tests/a07-transport.test.ts (8 tests) 58ms
+ ✓ tests/v4-egress-backup.test.ts (2 tests) 84ms
+ ✓ tests/additional-apis.test.ts (34 tests) 165ms
+ ✓ tests/reviews.test.ts (3 tests) 64ms
+ ✓ tests/fact-provenance.test.ts (19 tests) 46ms
+ ✓ tests/v6-training.test.ts (39 tests) 32ms
+ ✓ tests/legal.test.ts (21 tests) 9ms
+ ✓ tests/verification.test.ts (8 tests) 28ms
+ ✓ tests/result-language.test.ts (2 tests) 5ms
+ ✓ tests/v6-workflow.test.ts (14 tests) 3279ms
+   ✓ V6-A01: form5 격리 관리 route가 보존 공식 페이지→download→암호화→실제 파서를 호출 777ms
+   ✓ V6-A01: notice 격리 관리 route가 보존 공식 페이지→download→암호화→실제 파서를 호출 545ms
+   ✓ V6-A03: accidents 실제 worker capture→식별자 metadata→정확한 정책→원본·추출 766ms
+   ✓ V6-A03: guide 실제 worker capture→식별자 metadata→정확한 정책→원본·추출 457ms
+ ✓ tests/v5-runtime.test.ts (21 tests) 3791ms
+   ✓ V5-A01: 공식 form5 발견·암호 원문·실제 격리 파서 연결 770ms
+   ✓ V5-A01: 공식 notice 발견·암호 원문·실제 격리 파서 연결 557ms
+   ✓ V5-A03: 위험 압축 항목 C:stream.xml를 파서 진입 전 거절 302ms
+   ✓ V5-A03: 위험 압축 항목 Contents/payload.zip를 파서 진입 전 거절 311ms
+   ✓ V5-A03: 위험 압축 항목 Contents/entity.xml를 파서 진입 전 거절 311ms
+   ✓ V5-B02: 미분류 자원은 통합 완료로 바꾸지 않고 복원 대상 덮어쓰기 금지 700ms
+ ✓ tests/v5-process.test.ts (3 tests) 5238ms
+   ✓ V5-A05: 격리 실제 TLS 소켓에서 pin·인증서·원문 bytes 확인하고 redirect 거부 314ms
+   ✓ V5-B05: 실제 복원 프로세스 중단 뒤 공개 세대는 없고 잠금 복구 후 재복원 4626ms
+ ✓ tests/v3-workflow.test.ts (17 tests) 6314ms
+   ✓ V3-B02: 복원 after_publish 실패 시 DB와 새 원본을 rollback하고 기존 원본은 유지한다 4028ms
+   ✓ V3-B03: 2MiB를 넘는 원본도 별도 HTTP 백업·복원 제한 내 왕복한다 843ms
+ ✓ tests/public-api-probes.test.ts (31 tests) 8177ms
+   ✓ waste-companies: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다 4042ms
+   ✓ waste-sanctions: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다 4024ms
+ ✓ tests/v6-restore.test.ts (42 tests) 40436ms
+   ✓ V6-B04: snapshot 이후 원본 replace는 hash 대조 실패로 보류 512ms
+   ✓ V6-B04: snapshot 이후 원본 delete는 hash 대조 실패로 보류 7587ms
+
+ Test Files  41 passed (41)
+      Tests  565 passed (565)
+   Start at  04:04:18
+   Duration  41.20s (tests 80%, import 16%, transform 4%)
+
+JSON report written to C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-RSAYkw/work/final-tests.json

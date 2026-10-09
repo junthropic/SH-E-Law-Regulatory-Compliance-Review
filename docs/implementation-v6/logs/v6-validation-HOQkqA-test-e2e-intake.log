@@ -1,0 +1,5 @@
+
+> sh-e-law-check@0.1.0 test:e2e:intake
+> node scripts/e2e-intake.mjs
+
+PASS: existing UI preserves removed controls; authenticated browser API verifies extraction, consent, partial retrieval, saved report, attached review, stale region rejection; synthetic fixtures only.

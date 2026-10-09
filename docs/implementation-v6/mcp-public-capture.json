@@ -1,0 +1,74 @@
+[
+  {
+    "id": "historical-rule-37",
+    "tool": "get_law_text",
+    "args": {
+      "mst": "271485",
+      "jo": "제37조",
+      "efYd": "20260531"
+    },
+    "at": "2026-10-08T18:21:07.842Z",
+    "hash": "9ca2efc8454d91edb8d0226debbdfde81cf5111746e65414fcf124c9a4738646",
+    "bytes": 1214,
+    "isError": false,
+    "containsArticle": true,
+    "containsThreeYears": true,
+    "reportedMST": "271485",
+    "legalApproval": false,
+    "endpoint": "https://mcp.gomdori.app/law"
+  },
+  {
+    "id": "june-rule-37",
+    "tool": "get_law_text",
+    "args": {
+      "mst": "286657",
+      "jo": "제37조",
+      "efYd": "20260601"
+    },
+    "at": "2026-10-08T18:21:08.411Z",
+    "hash": "34a54f85e0db332fab2935d1a80237baf2022a7c468e7039104a8c1dc71f8bcb",
+    "bytes": 1814,
+    "isError": false,
+    "containsArticle": true,
+    "containsThreeYears": false,
+    "reportedMST": null,
+    "legalApproval": false,
+    "endpoint": "https://mcp.gomdori.app/law"
+  },
+  {
+    "id": "training-annex4",
+    "tool": "get_annexes",
+    "args": {
+      "lawName": "산업안전보건법 시행규칙",
+      "annexNo": "4",
+      "date": "2026-10-08"
+    },
+    "at": "2026-10-08T18:21:21.326Z",
+    "hash": "24ad52304f9655cb3e4156f6dba743560d56dfa9300460e93d8edca45dbbe70b",
+    "bytes": 6787,
+    "isError": false,
+    "containsArticle": false,
+    "containsThreeYears": false,
+    "reportedMST": "288431",
+    "legalApproval": false,
+    "endpoint": "https://mcp.gomdori.app/law"
+  },
+  {
+    "id": "training-annex5",
+    "tool": "get_annexes",
+    "args": {
+      "lawName": "산업안전보건법 시행규칙",
+      "annexNo": "5",
+      "date": "2026-10-08"
+    },
+    "at": "2026-10-08T18:21:24.109Z",
+    "hash": "da4a9bbb3343ba4495bdb600ea947d3c6653cb66f6dfed7eb4dca7f677c5b563",
+    "bytes": 37593,
+    "isError": false,
+    "containsArticle": false,
+    "containsThreeYears": false,
+    "reportedMST": "288431",
+    "legalApproval": false,
+    "endpoint": "https://mcp.gomdori.app/law"
+  }
+]

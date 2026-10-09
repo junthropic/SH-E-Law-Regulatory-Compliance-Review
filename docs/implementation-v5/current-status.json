@@ -1,0 +1,35 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "630ad6a52597c544ef16590c4c15c9f0d1e3ad5c7dbe4fbeef50c0c4bb03b005",
+  "at": "2026-10-08T16:52:16.220Z",
+  "runtime": "v26.7.0",
+  "scope": "격리 구현·공식 공개 자료 조사·합성 시험. 법적 승인·실제 사업장·운영 완료 아님",
+  "implementationFinished": false,
+  "uiChanged": 0,
+  "productionReady": false,
+  "blockers": [
+    "A-attachments",
+    "A-schemas",
+    "A-quota",
+    "A-conditional",
+    "B-egress",
+    "B-queue",
+    "B-backup",
+    "C-cases",
+    "D-policy",
+    "D-next",
+    "E-site",
+    "E-production"
+  ],
+  "preservedDenominators": {
+    "tests": 380,
+    "browser": 8,
+    "acceptance": 72,
+    "policies": 43,
+    "additionalPolicies": 2,
+    "services": 32,
+    "operations": 52,
+    "frozen": 29,
+    "gates": 12
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "dirty": true,
+  "sourceDigest": "dc4b4f2029b66d306253fcb8ca724fcd46e30de2a08e2aeb854fcbbdd0688c83",
+  "at": "2026-10-08T15:04:42.233Z",
+  "runtime": "v26.7.0",
+  "scope": "격리 구현·합성 시험. 실제 사업장·법적 승인·운영 완료 아님",
+  "technical": {
+    "tests": 380,
+    "passed": 380,
+    "baselinePreserved": 332,
+    "newTests": 48,
+    "browser": 8,
+    "syntheticAdapterOperations": 52,
+    "operationDenominator": 52
+  },
+  "legal": {
+    "denominator": 0,
+    "value": null
+  },
+  "realWorkplace": {
+    "denominator": 0,
+    "value": null
+  },
+  "officialGolden": {
+    "denominator": 0,
+    "value": null
+  },
+  "live": {
+    "denominator": 0,
+    "value": null
+  }
+}

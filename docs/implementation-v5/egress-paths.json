@@ -1,0 +1,41 @@
+{
+  "linearization": "v4 공공 API transport: SQLite BEGIN IMMEDIATE 권한 읽기 + intent commit; revoke는 같은 DB write 순서",
+  "activeCancelCheckMs": 25,
+  "firstOutboundByteObserved": false,
+  "recallAlreadySent": false,
+  "paths": [
+    {
+      "id": "public-worker",
+      "implementation": "v4 per-call context + v5 admission/cancel",
+      "tested": "합성 응답·별도 프로세스 revoke",
+      "remaining": "실제 계정 mapping·physical first-byte race"
+    },
+    {
+      "id": "ai-intake",
+      "implementation": "v4 actual payload graph; v3 fallback 유지",
+      "remaining": "v5 send admission·fallback 전수 이관"
+    },
+    {
+      "id": "mcp",
+      "implementation": "v4 serialized args·host parent 필수",
+      "remaining": "v5 send admission·모든 도구 결과 parent 연결"
+    },
+    {
+      "id": "answer-reuse-summary",
+      "implementation": "graph derive primitive",
+      "remaining": "모든 재사용 생성 경로의 서버 parent 자동 연결"
+    },
+    {
+      "id": "local-export",
+      "implementation": "명시적 token·cookie·tenant·review trace + proposal 접근",
+      "externalPermissionGranted": false,
+      "remaining": "기존 일반 export와 전체 재사용 연결"
+    },
+    {
+      "id": "backup",
+      "implementation": "backup_operator + 영역·암호키; 외부 전송 권한 자동승격 없음"
+    }
+  ],
+  "fallbackRemoved": false,
+  "productionEntryPointChanged": false
+}

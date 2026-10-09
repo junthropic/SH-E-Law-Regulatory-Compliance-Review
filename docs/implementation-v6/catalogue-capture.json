@@ -1,0 +1,460 @@
+[
+  {
+    "id": "qna",
+    "url": "https://www.data.go.kr/data/15074671/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:33.681Z",
+    "bytes": 205479,
+    "hash": "73c9aa6e27082427ce86625a215c89f1114b8ad7bc7a2e3b87cbf1e5dbf5f9b9",
+    "schemaHash": null,
+    "paths": [],
+    "schemaAvailable": false,
+    "parseError": "embedded_schema_parse_failed",
+    "liveResponse": false
+  },
+  {
+    "id": "fire",
+    "url": "https://www.data.go.kr/data/15061055/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:46.932Z",
+    "bytes": 201013,
+    "hash": "0b99db51e8773acd9c8d973ec076c646630e7c4013eae034516982ea49efd278",
+    "schemaHash": null,
+    "paths": [],
+    "schemaAvailable": false,
+    "parseError": "embedded_schema_parse_failed",
+    "liveResponse": false
+  },
+  {
+    "id": "msds",
+    "url": "https://www.data.go.kr/data/15157612/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:47.549Z",
+    "bytes": 254102,
+    "hash": "803d1740f930ffee223d69594c593875c91dfe15bc39aee4b9559665529cb456",
+    "schemaHash": "a8b4318ac194ea7f80ee73c4a9342ddbe7e85bb83abbbab9375d17a6067d4dbc",
+    "paths": [
+      "/getChemList001",
+      "/getChemDetail011",
+      "/getChemDetail021",
+      "/getChemDetail031",
+      "/getChemDetail041",
+      "/getChemDetail051",
+      "/getChemDetail061",
+      "/getChemDetail071",
+      "/getChemDetail081",
+      "/getChemDetail091",
+      "/getChemDetail101",
+      "/getChemDetail111",
+      "/getChemDetail121",
+      "/getChemDetail131",
+      "/getChemDetail141",
+      "/getChemDetail151",
+      "/getChemDetail161"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "smart",
+    "url": "https://www.data.go.kr/data/15123696/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:48.058Z",
+    "bytes": 215775,
+    "hash": "a74010d0fe09247392034a55e0941788963285072e0bdd810301824baae9f0af",
+    "schemaHash": "1edf24e06a91d8359edeeba774ca2042443660f642c5fbcb440f8f26d0353111",
+    "paths": [
+      "/smartSearch"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "keco",
+    "url": "https://www.data.go.kr/data/15149420/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:48.766Z",
+    "bytes": 207282,
+    "hash": "ac0cad51a30e577dff3534c9812fe407dfb821b80fc5e07260aa29c42288f330",
+    "schemaHash": "d19fca22ab4c0f6ddf8f7adfc6a0f2ece9932da26112118762c7292893dcb6c8",
+    "paths": [
+      "/chemSbstnList"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "guide",
+    "url": "https://www.data.go.kr/data/15144147/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:49.322Z",
+    "bytes": 207221,
+    "hash": "cc34e23ad353c8329933aa56aa2b8fcaef3319238fcc0e6fc04b59e62c005a96",
+    "schemaHash": "f8e5dcb5226a770ce136345a322a70ac72ebf02b58caa478d657e73e3e3b9c84",
+    "paths": [
+      "/getKoshaGuide"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "grievance",
+    "url": "https://www.data.go.kr/data/15102383/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:50.012Z",
+    "bytes": 206522,
+    "hash": "91dcd3b877aa10b28019064d7b7a513d0df71fb93cd92d81bead7ffae600f56f",
+    "schemaHash": "4c57bc3f9a2ff22292bef8c6781627382d3b0e2a670f4730c628fd4e4558d335",
+    "paths": [
+      "/selectApiDiciList",
+      "/selectApiDiciDetail"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "ghs",
+    "url": "https://www.data.go.kr/data/15149423/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:50.615Z",
+    "bytes": 206648,
+    "hash": "1c6f1a7022eca57bd403147c9242043b62409ab7f8a69ade407e50dba4fe757a",
+    "schemaHash": "07cd5af7c35690f8e08c7fb118d5aef475eb3c1e8ad7bff4232cbea0c634d412",
+    "paths": [
+      "/ghsList"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "accidents",
+    "url": "https://www.data.go.kr/data/15121001/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:51.292Z",
+    "bytes": 205690,
+    "hash": "7636c78547005a6da1b2c066e6880feca439a206b515a128fe9c8271c13e8472",
+    "schemaHash": "7defc015a42d1a91c9be76f3d1327175cd170c6f21536aa8de475ec93fbe685d",
+    "paths": [
+      "/getdisaster_api02"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "accident-files",
+    "url": "https://www.data.go.kr/data/15121008/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:51.953Z",
+    "bytes": 204494,
+    "hash": "4e47d487ca259354d30ab3ae977403c6c794059411a34f5b37b30d7ba488688f",
+    "schemaHash": "da4abddfdd944b7de498d5424fbe9b205c83c30f789c2dd4b3aa2e26808d2d1e",
+    "paths": [
+      "/Disaster_attach_api02"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "sif",
+    "url": "https://www.data.go.kr/data/15161362/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:52.526Z",
+    "bytes": 210336,
+    "hash": "3af3f396daf3777ebbff022ed287f3de5ad61f77ae66a8bf1f609b4626ac5479",
+    "schemaHash": "82b0ff8668e8f13a77b125c463c23e7d5fd35d6a5e708ae39af81a6c3d7d94c8",
+    "paths": [
+      "/view"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "chemical-accidents",
+    "url": "https://www.data.go.kr/data/15072446/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:53.196Z",
+    "bytes": 203698,
+    "hash": "aadee0d772d5a5e7be53d387e0eddbe7d2255256cf001e17471544bdc8e32fcd",
+    "schemaHash": null,
+    "paths": [],
+    "schemaAvailable": false,
+    "parseError": "embedded_schema_parse_failed",
+    "liveResponse": false
+  },
+  {
+    "id": "waste-companies",
+    "url": "https://www.data.go.kr/data/15141649/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:53.795Z",
+    "bytes": 207814,
+    "hash": "656c6d722ed6dd6436082a3bff85bad76be172c457d0478dddec844532595b62",
+    "schemaHash": "364a7be48735fbdf1e15f5e334bfdea6b51372e2f8e646d5c59411090e463b12",
+    "paths": [
+      "/getWstdspBzentyInfo"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "waste-sanctions",
+    "url": "https://www.data.go.kr/data/15156661/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:54.445Z",
+    "bytes": 205402,
+    "hash": "17d9cd758acce873fd74e86fc080405dc66a0ad8f52c546bad39d03db4ab8c81",
+    "schemaHash": "dbd3abdc94dc8cca8ccdf47feaf2544339e35d1bff4f34792e6ec859ea8a51c3",
+    "paths": [
+      "/getlist"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "environment-agencies",
+    "url": "https://www.data.go.kr/data/15155021/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:55.088Z",
+    "bytes": 222551,
+    "hash": "635a2e45ce113558ccbc3ae7748a5cf790a453b0ee2dcbcee31f3da95d4ad328",
+    "schemaHash": "75ae86ca7e51c1aa3d0c71de45705856f7ff73b2a08d9a69f7047f39646b23d6",
+    "paths": [
+      "/info",
+      "/history"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "measurement-agencies",
+    "url": "https://www.data.go.kr/data/15155030/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:55.736Z",
+    "bytes": 223760,
+    "hash": "1e72a9df37dd299512b17510014cd0d595a8a9bbd2f9b73d82b2f44ebf15126a",
+    "schemaHash": "da817986030e099ec4e54fbf54b018d16e801e6c4280268c03a0e8ac87e80f17",
+    "paths": [
+      "/info",
+      "/history"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "land-use",
+    "url": "https://www.data.go.kr/data/15058410/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:56.356Z",
+    "bytes": 207419,
+    "hash": "6c2009ad0fc23d6e21f3ba4cde092d60881d74d599195bf3445e3b27a5e8ddb2",
+    "schemaHash": "e7e974b8fcbf69f2b87b22ceadc3d73417016d1862cbbf68daeef7923f2b5d41",
+    "paths": [
+      "/DTarLandUseInfo",
+      "/DTsearchLunCd"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "address",
+    "status": "blocked",
+    "reason": "공식 catalogue URL 확인 필요"
+  },
+  {
+    "id": "ppe-cert",
+    "url": "https://www.data.go.kr/data/15149809/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:56.967Z",
+    "bytes": 205198,
+    "hash": "c9648d23e402fa97bcd92f31799056a4e1043e2b6d06c7021f5a873405cf8afd",
+    "schemaHash": "31a37c8c60ba6b6aca6348d405c1185ac6262fde1bed26ff84b438a608fe8b7e",
+    "paths": [
+      "/getprotector_api01"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "machine-cert",
+    "url": "https://www.data.go.kr/data/15149912/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:57.586Z",
+    "bytes": 204986,
+    "hash": "36083c6dd1dc993540d442b2d6ea4c97cb1ff4cbe0f80c213a7d0ab87847eb00",
+    "schemaHash": "e260637c2fa5c62fb62cfed848907a44b620b75b0a5a7eda37327e67e8ff1f2d",
+    "paths": [
+      "/machine_api01"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "guard-cert",
+    "url": "https://www.data.go.kr/data/15149897/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:58.205Z",
+    "bytes": 205126,
+    "hash": "0fcb8d68470ecbe548c710e78c1ba42380308d8308305b6ed3217ea39ed7dee4",
+    "schemaHash": "8cd5a5eda7d692912861428ef5e8c2904d594f50c9039c10efc1838e3da03137",
+    "paths": [
+      "/getprotect_api01"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "ppe-declaration",
+    "url": "https://www.data.go.kr/data/15150185/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:58.824Z",
+    "bytes": 204967,
+    "hash": "26b7b5a0886b706150d8d585a0cee86fe6c4aa44272006e24946b7c43bb4cb17",
+    "schemaHash": "ac373c940ce2db7dcd5e53e3f595d63685754ec11e86b0b81d082b312fe40f87",
+    "paths": [
+      "/guard_api01"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "machine-declaration",
+    "url": "https://www.data.go.kr/data/15150184/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:44:59.470Z",
+    "bytes": 204475,
+    "hash": "0b356d0378d686b9fefc1d822eb3137617de9d191aa08588827cecf4a5b700d6",
+    "schemaHash": "362a9b897bcbda5bceec4e1237b73a28b91ca2abbcf9927f184e13263b18c305",
+    "paths": [
+      "/mach"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "guard-declaration",
+    "url": "https://www.data.go.kr/data/15150186/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:45:00.121Z",
+    "bytes": 206258,
+    "hash": "c38a8acfd842e72a452ba249b8486eb6162e8ca598b012b9f05007e9c9782dc5",
+    "schemaHash": "f460f3737018e265317bea577174d769712596b619e54a7fc5b2fad8195b2595",
+    "paths": [
+      "/protection_api01"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "fire-approval",
+    "url": "https://www.data.go.kr/data/15077845/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:45:00.728Z",
+    "bytes": 205354,
+    "hash": "6cb01018199b48f9f10361c3508f99c4605abc381d13a019b7339a4ffa14efb9",
+    "schemaHash": null,
+    "paths": [],
+    "schemaAvailable": false,
+    "parseError": "embedded_schema_parse_failed",
+    "liveResponse": false
+  },
+  {
+    "id": "fire-revocation",
+    "url": "https://www.data.go.kr/data/15077894/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:45:01.406Z",
+    "bytes": 206445,
+    "hash": "aeb63da3c7c1402c018a418bb63bdeb1fb1f575200e74eda723b5362bd9fd458",
+    "schemaHash": null,
+    "paths": [],
+    "schemaAvailable": false,
+    "parseError": "embedded_schema_parse_failed",
+    "liveResponse": false
+  },
+  {
+    "id": "air-facilities",
+    "url": "https://www.data.go.kr/data/15154973/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:45:02.136Z",
+    "bytes": 219071,
+    "hash": "eac390d7fc31e2df96c33feaebf86798065840bab9c942b683456ef5eefbf1cb",
+    "schemaHash": "6d71ee085884d11585c8763e126a4b974bab2eb7a6140320d97e3ffb9a18880b",
+    "paths": [
+      "/info",
+      "/history"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "water-other",
+    "url": "https://www.data.go.kr/data/15154989/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:45:02.781Z",
+    "bytes": 220029,
+    "hash": "e5e5a534c8f6c66d6f40e6bf5480e1359bddd165915f021bb64b7400205e7edf",
+    "schemaHash": "3f527063fd408e861e27dbe83014ce99aec0cc1426f7a0d18f9392bf7904aadf",
+    "paths": [
+      "/info",
+      "/history"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "dust-business",
+    "url": "https://www.data.go.kr/data/15155073/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:45:03.546Z",
+    "bytes": 205901,
+    "hash": "a71454d7950988336b5a79cc1c925119fb08bc7ce6b09af519a35c20e257b02a",
+    "schemaHash": "3806c0978eb33bd0068e6f19946d1df3ed07362f3cefc66c71f3164bb00bf810",
+    "paths": [
+      "/info"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "gas-business",
+    "url": "https://www.data.go.kr/data/15155163/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:45:04.346Z",
+    "bytes": 215791,
+    "hash": "8b8ef85f0ac01798417893121f1e0e19ae24b318a386758ead328c99615ec327",
+    "schemaHash": "0b92193a8876256239dc0f5705feba080c59d1c59987b52ef16c097dc6f5068d",
+    "paths": [
+      "/info",
+      "/history"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "specific-gas",
+    "url": "https://www.data.go.kr/data/15154881/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:45:05.141Z",
+    "bytes": 215420,
+    "hash": "0a78e952ec8296f0d77c5842f99218df632a93bda41a73ddd1f003072836cd2d",
+    "schemaHash": "68c9c3295e6d5d6629f541bdbf4b252274392ebd2533fe61d5b885df8a8a060a",
+    "paths": [
+      "/info",
+      "/history"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  },
+  {
+    "id": "waste-fitness",
+    "url": "https://www.data.go.kr/data/15164544/openapi.do",
+    "status": 200,
+    "at": "2026-10-08T17:45:05.895Z",
+    "bytes": 208304,
+    "hash": "230824ce8a09aaca3e9947baa057b7f65b3b060a47ec2e599b0774b5e8fac93d",
+    "schemaHash": "f849b6ad56bd4ba5d63bc0a83196898df001ea26edaead5f2dd6c9a958f59b0f",
+    "paths": [
+      "/getList"
+    ],
+    "schemaAvailable": true,
+    "liveResponse": false
+  }
+]

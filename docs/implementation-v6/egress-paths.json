@@ -1,0 +1,119 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "previous": {
+    "linearization": "v4 공공 API transport: SQLite BEGIN IMMEDIATE 권한 읽기 + intent commit; revoke는 같은 DB write 순서",
+    "activeCancelCheckMs": 25,
+    "firstOutboundByteObserved": false,
+    "recallAlreadySent": false,
+    "paths": [
+      {
+        "id": "public-worker",
+        "implementation": "v4 per-call context + v5 admission/cancel",
+        "tested": "합성 응답·별도 프로세스 revoke",
+        "remaining": "실제 계정 mapping·physical first-byte race"
+      },
+      {
+        "id": "ai-intake",
+        "implementation": "v4 actual payload graph; v3 fallback 유지",
+        "remaining": "v5 send admission·fallback 전수 이관"
+      },
+      {
+        "id": "mcp",
+        "implementation": "v4 serialized args·host parent 필수",
+        "remaining": "v5 send admission·모든 도구 결과 parent 연결"
+      },
+      {
+        "id": "answer-reuse-summary",
+        "implementation": "graph derive primitive",
+        "remaining": "모든 재사용 생성 경로의 서버 parent 자동 연결"
+      },
+      {
+        "id": "local-export",
+        "implementation": "명시적 token·cookie·tenant·review trace + proposal 접근",
+        "externalPermissionGranted": false,
+        "remaining": "기존 일반 export와 전체 재사용 연결"
+      },
+      {
+        "id": "backup",
+        "implementation": "backup_operator + 영역·암호키; 외부 전송 권한 자동승격 없음"
+      }
+    ],
+    "fallbackRemoved": false,
+    "productionEntryPointChanged": false
+  },
+  "paths": [
+    {
+      "id": "ai",
+      "site": {
+        "path": "server/ai.ts",
+        "line": 225,
+        "hash": "a9cfa901fe33733f1d695754c670e656ee1ed6f9e7b599a9e9c033080ef63935"
+      },
+      "test": "V6-E01 review / E02 / E03"
+    },
+    {
+      "id": "intake",
+      "site": {
+        "path": "server/intake.ts",
+        "line": 168,
+        "hash": "f709e07da84e00f942c3c170900a438100aeabe5f36311120d8a34d5eab7181f"
+      },
+      "test": "V6-E01 extract"
+    },
+    {
+      "id": "mcp",
+      "site": {
+        "path": "server/mcp.ts",
+        "line": 33,
+        "hash": "369cfbebf275c887b54c3300d2baf1a61feb72513b81fedfb7b4781cb3afb5a0"
+      },
+      "test": "V6-E05 / E07 SDK stdio peer"
+    },
+    {
+      "id": "answer-reuse",
+      "site": {
+        "path": "server/egress-execution-v4.ts",
+        "line": 22,
+        "hash": "09c5aaa900679a7b5104815044d6746731303398c971ccc1d6e6f706f3b6dac5"
+      },
+      "test": "V6-E01/E04 결과 노드를 다음 context에 연결"
+    },
+    {
+      "id": "ordinary-export",
+      "site": {
+        "path": "server/app.ts",
+        "line": 42,
+        "hash": "04d2b68e6d3b0bc2a9d8508118d2f0808553a45c37357fdb6a45b2fbcfc1a919"
+      },
+      "test": "V6-C01 5개·브라우저 5개, read/document local 분리"
+    },
+    {
+      "id": "known-managed-fallback",
+      "site": {
+        "path": "server/records-v6.ts",
+        "line": 37,
+        "hash": "f4d4085c3628c190cfe9e10d1f1d917377dab2d7d26076aab1fd66abfc6f8c1d"
+      },
+      "test": "V6-E04/E06 exact server-owned roots 자동 합류"
+    }
+  ],
+  "admission": "같은 DB write 순서의 권한 검사+intent commit, 전송 대기 동안 write lock 없음",
+  "pollMs": 25,
+  "zeroRaceGuaranteed": false,
+  "outboundFirstByte": "unobserved",
+  "responseBytesAreOutboundBytes": false,
+  "recallAlreadySent": false,
+  "realOpenAICalls": 0,
+  "realMCPProviderCalls": 0,
+  "publicMCPResearch": "공개 무키 자료 조회는 테스트 전송과 별개",
+  "remaining": [
+    "등록되지 않은 모든 legacy/private 원문 자동 식별·이관",
+    "추가 private 원문이 들어간 외부 tool 결과는 host source를 확인할 수 없으면 보류",
+    "최초 송신 bytes 물리적 race·이미 송신한 bytes 회수 불가"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "directory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-validation-AvrqZj",
+  "at": "2026-10-08T14:34:43.274Z",
+  "productionTouched": false,
+  "steps": [
+    {
+      "command": "npm run check -- -- --reporter=default --reporter=json --outputFile=work/final-tests.json",
+      "code": 0,
+      "elapsedMs": 12996,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-AvrqZj-check.log"
+    },
+    {
+      "command": "npm run test:e2e",
+      "code": 0,
+      "elapsedMs": 2990,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-AvrqZj-test-e2e.log"
+    },
+    {
+      "command": "npm run test:e2e:intake",
+      "code": 0,
+      "elapsedMs": 1670,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-AvrqZj-test-e2e-intake.log"
+    },
+    {
+      "command": "npm run test:e2e:additional",
+      "code": 0,
+      "elapsedMs": 4588,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-AvrqZj-test-e2e-additional.log"
+    },
+    {
+      "command": "npm run test:e2e:verification",
+      "code": 0,
+      "elapsedMs": 1995,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-AvrqZj-test-e2e-verification.log"
+    },
+    {
+      "command": "npm run test:e2e:dossier",
+      "code": 0,
+      "elapsedMs": 3169,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-AvrqZj-test-e2e-dossier.log"
+    },
+    {
+      "command": "npm run test:e2e:public",
+      "code": 0,
+      "elapsedMs": 24144,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-AvrqZj-test-e2e-public.log"
+    },
+    {
+      "command": "node scripts/e2e-v3.mjs",
+      "code": 0,
+      "elapsedMs": 2602,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-AvrqZj-test-e2e-v3.log"
+    }
+  ]
+}

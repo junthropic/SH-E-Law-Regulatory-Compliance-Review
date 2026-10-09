@@ -1,0 +1,41 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "630ad6a52597c544ef16590c4c15c9f0d1e3ad5c7dbe4fbeef50c0c4bb03b005",
+  "at": "2026-10-08T16:52:16.220Z",
+  "runtime": "v26.7.0",
+  "scope": "격리 구현·공식 공개 자료 조사·합성 시험. 법적 승인·실제 사업장·운영 완료 아님",
+  "technical": {
+    "tests": 404,
+    "passed": 404,
+    "preserved": 380,
+    "oldBrowser": 8,
+    "newBrowser": 1,
+    "frozen": 29
+  },
+  "source": {
+    "officialBytes": 2,
+    "officialParse": 2,
+    "governmentPinnedOriginal": 0,
+    "governmentPinnedDenominator": 2,
+    "isolatedTLSTest": 1
+  },
+  "specimens": {
+    "operations": 52,
+    "synthetic": 52,
+    "officialSchema": 2,
+    "independentResponse": 0,
+    "live": 0
+  },
+  "legal": {
+    "denominator": 0,
+    "value": null
+  },
+  "realSite": {
+    "denominator": 0,
+    "value": null
+  },
+  "independentGolden": {
+    "denominator": 0,
+    "value": null
+  }
+}

@@ -1,10 +1,13 @@
+import { ordinanceScope } from "../shared/jurisdictions.js";
 import { z } from "zod";
 import { Store, evidenceIdentity } from "./store.js";
 import { RuleSchema } from "./schemas.js";
 import { verifyCitation } from "./legal.js";
 import type { Evidence } from "../shared/types.js";
+import { attachLinkedBasis, saveLinkedBasis } from "./reference-collection.js";
 
 const ApprovalSchema = z.object({
+  reviewId: z.string().uuid().optional(),
   reviewer: z.string().trim().min(2).max(100),
   region: z.string().min(2).max(100),
   municipality: z.string().max(100),
@@ -30,7 +33,21 @@ const ApprovalSchema = z.object({
 });
 export function approveReviewBasis(store: Store, input: unknown) {
   const approval = ApprovalSchema.parse(input);
-  const evidence = store.search("위험물", approval.region, approval.asOf);
+  const review = approval.reviewId
+    ? store.review(approval.reviewId)
+    : undefined;
+  if (
+    approval.reviewId &&
+    (!review ||
+      review.status !== "completed" ||
+      review.request.region !== approval.region ||
+      review.request.municipality !== approval.municipality ||
+      review.request.asOf !== approval.asOf)
+  )
+    throw new Error("확인서의 검토 ID·지역·시군구·기준일이 일치하지 않습니다.");
+  const evidence = approvalEvidence(store, approval, review);
+  if (evidence.some(e => e.sourceConflicts?.length))
+    throw new Error("공식 출처 간 정보 불일치가 남아 있습니다. 공포 원본과 법령정보를 대조하여 불일치를 해소한 뒤 확인서를 등록하세요.");
   const hashes = new Set(evidence.map((e) => e.hash));
   if (
     evidence.length !== approval.evidenceHashes.length ||
@@ -66,17 +83,18 @@ export function approveReviewBasis(store: Store, input: unknown) {
   }
   store.db.exec("SAVEPOINT basis_approval");
   try {
-    for (const e of evidence)
-      store.saveEvidence(
-        {
-          ...e,
-          verified: true,
-          annexesComplete: true,
-          historyComplete: true,
-          verificationNote: approval.reviewer + ": " + approval.note,
-        },
-        false,
-      );
+    for (const e of evidence) {
+      const verified = {
+        ...e,
+        verified: true,
+        annexesComplete: true,
+        historyComplete: true,
+        verificationNote: approval.reviewer + ": " + approval.note,
+      };
+      if (review?.request.linkedEvidenceIds?.includes(e.id))
+        saveLinkedBasis(store, review.request, verified);
+      else store.saveEvidence(verified, false);
+    }
     for (const rule of approval.rules)
       store.put("rules", rule.id, {
         ...rule,
@@ -132,4 +150,29 @@ export function hasCoverageApproval(
     evidence.every((e) => a.evidenceHashes.includes(e.hash)) &&
     a.evidenceHashes.length === evidence.length
   );
+}
+
+function approvalEvidence(store: Store, approval: {region: string; municipality: string; asOf: string}, review?: import("../shared/types.js").ReviewResult) {
+  const base = store.search(
+    review?.request.prompt || "위험물",
+    approval.region,
+    approval.asOf,
+  );
+  const evidence = (
+    review ? attachLinkedBasis(store, review.request, base) : base
+  ).filter(
+    (e) =>
+      e.kind !== "ordinance" ||
+      ordinanceScope(e.title, approval.region, approval.municipality) !==
+        "other",
+  );
+  return evidence;
+}
+export function approvalContext(store: Store, id: string) {
+  const review = store.review(z.string().uuid().parse(id));
+  if (!review || review.status !== "completed") throw new Error("완료된 검토를 선택하세요.");
+  return { reviewId: id, region: review.request.region, municipality: review.request.municipality,
+    asOf: review.request.asOf, evidence: approvalEvidence(store, review.request, review).map(e => ({
+      title: e.title, hash: e.hash, version: e.version, effectiveFrom: e.effectiveFrom, url: e.url,
+    })) };
 }

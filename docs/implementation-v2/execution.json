@@ -1,0 +1,93 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2",
+  "environment": {
+    "node": "v26.7.0",
+    "platform": "win32",
+    "arch": "x64",
+    "operatingDataUsedForTests": false,
+    "liveCredentialReads": "저장된 DPAPI 값을 메모리에서 읽어 표본 조회. 값 기록·변경 없음"
+  },
+  "validation": {
+    "directory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-validation-RHHzQy",
+    "at": "2026-10-08T11:34:22.514Z",
+    "productionTouched": false,
+    "steps": [
+      {
+        "command": "npm run check",
+        "code": 0,
+        "elapsedMs": 13757,
+        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-check.log"
+      },
+      {
+        "command": "npm run test:e2e",
+        "code": 0,
+        "elapsedMs": 2847,
+        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e.log"
+      },
+      {
+        "command": "npm run test:e2e:intake",
+        "code": 0,
+        "elapsedMs": 1599,
+        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-intake.log"
+      },
+      {
+        "command": "npm run test:e2e:additional",
+        "code": 0,
+        "elapsedMs": 4303,
+        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-additional.log"
+      },
+      {
+        "command": "npm run test:e2e:verification",
+        "code": 0,
+        "elapsedMs": 1984,
+        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-verification.log"
+      },
+      {
+        "command": "npm run test:e2e:dossier",
+        "code": 0,
+        "elapsedMs": 3063,
+        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-dossier.log"
+      },
+      {
+        "command": "npm run test:e2e:public",
+        "code": 0,
+        "elapsedMs": 21792,
+        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-public.log"
+      }
+    ]
+  },
+  "baselineReport": "work/v2-audit/baseline-tests.json",
+  "finalReport": "work/v2-audit/final-tests.json",
+  "failedIterations": [
+    {
+      "target": "일일 quota 보류 저장 시험",
+      "reason": "두 시각을 더해 무기한 표식으로 환산할 때 밀리초 차이로 정수 상한을 넘길 수 있었음",
+      "resolution": "무기한 보류는 상대 시간 합산 대신 명시적 상한 표식으로 저장",
+      "evidence": "work/v2-audit/v2-validation-3bXg2e-check.log"
+    },
+    {
+      "target": "루트 JSON 시험 보고서 수집",
+      "reason": "기본 테스트 검색이 work의 격리 복사본까지 포함했고 sandbox 임시 모듈 경로 ENOENT 발생",
+      "resolution": "시험 검색을 tests/**/*.test.ts로 한정하고 격리 환경에서 재실행",
+      "evidence": "work/v2-audit/root-report-failed.json"
+    },
+    {
+      "target": "격리 node_modules junction",
+      "reason": "sandbox EPERM",
+      "resolution": "승인된 숨김 실행으로 격리 복사본 생성"
+    },
+    {
+      "target": "intake E2E",
+      "reason": "이미 제거된 사실 추출 버튼·AI 설정 기본 펼침 상태에 대한 옛 가정",
+      "resolution": "화면 변경 없이 현재 UI와 API 흐름에 맞게 시험 수정"
+    },
+    {
+      "target": "public API E2E",
+      "reason": "통신 오류를 timeout으로 모의·이전 20초 문구 가정",
+      "resolution": "TimeoutError를 모의하고 A08의 60초 정책 검증"
+    }
+  ],
+  "productionDeployment": false,
+  "finalSuiteIncludesAllFailuresRetested": true
+}

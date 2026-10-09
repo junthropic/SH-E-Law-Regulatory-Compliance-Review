@@ -1,0 +1,41 @@
+{
+  "asOf": "2026-10-08",
+  "form5": {
+    "file": "official/form5.pdf",
+    "hash": "b36c190a1a94d2c04f54ff636605a760d12a19a5728d37fcdccc28850f67ee8f",
+    "representation": "공식 PDF 표현본: HWP master와 별도",
+    "revisionPrinted": "2025-03-17",
+    "effectiveFrom": null,
+    "pagesRendered": 3,
+    "selectedCellsCompared": [
+      "작성 목적 1·2·3 / 1·2·4",
+      "단위 ton/year·ton/day",
+      "전일 보관량",
+      "음수 유지",
+      "제2쪽 제17조 인용"
+    ],
+    "allCellsIndependentlyApproved": false,
+    "referenceConflictPreserved": true
+  },
+  "notice": {
+    "file": "official/notice.hwpx",
+    "effectiveFrom": "2025-01-02",
+    "sourceVersion": "2024-76",
+    "parseExecuted": true,
+    "allBranchesReviewed": false
+  },
+  "supplements": {
+    "law21374": "공식 전문: 제36조는 시행 이후 실시하는 평가부터 적용",
+    "rule470": "공식 전문: 2026-06-01 시행 부칙 문구 대조",
+    "oldRule271485": "기본정보 조회 실패: 원문 미확보",
+    "draft2026461": "행정예고이며 현행 규칙으로 활성화하지 않음"
+  },
+  "remaining": [
+    "폐기물 시행령 제8조의4제1호/규칙 제18조·제18조의2 하위 정의·제외·지역 위임",
+    "고시와 시행규칙 평가 시기·종전 조문 인용 충돌",
+    "2026-461 후속 확정 공표 검증",
+    "모든 정책별 전문가 승인"
+  ],
+  "approved": 0,
+  "activated": 0
+}

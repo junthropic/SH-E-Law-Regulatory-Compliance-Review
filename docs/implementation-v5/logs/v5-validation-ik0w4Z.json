@@ -1,0 +1,13 @@
+{
+  "directory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v5-validation-ik0w4Z",
+  "at": "2026-10-08T16:08:09.959Z",
+  "productionTouched": false,
+  "steps": [
+    {
+      "command": "npm run check -- -- --reporter=default --reporter=json --outputFile=work/final-tests.json",
+      "code": 1,
+      "elapsedMs": 17865,
+      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v5-audit\\v5-validation-ik0w4Z-check.log"
+    }
+  ]
+}

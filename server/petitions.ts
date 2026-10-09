@@ -169,6 +169,12 @@ export class PetitionCollector {
     private vault: Vault,
     private driver: PetitionDriver = new EdgePetitionDriver(),
   ) {}
+  status() {
+    const valid = !!this.config && Date.parse(this.config.permissionExpiresAt) > Date.now();
+    return { enabled: this.active && valid, collecting: this.collecting,
+      mode: this.collecting ? "collecting" : this.active && valid ? "connected" : "inactive",
+      message: this.collecting ? "승인 범위의 본인 민원 수집 중" : this.active && valid ? "승낙 설정 확인 · 계정 연결 중" : "계정 자동수집 비활성 · 승낙 신청·대기 여부는 확인되지 않았습니다." };
+  }
   async start(input: unknown) {
     if (this.active) throw new Error("이미 민원 연결 중입니다.");
     const c = PetitionConfigSchema.parse(input);

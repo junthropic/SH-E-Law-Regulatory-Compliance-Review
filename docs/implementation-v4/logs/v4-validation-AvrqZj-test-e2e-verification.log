@@ -1,0 +1,5 @@
+
+> sh-e-law-check@0.1.0 test:e2e:verification
+> node scripts/e2e-verification.mjs
+
+PASS: verification, missing-reference collection → new review, linked original, prior review preserved, no AI without consent, reload and mobile; isolated synthetic data.

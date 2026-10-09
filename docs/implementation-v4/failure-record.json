@@ -1,0 +1,46 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "dirty": true,
+  "sourceDigest": "dc4b4f2029b66d306253fcb8ca724fcd46e30de2a08e2aeb854fcbbdd0688c83",
+  "at": "2026-10-08T15:04:42.233Z",
+  "runtime": "v26.7.0",
+  "scope": "격리 구현·합성 시험. 실제 사업장·법적 승인·운영 완료 아님",
+  "records": [
+    {
+      "phase": "baseline-environment",
+      "failure": "sandbox EPERM node_modules junction",
+      "resolution": "격리 validator 숨김 실행 권한으로 재실행",
+      "testFailure": false
+    },
+    {
+      "phase": "operation-fixture-1",
+      "failure": "합성 qna dutySctnNm=test: 상세 대상 아님",
+      "resolution": "기존 adapter 허용 tqapttn으로 모의 식별값 정정"
+    },
+    {
+      "phase": "operation-fixture-2",
+      "failure": "토지이용행위명 누락",
+      "resolution": "필수 합성 검색 입력 추가"
+    },
+    {
+      "phase": "windows-test-cleanup",
+      "failure": "V3-J07 child 종료 직후 격리 디렉터리 삭제 EPERM",
+      "resolution": "기존 경로 검증 유지, 테스트 정리만 50ms 간격 최대5회 재시도"
+    },
+    {
+      "phase": "legacy-intake-browser",
+      "failure": "새 fail-closed egress 경계로 합성 조회 차단",
+      "resolution": "test host에만 explicit provenance·합성 release 공급; 차단 코드 유지"
+    }
+  ],
+  "historyFiles": [
+    "v4-validation-AvrqZj.json",
+    "v4-validation-bAFU9G.json",
+    "v4-validation-h7K5YN.json",
+    "v4-validation-hjaEdF.json",
+    "v4-validation-Jo01v2.json",
+    "v4-validation-nFJa4k.json",
+    "v4-validation-P0uAit.json",
+    "v4-validation-UkSq9U.json"
+  ]
+}

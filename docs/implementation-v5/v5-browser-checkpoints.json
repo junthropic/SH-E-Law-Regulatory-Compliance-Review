@@ -1,0 +1,12 @@
+{
+  "oldUIUsed": true,
+  "rawToProposal": true,
+  "manualSupplement": true,
+  "independentSyntheticReview": true,
+  "documentTrace": true,
+  "synchronousExportStatus": 200,
+  "providerCallsMocked": 1,
+  "realProviderCalls": 0,
+  "realSiteVerified": false,
+  "productionTouched": false
+}

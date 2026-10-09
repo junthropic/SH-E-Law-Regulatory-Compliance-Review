@@ -8,6 +8,7 @@ import { createRemoteJWKSet, jwtVerify, customFetch } from "jose";
 import { Vault } from "./vault.js";
 import { Store } from "./store.js";
 import { z } from "zod";
+import type { EgressContext } from "./egress-v3.js";
 
 export type Account = {
   clientId: string;
@@ -68,6 +69,7 @@ function refreshTime(value: unknown) {
   return Number.isFinite(n) ? n : undefined;
 }
 export class ChatGPTAuth {
+  get storage() { return this.store; }
   private pending?: Pending;
   private renewing?: Promise<Account>;
   private generation = 0;
@@ -76,6 +78,7 @@ export class ChatGPTAuth {
     private store: Store,
     private vault: Vault,
     private fetcher: typeof fetch = fetch,
+    readonly egress?: EgressContext,
   ) {}
   private async readAccount(): Promise<Account | undefined> {
     const value = await this.vault.read<unknown>("chatgpt");

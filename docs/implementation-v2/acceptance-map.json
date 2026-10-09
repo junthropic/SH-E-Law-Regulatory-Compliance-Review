@@ -1,0 +1,980 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "dirty": true,
+  "sourceDigest": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2",
+  "at": "2026-10-08T11:34:53.229Z",
+  "legacy": [
+    {
+      "id": "AC01",
+      "original": "허가증 미업로드: '허가 상태 미확인', 무허가 금지.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC01 AC02 AC03 AC09 V2-10: 입력·API 부재는 위반과 적합 어느 것으로도 승격하지 않는다",
+          "status": "passed",
+          "durationMs": 29.002399999999852
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC02",
+      "original": "교육 파일 미업로드: 미실시 금지, 기록 확인 요청.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC01 AC02 AC03 AC09 V2-10: 입력·API 부재는 위반과 적합 어느 것으로도 승격하지 않는다",
+          "status": "passed",
+          "durationMs": 29.002399999999852
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC03",
+      "original": "사용자 확인 버튼만 클릭: 객관적 검증 상태 변화 없음.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC01 AC02 AC03 AC09 V2-10: 입력·API 부재는 위반과 적합 어느 것으로도 승격하지 않는다",
+          "status": "passed",
+          "durationMs": 29.002399999999852
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC04",
+      "original": "만료된 인증서: 과거 유효 이력 유지, 현재 예외 효력 재검토.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/v2-golden.test.ts",
+          "name": "AC04: 만료한 증빙을 새 사실 승인에 재사용할 수 없다",
+          "status": "passed",
+          "durationMs": 36.0326
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC05",
+      "original": "다른 설비의 합격증: 동일 대상 연결 실패, 이행 미확인.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC05 AC29 V2-16: 다른 설비·만료 증빙은 사실 입증 승인에 사용할 수 없다",
+          "status": "passed",
+          "durationMs": 35.48790000000008
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC06",
+      "original": "시간 비중첩 500L→800L: 변경 이력, 모순 아님.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC07",
+      "original": "동시 같은 탱크 재고500/800L: 충돌 후보/결정 영향 표시.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC08",
+      "original": "허가량800L/재고500L: 서로 다른 fact, 충돌 아님.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC09",
+      "original": "API 0건: 비대상/비위험물/무허가 어느 것으로도 자동 변환하지 않음.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC01 AC02 AC03 AC09 V2-10: 입력·API 부재는 위반과 적합 어느 것으로도 승격하지 않는다",
+          "status": "passed",
+          "durationMs": 29.002399999999852
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC10",
+      "original": "공포됐으나 시행 전 개정: 현행 판정에 적용하지 않음.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC10 AC11 AC13: 미확인 계산 근거·기산일은 보류하고 기한 도래 전과 경과를 구분한다",
+          "status": "passed",
+          "durationMs": 0.32360000000016953
+        },
+        {
+          "file": "tests/v2-golden.test.ts",
+          "name": "AC10 AC11: 시행 예정인 근거를 현행 판단에 쓰지 않는다",
+          "status": "passed",
+          "durationMs": 41.400499999999965
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC11",
+      "original": "조항별 분리 시행: 문서 머리 시행일로 모든 조항을 전환하지 않음.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC10 AC11 AC13: 미확인 계산 근거·기산일은 보류하고 기한 도래 전과 경과를 구분한다",
+          "status": "passed",
+          "durationMs": 0.32360000000016953
+        },
+        {
+          "file": "tests/v2-golden.test.ts",
+          "name": "AC10 AC11: 시행 예정인 근거를 현행 판단에 쓰지 않는다",
+          "status": "passed",
+          "durationMs": 41.400499999999965
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC12",
+      "original": "의무 시행/제재 시행이 다름: 의무 판단과 제재 판단 분리.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC13",
+      "original": "기존시설 경과조치: 설치·허가·변경일 사실이 없으면 보류.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC10 AC11 AC13: 미확인 계산 근거·기산일은 보류하고 기한 도래 전과 경과를 구분한다",
+          "status": "passed",
+          "durationMs": 0.32360000000016953
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC14",
+      "original": "화성시 2412/2509: 동일 시행일처럼 병합하지 않고 원문 비교/충돌 보존.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC15",
+      "original": "소방서 2개 관할 걸친 이송취급소: 단순 소방서장 자동 선택 금지.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC16",
+      "original": "행정구역 개편 경계일: 당시 관할/현재 접수처 분리.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC17",
+      "original": "미래 처분 법령 미확정: 예상 기준으로만 표시하고 최종 처분시 재검토.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC18",
+      "original": "OCR '미만'→'이하' 불일치: 결정 셀 검수 전 계산 금지.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC19",
+      "original": "숫자 일치/표 머리글 누락: 동일하게 검수 보류.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC20",
+      "original": "삭제 별표: 현행 규칙 생성 금지, 과거 버전 탐색.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC21",
+      "original": "본문표가 계산에 필요하나 미수집: 근거 불완전.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC22",
+      "original": "같은 CAS/제품 농도 다름: 동일 제품 자동 병합 금지.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC23",
+      "original": "MSDS 함량 범위가 법정 문턱을 걸침: 추가 자료 요청.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC24",
+      "original": "kg↔L 밀도/온도 조건 미확인: 확정 환산 금지.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC25",
+      "original": "위험물 합산 배수 0.9999/1.0000/1.0001: 원값 decimal 비교, 임의 반올림 금지.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC26",
+      "original": "합산 장소 scope 미확인: 문턱 계산만으로 최종 대상 확정 금지.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC27",
+      "original": "지정수량 미만: 지자체 소량 위험물 조례 등 후속 경로 확인.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC28",
+      "original": "예외 요건 충족 주장/법정 승인 없음: 예외 확정 금지.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC29",
+      "original": "유효한 승인/대상 다른 시설: 다른 시설에 예외 확장 금지.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC05 AC29 V2-16: 다른 설비·만료 증빙은 사실 입증 승인에 사용할 수 없다",
+          "status": "passed",
+          "durationMs": 35.48790000000008
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC30",
+      "original": "안전검사 합격/계획서 이행 미확인: 계획서 별도 상태 유지.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/v2-golden.test.ts",
+          "name": "V2-11 V2-13 AC30 AC31: 하나의 이행 사실은 다른 하위 의무의 완료를 입증하지 않는다",
+          "status": "passed",
+          "durationMs": 57.36959999999999
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC31",
+      "original": "설치허가 확인/가동신고 미확인: 가동신고 완료 금지.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/v2-golden.test.ts",
+          "name": "V2-11 V2-13 AC30 AC31: 하나의 이행 사실은 다른 하위 의무의 완료를 입증하지 않는다",
+          "status": "passed",
+          "durationMs": 57.36959999999999
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC32",
+      "original": "HTTP200 + 오류 payload: success로 집계하지 않음.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC33",
+      "original": "item 단일객체/배열/null: 명세별 normalize 후 누락 없음.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC34",
+      "original": "page 중복/전체 건수 변동: unique와 변화 감지, complete 과대표시 없음.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/collection-v2.test.ts",
+          "name": "V2-09 AC34 AC35: 실패·새 조회 0건은 이전 성공 원문을 보존하고 총건수 변동은 부분으로 남긴다",
+          "status": "passed",
+          "durationMs": 23.15859999999998
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC35",
+      "original": "상세 실패/첨부 성공 일부: 부분 수집과 영향 표시.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/collection-v2.test.ts",
+          "name": "V2-09 AC34 AC35: 실패·새 조회 0건은 이전 성공 원문을 보존하고 총건수 변동은 부분으로 남긴다",
+          "status": "passed",
+          "durationMs": 23.15859999999998
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC36",
+      "original": "429/일한도 초과: 무한 재시도 없음, 재개 가능한 보류.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/collection-v2.test.ts",
+          "name": "V2-02 V2-03 AC36: 429 이후 새 전송기에서도 제한을 보존하며 정상 0건을 만들지 않는다",
+          "status": "passed",
+          "durationMs": 22.157500000000027
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC37",
+      "original": "cancel→resume: 이미 저장한 원본·검수·충돌 유지.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/collection-v2.test.ts",
+          "name": "V2-06 AC37: 저장 중 강제 실패는 원문·checkpoint를 함께 rollback하고 재개 시 중복하지 않는다",
+          "status": "passed",
+          "durationMs": 25.684799999999996
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC38",
+      "original": "새 enum: 한국어 fallback/번역완전성 테스트 실패 처리.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC39",
+      "original": "LLM input 예외 잘림: 관련 판정 보류.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC40",
+      "original": "충돌 원문→재수집→교체→복원: 충돌 이력이 남음.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC41",
+      "original": "227 tests 이후 commit 변경: 이전 test run을 최신 검증처럼 표시하지 않음.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC42",
+      "original": "staging/운영 serving ID 불일치: 배포 완료 금지.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC43",
+      "original": "원문/OCR 포함 백업 복원: 동일 deterministic 판정·근거 링크 재현.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC43 V2-24: 별도 DB 복원은 원본·연결·과거 승인을 보존하고 현재 승인은 재검토한다",
+          "status": "passed",
+          "durationMs": 72.41910000000007
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC44",
+      "original": "암호화 미확인 백업: '암호화됨' 표시 금지.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC45",
+      "original": "분류에 자료부족+해석쟁점 동시 존재: 복수 이유 저장, 명확리스크 오판 없음.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC46",
+      "original": "결정에 무관한 부차 입력 미확인: 검증된 비대상 증명은 제한 범위에서 유지.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC46: 결정적 비대상 근거는 무관한 미확인 입력과 독립적으로 판정한다",
+          "status": "passed",
+          "durationMs": 55.841699999999946
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC47",
+      "original": "원문 변경으로 영향 받은 rule만 재검토: 무관한 승인도 일괄 삭제하지 않음.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC47 V2-21: 원문 변경은 의존 판단만 무효화하며 승인 이력은 남긴다",
+          "status": "passed",
+          "durationMs": 39.17510000000016
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "AC48",
+      "original": "급박한 위험 증거: 법규 검토 보류와 별도로 긴급 조치 안내/보고.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    }
+  ],
+  "additional": [
+    {
+      "id": "V2-01",
+      "original": "API 정상 0건과 provider 오류 HTTP 200을 구별한다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/collection-v2.test.ts",
+          "name": "V2-01 V2-02: A08 HTTP200 내부 일일한도는 자정 해제로 추정하지 않고 저장한다",
+          "status": "passed",
+          "durationMs": 71.09190000000001
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-02",
+      "original": "429 후 재시작해도 제한 상태가 보존된다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/collection-v2.test.ts",
+          "name": "V2-01 V2-02: A08 HTTP200 내부 일일한도는 자정 해제로 추정하지 않고 저장한다",
+          "status": "passed",
+          "durationMs": 71.09190000000001
+        },
+        {
+          "file": "tests/collection-v2.test.ts",
+          "name": "V2-02 V2-03 AC36: 429 이후 새 전송기에서도 제한을 보존하며 정상 0건을 만들지 않는다",
+          "status": "passed",
+          "durationMs": 22.157500000000027
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-03",
+      "original": "회로 open을 정상 0건으로 저장하지 않는다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/collection-v2.test.ts",
+          "name": "V2-02 V2-03 AC36: 429 이후 새 전송기에서도 제한을 보존하며 정상 0건을 만들지 않는다",
+          "status": "passed",
+          "durationMs": 22.157500000000027
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-04",
+      "original": "목록 일부 상세 실패가 부분 성공과 실패 목록으로 남는다.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-05",
+      "original": "첨부 미지원·첨부 없음·첨부 조회 실패를 구분한다.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-06",
+      "original": "항목 저장 직후 강제 중단해도 checkpoint 재개 시 누락·중복이 없다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/collection-v2.test.ts",
+          "name": "V2-06 AC37: 저장 중 강제 실패는 원문·checkpoint를 함께 rollback하고 재개 시 중복하지 않는다",
+          "status": "passed",
+          "durationMs": 25.684799999999996
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-07",
+      "original": "수집 중 원천 목록 변경을 감지하거나 완전성 미확인으로 보고한다.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-08",
+      "original": "304에 대응 원문이 없으면 빈 정상 데이터로 확정하지 않는다.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-09",
+      "original": "새 query 0건이 다른 query의 기존 성공 데이터를 지우지 않는다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/collection-v2.test.ts",
+          "name": "V2-09 AC34 AC35: 실패·새 조회 0건은 이전 성공 원문을 보존하고 총건수 변동은 부분으로 남긴다",
+          "status": "passed",
+          "durationMs": 23.15859999999998
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-10",
+      "original": "공개 인허가 0건을 무허가 확정으로 바꾸지 않는다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC01 AC02 AC03 AC09 V2-10: 입력·API 부재는 위반과 적합 어느 것으로도 승격하지 않는다",
+          "status": "passed",
+          "durationMs": 29.002399999999852
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-11",
+      "original": "선임은 확인됐으나 신고 미확인은 하위 의무별 상태가 다르다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/v2-golden.test.ts",
+          "name": "V2-11 V2-13 AC30 AC31: 하나의 이행 사실은 다른 하위 의무의 완료를 입증하지 않는다",
+          "status": "passed",
+          "durationMs": 57.36959999999999
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-12",
+      "original": "재선임 유예 중 대리자 미확인을 별도로 관리한다.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-13",
+      "original": "정기점검 실시와 30일 제출을 독립 판정한다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/v2-golden.test.ts",
+          "name": "V2-11 V2-13 AC30 AC31: 하나의 이행 사실은 다른 하위 의무의 완료를 입증하지 않는다",
+          "status": "passed",
+          "durationMs": 57.36959999999999
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-14",
+      "original": "최초 확인증 발급일과 반복 검사 사건일을 혼용하지 않는다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "V2-14: 검사일과 발급일을 바꾸어 대입하지 않는다",
+          "status": "passed",
+          "durationMs": 1.2143000000000939
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-15",
+      "original": "검사 신청만으로 만료 후 사용 가능을 자동 확정하지 않는다.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-16",
+      "original": "다른 설비 증명서는 부적격 증빙으로 처리하되 미검사 확정은 하지 않는다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC05 AC29 V2-16: 다른 설비·만료 증빙은 사실 입증 승인에 사용할 수 없다",
+          "status": "passed",
+          "durationMs": 35.48790000000008
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-17",
+      "original": "가사용에 확인되지 않은 승인서를 필수서류로 추가하지 않는다.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-18",
+      "original": "교육 출석명단만으로 시간·내용·자격·형태를 모두 충족 처리하지 않는다.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-19",
+      "original": "특정 참고양식 미사용을 법 위반으로 생성하지 않는다.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-20",
+      "original": "직접 처벌 미발견을 의무 이행 또는 자격 정지 처분으로 바꾸지 않는다.",
+      "version": 2,
+      "status": "미검증",
+      "execution": [],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-21",
+      "original": "법령·시설·조성 변경 후 과거 승인을 새 판단에 자동 재사용하지 않는다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC47 V2-21: 원문 변경은 의존 판단만 무효화하며 승인 이력은 남긴다",
+          "status": "passed",
+          "durationMs": 39.17510000000016
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-22",
+      "original": "가상 사례가 운영 사업장 검증 완료로 승격되지 않는다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "P0-9 V2-22: 다른 사업장·가상 영역 접근과 자기 승인을 차단한다",
+          "status": "passed",
+          "durationMs": 29.23779999999988
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-23",
+      "original": "시정 완료 후에도 과거 기한 위반 검토 이력이 남는다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/v2-golden.test.ts",
+          "name": "V2-23: 조치 완료 확인은 과거 판정을 덮어쓰지 않는다",
+          "status": "passed",
+          "durationMs": 61.971900000000005
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    },
+    {
+      "id": "V2-24",
+      "original": "backup 복원 뒤 법령·기관자료의 현재 최신성이 재확인 필요로 표시된다.",
+      "version": 2,
+      "status": "부분검증",
+      "execution": [
+        {
+          "file": "tests/compliance-v2.test.ts",
+          "name": "AC43 V2-24: 별도 DB 복원은 원본·연결·과거 승인을 보존하고 현재 승인은 재검토한다",
+          "status": "passed",
+          "durationMs": 72.41910000000007
+        }
+      ],
+      "legalReview": "미검증",
+      "scope": "가상·개발 시험; 법적·현장 인수 전체 완료 아님",
+      "remaining": "원문 버전·실무 검토·전체 경계 조건 매핑 확인"
+    }
+  ],
+  "warning": "기존 48개와 추가 24개를 보존. 시험명 연결은 전체 인수 충족을 의미하지 않음."
+}

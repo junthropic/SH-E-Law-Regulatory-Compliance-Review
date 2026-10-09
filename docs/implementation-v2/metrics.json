@@ -1,0 +1,215 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2",
+  "dataset": "v2-design-1",
+  "synthetic": true,
+  "independentLegalReview": false,
+  "caseCount": 9,
+  "outcomeMismatches": 0,
+  "prematureClearRisk": 0,
+  "definitions": "9개 개발 설계 사례의 결과·승인 전 확정 리스크만 측정. 실제 정확도나 독립 검증률 아님.",
+  "realWorkplaceAccuracy": null,
+  "independentFalsePositiveRate": null,
+  "independentFalseNegativeRate": null,
+  "groundedCitationAccuracy": null,
+  "qualifiedReviewerAgreement": null,
+  "latencyP95": null,
+  "unmeasuredReason": "독립 정답·실무 검토·대표 표본 및 장기 운영 측정 없음",
+  "cases": [
+    {
+      "id": "G01",
+      "synthetic": true,
+      "datasetVersion": "v2-design-1",
+      "asOf": "2026-10-08",
+      "expected": "pending",
+      "actual": "pending",
+      "categoryBeforeApproval": "more_data",
+      "holds": [
+        {
+          "code": "FACT_MISSING",
+          "missing": "target 시험 사실",
+          "alternatives": [
+            "동일 대상의 시험 기관 대장"
+          ],
+          "role": "가상 검토자"
+        },
+        {
+          "code": "FACT_MISSING",
+          "missing": "fulfilled 시험 사실",
+          "alternatives": [
+            "동일 대상의 시험 기관 대장"
+          ],
+          "role": "가상 검토자"
+        },
+        {
+          "code": "FACT_MISSING",
+          "missing": "breach 시험 사실",
+          "alternatives": [
+            "동일 대상의 시험 기관 대장"
+          ],
+          "role": "가상 검토자"
+        },
+        {
+          "code": "FACT_MISSING",
+          "missing": "exception 시험 사실",
+          "alternatives": [
+            "동일 대상의 시험 기관 대장"
+          ],
+          "role": "가상 검토자"
+        }
+      ],
+      "recordedAt": "2026-10-08T11:33:34.966Z",
+      "independentLegalReview": false,
+      "forbiddenOutput": "승인 전 확정 위반·실제 사업장 검증 완료"
+    },
+    {
+      "id": "G02",
+      "synthetic": true,
+      "datasetVersion": "v2-design-1",
+      "asOf": "2026-10-08",
+      "expected": "out_of_scope",
+      "actual": "out_of_scope",
+      "categoryBeforeApproval": "human_review",
+      "holds": [],
+      "recordedAt": "2026-10-08T11:33:35.010Z",
+      "independentLegalReview": false,
+      "forbiddenOutput": "승인 전 확정 위반·실제 사업장 검증 완료"
+    },
+    {
+      "id": "G03",
+      "synthetic": true,
+      "datasetVersion": "v2-design-1",
+      "asOf": "2026-10-08",
+      "expected": "fulfilled",
+      "actual": "fulfilled",
+      "categoryBeforeApproval": "human_review",
+      "holds": [],
+      "recordedAt": "2026-10-08T11:33:35.069Z",
+      "independentLegalReview": false,
+      "forbiddenOutput": "승인 전 확정 위반·실제 사업장 검증 완료"
+    },
+    {
+      "id": "G04",
+      "synthetic": true,
+      "datasetVersion": "v2-design-1",
+      "asOf": "2026-10-08",
+      "expected": "risk_candidate",
+      "actual": "risk_candidate",
+      "categoryBeforeApproval": "human_review",
+      "holds": [],
+      "recordedAt": "2026-10-08T11:33:35.133Z",
+      "independentLegalReview": false,
+      "forbiddenOutput": "승인 전 확정 위반·실제 사업장 검증 완료"
+    },
+    {
+      "id": "G05",
+      "synthetic": true,
+      "datasetVersion": "v2-design-1",
+      "asOf": "2026-10-08",
+      "expected": "pending",
+      "actual": "pending",
+      "categoryBeforeApproval": "more_data",
+      "holds": [
+        {
+          "code": "FACT_MISSING",
+          "missing": "breach 시험 사실",
+          "alternatives": [
+            "동일 대상의 시험 기관 대장"
+          ],
+          "role": "가상 검토자"
+        }
+      ],
+      "recordedAt": "2026-10-08T11:33:35.182Z",
+      "independentLegalReview": false,
+      "forbiddenOutput": "승인 전 확정 위반·실제 사업장 검증 완료"
+    },
+    {
+      "id": "G06",
+      "synthetic": true,
+      "datasetVersion": "v2-design-1",
+      "asOf": "2026-10-08",
+      "expected": "pending",
+      "actual": "pending",
+      "categoryBeforeApproval": "more_data",
+      "holds": [
+        {
+          "code": "DECISION_REVIEW",
+          "missing": "예외·이행 상충 또는 기한 진행 여부 검토",
+          "alternatives": [
+            "해당 범위의 원문·증빙과 검토 기록 확인"
+          ],
+          "role": "case_reviewer"
+        }
+      ],
+      "recordedAt": "2026-10-08T11:33:35.238Z",
+      "independentLegalReview": false,
+      "forbiddenOutput": "승인 전 확정 위반·실제 사업장 검증 완료"
+    },
+    {
+      "id": "G07",
+      "synthetic": true,
+      "datasetVersion": "v2-design-1",
+      "asOf": "2026-10-08",
+      "expected": "pending",
+      "actual": "pending",
+      "categoryBeforeApproval": "more_data",
+      "holds": [
+        {
+          "code": "FACT_MISSING",
+          "missing": "exception 시험 사실",
+          "alternatives": [
+            "동일 대상의 시험 기관 대장"
+          ],
+          "role": "가상 검토자"
+        }
+      ],
+      "recordedAt": "2026-10-08T11:33:35.292Z",
+      "independentLegalReview": false,
+      "forbiddenOutput": "승인 전 확정 위반·실제 사업장 검증 완료"
+    },
+    {
+      "id": "G08",
+      "synthetic": true,
+      "datasetVersion": "v2-design-1",
+      "asOf": "2026-10-08",
+      "expected": "pending",
+      "actual": "pending",
+      "categoryBeforeApproval": "more_data",
+      "holds": [
+        {
+          "code": "FACT_MISSING",
+          "missing": "target 시험 사실",
+          "alternatives": [
+            "동일 대상의 시험 기관 대장"
+          ],
+          "role": "가상 검토자"
+        }
+      ],
+      "recordedAt": "2026-10-08T11:33:35.345Z",
+      "independentLegalReview": false,
+      "forbiddenOutput": "승인 전 확정 위반·실제 사업장 검증 완료"
+    },
+    {
+      "id": "G09",
+      "synthetic": true,
+      "datasetVersion": "v2-design-1",
+      "asOf": "2026-10-08",
+      "expected": "pending",
+      "actual": "pending",
+      "categoryBeforeApproval": "more_data",
+      "holds": [
+        {
+          "code": "DECISION_REVIEW",
+          "missing": "예외·이행 상충 또는 기한 진행 여부 검토",
+          "alternatives": [
+            "해당 범위의 원문·증빙과 검토 기록 확인"
+          ],
+          "role": "case_reviewer"
+        }
+      ],
+      "recordedAt": "2026-10-08T11:33:35.402Z",
+      "independentLegalReview": false,
+      "forbiddenOutput": "승인 전 확정 위반·실제 사업장 검증 완료"
+    }
+  ]
+}

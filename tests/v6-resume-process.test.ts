@@ -1,0 +1,22 @@
+import {it,expect} from "vitest";
+import {spawn} from "node:child_process";
+import {resolve,join} from "node:path";
+import {pathToFileURL} from "node:url";
+import {randomBytes} from "node:crypto";
+import {testStore} from "./helpers.js";
+import {writer} from "./v2-fixture.js";
+import {ProtectedPayloads} from "../server/protected-payload-v4.js";
+import {ProtectedCollection} from "../server/collection-v4.js";
+import {MigrationResume} from "../server/migration-resume-v6.js";
+const p={...writer,roles:["writer","collection_operator","egress_reviewer"] as typeof writer.roles},key={id:"synthetic-v6-process",bytes:randomBytes(32)},expiry="2099-01-01T00:00:00Z";
+const moduleURL=(s:string)=>pathToFileURL(resolve(process.env.SHE_TEST_BUILD||"work/v6-typecheck","server",s+".js")).href;
+const child=(code:string,expected=0)=>new Promise<string>((done,fail)=>{let out="",err="";const c=spawn(process.execPath,["--input-type=module","-e",code],{windowsHide:true,stdio:["ignore","pipe","pipe"]});c.stdout.on("data",b=>out+=b);c.stderr.on("data",b=>err+=b);c.once("error",fail);c.once("close",n=>n!==expected?fail(Error(err||"child exit "+n)):done(out.trim()));});
+it("V6-Q02: copy/switch 경계 실제 child 중단→동일 marker 복구→다른 worker 보호 원본 재개",async()=>{const f=testStore(),s=new ProtectedCollection(f.store,new ProtectedPayloads(f.store,key),()=>p,async()=>"synthetic-only",()=>({group:"synthetic",intervalMs:0})),m=new MigrationResume(s);
+  try{const old=s.jobs.enqueue(p,"synthetic-old",{provider:"waste-companies",operation:"search",query:{keyword:"가상",mode:"search",page:2},credentialRef:"legacy-reference",schemaVersion:"v3-1",budgetMs:180000});s.jobs.control(p,old.id,"pause");
+    const base=`import {Store} from ${JSON.stringify(moduleURL("store"))};import {ProtectedPayloads} from ${JSON.stringify(moduleURL("protected-payload-v4"))};import {ProtectedCollection} from ${JSON.stringify(moduleURL("collection-v4"))};import {MigrationResume} from ${JSON.stringify(moduleURL("migration-resume-v6"))};const p=${JSON.stringify(p)},store=new Store(${JSON.stringify(f.store.dir)}),v=new ProtectedPayloads(store,{id:${JSON.stringify(key.id)},bytes:Buffer.from(${JSON.stringify(key.bytes.toString("base64"))},'base64')}),s=new ProtectedCollection(store,v,()=>p,async()=> 'synthetic-only',()=>({group:'synthetic',intervalMs:0})),m=new MigrationResume(s);`;
+    await child(base+`await m.prepare(p,${JSON.stringify(old.id)},phase=>{if(phase==='copy_verified')process.exit(46)});`,46);expect(f.store.db.prepare("SELECT count(*) n FROM v6_migration_routes").get()).toEqual({n:0});
+    await child(base+`await m.prepare(p,${JSON.stringify(old.id)},phase=>{if(phase==='after_switch')process.exit(47)});`,47);const switched=await m.prepare(p,old.id);s.provenance.event(p,switched.queryNode,"query","waste-companies","release","격리 재시작 worker의 정확한 보호 query에 한정한 권한입니다.",expiry);
+    const result=JSON.parse(await child(base+`import {workOne} from ${JSON.stringify(moduleURL("jobs-v3"))};let calls=0;globalThis.fetch=async url=>{if(!String(url).startsWith('https://apis.data.go.kr/B552584/kecoapi/wstdspBzentyService/getWstdspBzentyInfo'))throw Error('forbidden external endpoint');calls++;return new Response(JSON.stringify({response:{header:{resultCode:'00'},body:{totalCount:0,items:[],pageNo:2,numOfRows:10}}}));};m.resume(p,${JSON.stringify(old.id)});await workOne(s.jobs,'synthetic-restarted-worker',s.handle.bind(s));console.log(JSON.stringify({...m.observe(p,${JSON.stringify(old.id)}),calls}));store.close();`));
+    expect(result.queueResumeVerified).toBe(true);expect(result.calls).toBe(1);expect(result.allTraceCovered).toBe(false);expect(result.plaintextRemovalComplete).toBe(false);expect(s.jobs.get(p,old.id).state).toBe("paused");expect(f.store.db.prepare("SELECT count(*) n FROM v6_migration_routes").get()).toEqual({n:1});
+  }finally{f.clean();}
+},30000);

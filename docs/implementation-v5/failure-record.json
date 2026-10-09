@@ -1,0 +1,44 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "630ad6a52597c544ef16590c4c15c9f0d1e3ad5c7dbe4fbeef50c0c4bb03b005",
+  "at": "2026-10-08T16:52:16.220Z",
+  "runtime": "v26.7.0",
+  "scope": "격리 구현·공식 공개 자료 조사·합성 시험. 법적 승인·실제 사업장·운영 완료 아님",
+  "records": [
+    {
+      "phase": "baseline",
+      "result": "378/380",
+      "failures": [
+        "V3-J07 cleanup EPERM",
+        "V4-A10 child failure"
+      ],
+      "correction": "SQLite 연결 시 bounded busy_timeout; child close·allSettled 이후 정리, stderr 보존",
+      "retest": "380/380 + 8 browser"
+    },
+    {
+      "phase": "new-parser",
+      "result": "403개 이전 4개 실패",
+      "correction": "격리 node_modules junction 별칭 read 허용, 취소를 Promise rejection으로 유지, 공식 query mode=search 시험값 정정"
+    },
+    {
+      "phase": "pinned-network",
+      "result": "Node lookup all 주소 형식 오류",
+      "correction": "Node all 요청에 family/address 배열 반환. 격리 TLS 실소켓 시험 통과"
+    },
+    {
+      "phase": "government-pinned",
+      "result": "HTTP200 text/html 오류 문서",
+      "correction": "원문 성공 처리하지 않음; 서명/형식 검사 유지; blocked 보존"
+    },
+    {
+      "phase": "backup-fixture",
+      "result": "검토 질문 최소 길이 불일치",
+      "correction": "합성 질문을 기존 저장 계약 길이에 맞춤; 검증 조건 유지"
+    },
+    {
+      "phase": "historical-rule",
+      "result": "MST271485 공개 조회 2회 모두 기본정보 조회 실패",
+      "correction": "본문 부재·과거 규정 없음으로 해석하지 않고 미확보 유지"
+    }
+  ]
+}

@@ -1,0 +1,714 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "국토의 계획 및 이용에 관한 법률 및 각 개별 법령과 관련된 도시(군)계획조례 및 그 밖에 조례에서 규정하고 있는 토지이용행위 규제 내용에 대하여, \n각각 토지이용행위와 가능여부로 연결하고 이를 시군구별/지역지구별로 조회할 수 있도록 구성하여 제공하는 토지이용규제정보 행위제한 서비스입니다.",
+    "version": "1.0.0",
+    "title": "국토교통부_토지이용규제정보서비스"
+  },
+  "host": "apis.data.go.kr/1613000/arLandUseInfoService",
+  "basePath": "",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/DTarLandUseInfo": {
+      "get": {
+        "responses": {
+          "3": {
+            "description": "NODATA_ERROR(데이터 없음)"
+          },
+          "10": {
+            "description": "INVALID_REQUEST_PARAMETER_ERROR(잘못된 요청 파라메터)"
+          },
+          "11": {
+            "description": "NO_MANDATORY_REQUEST__PARAMETER_ERROR(필수요청 파라메터가 없음)"
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메시지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "object",
+                          "description": "item",
+                          "properties": {
+                            "UNAME": {
+                              "type": "string",
+                              "description": "지역지구명",
+                              "properties": {}
+                            },
+                            "UCODE_REF_LAW_CD": {
+                              "type": "string",
+                              "description": "지역지구코드",
+                              "properties": {}
+                            },
+                            "UCODE": {
+                              "type": "string",
+                              "description": "지역지구 법령코드",
+                              "properties": {}
+                            },
+                            "actRegList": {
+                              "type": "array",
+                              "description": "행위제한내용",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "ACT_NM": {
+                                    "type": "string",
+                                    "description": "행위",
+                                    "properties": {}
+                                  },
+                                  "REG_NM": {
+                                    "type": "string",
+                                    "description": "가능여부",
+                                    "properties": {}
+                                  },
+                                  "QNODE_CONDS": {
+                                    "type": "object",
+                                    "description": "조건제한 예외사항",
+                                    "properties": {
+                                      "RNUM": {
+                                        "type": "array",
+                                        "description": "조건제한 예외사항 번호",
+                                        "items": {
+                                          "type": "string",
+                                          "properties": {}
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "luInfoList": {
+                                    "type": "array",
+                                    "description": "토지이용정보",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "NODE_DESC": {
+                                          "type": "string",
+                                          "description": "토지이용명",
+                                          "properties": {}
+                                        },
+                                        "LU_REF_LAW_NM1": {
+                                          "type": "string",
+                                          "description": "참조_법령조항1",
+                                          "properties": {}
+                                        },
+                                        "LU_REF_LAW_NM2": {
+                                          "type": "string",
+                                          "description": "참조_법령조항2",
+                                          "properties": {}
+                                        },
+                                        "LU_REF_LAW_NM3": {
+                                          "type": "string",
+                                          "description": "참조_법령조항3",
+                                          "properties": {}
+                                        },
+                                        "DEF_REF": {
+                                          "type": "string",
+                                          "description": "정의 및 참조사항",
+                                          "properties": {}
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "QnodeCond": {
+                          "type": "array",
+                          "description": "QnodeCond",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "QNODE_DESC": {
+                                "type": "array",
+                                "description": "조건제한예외사항 내용",
+                                "items": {
+                                  "type": "string",
+                                  "properties": {}
+                                }
+                              },
+                              "RNUM": {
+                                "type": "array",
+                                "description": "조건제한예외사항 번호",
+                                "items": {
+                                  "type": "string",
+                                  "properties": {}
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "totalCount": {
+                      "type": "string",
+                      "description": "전체 결과 수",
+                      "properties": {}
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "토지이용규제 행위제한정보",
+        "description": "해당 시군구에서 지역지구별 토지이용행위 가능여부 등 정보를 조회하는 기능",
+        "operationId": "DTarLandUseInfo",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "areaCd",
+          "description": "시군구코드",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "ucodeList",
+          "description": "지역지구코드",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "landUseNm",
+          "description": "토지이용행위명",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    },
+    "/DTsearchLunCd": {
+      "get": {
+        "responses": {
+          "3": {
+            "description": "NODATA_ERROR(데이터 없음)"
+          },
+          "10": {
+            "description": "INVALID_REQUEST_PARAMETER_ERROR(잘못된 요청 파라메터)"
+          },
+          "11": {
+            "description": "NO_MANDATORY_REQUEST__PARAMETER_ERROR(필수요청 파라메터가 없음)"
+          },
+          "200": {
+            "description": "성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "description": "header",
+                  "properties": {
+                    "resultCode": {
+                      "type": "string",
+                      "description": "결과코드",
+                      "properties": {}
+                    },
+                    "resultMsg": {
+                      "type": "string",
+                      "description": "결과메시지",
+                      "properties": {}
+                    }
+                  }
+                },
+                "body": {
+                  "type": "object",
+                  "description": "body",
+                  "properties": {
+                    "items": {
+                      "type": "object",
+                      "description": "items",
+                      "properties": {
+                        "item": {
+                          "type": "array",
+                          "description": "item",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "LUN_NM": {
+                                "type": "string",
+                                "description": "토지이용행위명",
+                                "properties": {}
+                              },
+                              "LUN_CD": {
+                                "type": "string",
+                                "description": "토지이용행위코드",
+                                "properties": {}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "numOfRows": {
+                      "type": "string",
+                      "description": "한 페이지 결과 수",
+                      "properties": {}
+                    },
+                    "pageNo": {
+                      "type": "string",
+                      "description": "페이지번호",
+                      "properties": {}
+                    },
+                    "totalCount": {
+                      "type": "string",
+                      "description": "전체 결과 수",
+                      "properties": {}
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "response"
+              }
+            }
+          }
+        },
+        "tags": [
+          "API 목록"
+        ],
+        "summary": "토지이용행위 조회",
+        "description": "행위제한정보 조회를 위한 토지이용행위명 조회",
+        "operationId": "DTsearchLunCd",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "serviceKey",
+          "description": "공공데이터포털에서 받은 인증키",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "pageNum",
+          "description": "페이지번호",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "numOfRows",
+          "description": "한 페이지 결과 수",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "landUseNm",
+          "description": "토지이용행위명",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "DTarLandUseInfo_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메시지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "description": "item",
+                  "properties": {
+                    "UNAME": {
+                      "type": "string",
+                      "description": "지역지구명"
+                    },
+                    "UCODE_REF_LAW_CD": {
+                      "type": "string",
+                      "description": "지역지구코드"
+                    },
+                    "UCODE": {
+                      "type": "string",
+                      "description": "지역지구 법령코드"
+                    },
+                    "actRegList": {
+                      "type": "array",
+                      "description": "행위제한내용",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "ACT_NM": {
+                            "type": "string",
+                            "description": "행위"
+                          },
+                          "REG_NM": {
+                            "type": "string",
+                            "description": "가능여부"
+                          },
+                          "QNODE_CONDS": {
+                            "type": "object",
+                            "description": "조건제한 예외사항",
+                            "properties": {
+                              "RNUM": {
+                                "type": "array",
+                                "description": "조건제한 예외사항 번호",
+                                "items": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "luInfoList": {
+                            "type": "array",
+                            "description": "토지이용정보",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "NODE_DESC": {
+                                  "type": "string",
+                                  "description": "토지이용명"
+                                },
+                                "LU_REF_LAW_NM1": {
+                                  "type": "string",
+                                  "description": "참조_법령조항1"
+                                },
+                                "LU_REF_LAW_NM2": {
+                                  "type": "string",
+                                  "description": "참조_법령조항2"
+                                },
+                                "LU_REF_LAW_NM3": {
+                                  "type": "string",
+                                  "description": "참조_법령조항3"
+                                },
+                                "DEF_REF": {
+                                  "type": "string",
+                                  "description": "정의 및 참조사항"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "QnodeCond": {
+                  "type": "array",
+                  "description": "QnodeCond",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "QNODE_DESC": {
+                        "type": "array",
+                        "description": "조건제한예외사항 내용",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "RNUM": {
+                        "type": "array",
+                        "description": "조건제한예외사항 번호",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "totalCount": {
+              "type": "string",
+              "description": "전체 결과 수"
+            }
+          }
+        }
+      }
+    },
+    "DTsearchLunCd_response": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "description": "header",
+          "properties": {
+            "resultCode": {
+              "type": "string",
+              "description": "결과코드"
+            },
+            "resultMsg": {
+              "type": "string",
+              "description": "결과메시지"
+            }
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "body",
+          "properties": {
+            "items": {
+              "type": "object",
+              "description": "items",
+              "properties": {
+                "item": {
+                  "type": "array",
+                  "description": "item",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "LUN_NM": {
+                        "type": "string",
+                        "description": "토지이용행위명"
+                      },
+                      "LUN_CD": {
+                        "type": "string",
+                        "description": "토지이용행위코드"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "numOfRows": {
+              "type": "string",
+              "description": "한 페이지 결과 수"
+            },
+            "pageNo": {
+              "type": "string",
+              "description": "페이지번호"
+            },
+            "totalCount": {
+              "type": "string",
+              "description": "전체 결과 수"
+            }
+          }
+        }
+      }
+    }
+  },
+  "swaggerOprtinVOs": [
+    {
+      "oprtinUrl": "http://api.eum.go.kr/web/Rest/OP/Data/DTsearchLunCd",
+      "oprtinNm": "토지이용행위 조회",
+      "oprtinDc": "행위제한정보 조회를 위한 토지이용행위명 조회",
+      "gwSvcNm": "DTsearchLunCd",
+      "operationId": "DTsearchLunCd",
+      "publicDataTyDetailCode": "PRDE02",
+      "reqList": [
+        {
+          "paramtrNm": "serviceKey",
+          "paramtrDc": "공공데이터포털에서 받은 인증키",
+          "paramtrBassValue": "-",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "pageNum",
+          "paramtrDc": "페이지번호",
+          "paramtrBassValue": "1",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "numOfRows",
+          "paramtrDc": "한 페이지 결과 수",
+          "paramtrBassValue": "10",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        },
+        {
+          "paramtrNm": "landUseNm",
+          "paramtrDc": "토지이용행위명",
+          "paramtrBassValue": "공장",
+          "paramtrTy": "string",
+          "paramtrDivision": "필수",
+          "ck": true
+        }
+      ],
+      "resList": [
+        {
+          "paramtrNm": "header",
+          "paramtrDc": "header",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/DTsearchLunCd_header",
+          "subDefNm": "DTsearchLunCd_header",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "resultCode",
+              "paramtrDc": "결과코드",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "resultMsg",
+              "paramtrDc": "결과메시지",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        },
+        {
+          "paramtrNm": "body",
+          "paramtrDc": "body",
+          "arrayYn": "N",
+          "paramtrDefNm": "#/definitions/DTsearchLunCd_body",
+          "subDefNm": "DTsearchLunCd_body",
+          "paramtrTy": "object",
+          "paramtrDivision": "필수",
+          "ck": true,
+          "subParam": [
+            {
+              "paramtrNm": "items",
+              "paramtrDc": "items",
+              "arrayYn": "N",
+              "paramtrDefNm": "#/definitions/DTsearchLunCd_items",
+              "subDefNm": "DTsearchLunCd_items",
+              "paramtrTy": "object",
+              "paramtrDivision": "필수",
+              "ck": true,
+              "subParam": [
+                {
+                  "paramtrNm": "item",
+                  "paramtrDc": "item",
+                  "arrayYn": "Y",
+                  "paramtrDefNm": "#/definitions/DTsearchLunCd_item",
+                  "subDefNm": "DTsearchLunCd_item",
+                  "paramtrTy": "object",
+                  "paramtrDivision": "필수",
+                  "ck": true,
+                  "subParam": [
+                    {
+                      "paramtrNm": "LUN_NM",
+                      "paramtrDc": "토지이용행위명",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    },
+                    {
+                      "paramtrNm": "LUN_CD",
+                      "paramtrDc": "토지이용행위코드",
+                      "arrayYn": "N",
+                      "paramtrDefNm": "",
+                      "paramtrTy": "string",
+                      "paramtrDivision": "필수",
+                      "ck": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "paramtrNm": "numOfRows",
+              "paramtrDc": "한 페이지 결과 수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "pageNo",
+              "paramtrDc": "페이지번호",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            },
+            {
+              "paramtrNm": "totalCount",
+              "paramtrDc": "전체 결과 수",
+              "arrayYn": "N",
+              "paramtrDefNm": "",
+              "paramtrTy": "string",
+              "paramtrDivision": "필수",
+              "ck": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

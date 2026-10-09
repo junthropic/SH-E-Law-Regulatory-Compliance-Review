@@ -1,0 +1,25 @@
+{
+  "checkpoints": [
+    {
+      "scenario": "S2",
+      "policies": 1,
+      "documentTrace": true,
+      "realSiteVerified": false
+    },
+    {
+      "scenario": "S3",
+      "policies": 6,
+      "documentTrace": true,
+      "realSiteVerified": false
+    },
+    {
+      "scenario": "S5",
+      "policies": 7,
+      "documentTrace": true,
+      "realSiteVerified": false
+    }
+  ],
+  "externalCalls": 0,
+  "uiChanged": false,
+  "productionTouched": false
+}

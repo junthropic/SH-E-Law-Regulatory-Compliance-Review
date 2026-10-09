@@ -1,0 +1,62 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "8baf56dc0c3bbae52abe33c9946babf619571a0c94a3ce51c48e43a0eef12b96",
+  "at": "2026-10-09T03:56:08.813Z",
+  "legalAsOf": "2026-10-08",
+  "runtime": "v26.7.0",
+  "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
+  "synchronousStatus": 200,
+  "ordinaryFormatsUnchanged": [
+    "markdown",
+    "json",
+    "docx"
+  ],
+  "filenameHeadersUnchanged": true,
+  "serializedSharedContractUnchanged": true,
+  "legacy9BrowserPreserved": true,
+  "managedTrainingMarkdownBrowser": [
+    {
+      "id": "training.periodic",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    },
+    {
+      "id": "training.recruitment",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    },
+    {
+      "id": "training.work_change",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    },
+    {
+      "id": "training.special",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    },
+    {
+      "id": "training.supervisor",
+      "oldUIUploadQuestionReview": true,
+      "sourceManualIndependent": true,
+      "ordinaryMarkdownExport": true,
+      "enabled": false,
+      "legalApproved": false
+    }
+  ],
+  "localIsExternal": false,
+  "allFormatsByteGoldenVerified": false,
+  "remaining": "전체 format bytes 독립 golden/전종 문서 parent 전수는 별도; 기존 회귀와 교육 Markdown만 실제 확인"
+}

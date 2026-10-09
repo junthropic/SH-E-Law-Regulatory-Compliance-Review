@@ -1,0 +1,625 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "dirty": true,
+  "sourceDigest": "dc4b4f2029b66d306253fcb8ca724fcd46e30de2a08e2aeb854fcbbdd0688c83",
+  "at": "2026-10-08T15:04:42.233Z",
+  "runtime": "v26.7.0",
+  "scope": "격리 구현·합성 시험. 실제 사업장·법적 승인·운영 완료 아님",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "hash": "ed2c9a812d88bbb7f231eeab55ce5be19c7cc71bcb1544e6a2fdbfc327801841"
+    },
+    {
+      "path": "index.html",
+      "hash": "bd8a92000dcd4fbc64c1048ead5907e4e71ea65da89e3676cbd06b7e3f44a32f"
+    },
+    {
+      "path": "package-lock.json",
+      "hash": "15b64b412767caea1f41dd3a9efc852d5dcae734a1a80d2e5951eb9a8b653ab1"
+    },
+    {
+      "path": "package.json",
+      "hash": "57f10ce70278bd1fa537bc4509389b8281dbdecd80e18a2a5f84e8fa035b28b4"
+    },
+    {
+      "path": "scripts/approve.ts",
+      "hash": "219426987534d58d43485e38c3267aa6c5d34423ee9371e549a0989135c1399a"
+    },
+    {
+      "path": "scripts/audit-v2.mjs",
+      "hash": "e03891c6c93bbc19893c138a17c5350a5bfed048b7672fb51429db2da1ba89e4"
+    },
+    {
+      "path": "scripts/audit-v3.mjs",
+      "hash": "f46a7c668291782bca555d163955e8af8f846a7272a5fcf449fa5048f5a9e4cc"
+    },
+    {
+      "path": "scripts/audit-v4.mjs",
+      "hash": "f093f817457e0e31fa48fe3baa14e82a4bfc27e105d88658c7de0016feb08b3c"
+    },
+    {
+      "path": "scripts/backup.ts",
+      "hash": "8dd26b198e87dd99ed4b06b80cf06af2bbb857609838bd4d7e7663670fcf282f"
+    },
+    {
+      "path": "scripts/collect-official-v3.mjs",
+      "hash": "f776809d4a53bcc7b2850ae7fb0343bd2f5dd614ba8e8dece8afbbcd4608f374"
+    },
+    {
+      "path": "scripts/collect-official-v4.mjs",
+      "hash": "4e6e8d618bfdaa6eaa9cc8e4fe88b824cff18cf429d04aefa73b658b9c26ca54"
+    },
+    {
+      "path": "scripts/e2e-additional-apis.mjs",
+      "hash": "f7f6419f2dc771e7b7517d25874004e4aacdfa3295d1232ff20bfa4f05ef4d31"
+    },
+    {
+      "path": "scripts/e2e-dossier.mjs",
+      "hash": "247fda9547644ea2dfd5acb3eacd244c31762e9c5ab484de4aa0d134d397a17e"
+    },
+    {
+      "path": "scripts/e2e-intake.mjs",
+      "hash": "b70c2a665b14b74e03516da82ec5b3a579254561beb97e961f372d90a94e4089"
+    },
+    {
+      "path": "scripts/e2e-public-apis.mjs",
+      "hash": "7d8fbaa4692a6944e4dc867fa7a126f40081d2cce593ca9494731742faf7c27f"
+    },
+    {
+      "path": "scripts/e2e-v3.mjs",
+      "hash": "303b4783b1f251d76eb12f69c42a9eadb9507e272a8997627f8dde36fb7d44af"
+    },
+    {
+      "path": "scripts/e2e-v4.mjs",
+      "hash": "3c54d70e8e0da71ef857150ba74a0fbd9a5cc06f38544bf64dad13ce4af5f9b9"
+    },
+    {
+      "path": "scripts/e2e-verification.mjs",
+      "hash": "155ba21561251e335ef35e6c7c486a47ac578e675ed1f20900fdc09f84ff6bfd"
+    },
+    {
+      "path": "scripts/e2e.mjs",
+      "hash": "9abc35eeb48213f0fb189dd5a8a4013e206e2d6a50bc400cbad297e44cd28c62"
+    },
+    {
+      "path": "scripts/local-watchdog.py",
+      "hash": "2a276644679f5406b6202c8afd3734f717dbf73c352208ee4c7c3c36fd984903"
+    },
+    {
+      "path": "scripts/public-check.ts",
+      "hash": "e38345d196d885b4c5425268e61127c9f408b566c231c3c0bc9d2ff3301649a7"
+    },
+    {
+      "path": "scripts/source-probe.mjs",
+      "hash": "b21edad0505887e9ea3ff48bb1ad6f043d116954fcc219d28812e0a36d580e42"
+    },
+    {
+      "path": "scripts/sync.ts",
+      "hash": "feae99762cfb3358cd121dece683f362710c4d49d8961c9c9fd84208f0ee9ca6"
+    },
+    {
+      "path": "scripts/test-local-watchdog.py",
+      "hash": "5c3653099c5d7e7f0425e7104a64c21f622ff798c765cb6e424e99c731d51cf6"
+    },
+    {
+      "path": "scripts/validate-isolated-v2.mjs",
+      "hash": "182f80525a9d548eb15d4d004100df1e01adb427dd8ce597a7691b08cc661ee1"
+    },
+    {
+      "path": "scripts/validate-isolated-v3.mjs",
+      "hash": "ec230bc29802a7cc3f1aa25d74d2f5744d3a47e562b1f714b9a778de3ba042b1"
+    },
+    {
+      "path": "scripts/validate-isolated-v4.mjs",
+      "hash": "562584c8759f016a2fcce1091ad49beb47b5bf896e6d326e693b26a99f714d31"
+    },
+    {
+      "path": "server/additional-apis.ts",
+      "hash": "66704c3bf259dd1ddeada20c8d425c4505a163e4b959ac39986ca7a3a0e9283f"
+    },
+    {
+      "path": "server/ai.ts",
+      "hash": "4129ea002baddb585382c68fbfe60ace023a61442b79b36da04494d0a81f64d6"
+    },
+    {
+      "path": "server/app.ts",
+      "hash": "31a2edc57044f58aa86fa815e3ba738f1b5f46db0c835184bb28b6c744ed6ab8"
+    },
+    {
+      "path": "server/approval.ts",
+      "hash": "f5617f6e70c8155110094fc4a4c9f150401bd568fdd3d68e62d4be045113396a"
+    },
+    {
+      "path": "server/attachments-v4.ts",
+      "hash": "b612c3d92098b3babd8cab7f26fce1682906b41135a5fddc45e818ae51e89a93"
+    },
+    {
+      "path": "server/auth.ts",
+      "hash": "6d9e6e7e3f5b41f02f7a2ab1a62d600bb34aae8664a10ff002d45b1e3197f14a"
+    },
+    {
+      "path": "server/backup-v3.ts",
+      "hash": "a03a31a7626f251781dac71b8b0a7448ad7d1067e9ccd036ed5537831edeb4d3"
+    },
+    {
+      "path": "server/backup-v4.ts",
+      "hash": "b535b40fd31d6ce4ddcb3c764d6a124f46e92c9b12fd35494e409fe4a975f003"
+    },
+    {
+      "path": "server/backup.ts",
+      "hash": "0f0b6afa2cbf0426a81923f40d57bd7cfebfef37b5e7a1fd7d7b103b2d809dd4"
+    },
+    {
+      "path": "server/bundles.ts",
+      "hash": "188eeb9e91f16a9661df7f9f8c219a1a2b6c6581f43ca25c63e1a42fefedeb5f"
+    },
+    {
+      "path": "server/case-assessment.ts",
+      "hash": "1b2101a61be165ae1401efde3bde2ab99cff0cbf415c5ba62ea06b0f5c107653"
+    },
+    {
+      "path": "server/cases-v4.ts",
+      "hash": "e09a79527dba707c1286c6e4eea832dcb55e74abb4cabf9f3e3da9911bcec404"
+    },
+    {
+      "path": "server/collection-journal-v2.ts",
+      "hash": "e4611e346b6e26e9395260e91d60ec2eba4298c15076a68e733bbff587465695"
+    },
+    {
+      "path": "server/collection-service-v3.ts",
+      "hash": "f3c34d3a14d2ba5ba929532f66fe1a0500d58eddd881cf8d5ab21f531f6d0e31"
+    },
+    {
+      "path": "server/collection-v4.ts",
+      "hash": "98b54d9da249fdfac21263fa359ae9b172de100fc132f087f5b4f4751e643194"
+    },
+    {
+      "path": "server/compliance-api-v2.ts",
+      "hash": "be6c06542d03acf7b7011b7ef9ad4c3095095acfd8dac78e551a1e044d77e35a"
+    },
+    {
+      "path": "server/compliance-v2.ts",
+      "hash": "524332f5f15da777edad27631bdf6b9922a9c49b9141ac618f6575aa75bad5f1"
+    },
+    {
+      "path": "server/deadlines-v2.ts",
+      "hash": "12d643ee911c94130b40853d43d210ac2206ba1db8c90339da068109bfb5e445"
+    },
+    {
+      "path": "server/documents.ts",
+      "hash": "e5ed256ec762d38d7babea39ea17e41e420481461eb773412d5620956ac22d7e"
+    },
+    {
+      "path": "server/dossier.ts",
+      "hash": "15d17caf9f5fe281e31fd8208d069d765331f50d9f4314f9f4c89d203b11091a"
+    },
+    {
+      "path": "server/egress-execution-v4.ts",
+      "hash": "543ba1af3e9bec8299992948ab81a56fc00c668e7faf1bda648ab6500994836c"
+    },
+    {
+      "path": "server/egress-v3.ts",
+      "hash": "a571779cd13d1d10c5dc77135647bd22314118cc550c69bbb25002927e6617fa"
+    },
+    {
+      "path": "server/evidence-policies-v2.ts",
+      "hash": "6e7ea0bbe5d201324d7af5648e2d8256c3b97742ad8170e2f33ba9af80377d1a"
+    },
+    {
+      "path": "server/exports.ts",
+      "hash": "41e7cc0b92207663ccf029c16b52602c8308932f67bdd92bd20ebe4860e8f5c4"
+    },
+    {
+      "path": "server/extraction.ts",
+      "hash": "2ccc377e45e320b5042263f4c3e66d71f9adebd19f43ecdb3c192a28b847963d"
+    },
+    {
+      "path": "server/fact-checks.ts",
+      "hash": "216b8374dac5f0f23a15a72e7d0bf6f1ca49925b620e918ba087125fef6b501a"
+    },
+    {
+      "path": "server/fact-provenance.ts",
+      "hash": "2d3766c4f5ff7aed834462127abb86ff0a804c84579950d22b9e473a78930287"
+    },
+    {
+      "path": "server/index.ts",
+      "hash": "1080e22b7770cccd47bee30bb570ce818e78ddf3ed26aeccb6277027740e8bf2"
+    },
+    {
+      "path": "server/intake.ts",
+      "hash": "3b9cdfb74002426034290883c8cf7a9ac9ecc504694633ee8190bd1c3ba5642e"
+    },
+    {
+      "path": "server/jobs-v3.ts",
+      "hash": "689181898c8b054975f1d6c49abf988a4f7d3b24b1a572aa6253a4b6c45c0761"
+    },
+    {
+      "path": "server/legacy-address.ts",
+      "hash": "22182a3d0a5e121ae690509b48301410c839e87ffcab361f3fc0e3a298f33cd9"
+    },
+    {
+      "path": "server/legacy-bridge-v3.ts",
+      "hash": "f0aaf901ffa92f646e174399f3fe8ab49782441528e77b6531cb5c6d1e4f11bd"
+    },
+    {
+      "path": "server/legal.ts",
+      "hash": "843fb6ace7427d1d45e5442e1d0418545a7ef428e700ee01255fd8ea9324c883"
+    },
+    {
+      "path": "server/management-v3.ts",
+      "hash": "439369a506de059cdd4d0e159f6d5a60e0b832c81c40b045638a2f6cfb091447"
+    },
+    {
+      "path": "server/management-v4.ts",
+      "hash": "8fb4d1e2e2212a534e78022009882a4373a64471c2eb0a59086714772428a12d"
+    },
+    {
+      "path": "server/mcp.ts",
+      "hash": "8886873b25dd0d42d0e7af39626aad05b3ea7ccd85ed44a92eb852805cab260a"
+    },
+    {
+      "path": "server/parse-worker.ts",
+      "hash": "6de2119dcdeada426f0f8916020f1d6f5cbec320f596e1f523fb482c8d70e1ee"
+    },
+    {
+      "path": "server/periods-v3.ts",
+      "hash": "3bec7824b7a1ccfed242b50699aae07ab75d0ce6ffe4513a5e20fee995c87e56"
+    },
+    {
+      "path": "server/petitions.ts",
+      "hash": "22046715f02763cf242044c3aef88cd4a837858c1ece61f7f9f4e334775bdc2f"
+    },
+    {
+      "path": "server/policies-v3.ts",
+      "hash": "4638ceb6b2eb44fe59d908c97f11a24de0f21d2fdc66d8c292c1e7c9f037da48"
+    },
+    {
+      "path": "server/policies-v4.ts",
+      "hash": "b8ebd7e9f7a2e1c9bfff5974569de1e04e8104f2684d82656c6e9e8b288659d0"
+    },
+    {
+      "path": "server/protected-payload-v4.ts",
+      "hash": "07b79427be657f2e3a1bf9b0602514a96c316404bbc146d3f633ceac3930b5a3"
+    },
+    {
+      "path": "server/provenance-v4.ts",
+      "hash": "3893b9cfbb63514ea5457db24a00bd69001e21e5ae13159ce4f76fece4998cdb"
+    },
+    {
+      "path": "server/public-api-probes.ts",
+      "hash": "83a86bc28f6edfd9eb96d1505149f6587e678a81e3363d228ae9a8c91ed9b35e"
+    },
+    {
+      "path": "server/public-api-transport.ts",
+      "hash": "76843cd5c11201a922fc0edceb73d4b96cd168417f0ac806052a9295ce669b1e"
+    },
+    {
+      "path": "server/public-apis.ts",
+      "hash": "0ef0c1e7ec8b35c4c98b40d50e79f899598a4f96fd19bbfb66b7f66e4f9dd638"
+    },
+    {
+      "path": "server/public-bundle.ts",
+      "hash": "f3027bbc2c2329cae82c504d20273e78465bb2e1441a57af00419e3c2fb5a5ef"
+    },
+    {
+      "path": "server/public-match.ts",
+      "hash": "53a1c0a8da79a9950c79b1bad7709eb9527d0bb6fba429a233a669073d75d20e"
+    },
+    {
+      "path": "server/public-records.ts",
+      "hash": "8b358a4e4e9b49e1baec060d8d2c3cd67b66af416ee8791fb73485dec11d1fe9"
+    },
+    {
+      "path": "server/reference-collection.ts",
+      "hash": "d2dfaf6324a6d50ebbb4d9b8e88d778042c577d320c9bb28e319b21e625664bb"
+    },
+    {
+      "path": "server/reviews.ts",
+      "hash": "ceedc02116add3f49a86dfb3d0ddd0e72394abd80eeadfe1350bc4ce689e5485"
+    },
+    {
+      "path": "server/schemas.ts",
+      "hash": "f0e8b74d52f9e190c21bb659a36c6f8c2832c25604ac82ca93841847f66a4366"
+    },
+    {
+      "path": "server/source-lifecycle-v3.ts",
+      "hash": "bd3eec805e34574873d8e5cb3dd4629854b1efcaba08e7e19d753e3fc761a094"
+    },
+    {
+      "path": "server/sources.ts",
+      "hash": "6b56d141ac642facc5862fb442a3bd09ea10cf052248d0a3e6b2655f23db2b58"
+    },
+    {
+      "path": "server/store.ts",
+      "hash": "891212466c14dce47aff158a13f02913f011028cbc3ea45d07c20b85e054e57f"
+    },
+    {
+      "path": "server/transport-v4.ts",
+      "hash": "b38902b8cae80b151407accae77f637c14c320172491f88b1de87d11849a5489"
+    },
+    {
+      "path": "server/vault.ts",
+      "hash": "4df280c1136b371a72b704744b0f82d8201eaefdc5ebc728783f27d0320c2cfa"
+    },
+    {
+      "path": "server/verification.ts",
+      "hash": "3dca38d6e9f00090c3bdddd4e9e98ad4209e4d244186cbd28737c7aec31a409f"
+    },
+    {
+      "path": "shared/additional-search.ts",
+      "hash": "6a1e5fc21be9260b111684e99f6a83e8a70706f25d866b056a10c5c837fa35fc"
+    },
+    {
+      "path": "shared/connection-catalog.ts",
+      "hash": "f7ecab2c493689c1f5d73c4581be084df3ce1a9f543840ac7460721d92b5b536"
+    },
+    {
+      "path": "shared/dates.ts",
+      "hash": "936233efd427cce7c1c4e9266149531680ee22288bd60064da71466d06802e9a"
+    },
+    {
+      "path": "shared/dossier.ts",
+      "hash": "5221608c5ce45044491dea820c3dcd0b81aee4e0f8a376a25aed364ccaa7e7ac"
+    },
+    {
+      "path": "shared/identifiers.ts",
+      "hash": "ac20cc751af15e5c17e30ac148cb2616a6bb566fe7b4ffbfce48c1000e8ab87a"
+    },
+    {
+      "path": "shared/information-notice.ts",
+      "hash": "5e5feae7416891037e80956f112a496d0652f42220f9c98a553b1b34a46de94c"
+    },
+    {
+      "path": "shared/intake.ts",
+      "hash": "1433bd2d82e74ce0965c5d7560725e02404fbeebe70d8c244829d5eddb350b0b"
+    },
+    {
+      "path": "shared/jurisdictions.ts",
+      "hash": "92a8e48d609ecad3f22de8d861a99afeab66c9dd0adf31348e9c71ddcbfc81c4"
+    },
+    {
+      "path": "shared/public-apis.ts",
+      "hash": "096009c91de5e0abb6676be1b151de5622e407d17c2e555d11e2144724442e80"
+    },
+    {
+      "path": "shared/result-language.ts",
+      "hash": "59f80dc6629b1209d96c50a371abe7e40bb285f7ed68048983308b669b250ead"
+    },
+    {
+      "path": "shared/review-domains.ts",
+      "hash": "76328b781875ddf675d16f8436bceb6aebb2431c85a3b54f73b030094da63df7"
+    },
+    {
+      "path": "shared/types.ts",
+      "hash": "3354150a2a18f1161aa79914f5eab87eda5ba4ee233d45f90459c585f044a864"
+    },
+    {
+      "path": "shared/verification.ts",
+      "hash": "4adaf38a1f80b8f76cc87d9381d2da21b901254f6936af984af19f8781b0ffcf"
+    },
+    {
+      "path": "src/App.tsx",
+      "hash": "41a8945ed6681d882503dfd9e7158cce43fc5e91db75e19d9c9b4417f7b3f263"
+    },
+    {
+      "path": "src/Dossier.tsx",
+      "hash": "3dcfb80a695927a13cb312214140caed0c3d4eb93d55e14ba109488ea5f118cc"
+    },
+    {
+      "path": "src/Intake.tsx",
+      "hash": "df2ad6929cbb9882a41ac8788f82ae9a510a981ffc754d1bf546366e3557c0d2"
+    },
+    {
+      "path": "src/PublicApis.tsx",
+      "hash": "c7a2d552344052c45430384c720d741f9fd30bd84aeb417e94bef15a6928a185"
+    },
+    {
+      "path": "src/ReviewApproval.tsx",
+      "hash": "01bc9f29ff88b1371e215dfcc8c10e80421ae7337f6299190e160ee5909e3690"
+    },
+    {
+      "path": "src/Tools.tsx",
+      "hash": "cfa4a84218929f1092e08af906fda1e23d6e08939450fe8511a7e0baabea4fd9"
+    },
+    {
+      "path": "src/Verification.tsx",
+      "hash": "a789dfbf74d79fb97931cea455e4ef1212a7f04d9a2720adf30e1c9067bebf70"
+    },
+    {
+      "path": "src/main.tsx",
+      "hash": "c80d3bb180519131a1e962f9533134f82e7c219b8194eb01ee658941ccd3a2fa"
+    },
+    {
+      "path": "src/style.css",
+      "hash": "00ee6e3fe1ec266666e841b8193bfc6d45c625f1f9484a9a8ed0097db2172537"
+    },
+    {
+      "path": "tests/a07-transport.test.ts",
+      "hash": "9c269bb892db50fc18bde1b985e2d91c2386d717dd88207cd72114d2a4b1a301"
+    },
+    {
+      "path": "tests/additional-apis.test.ts",
+      "hash": "3ae73bf680edcc4ace614c1edd358e1aae05ffc8d1f285a6dece39100e57b75f"
+    },
+    {
+      "path": "tests/ai-auth.test.ts",
+      "hash": "5d57ef1e791471d285df732d9cfd080891ee27566acbf1cbfbf8725eff47e48d"
+    },
+    {
+      "path": "tests/app.test.ts",
+      "hash": "ce323610fb7329aa36797715c10b4f08541a43112d968b057e28d8bfb330615e"
+    },
+    {
+      "path": "tests/case-audit.test.ts",
+      "hash": "db9f1e254cd4c24deae0c44e8e9564422aedd93b56c59ff03b45e265a9a3f0c1"
+    },
+    {
+      "path": "tests/collection-hardening.test.ts",
+      "hash": "2506ceea1ccb4d7a4b25c83cf9308fc3d23bf91b97f7676f9275eecf47db793c"
+    },
+    {
+      "path": "tests/collection-v2.test.ts",
+      "hash": "ef49c1207d9c54997acade4bf14cac1f7cdf105ad61f6464b7feb52a95c8c96b"
+    },
+    {
+      "path": "tests/compliance-v2.test.ts",
+      "hash": "c7695ac51e7e87ef8f884d99b9d22c093b219c0c288f8b711694d88049f48218"
+    },
+    {
+      "path": "tests/dossier.test.ts",
+      "hash": "27c941c5946cf6ff9033fd4ec6b403da15733c702f2d75cb486da1d2dc424cc9"
+    },
+    {
+      "path": "tests/fact-provenance.test.ts",
+      "hash": "1823de499c2c137776b54fe61b07f0820086db1b6f2662e201cb73c504672c04"
+    },
+    {
+      "path": "tests/helpers.ts",
+      "hash": "dd979452d1b946e6d47a843a3da3d1557d2f97d7abca51b7e8dd3f76e307583e"
+    },
+    {
+      "path": "tests/intake.test.ts",
+      "hash": "9670eaa8f6b0d752e566c39486ae3b218cacd8568509406d748320839017b19f"
+    },
+    {
+      "path": "tests/legacy-address.test.ts",
+      "hash": "9ad63f8bbbb4ce24cb7ab3bd6add243cb5b8d1440357f2a4e3fba2ca7766d99d"
+    },
+    {
+      "path": "tests/legal.test.ts",
+      "hash": "3a6bf3a6464ba7ad928544e0a817e8f418138abad08d853aa5bd7fe1e9290df4"
+    },
+    {
+      "path": "tests/mcp-vault.test.ts",
+      "hash": "e369a3ea2f4f35a1923d99c6d0be51c2bc708eedb3c553727c81f46d7315b41b"
+    },
+    {
+      "path": "tests/petitions-documents.test.ts",
+      "hash": "bd88a4bdca843b8bfde826d8fa6aa79a94a7e5cf1b2e9e476d0c2221a693b18f"
+    },
+    {
+      "path": "tests/public-api-probes.test.ts",
+      "hash": "529b6b79114d5ac5a71b35ae4bb4d347164590fcc4aa0ae1c34c5d3f9d4237ea"
+    },
+    {
+      "path": "tests/public-apis.test.ts",
+      "hash": "9e65a43c44afc25560f9d325574822a93dd3c54275a54cf075497fd3a203c60d"
+    },
+    {
+      "path": "tests/public-bundle.test.ts",
+      "hash": "3c4d3754240e1e57acd18315e53fa852abcef5b819e8a6a386717dfccf17981c"
+    },
+    {
+      "path": "tests/reference-collection.test.ts",
+      "hash": "96284a710a12945975fddc5e5fab6aa15052856470a051d418372e2fb8ceb630"
+    },
+    {
+      "path": "tests/result-language.test.ts",
+      "hash": "bdb9918832002e5c410548bb78f76e2bdd9d1f3418478d31dae54019b8d85e8d"
+    },
+    {
+      "path": "tests/reviews.test.ts",
+      "hash": "75126b567798149bf0cdb62c8d12ce7083a13308cd1d406dcd75e87ec99ed033"
+    },
+    {
+      "path": "tests/sources.test.ts",
+      "hash": "fc1af53d809ad68943b735bb9f6eab5e22af922dde93a59a6021b7e26b7a7f08"
+    },
+    {
+      "path": "tests/store.test.ts",
+      "hash": "a2b150aa5f66d27a11779b75b4826e51ef29d309a099c07e85d82a06ca3eb4dc"
+    },
+    {
+      "path": "tests/v2-fixture.ts",
+      "hash": "b54648a9752028790e4061a727d761ba4ba1d6d93167704f0ebc8f09cf0de605"
+    },
+    {
+      "path": "tests/v2-golden.test.ts",
+      "hash": "da231734f3ee1e05a36a526d6b39fd22698e121bc65d79a71223f2e4ee822ffc"
+    },
+    {
+      "path": "tests/v3-collection.test.ts",
+      "hash": "36bace874ebf57a385f99eaf11d0c604aedf1f94e172a19c20eca3311de9898e"
+    },
+    {
+      "path": "tests/v3-policies.test.ts",
+      "hash": "2726155788e18d156c8175b6d0c87081e60b37e3aa35f2f77c11de6d3cb3610c"
+    },
+    {
+      "path": "tests/v3-runtime.test.ts",
+      "hash": "d109c38198d5100d88070775cd542a237bfb5f8fe41e1b66901cb93cdd372648"
+    },
+    {
+      "path": "tests/v3-workflow.test.ts",
+      "hash": "efca5cfa69a70d8f0d4752d17600fa2b08983dd0437cc44dff866b915a82ae52"
+    },
+    {
+      "path": "tests/v4-egress-backup.test.ts",
+      "hash": "9dac5304b307601df40969350c9b5cf9db240178e4b0ba53c9e6982da8a731be"
+    },
+    {
+      "path": "tests/v4-operation-matrix.test.ts",
+      "hash": "f2bf16cf15a8801e8ada1ebb217d7de3a89fdd235ce23bcd4afe99eab2f1351a"
+    },
+    {
+      "path": "tests/v4-runtime.test.ts",
+      "hash": "7e3840b0ec7a6c8d19956acd0ec417fd4c5d20d5b14867e1eb49c1de8fa78618"
+    },
+    {
+      "path": "tests/v4-workflow.test.ts",
+      "hash": "ddbf0b3255f9b65bd17dd88c2c8a85477f31e02887fd0a37b86c0ed3e5300708"
+    },
+    {
+      "path": "tests/verification.test.ts",
+      "hash": "dfde63392e2982069ccf6538fbb7f4935e12b21de8d72c770aea1d9a61a5de9c"
+    },
+    {
+      "path": "tsconfig.json",
+      "hash": "2e22ed3ce7f03012759030bdea12dffda0f567dbc35734a038fbaa80dc40402f"
+    },
+    {
+      "path": "tsconfig.server.json",
+      "hash": "23f018c546a95859730b3eedd9bd3d47930ea4c6c4b609b1eeab7a69fb7de59a"
+    },
+    {
+      "path": "vite.config.ts",
+      "hash": "99fbb8ce7e92c85f103f41fad1ab7a8a8f0fd70393e47a162064c7d4adf002da"
+    },
+    {
+      "path": "vitest.config.ts",
+      "hash": "3096eec9a35df41974e9aca460f6247da545f3678d315649c843950146aa5dcb"
+    }
+  ],
+  "changedFromBaseline": [
+    "scripts/e2e-intake.mjs",
+    "server/ai.ts",
+    "server/app.ts",
+    "server/compliance-v2.ts",
+    "server/intake.ts",
+    "server/legacy-bridge-v3.ts",
+    "server/mcp.ts",
+    "server/public-api-transport.ts",
+    "tests/helpers.ts"
+  ],
+  "added": [
+    "scripts/audit-v4.mjs",
+    "scripts/collect-official-v4.mjs",
+    "scripts/e2e-v4.mjs",
+    "scripts/validate-isolated-v4.mjs",
+    "server/attachments-v4.ts",
+    "server/backup-v4.ts",
+    "server/cases-v4.ts",
+    "server/collection-v4.ts",
+    "server/egress-execution-v4.ts",
+    "server/management-v4.ts",
+    "server/policies-v4.ts",
+    "server/protected-payload-v4.ts",
+    "server/provenance-v4.ts",
+    "server/transport-v4.ts",
+    "tests/v4-egress-backup.test.ts",
+    "tests/v4-operation-matrix.test.ts",
+    "tests/v4-runtime.test.ts",
+    "tests/v4-workflow.test.ts"
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "checkedAt": "2026-10-08T11:34:53.229Z",
+  "count": 12,
+  "changed": 0,
+  "files": [
+    {
+      "path": "src\\App.tsx",
+      "expected": "41a8945ed6681d882503dfd9e7158cce43fc5e91db75e19d9c9b4417f7b3f263",
+      "actual": "41a8945ed6681d882503dfd9e7158cce43fc5e91db75e19d9c9b4417f7b3f263",
+      "unchanged": true
+    },
+    {
+      "path": "src\\Dossier.tsx",
+      "expected": "3dcfb80a695927a13cb312214140caed0c3d4eb93d55e14ba109488ea5f118cc",
+      "actual": "3dcfb80a695927a13cb312214140caed0c3d4eb93d55e14ba109488ea5f118cc",
+      "unchanged": true
+    },
+    {
+      "path": "src\\Intake.tsx",
+      "expected": "df2ad6929cbb9882a41ac8788f82ae9a510a981ffc754d1bf546366e3557c0d2",
+      "actual": "df2ad6929cbb9882a41ac8788f82ae9a510a981ffc754d1bf546366e3557c0d2",
+      "unchanged": true
+    },
+    {
+      "path": "src\\main.tsx",
+      "expected": "c80d3bb180519131a1e962f9533134f82e7c219b8194eb01ee658941ccd3a2fa",
+      "actual": "c80d3bb180519131a1e962f9533134f82e7c219b8194eb01ee658941ccd3a2fa",
+      "unchanged": true
+    },
+    {
+      "path": "src\\PublicApis.tsx",
+      "expected": "c7a2d552344052c45430384c720d741f9fd30bd84aeb417e94bef15a6928a185",
+      "actual": "c7a2d552344052c45430384c720d741f9fd30bd84aeb417e94bef15a6928a185",
+      "unchanged": true
+    },
+    {
+      "path": "src\\ReviewApproval.tsx",
+      "expected": "01bc9f29ff88b1371e215dfcc8c10e80421ae7337f6299190e160ee5909e3690",
+      "actual": "01bc9f29ff88b1371e215dfcc8c10e80421ae7337f6299190e160ee5909e3690",
+      "unchanged": true
+    },
+    {
+      "path": "src\\style.css",
+      "expected": "00ee6e3fe1ec266666e841b8193bfc6d45c625f1f9484a9a8ed0097db2172537",
+      "actual": "00ee6e3fe1ec266666e841b8193bfc6d45c625f1f9484a9a8ed0097db2172537",
+      "unchanged": true
+    },
+    {
+      "path": "src\\Tools.tsx",
+      "expected": "cfa4a84218929f1092e08af906fda1e23d6e08939450fe8511a7e0baabea4fd9",
+      "actual": "cfa4a84218929f1092e08af906fda1e23d6e08939450fe8511a7e0baabea4fd9",
+      "unchanged": true
+    },
+    {
+      "path": "src\\Verification.tsx",
+      "expected": "a789dfbf74d79fb97931cea455e4ef1212a7f04d9a2720adf30e1c9067bebf70",
+      "actual": "a789dfbf74d79fb97931cea455e4ef1212a7f04d9a2720adf30e1c9067bebf70",
+      "unchanged": true
+    },
+    {
+      "path": "dist\\index.html",
+      "expected": "9a43daf9a70750fe34a2a367b9fbe0f3e3213539652d66d48aecea88c03571bd",
+      "actual": "9a43daf9a70750fe34a2a367b9fbe0f3e3213539652d66d48aecea88c03571bd",
+      "unchanged": true
+    },
+    {
+      "path": "dist\\assets\\index-BivsNquf.js",
+      "expected": "f5e02451e2bf5e160c692eff497e600321ac33c4091faedeafd878513d6b085a",
+      "actual": "f5e02451e2bf5e160c692eff497e600321ac33c4091faedeafd878513d6b085a",
+      "unchanged": true
+    },
+    {
+      "path": "dist\\assets\\index-DiiLZ3H5.css",
+      "expected": "b04c4895c8f024f5d2b3167021bcb9a04da878766c5de9649904998d83cf6f8d",
+      "actual": "b04c4895c8f024f5d2b3167021bcb9a04da878766c5de9649904998d83cf6f8d",
+      "unchanged": true
+    }
+  ]
+}

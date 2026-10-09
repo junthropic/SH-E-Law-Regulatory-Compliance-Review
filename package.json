@@ -16,7 +16,12 @@
     "backup": "node build/scripts/backup.js",
     "publish:check": "node build/scripts/public-check.js",
     "approve": "node build/scripts/approve.js",
-    "test:e2e": "node scripts/e2e.mjs"
+    "test:e2e": "node scripts/e2e.mjs",
+    "test:e2e:public": "node scripts/e2e-public-apis.mjs",
+    "test:e2e:intake": "node scripts/e2e-intake.mjs",
+    "test:e2e:additional": "node scripts/e2e-additional-apis.mjs",
+    "test:e2e:verification": "node scripts/e2e-verification.mjs",
+    "test:e2e:dossier": "node scripts/e2e-dossier.mjs"
   },
   "dependencies": {
     "@fastify/cookie": "11.1.2",

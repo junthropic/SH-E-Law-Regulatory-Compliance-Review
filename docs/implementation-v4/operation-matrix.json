@@ -1,0 +1,376 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "dirty": true,
+  "sourceDigest": "dc4b4f2029b66d306253fcb8ca724fcd46e30de2a08e2aeb854fcbbdd0688c83",
+  "at": "2026-10-08T15:04:42.233Z",
+  "runtime": "v26.7.0",
+  "scope": "격리 구현·합성 시험. 실제 사업장·법적 승인·운영 완료 아님",
+  "operations": [
+    {
+      "id": "qna:PolicyQnaList",
+      "endpoint": "https://apis.data.go.kr/1140100/CivilPolicyQnaService/PolicyQnaList",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "qna:PolicyQnaItem",
+      "endpoint": "https://apis.data.go.kr/1140100/CivilPolicyQnaService/PolicyQnaItem",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "fire:getMaterialList",
+      "endpoint": "https://apis.data.go.kr/1661000/materialInfoSvc/getMaterialList",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "fire:getMaterialInfo",
+      "endpoint": "https://apis.data.go.kr/1661000/materialInfoSvc/getMaterialInfo",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemList001",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemList001",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail011",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail011",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail021",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail021",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail031",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail031",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail041",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail041",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail051",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail051",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail061",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail061",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail071",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail071",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail081",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail081",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail091",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail091",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail101",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail101",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail111",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail111",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail121",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail121",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail131",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail131",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail141",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail141",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail151",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail151",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "msds:getChemDetail161",
+      "endpoint": "https://apis.data.go.kr/B552468/msdschem1/getChemDetail161",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "smart:smartSearch",
+      "endpoint": "https://apis.data.go.kr/B552468/srch/smartSearch",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "keco:chemSbstnList",
+      "endpoint": "https://apis.data.go.kr/B552584/kecoapi/ncissbstn/chemSbstnList",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "guide:getKoshaGuide",
+      "endpoint": "https://apis.data.go.kr/B552468/koshaguide/getKoshaGuide",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "grievance:selectApiDiciList",
+      "endpoint": "https://apis.data.go.kr/1140100/ApiDiciService/selectApiDiciList",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "grievance:selectApiDiciDetail",
+      "endpoint": "https://apis.data.go.kr/1140100/ApiDiciService/selectApiDiciDetail",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "ghs:ghsList",
+      "endpoint": "https://apis.data.go.kr/B552584/kecoapi/ncisghs/ghsList",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "accidents:getdisaster_api02",
+      "endpoint": "https://apis.data.go.kr/B552468/disaster_api02/getdisaster_api02",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "accident-files:Disaster_attach_api02",
+      "endpoint": "https://apis.data.go.kr/B552468/disaster_attach_api02/Disaster_attach_api02",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "sif:view",
+      "endpoint": "https://apis.data.go.kr/B552468/sifArchive/view",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "chemical-accidents:csclist",
+      "endpoint": "https://apis.data.go.kr/1480802/iciscsc/csclist",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "waste-companies:getWstdspBzentyInfo",
+      "endpoint": "https://apis.data.go.kr/B552584/kecoapi/wstdspBzentyService/getWstdspBzentyInfo",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "waste-sanctions:getlist",
+      "endpoint": "https://apis.data.go.kr/B552584/wstdspGrndsInfo/getlist",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "environment-agencies:info",
+      "endpoint": "https://apis.data.go.kr/1741000/environment_management_agencies/info",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "measurement-agencies:info",
+      "endpoint": "https://apis.data.go.kr/1741000/environment_measurement_agencies/info",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "land-use:DTsearchLunCd",
+      "endpoint": "https://apis.data.go.kr/1613000/arLandUseInfoService/DTsearchLunCd",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "land-use:DTarLandUseInfo",
+      "endpoint": "https://apis.data.go.kr/1613000/arLandUseInfoService/DTarLandUseInfo",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "address:addrLinkApi.do",
+      "endpoint": "https://business.juso.go.kr/addrlink/addrLinkApi.do",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "ppe-cert:getprotector_api01",
+      "endpoint": "https://apis.data.go.kr/B552468/getprotector/getprotector_api01",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "machine-cert:machine_api01",
+      "endpoint": "https://apis.data.go.kr/B552468/getmachine/machine_api01",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "guard-cert:getprotect_api01",
+      "endpoint": "https://apis.data.go.kr/B552468/getprotect/getprotect_api01",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "ppe-declaration:guard_api01",
+      "endpoint": "https://apis.data.go.kr/B552468/getguard/guard_api01",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "machine-declaration:mach",
+      "endpoint": "https://apis.data.go.kr/B552468/getmach/mach",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "guard-declaration:protection_api01",
+      "endpoint": "https://apis.data.go.kr/B552468/getprotection/protection_api01",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "fire-approval:opnFsuplAprv01",
+      "endpoint": "https://apis.data.go.kr/B552486/opnFsuplAprv/opnFsuplAprv01",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "fire-revocation:opnFsuplRtrcn01",
+      "endpoint": "https://apis.data.go.kr/B552486/opnFsuplRtrcn/opnFsuplRtrcn01",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "air-facilities:info",
+      "endpoint": "https://apis.data.go.kr/1741000/air_pollution_facility_installation/info",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "water-other:info",
+      "endpoint": "https://apis.data.go.kr/1741000/water_pollution_source_other/info",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "dust-business:info",
+      "endpoint": "https://apis.data.go.kr/1741000/dust_emission_business_info/info",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "gas-business:info",
+      "endpoint": "https://apis.data.go.kr/1741000/high_pressure_gas/info",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "specific-gas:info",
+      "endpoint": "https://apis.data.go.kr/1741000/specific_high_pressure_gas/info",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    },
+    {
+      "id": "waste-fitness:getList",
+      "endpoint": "https://apis.data.go.kr/B552584/ifCompatibleInfoService/getList",
+      "syntheticAdapterExecuted": true,
+      "officialSpecimenValidated": false,
+      "schemaCoverage": "synthetic-contract-only"
+    }
+  ],
+  "liveCalls": 0,
+  "legalApproval": false
+}

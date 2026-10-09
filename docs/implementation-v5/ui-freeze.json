@@ -1,0 +1,190 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "630ad6a52597c544ef16590c4c15c9f0d1e3ad5c7dbe4fbeef50c0c4bb03b005",
+  "at": "2026-10-08T16:52:16.220Z",
+  "runtime": "v26.7.0",
+  "scope": "격리 구현·공식 공개 자료 조사·합성 시험. 법적 승인·실제 사업장·운영 완료 아님",
+  "count": 29,
+  "files": [
+    {
+      "path": "src/App.tsx",
+      "hash": "41a8945ed6681d882503dfd9e7158cce43fc5e91db75e19d9c9b4417f7b3f263",
+      "actual": "41a8945ed6681d882503dfd9e7158cce43fc5e91db75e19d9c9b4417f7b3f263",
+      "unchanged": true
+    },
+    {
+      "path": "src/Dossier.tsx",
+      "hash": "3dcfb80a695927a13cb312214140caed0c3d4eb93d55e14ba109488ea5f118cc",
+      "actual": "3dcfb80a695927a13cb312214140caed0c3d4eb93d55e14ba109488ea5f118cc",
+      "unchanged": true
+    },
+    {
+      "path": "src/Intake.tsx",
+      "hash": "df2ad6929cbb9882a41ac8788f82ae9a510a981ffc754d1bf546366e3557c0d2",
+      "actual": "df2ad6929cbb9882a41ac8788f82ae9a510a981ffc754d1bf546366e3557c0d2",
+      "unchanged": true
+    },
+    {
+      "path": "src/main.tsx",
+      "hash": "c80d3bb180519131a1e962f9533134f82e7c219b8194eb01ee658941ccd3a2fa",
+      "actual": "c80d3bb180519131a1e962f9533134f82e7c219b8194eb01ee658941ccd3a2fa",
+      "unchanged": true
+    },
+    {
+      "path": "src/PublicApis.tsx",
+      "hash": "c7a2d552344052c45430384c720d741f9fd30bd84aeb417e94bef15a6928a185",
+      "actual": "c7a2d552344052c45430384c720d741f9fd30bd84aeb417e94bef15a6928a185",
+      "unchanged": true
+    },
+    {
+      "path": "src/ReviewApproval.tsx",
+      "hash": "01bc9f29ff88b1371e215dfcc8c10e80421ae7337f6299190e160ee5909e3690",
+      "actual": "01bc9f29ff88b1371e215dfcc8c10e80421ae7337f6299190e160ee5909e3690",
+      "unchanged": true
+    },
+    {
+      "path": "src/style.css",
+      "hash": "00ee6e3fe1ec266666e841b8193bfc6d45c625f1f9484a9a8ed0097db2172537",
+      "actual": "00ee6e3fe1ec266666e841b8193bfc6d45c625f1f9484a9a8ed0097db2172537",
+      "unchanged": true
+    },
+    {
+      "path": "src/Tools.tsx",
+      "hash": "cfa4a84218929f1092e08af906fda1e23d6e08939450fe8511a7e0baabea4fd9",
+      "actual": "cfa4a84218929f1092e08af906fda1e23d6e08939450fe8511a7e0baabea4fd9",
+      "unchanged": true
+    },
+    {
+      "path": "src/Verification.tsx",
+      "hash": "a789dfbf74d79fb97931cea455e4ef1212a7f04d9a2720adf30e1c9067bebf70",
+      "actual": "a789dfbf74d79fb97931cea455e4ef1212a7f04d9a2720adf30e1c9067bebf70",
+      "unchanged": true
+    },
+    {
+      "path": "shared/additional-search.ts",
+      "hash": "6a1e5fc21be9260b111684e99f6a83e8a70706f25d866b056a10c5c837fa35fc",
+      "actual": "6a1e5fc21be9260b111684e99f6a83e8a70706f25d866b056a10c5c837fa35fc",
+      "unchanged": true
+    },
+    {
+      "path": "shared/connection-catalog.ts",
+      "hash": "f7ecab2c493689c1f5d73c4581be084df3ce1a9f543840ac7460721d92b5b536",
+      "actual": "f7ecab2c493689c1f5d73c4581be084df3ce1a9f543840ac7460721d92b5b536",
+      "unchanged": true
+    },
+    {
+      "path": "shared/dates.ts",
+      "hash": "936233efd427cce7c1c4e9266149531680ee22288bd60064da71466d06802e9a",
+      "actual": "936233efd427cce7c1c4e9266149531680ee22288bd60064da71466d06802e9a",
+      "unchanged": true
+    },
+    {
+      "path": "shared/dossier.ts",
+      "hash": "5221608c5ce45044491dea820c3dcd0b81aee4e0f8a376a25aed364ccaa7e7ac",
+      "actual": "5221608c5ce45044491dea820c3dcd0b81aee4e0f8a376a25aed364ccaa7e7ac",
+      "unchanged": true
+    },
+    {
+      "path": "shared/identifiers.ts",
+      "hash": "ac20cc751af15e5c17e30ac148cb2616a6bb566fe7b4ffbfce48c1000e8ab87a",
+      "actual": "ac20cc751af15e5c17e30ac148cb2616a6bb566fe7b4ffbfce48c1000e8ab87a",
+      "unchanged": true
+    },
+    {
+      "path": "shared/information-notice.ts",
+      "hash": "5e5feae7416891037e80956f112a496d0652f42220f9c98a553b1b34a46de94c",
+      "actual": "5e5feae7416891037e80956f112a496d0652f42220f9c98a553b1b34a46de94c",
+      "unchanged": true
+    },
+    {
+      "path": "shared/intake.ts",
+      "hash": "1433bd2d82e74ce0965c5d7560725e02404fbeebe70d8c244829d5eddb350b0b",
+      "actual": "1433bd2d82e74ce0965c5d7560725e02404fbeebe70d8c244829d5eddb350b0b",
+      "unchanged": true
+    },
+    {
+      "path": "shared/jurisdictions.ts",
+      "hash": "92a8e48d609ecad3f22de8d861a99afeab66c9dd0adf31348e9c71ddcbfc81c4",
+      "actual": "92a8e48d609ecad3f22de8d861a99afeab66c9dd0adf31348e9c71ddcbfc81c4",
+      "unchanged": true
+    },
+    {
+      "path": "shared/public-apis.ts",
+      "hash": "096009c91de5e0abb6676be1b151de5622e407d17c2e555d11e2144724442e80",
+      "actual": "096009c91de5e0abb6676be1b151de5622e407d17c2e555d11e2144724442e80",
+      "unchanged": true
+    },
+    {
+      "path": "shared/result-language.ts",
+      "hash": "59f80dc6629b1209d96c50a371abe7e40bb285f7ed68048983308b669b250ead",
+      "actual": "59f80dc6629b1209d96c50a371abe7e40bb285f7ed68048983308b669b250ead",
+      "unchanged": true
+    },
+    {
+      "path": "shared/review-domains.ts",
+      "hash": "76328b781875ddf675d16f8436bceb6aebb2431c85a3b54f73b030094da63df7",
+      "actual": "76328b781875ddf675d16f8436bceb6aebb2431c85a3b54f73b030094da63df7",
+      "unchanged": true
+    },
+    {
+      "path": "shared/types.ts",
+      "hash": "3354150a2a18f1161aa79914f5eab87eda5ba4ee233d45f90459c585f044a864",
+      "actual": "3354150a2a18f1161aa79914f5eab87eda5ba4ee233d45f90459c585f044a864",
+      "unchanged": true
+    },
+    {
+      "path": "shared/verification.ts",
+      "hash": "4adaf38a1f80b8f76cc87d9381d2da21b901254f6936af984af19f8781b0ffcf",
+      "actual": "4adaf38a1f80b8f76cc87d9381d2da21b901254f6936af984af19f8781b0ffcf",
+      "unchanged": true
+    },
+    {
+      "path": "dist/assets/index-BivsNquf.js",
+      "hash": "f5e02451e2bf5e160c692eff497e600321ac33c4091faedeafd878513d6b085a",
+      "actual": "f5e02451e2bf5e160c692eff497e600321ac33c4091faedeafd878513d6b085a",
+      "unchanged": true
+    },
+    {
+      "path": "dist/assets/index-DiiLZ3H5.css",
+      "hash": "b04c4895c8f024f5d2b3167021bcb9a04da878766c5de9649904998d83cf6f8d",
+      "actual": "b04c4895c8f024f5d2b3167021bcb9a04da878766c5de9649904998d83cf6f8d",
+      "unchanged": true
+    },
+    {
+      "path": "dist/index.html",
+      "hash": "9a43daf9a70750fe34a2a367b9fbe0f3e3213539652d66d48aecea88c03571bd",
+      "actual": "9a43daf9a70750fe34a2a367b9fbe0f3e3213539652d66d48aecea88c03571bd",
+      "unchanged": true
+    },
+    {
+      "path": "index.html",
+      "hash": "bd8a92000dcd4fbc64c1048ead5907e4e71ea65da89e3676cbd06b7e3f44a32f",
+      "actual": "bd8a92000dcd4fbc64c1048ead5907e4e71ea65da89e3676cbd06b7e3f44a32f",
+      "unchanged": true
+    },
+    {
+      "path": "vite.config.ts",
+      "hash": "99fbb8ce7e92c85f103f41fad1ab7a8a8f0fd70393e47a162064c7d4adf002da",
+      "actual": "99fbb8ce7e92c85f103f41fad1ab7a8a8f0fd70393e47a162064c7d4adf002da",
+      "unchanged": true
+    },
+    {
+      "path": "package.json",
+      "hash": "57f10ce70278bd1fa537bc4509389b8281dbdecd80e18a2a5f84e8fa035b28b4",
+      "actual": "57f10ce70278bd1fa537bc4509389b8281dbdecd80e18a2a5f84e8fa035b28b4",
+      "unchanged": true
+    },
+    {
+      "path": "package-lock.json",
+      "hash": "15b64b412767caea1f41dd3a9efc852d5dcae734a1a80d2e5951eb9a8b653ab1",
+      "actual": "15b64b412767caea1f41dd3a9efc852d5dcae734a1a80d2e5951eb9a8b653ab1",
+      "unchanged": true
+    }
+  ],
+  "changed": 0,
+  "productionAccess": 0,
+  "realKeysUsed": 0,
+  "deployed": 0,
+  "restarted": 0,
+  "activated": 0
+}

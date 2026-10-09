@@ -1,0 +1,197 @@
+{
+  "version": "v5.1",
+  "services": [
+    {
+      "service": "waste-companies",
+      "sourceSchema": "official/a07-schema.json",
+      "fields": [
+        {
+          "field": "prcsWstListCn",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "tpbizNm",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "bzentyNm",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "arspNm",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "brNo",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "rprsvNm",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "zip",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "addr",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "telNo",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "bzentyPstnLot",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "bzentyPstnLat",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "bzentySttsNm",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "cmptncGvmnfcNm",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "cmptncSggNm",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        }
+      ],
+      "inventedFields": [],
+      "missing": [
+        "허가번호",
+        "허가·신고 범위 원본",
+        "처리용량",
+        "현재 재고",
+        "안정적인 시설 식별자"
+      ],
+      "businessNumberConfirmsFacility": false,
+      "automaticApproval": false
+    },
+    {
+      "service": "waste-sanctions",
+      "sourceSchema": "official/a08-schema.json",
+      "fields": [
+        {
+          "field": "bzentyNm",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "brno",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "rprsvNm",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "tpbizSeNm",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "admdspInstNm",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "admdspYmd",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "bgngYmd",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "endYmd",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "vltnDsctn",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        },
+        {
+          "field": "telgmRcptnYmd",
+          "rawFieldPathPreserved": true,
+          "sourceValuePreserved": true,
+          "missingNullBlankZeroSeparate": true
+        }
+      ],
+      "inventedFields": [],
+      "missing": [
+        "허가번호",
+        "허가·신고 범위 원본",
+        "처리용량",
+        "현재 재고",
+        "안정적인 시설 식별자"
+      ],
+      "businessNumberConfirmsFacility": false,
+      "automaticApproval": false
+    }
+  ],
+  "dateSemantics": {
+    "telgmRcptnYmd": "통합 수신일: 관할기관 접수일 아님",
+    "admdspYmd": "처분일: 현재 효력 확정 아님",
+    "bgngYmd": "제공된 시작일",
+    "endYmd": "제공된 종료일: 종료만으로 효력 확정하지 않음"
+  },
+  "reasonCodes": [
+    "source_missing",
+    "identity_conflict",
+    "contract_missing",
+    "capacity_unknown",
+    "sanction_effect_unknown"
+  ],
+  "manualVersionConflict": "거부",
+  "sourceRefresh": "수동 값 보존·현재 검토 해제",
+  "realSiteVerified": false
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "osha21374",
+    "url": "https://www.law.go.kr/LSW/lsInfoR.do?lsiSeq=283449&efYd=20260601&chrClsCd=010202",
+    "status": 200,
+    "bytes": 447115,
+    "hash": "51f24a721bde2096eea86437666b95bad8ba0f2075e4bbe2956c987a060719d4",
+    "at": "2026-10-08T16:35:50.488Z",
+    "supplementMarker": true,
+    "fullBranchesReviewed": false
+  },
+  {
+    "id": "rule-before",
+    "url": "https://www.law.go.kr/LSW/lsInfoR.do?lsiSeq=271485&efYd=20260601&chrClsCd=010202",
+    "status": 200,
+    "bytes": 454,
+    "hash": "2954ba9341bff477923ae2073c15b07cd0d241a2d63fae3957e0d0ea5a521ded",
+    "at": "2026-10-08T16:35:51.078Z",
+    "supplementMarker": false,
+    "fullBranchesReviewed": false
+  },
+  {
+    "id": "rule470",
+    "url": "https://www.law.go.kr/LSW/lsInfoR.do?lsiSeq=286657&efYd=20260601&chrClsCd=010202",
+    "status": 200,
+    "bytes": 1313636,
+    "hash": "5307487da97aba3ded3e516cfd8e486b2534f416444cf0bfdb3a58453efc9107",
+    "at": "2026-10-08T16:35:51.839Z",
+    "supplementMarker": true,
+    "fullBranchesReviewed": false
+  }
+]

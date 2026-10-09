@@ -1,0 +1,2584 @@
+{
+  "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
+  "sourceDigest": "630ad6a52597c544ef16590c4c15c9f0d1e3ad5c7dbe4fbeef50c0c4bb03b005",
+  "at": "2026-10-08T16:52:16.220Z",
+  "runtime": "v26.7.0",
+  "scope": "격리 구현·공식 공개 자료 조사·합성 시험. 법적 승인·실제 사업장·운영 완료 아님",
+  "total": 404,
+  "passed": 404,
+  "failed": 0,
+  "baseline": 380,
+  "preservedBaseline": 380,
+  "newTests": [
+    {
+      "file": "tests/v5-process.test.ts",
+      "name": "V5-A05: 격리 실제 TLS 소켓에서 pin·인증서·원문 bytes 확인하고 redirect 거부",
+      "status": "passed",
+      "duration": 309.9874
+    },
+    {
+      "file": "tests/v5-process.test.ts",
+      "name": "V5-B04: 다른 프로세스의 revoke commit 이전·이후 admission과 취소 순서",
+      "status": "passed",
+      "duration": 350.8677999999999
+    },
+    {
+      "file": "tests/v5-process.test.ts",
+      "name": "V5-B05: 실제 복원 프로세스 중단 뒤 공개 세대는 없고 잠금 복구 후 재복원",
+      "status": "passed",
+      "duration": 4601.2051
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A01: 공식 form5 발견·암호 원문·실제 격리 파서 연결",
+      "status": "passed",
+      "duration": 912.5584000000001
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A01: 공식 notice 발견·암호 원문·실제 격리 파서 연결",
+      "status": "passed",
+      "duration": 671.9964000000004
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A02: 첨부 주소 추측·다른 파일ID는 발견으로 인정하지 않는다",
+      "status": "passed",
+      "duration": 0.43540000000029977
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A03: 위험 압축 항목 ../escape.xml를 파서 진입 전 거절",
+      "status": "passed",
+      "duration": 381.9183000000003
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A03: 위험 압축 항목 C:stream.xml를 파서 진입 전 거절",
+      "status": "passed",
+      "duration": 242.28759999999966
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A03: 위험 압축 항목 Contents/payload.zip를 파서 진입 전 거절",
+      "status": "passed",
+      "duration": 217.4126000000001
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A03: 위험 압축 항목 Contents/entity.xml를 파서 진입 전 거절",
+      "status": "passed",
+      "duration": 211.2887999999998
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A04: OCR 미지원과 사용자 취소를 추출 완료로 만들지 않는다",
+      "status": "passed",
+      "duration": 18.952499999999418
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-C01: 공식 필드만 제공하며 누락·빈 값·0·번호 선행 0을 구분",
+      "status": "passed",
+      "duration": 1.2331999999996697
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-C02: XML 단일·복수와 A08 wrapper를 명시적으로 해석",
+      "status": "passed",
+      "duration": 2.387699999999313
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-C03: 정상 0건·기관 오류·불명 구조·0건 충돌을 구분",
+      "status": "passed",
+      "duration": 0.3245999999999185
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-C04: 실제 worker raw→후보→수동 보완→독립 검토→기존 검토 trace 다운로드",
+      "status": "passed",
+      "duration": 151.4449999999997
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-D01: 서식 목적·필요란·환산 근거·전일 재고·음수·참조 충돌 보존",
+      "status": "passed",
+      "duration": 0.4930000000003929
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-D02: 평가일·개시일·조회일은 별개이며 개정 전후 기록 조문 유지",
+      "status": "passed",
+      "duration": 0.14280000000053406
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-B01: 같은 snapshot 통합 백업→세대 복원·원본·작업 중지·전송 거부·현재 승인 무효",
+      "status": "passed",
+      "duration": 1100.3896000000004
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-B02: 미분류 자원은 통합 완료로 바꾸지 않고 복원 대상 덮어쓰기 금지",
+      "status": "passed",
+      "duration": 2698.9715000000006
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-B03: admission 이전 철회는 0회·이후 철회는 취소와 미관측 송신 구분",
+      "status": "passed",
+      "duration": 93.52590000000055
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-H01: 앱 시험 설정 true와 가상 영역 true는 권한을 자동 부여하지 않는다",
+      "status": "passed",
+      "duration": 28.548500000000786
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-H01: 앱 시험 설정 true와 가상 영역 false는 권한을 자동 부여하지 않는다",
+      "status": "passed",
+      "duration": 23.768699999998717
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-H01: 앱 시험 설정 false와 가상 영역 true는 권한을 자동 부여하지 않는다",
+      "status": "passed",
+      "duration": 22.70179999999891
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-H01: 앱 시험 설정 false와 가상 영역 false는 권한을 자동 부여하지 않는다",
+      "status": "passed",
+      "duration": 23.922199999999066
+    }
+  ],
+  "rows": [
+    {
+      "file": "tests/a07-transport.test.ts",
+      "name": "A07은 60초를 허용하고 일시 실패만 간격을 두어 한 번 재시도한다",
+      "status": "passed",
+      "duration": 11.16130000000004
+    },
+    {
+      "file": "tests/a07-transport.test.ts",
+      "name": "한도 및 인증 실패는 재시도하지 않고 다른 검색도 유예하며 키 변경은 분리한다",
+      "status": "passed",
+      "duration": 2.2205999999999904
+    },
+    {
+      "file": "tests/a07-transport.test.ts",
+      "name": "동일 조회는 하나로 합치고 서로 다른 조회도 동시 호출하지 않는다",
+      "status": "passed",
+      "duration": 0.5176000000000158
+    },
+    {
+      "file": "tests/a07-transport.test.ts",
+      "name": "연속 장애 세 번 후에는 회로를 열어 추가 요청을 중단하고 빈 결과로 위장하지 않는다",
+      "status": "passed",
+      "duration": 0.8288000000000011
+    },
+    {
+      "file": "tests/a07-transport.test.ts",
+      "name": "긴 Retry-After는 즉시 재시도하지 않고 지정된 기간의 재호출을 막는다",
+      "status": "passed",
+      "duration": 0.5713000000000079
+    },
+    {
+      "file": "tests/a07-transport.test.ts",
+      "name": "대기 요청 수를 제한하고 인증값이 없는 고정 오류만 반환한다",
+      "status": "passed",
+      "duration": 0.4105999999999881
+    },
+    {
+      "file": "tests/a07-transport.test.ts",
+      "name": "인증·형식·입력 오류에는 자동 재시도가 없다",
+      "status": "passed",
+      "duration": 0.6807999999999765
+    },
+    {
+      "file": "tests/a07-transport.test.ts",
+      "name": "HTTP 200의 게이트웨이 초당 제한을 인증 오류나 정상 0건으로 처리하지 않는다",
+      "status": "passed",
+      "duration": 32.57420000000002
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "grievance: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 11.781500000000051
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "ghs: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 1.1900000000000546
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "accidents: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.82650000000001
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "accident-files: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.6759999999999309
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "sif: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.7350000000000136
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "chemical-accidents: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.612700000000018
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "waste-companies: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 3.3654999999999973
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "waste-sanctions: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 14.888900000000035
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "environment-agencies: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.5509999999999309
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "measurement-agencies: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.6265000000000782
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "land-use: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.4600000000000364
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "address: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.4130999999999858
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "ppe-cert: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.39850000000001273
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "machine-cert: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.4230999999999767
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "guard-cert: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.4312999999999647
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "ppe-declaration: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.48279999999999745
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "machine-declaration: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.37180000000000746
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "guard-declaration: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.3584999999999354
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "fire-approval: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.4419000000000324
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "fire-revocation: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.4015000000000555
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "air-facilities: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.3302999999999656
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "water-other: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.33140000000003056
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "dust-business: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.35839999999996053
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "gas-business: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.3466999999999416
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "specific-gas: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.336400000000026
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "waste-fitness: 실제 검색 경로·인증 분리·출처·검색조건·발췌 해시를 보존한다",
+      "status": "passed",
+      "duration": 0.31970000000001164
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "조회에는 연결시험용 인증번호·날짜·주소를 자동 사용하지 않으며 잘못된 조건은 호출 전에 거절한다",
+      "status": "passed",
+      "duration": 1.5464000000000624
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "비산먼지 고유 검색 변수와 행위제한 조회를 구분한다",
+      "status": "passed",
+      "duration": 0.5298000000000229
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "후속 페이지·0건·잘못된 응답을 구별한다",
+      "status": "passed",
+      "duration": 0.828899999999976
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "결정례 상세는 문서번호와 본문을 검증하며 불일치를 거절한다",
+      "status": "passed",
+      "duration": 0.8165000000000191
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "추가 자료를 가져오면 원문·출처를 보존하지만 법률 위반 증거로 승인하지 않는다",
+      "status": "passed",
+      "duration": 75.18750000000011
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "화성 위험물 질문은 확인된 CAS만 GHS에 보내며 결정례 조회 기간을 기준일에 묶는다",
+      "status": "passed",
+      "duration": 1.8629000000000815
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "재해사례가 검색어를 무시해도 무관한 결과를 제외하고 기관 전체 건수와 구분한다",
+      "status": "passed",
+      "duration": 0.6393000000000484
+    },
+    {
+      "file": "tests/additional-apis.test.ts",
+      "name": "토지이용의 별도 조건·예외 본문을 행위제한과 함께 보존한다",
+      "status": "passed",
+      "duration": 0.3994000000000142
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "SSE 한글·CRLF·분할 경계를 처리한다",
+      "status": "passed",
+      "duration": 21.159200000000055
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "일부 응답 뒤 response.failed 이벤트도 실패 처리한다",
+      "status": "passed",
+      "duration": 1.514699999999948
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "일부 응답 뒤 response.incomplete 이벤트도 실패 처리한다",
+      "status": "passed",
+      "duration": 0.6311000000000604
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "일부 응답 뒤 error 이벤트도 실패 처리한다",
+      "status": "passed",
+      "duration": 0.44860000000005584
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "완료 이벤트가 없으면 결과를 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.429300000000012
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "사용 한도 오류를 자동 유료 API 전환으로 처리하지 않는다",
+      "status": "passed",
+      "duration": 1.0235000000000127
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "문서 잘림을 누락 범위로 보고한다",
+      "status": "passed",
+      "duration": 10.514099999999985
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "개인정보 치환 후에도 문서 전체 입력 한도를 넘지 않는다",
+      "status": "passed",
+      "duration": 5.95150000000001
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "PKCE·state는 무작위이고 host ID는 안정적이다",
+      "status": "passed",
+      "duration": 25.46289999999999
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "발급 client ID, nonce, 서명, scope를 검증하여 연결한다",
+      "status": "passed",
+      "duration": 107.59230000000002
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "손상된 인증정보는 설정 화면을 막지 않고 연결 해제로 복구할 수 있다",
+      "status": "passed",
+      "duration": 24.21079999999995
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "잘못된 토큰 수명 0는 인증정보를 덮어쓰지 않는다",
+      "status": "passed",
+      "duration": 24.619600000000105
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "잘못된 토큰 수명 -1는 인증정보를 덮어쓰지 않는다",
+      "status": "passed",
+      "duration": 23.115499999999997
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "잘못된 토큰 수명 3600는 인증정보를 덮어쓰지 않는다",
+      "status": "passed",
+      "duration": 22.654800000000023
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "잘못된 토큰 수명 null는 인증정보를 덮어쓰지 않는다",
+      "status": "passed",
+      "duration": 23.110900000000015
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "원격 세션 종료 실패도 로컬 로그아웃을 완료하고 미확인을 알린다",
+      "status": "passed",
+      "duration": 333.54139999999995
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "동시 요청의 토큰 갱신을 한 번만 실행하고 refresh token을 교체한다",
+      "status": "passed",
+      "duration": 17.937099999999873
+    },
+    {
+      "file": "tests/ai-auth.test.ts",
+      "name": "연결 해제 후 지연된 토큰 응답이 자격증명을 복구하지 않는다",
+      "status": "passed",
+      "duration": 17.944799999999987
+    },
+    {
+      "file": "tests/app.test.ts",
+      "name": "응답 수신 중단 시 작업 완료 전에는 잠금을 유지하고 완료 후에는 저장을 허용한다",
+      "status": "passed",
+      "duration": 190.84429999999998
+    },
+    {
+      "file": "tests/app.test.ts",
+      "name": "인증 저장소 장애가 자료함·설정 상태 조회를 막지 않는다",
+      "status": "passed",
+      "duration": 33.3578
+    },
+    {
+      "file": "tests/app.test.ts",
+      "name": "공개자료를 받는 동안 복원·백업·종료를 거부하고 끝나면 잠금을 해제한다",
+      "status": "passed",
+      "duration": 86.3697000000002
+    },
+    {
+      "file": "tests/app.test.ts",
+      "name": "로컬 호스트·세션·CSRF를 검사하고 실제 검토 이력을 저장한다",
+      "status": "passed",
+      "duration": 39.4846
+    },
+    {
+      "file": "tests/app.test.ts",
+      "name": "검토자 확인은 원문 전체 해시·공보·지역·기준일에 결속된다",
+      "status": "passed",
+      "duration": 24.743600000000015
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "허가 서류 미제공를 확정된 무허가 사실로 승격하지 않는다",
+      "status": "passed",
+      "duration": 4.178099999999972
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "허가 자료 없음를 확정된 무허가 사실로 승격하지 않는다",
+      "status": "passed",
+      "duration": 0.29759999999998854
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "확인되지 않았음를 확정된 무허가 사실로 승격하지 않는다",
+      "status": "passed",
+      "duration": 1.962600000000009
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "추정를 확정된 무허가 사실로 승격하지 않는다",
+      "status": "passed",
+      "duration": 0.1664000000000101
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "신고 예정를 확정된 무허가 사실로 승격하지 않는다",
+      "status": "passed",
+      "duration": 0.15690000000000737
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "대상·기준일이 불분명한 질문과 답변 차이는 충돌 확정 대신 추가 확인으로 남긴다",
+      "status": "passed",
+      "duration": 1.4993000000000052
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "규칙은 중복 또는 미제공 허가 사실로 명확한 리스크를 만들지 않는다",
+      "status": "passed",
+      "duration": 1.1154999999999973
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "업무별 필요한 사실과 원문을 구분한다: 폐기물 위탁처리 검토입니다.",
+      "status": "passed",
+      "duration": 0.6589999999999918
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "업무별 필요한 사실과 원문을 구분한다: 화학물질 취급시설 검토입니다.",
+      "status": "passed",
+      "duration": 0.24840000000000373
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "업무별 필요한 사실과 원문을 구분한다: 밀폐공간 작업 산업안전 검토입니다.",
+      "status": "passed",
+      "duration": 0.24420000000003483
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "화성시·자료 없음과 과거 회신을 현재 사업장의 위반 입증으로 쓰지 않는다",
+      "status": "passed",
+      "duration": 24.995299999999986
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "CAS 불일치·식별자 누락·업체명 후보를 일치 확인으로 오인하지 않는다",
+      "status": "passed",
+      "duration": 0.430499999999995
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "확인서 입력 대상은 현재 원문과 연결되고 충돌 상태는 백업 후에도 보존된다",
+      "status": "passed",
+      "duration": 32.68889999999999
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "큰 별표 본문을 가진 시행규칙도 자르지 않고 보존한다",
+      "status": "passed",
+      "duration": 14.01339999999999
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "개별 회신 인용만으로는 현재 사업장 위반을 판정하지 않는다",
+      "status": "passed",
+      "duration": 0.6119999999999663
+    },
+    {
+      "file": "tests/case-audit.test.ts",
+      "name": "법규 첨부 바이너리가 없는 백업을 복원해도 원본 확보로 표시하지 않는다",
+      "status": "passed",
+      "duration": 23.135299999999916
+    },
+    {
+      "file": "tests/collection-hardening.test.ts",
+      "name": "첨부 수집 한도 밖 원본을 다음 구간으로 이어서 확보한다",
+      "status": "passed",
+      "duration": 116.5997000000001
+    },
+    {
+      "file": "tests/collection-hardening.test.ts",
+      "name": "본문에 링크 없는 별지는 동일 버전·시행일·식별자의 별표 API로 보완한다",
+      "status": "passed",
+      "duration": 25.627700000000004
+    },
+    {
+      "file": "tests/collection-hardening.test.ts",
+      "name": "다른 버전·다른 시행일·다른 별지의 원본을 가져오지 않는다",
+      "status": "passed",
+      "duration": 19.214699999999993
+    },
+    {
+      "file": "tests/collection-hardening.test.ts",
+      "name": "별표 추가 경로 실패 시 원문 승인 없이 미확보 상태를 반환한다",
+      "status": "passed",
+      "duration": 19.16669999999999
+    },
+    {
+      "file": "tests/collection-hardening.test.ts",
+      "name": "도 조례와 선택 도시를 구분하고 다른 시 조례를 제외한다",
+      "status": "passed",
+      "duration": 0.7108000000000629
+    },
+    {
+      "file": "tests/collection-hardening.test.ts",
+      "name": "지역별 조례 검색은 공식 소관기관 코드로 범위를 지정한다",
+      "status": "passed",
+      "duration": 1.8683000000000902
+    },
+    {
+      "file": "tests/collection-hardening.test.ts",
+      "name": "32개 서비스 모두 알 수 없는 필터는 네트워크 호출 전에 거부한다",
+      "status": "passed",
+      "duration": 8.217899999999986
+    },
+    {
+      "file": "tests/collection-hardening.test.ts",
+      "name": "네 물질 API는 CAS 검증 숫자가 틀리면 외부 호출하지 않는다",
+      "status": "passed",
+      "duration": 0.9915999999999485
+    },
+    {
+      "file": "tests/collection-hardening.test.ts",
+      "name": "호출 한도와 인증·기관 장애를 구분하고 반복 요청하거나 인증값을 내보내지 않는다",
+      "status": "passed",
+      "duration": 1.9710000000000036
+    },
+    {
+      "file": "tests/collection-hardening.test.ts",
+      "name": "사업장·보유 자료 없이 검토하면 사실을 만들지 않고 추가 질문을 남긴다",
+      "status": "passed",
+      "duration": 24.050100000000043
+    },
+    {
+      "file": "tests/collection-v2.test.ts",
+      "name": "V2-01 V2-02: A08 HTTP200 내부 일일한도는 자정 해제로 추정하지 않고 저장한다",
+      "status": "passed",
+      "duration": 59.22149999999999
+    },
+    {
+      "file": "tests/collection-v2.test.ts",
+      "name": "V2-02 V2-03 AC36: 429 이후 새 전송기에서도 제한을 보존하며 정상 0건을 만들지 않는다",
+      "status": "passed",
+      "duration": 21.226499999999987
+    },
+    {
+      "file": "tests/collection-v2.test.ts",
+      "name": "V2-06 AC37: 저장 중 강제 실패는 원문·checkpoint를 함께 rollback하고 재개 시 중복하지 않는다",
+      "status": "passed",
+      "duration": 26.025900000000036
+    },
+    {
+      "file": "tests/collection-v2.test.ts",
+      "name": "V2-09 AC34 AC35: 실패·새 조회 0건은 이전 성공 원문을 보존하고 총건수 변동은 부분으로 남긴다",
+      "status": "passed",
+      "duration": 23.30250000000001
+    },
+    {
+      "file": "tests/compliance-v2.test.ts",
+      "name": "AC46: 결정적 비대상 근거는 무관한 미확인 입력과 독립적으로 판정한다",
+      "status": "passed",
+      "duration": 62.98959999999988
+    },
+    {
+      "file": "tests/compliance-v2.test.ts",
+      "name": "AC01 AC02 AC03 AC09 V2-10: 입력·API 부재는 위반과 적합 어느 것으로도 승격하지 않는다",
+      "status": "passed",
+      "duration": 33.36959999999999
+    },
+    {
+      "file": "tests/compliance-v2.test.ts",
+      "name": "P0-7: 근거·정책·사실 승인 후에도 사업장 판단 승인 전 확정 리스크가 아니다",
+      "status": "passed",
+      "duration": 70.55119999999988
+    },
+    {
+      "file": "tests/compliance-v2.test.ts",
+      "name": "AC47 V2-21: 원문 변경은 의존 판단만 무효화하며 승인 이력은 남긴다",
+      "status": "passed",
+      "duration": 38.811800000000176
+    },
+    {
+      "file": "tests/compliance-v2.test.ts",
+      "name": "AC05 AC29 V2-16: 다른 설비·만료 증빙은 사실 입증 승인에 사용할 수 없다",
+      "status": "passed",
+      "duration": 36.20510000000013
+    },
+    {
+      "file": "tests/compliance-v2.test.ts",
+      "name": "P0-9 V2-22: 다른 사업장·가상 영역 접근과 자기 승인을 차단한다",
+      "status": "passed",
+      "duration": 28.62149999999997
+    },
+    {
+      "file": "tests/compliance-v2.test.ts",
+      "name": "AC43 V2-24: 별도 DB 복원은 원본·연결·과거 승인을 보존하고 현재 승인은 재검토한다",
+      "status": "passed",
+      "duration": 87.96129999999994
+    },
+    {
+      "file": "tests/compliance-v2.test.ts",
+      "name": "P0-9: 복원 전 대상·원본 해시를 검증하고 부분 DB를 만들지 않는다",
+      "status": "passed",
+      "duration": 67.69450000000006
+    },
+    {
+      "file": "tests/compliance-v2.test.ts",
+      "name": "V2-14: 검사일과 발급일을 바꾸어 대입하지 않는다",
+      "status": "passed",
+      "duration": 1.2831999999998516
+    },
+    {
+      "file": "tests/compliance-v2.test.ts",
+      "name": "AC10 AC11 AC13: 미확인 계산 근거·기산일은 보류하고 기한 도래 전과 경과를 구분한다",
+      "status": "passed",
+      "duration": 0.34750000000008185
+    },
+    {
+      "file": "tests/compliance-v2.test.ts",
+      "name": "API 인증: 요청 본문의 역할이나 기존 검토자 이름은 승인 권한이 아니다",
+      "status": "passed",
+      "duration": 124.25139999999988
+    },
+    {
+      "file": "tests/dossier.test.ts",
+      "name": "수량 단위를 확인하고 허가 미확인을 무허가로 바꾸지 않는다",
+      "status": "passed",
+      "duration": 5.3887999999999465
+    },
+    {
+      "file": "tests/dossier.test.ts",
+      "name": "예외의 필요한 사실을 연결하고 원문·사실·질문 변경 시 기존 판단을 제외한다",
+      "status": "passed",
+      "duration": 1.695699999999988
+    },
+    {
+      "file": "tests/dossier.test.ts",
+      "name": "원문·선택 범위·수치·예외 표지·날짜 차이를 구분하고 위조 발췌를 거부한다",
+      "status": "passed",
+      "duration": 27.23350000000005
+    },
+    {
+      "file": "tests/dossier.test.ts",
+      "name": "공백 차이만 있으면 선택 범위만 일치로 표시한다",
+      "status": "passed",
+      "duration": 21.490099999999984
+    },
+    {
+      "file": "tests/dossier.test.ts",
+      "name": "공식 다운로드는 허용 HTTPS 출처만 받고 HTML·인증값·사설주소를 거부한다",
+      "status": "passed",
+      "duration": 29.900100000000066
+    },
+    {
+      "file": "tests/dossier.test.ts",
+      "name": "재검토는 동일 원본·기준일·지역 대조만 연결한다",
+      "status": "passed",
+      "duration": 24.29399999999987
+    },
+    {
+      "file": "tests/dossier.test.ts",
+      "name": "대조·검토자 기록·추가 질문·인계·백업 복원까지 승인을 자동 생성하지 않는다",
+      "status": "passed",
+      "duration": 146.80640000000017
+    },
+    {
+      "file": "tests/dossier.test.ts",
+      "name": "공백이 있는 부 칙도 실제 본문의 시행 특례 후보로 찾는다",
+      "status": "passed",
+      "duration": 0.4074000000000524
+    },
+    {
+      "file": "tests/dossier.test.ts",
+      "name": "검토 ID 확인서는 연결 원문의 승인을 해당 검토 범위에 보관한다",
+      "status": "passed",
+      "duration": 22.93380000000002
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "사용자 입력 완료 및 모델 추출을 증빙 확인으로 승격하지 않는다",
+      "status": "passed",
+      "duration": 9.235400000000027
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "허가 서류 미제공는 의무 불이행 사실이 아니다",
+      "status": "passed",
+      "duration": 0.46980000000002065
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "신고 자료 미제출는 의무 불이행 사실이 아니다",
+      "status": "passed",
+      "duration": 0.1471000000000231
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "교육 기록 없음는 의무 불이행 사실이 아니다",
+      "status": "passed",
+      "duration": 0.13870000000002847
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "검사 문서가 없음는 의무 불이행 사실이 아니다",
+      "status": "passed",
+      "duration": 0.11059999999997672
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "선임 증빙 미업로드는 의무 불이행 사실이 아니다",
+      "status": "passed",
+      "duration": 0.07309999999995398
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "조회 결과 0건는 의무 불이행 사실이 아니다",
+      "status": "passed",
+      "duration": 0.16899999999998272
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "조회 실패는 의무 불이행 사실이 아니다",
+      "status": "passed",
+      "duration": 0.11250000000001137
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "응답 시간 초과는 의무 불이행 사실이 아니다",
+      "status": "passed",
+      "duration": 0.10779999999999745
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "단위 환산은 정확히 비교하고 밀도 없는 질량·부피 환산은 보류한다",
+      "status": "passed",
+      "duration": 0.5653999999999542
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "subjectId가 다르면 다른 사실이며 충돌이 아니다",
+      "status": "passed",
+      "duration": 0.25729999999998654
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "measurementBasis가 다르면 다른 사실이며 충돌이 아니다",
+      "status": "passed",
+      "duration": 0.07530000000002701
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "scope가 다르면 다른 사실이며 충돌이 아니다",
+      "status": "passed",
+      "duration": 0.04809999999997672
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "변경 전후 기간 경계는 겹치지 않으며 기준일 누락은 추가 확인이다",
+      "status": "passed",
+      "duration": 0.13880000000000337
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "동일 대상·산정 기준·범위·기간의 다른 수량만 충돌이며 실제 사례 검토에도 반영된다",
+      "status": "passed",
+      "duration": 1.6082000000000107
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "자유문장의 다른 값은 충돌 확정 대신 추가 확인하고 환산 일치는 중복 질문하지 않는다",
+      "status": "passed",
+      "duration": 0.6421000000000276
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "사실의 증빙·검증·범위 변경 시 기존 적용 검토를 재사용하지 않는다",
+      "status": "passed",
+      "duration": 2.8999999999999773
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "허가가 있다는 답변과 수량 문턱값 일치만으로 기존 규칙이 무허가 결론을 내지 않는다",
+      "status": "passed",
+      "duration": 0.9490000000000123
+    },
+    {
+      "file": "tests/fact-provenance.test.ts",
+      "name": "실제 검토·저장·백업 복원 경로에서도 진술과 객관 검증을 구분한다",
+      "status": "passed",
+      "duration": 29.84469999999999
+    },
+    {
+      "file": "tests/intake.test.ts",
+      "name": "로컬 추출은 CAS·농도·수량을 구분하고 사실을 확정하지 않는다",
+      "status": "passed",
+      "duration": 2.6522999999999683
+    },
+    {
+      "file": "tests/intake.test.ts",
+      "name": "모델이 확정 상태·없는 CAS·변환 수량을 만들어도 수용하지 않는다",
+      "status": "passed",
+      "duration": 2.1433999999999287
+    },
+    {
+      "file": "tests/intake.test.ts",
+      "name": "미확인 CAS는 조회하지 않고 물질명만으로 번호를 추론하지 않는다",
+      "status": "passed",
+      "duration": 2.0352000000000317
+    },
+    {
+      "file": "tests/intake.test.ts",
+      "name": "확인한 CAS와 지역으로 계획하고 호출량·성분 수를 제한한다",
+      "status": "passed",
+      "duration": 1.4167999999999665
+    },
+    {
+      "file": "tests/intake.test.ts",
+      "name": "단일 서비스 실패·미설정에도 다음 출처를 조회하고 기록을 보존한다",
+      "status": "passed",
+      "duration": 51.55950000000007
+    },
+    {
+      "file": "tests/intake.test.ts",
+      "name": "법규 목록은 후보와 공개 링크만 반환하고 OC를 제거한다",
+      "status": "passed",
+      "duration": 5.958699999999908
+    },
+    {
+      "file": "tests/intake.test.ts",
+      "name": "CAS 부분일치와 번호 없는 후보를 제외한 뒤 정확한 후보만 상세 조회한다",
+      "status": "passed",
+      "duration": 24.840000000000146
+    },
+    {
+      "file": "tests/intake.test.ts",
+      "name": "조회 계획은 명시적 전송 동의 후 한 번만 실행하고 검토 입력에 연결한다",
+      "status": "passed",
+      "duration": 156.76710000000003
+    },
+    {
+      "file": "tests/legacy-address.test.ts",
+      "name": "이전 주소는 실제 설정으로 이동하며 요청의 쿼리나 인증값을 전달하지 않는다",
+      "status": "passed",
+      "duration": 135.1936
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 정확한 연속 원문만 인용한다",
+      "status": "passed",
+      "duration": 2.213700000000017
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 모델은 clear_risk를 확정할 수 없다",
+      "status": "passed",
+      "duration": 1.004699999999957
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 기존 수량 조건 규칙은 사용자 진술만으로 위반을 확정하지 않는다",
+      "status": "passed",
+      "duration": 1.4121000000000095
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 unapproved이면 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.347500000000025
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 missing-permit이면 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.41219999999998436
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 unconfirmed이면 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.280900000000031
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 exception이면 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.24610000000001264
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 wrong-region이면 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.18389999999999418
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 future이면 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.137800000000027
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 stale이면 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.24270000000001346
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 changed-text이면 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.14980000000002747
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 missing-annex이면 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.11069999999995161
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 bad-quote이면 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.11189999999999145
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 supplement-only이면 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.08650000000000091
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 잘못된 날짜 메타데이터는 최신성 불명",
+      "status": "passed",
+      "duration": 0.15080000000000382
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 단위 환산과 경계 배수",
+      "status": "passed",
+      "duration": 0.1863999999999919
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 불합리한 수량 입력을 거부한다",
+      "status": "passed",
+      "duration": 0.6182000000000016
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 불합리한 수량 입력을 거부한다",
+      "status": "passed",
+      "duration": 0.13169999999996662
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 불합리한 수량 입력을 거부한다",
+      "status": "passed",
+      "duration": 0.14679999999998472
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 합산 단위가 확인되지 않으면 계산하지 않는다",
+      "status": "passed",
+      "duration": 0.18540000000001555
+    },
+    {
+      "file": "tests/legal.test.ts",
+      "name": "법률 판정 검증 전송 전 일반 개인식별 패턴을 가린다",
+      "status": "passed",
+      "duration": 0.6507000000000289
+    },
+    {
+      "file": "tests/mcp-vault.test.ts",
+      "name": "설치한 고정 버전 MCP 서버와 연결하고 도구 목록을 조회한다",
+      "status": "passed",
+      "duration": 819.9903
+    },
+    {
+      "file": "tests/mcp-vault.test.ts",
+      "name": "Windows DPAPI로 보호한 시험 값을 숨김 프로세스에서 왕복 처리한다",
+      "status": "passed",
+      "duration": 1280.4538
+    },
+    {
+      "file": "tests/petitions-documents.test.ts",
+      "name": "승낙 정보 없이는 브라우저를 열지 않는다",
+      "status": "passed",
+      "duration": 31.245000000000005
+    },
+    {
+      "file": "tests/petitions-documents.test.ts",
+      "name": "승인 범위·로그인 확인 후 fixture 회신을 로컬 문서로만 저장",
+      "status": "passed",
+      "duration": 28.130500000000097
+    },
+    {
+      "file": "tests/petitions-documents.test.ts",
+      "name": "민원 연결 해제 뒤 지연된 응답은 문서나 세션을 복구하지 않는다",
+      "status": "passed",
+      "duration": 80.19259999999997
+    },
+    {
+      "file": "tests/petitions-documents.test.ts",
+      "name": "손상된 문서는 추출 프로세스만 실패하고 다른 업로드는 정상 처리한다",
+      "status": "passed",
+      "duration": 1520.3252
+    },
+    {
+      "file": "tests/petitions-documents.test.ts",
+      "name": "TXT 파일을 중복 없이 보관하고 미확인 추출문으로 표시한다",
+      "status": "passed",
+      "duration": 21.26680000000033
+    },
+    {
+      "file": "tests/petitions-documents.test.ts",
+      "name": "DOCX에서 한국어와 수량을 추출한다",
+      "status": "passed",
+      "duration": 482.67300000000023
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "공식 연결 항목 26개가 빠짐없이 있으며 HTTPS 고정 주소와 소량 조회를 사용한다",
+      "status": "passed",
+      "duration": 5.041600000000017
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "grievance: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 10.980099999999993
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "ghs: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 1.3096000000000458
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "accidents: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 1.1812999999999647
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "accident-files: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 1.0212999999998829
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "sif: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.8265000000001237
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "chemical-accidents: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.8046000000001641
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "waste-companies: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 4027.3127000000004
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "waste-sanctions: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 4021.6205
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "environment-agencies: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.9944999999988795
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "measurement-agencies: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.7106999999996333
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "land-use: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.4056000000000495
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "address: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.6632000000008702
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "ppe-cert: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.5914000000011583
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "machine-cert: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.7265000000006694
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "guard-cert: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.6094999999986612
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "ppe-declaration: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.5475000000005821
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "machine-declaration: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.46739999999954307
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "guard-declaration: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.505300000000716
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "fire-approval: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.48259999999936554
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "fire-revocation: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.47850000000107684
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "air-facilities: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.4719999999997526
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "water-other: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.5199999999986176
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "dust-business: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.49090000000069267
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "gas-business: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.6959999999999127
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "specific-gas: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.3378999999986263
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "waste-fitness: 정상 0건과 인증 실패를 구분하고 응답 본문·키를 돌려주지 않는다",
+      "status": "passed",
+      "duration": 0.28809999999975844
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "실제 A01의 NO_CONTENTS 응답과 주소 API의 빈 문자열 목록을 처리한다",
+      "status": "passed",
+      "duration": 0.27930000000014843
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "XML 정상 응답, 게이트웨이 오류, HTTP 오류, 통신 예외에 인증값을 노출하지 않는다",
+      "status": "passed",
+      "duration": 4.531799999998839
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "추가 서비스 실패 시각도 저장하고 키 교체·삭제로 이전 체크 결과를 초기화한다",
+      "status": "passed",
+      "duration": 75.92190000000119
+    },
+    {
+      "file": "tests/public-api-probes.test.ts",
+      "name": "KFI 공식 header/data 응답과 소문자 serviceKey를 사용한다",
+      "status": "passed",
+      "duration": 0.3084999999991851
+    },
+    {
+      "file": "tests/public-apis.test.ts",
+      "name": "같은 키는 유지하고 다른 키는 교체 승인 후에만 저장하며 다른 서비스에 영향을 주지 않는다",
+      "status": "passed",
+      "duration": 122.26589999999987
+    },
+    {
+      "file": "tests/public-apis.test.ts",
+      "name": "추가 26개 키는 분리 저장하고 연결 체크는 실제 요청 및 결과·시각을 저장한다",
+      "status": "passed",
+      "duration": 220.88760000000002
+    },
+    {
+      "file": "tests/public-apis.test.ts",
+      "name": "스마트 전체 검색은 분류별 최대 건수로 마지막 페이지를 판단한다",
+      "status": "passed",
+      "duration": 3.198599999999942
+    },
+    {
+      "file": "tests/public-apis.test.ts",
+      "name": "실제 소방청 상세의 건수 생략과 환경공단 정상 코드 200을 서비스별로 처리한다",
+      "status": "passed",
+      "duration": 6.83849999999984
+    },
+    {
+      "file": "tests/public-apis.test.ts",
+      "name": "Encoding 인증키를 한 번만 해제하고 URL 값으로 전달한다",
+      "status": "passed",
+      "duration": 0.9081999999998516
+    },
+    {
+      "file": "tests/public-apis.test.ts",
+      "name": "6개 API의 JSON·XML 응답과 검색 파라미터를 구분한다",
+      "status": "passed",
+      "duration": 9.801899999999932
+    },
+    {
+      "file": "tests/public-apis.test.ts",
+      "name": "인증 오류·HTML·불완전한 성공 응답을 0건으로 표시하지 않고 인증값을 노출하지 않는다",
+      "status": "passed",
+      "duration": 2.888400000000047
+    },
+    {
+      "file": "tests/public-apis.test.ts",
+      "name": "공개 QnA 상세는 번호·업무구분을 전달하고 본문 응답의 같은 번호를 확인한다",
+      "status": "passed",
+      "duration": 0.9876000000001568
+    },
+    {
+      "file": "tests/public-apis.test.ts",
+      "name": "MSDS 16항목 중 실패한 항목은 일부 누락으로 보존한다",
+      "status": "passed",
+      "duration": 3.0173999999999523
+    },
+    {
+      "file": "tests/public-apis.test.ts",
+      "name": "인증키는 상태·자료함·백업에 포함되지 않고 API 자료는 미확인 참고문서로 연결된다",
+      "status": "passed",
+      "duration": 66.7503999999999
+    },
+    {
+      "file": "tests/public-bundle.test.ts",
+      "name": "공개 검사는 수집기가 마지막에 붙인 rawRef와 필드 순서 변경을 허용한다",
+      "status": "passed",
+      "duration": 10.75750000000005
+    },
+    {
+      "file": "tests/public-bundle.test.ts",
+      "name": "필드 순서와 무관하게 공개 스키마 밖의 개인 필드는 거부한다",
+      "status": "passed",
+      "duration": 0.960899999999981
+    },
+    {
+      "file": "tests/public-bundle.test.ts",
+      "name": "압축 공개 번들은 한국어 원문·해시를 보존하고 기존 경로에서도 읽힌다",
+      "status": "passed",
+      "duration": 36.48530000000005
+    },
+    {
+      "file": "tests/public-bundle.test.ts",
+      "name": "압축 다운로드도 스키마와 원문 해시를 검증하며 손상 시 기존 자료를 보존한다",
+      "status": "passed",
+      "duration": 53.1121
+    },
+    {
+      "file": "tests/public-bundle.test.ts",
+      "name": "압축 파일이 없는 구 저장소만 JSON으로 대체 조회한다",
+      "status": "passed",
+      "duration": 22.567700000000002
+    },
+    {
+      "file": "tests/public-bundle.test.ts",
+      "name": "손상된 압축 파일은 빈 공개 번들로 간주하지 않는다",
+      "status": "passed",
+      "duration": 21.811199999999985
+    },
+    {
+      "file": "tests/reference-collection.test.ts",
+      "name": "백업 복원 후 연결 원문은 당시 검토에서 복구하되 검증 승인은 재사용하지 않는다",
+      "status": "passed",
+      "duration": 51.997299999999996
+    },
+    {
+      "file": "tests/reference-collection.test.ts",
+      "name": "유사 제목을 제외하고 기준일 이전 최신 시행 버전을 선택한다",
+      "status": "passed",
+      "duration": 9.836000000000013
+    },
+    {
+      "file": "tests/reference-collection.test.ts",
+      "name": "폐지 최신 버전·동명 다른 법규·동일 날짜 버전 충돌을 보류한다",
+      "status": "passed",
+      "duration": 0.4719000000000051
+    },
+    {
+      "file": "tests/reference-collection.test.ts",
+      "name": "시군구 조례는 시도 소관 정보까지 일치해야 연결한다",
+      "status": "passed",
+      "duration": 0.5251000000000658
+    },
+    {
+      "file": "tests/reference-collection.test.ts",
+      "name": "목록과 상세 일치를 검증하고 별표 누락을 승인하지 않는다",
+      "status": "passed",
+      "duration": 27.424299999999903
+    },
+    {
+      "file": "tests/reference-collection.test.ts",
+      "name": "연결 원문은 해당 지역·시군구·기준일 검토에만 첨부한다",
+      "status": "passed",
+      "duration": 21.19900000000007
+    },
+    {
+      "file": "tests/reference-collection.test.ts",
+      "name": "실제 경로는 이전 검토를 보존하며 누락 참조만 새 검토에 수집한다",
+      "status": "passed",
+      "duration": 129.9269999999999
+    },
+    {
+      "file": "tests/result-language.test.ts",
+      "name": "내부 상태는 한국어로 표시하되 저장된 원문과 요청·인용을 바꾸지 않는다",
+      "status": "passed",
+      "duration": 5.662599999999998
+    },
+    {
+      "file": "tests/result-language.test.ts",
+      "name": "별표의 다중 이미지 링크와 조문 안 표 이미지를 빠뜨리지 않는다",
+      "status": "passed",
+      "duration": 1.008700000000033
+    },
+    {
+      "file": "tests/reviews.test.ts",
+      "name": "최근 수집 원문은 재수집하지 않고 실제 확인 시각을 보존한다",
+      "status": "passed",
+      "duration": 39.3741
+    },
+    {
+      "file": "tests/reviews.test.ts",
+      "name": "갱신 실패 이력이 있으면 이전 성공 시각이 최근이어도 다시 확인한다",
+      "status": "passed",
+      "duration": 23.32439999999997
+    },
+    {
+      "file": "tests/reviews.test.ts",
+      "name": "24시간 경계·미래 시각·지역 누락은 재사용하지 않는다",
+      "status": "passed",
+      "duration": 0.5866000000000327
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "인증이 필요한 API 링크를 공개 버전 원문으로 변환한다: target=ordin&MST=1914049",
+      "status": "passed",
+      "duration": 2.3745999999999867
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "인증이 필요한 API 링크를 공개 버전 원문으로 변환한다: target=eflaw&MST=259933&efYd=20250807",
+      "status": "passed",
+      "duration": 0.3457000000000221
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "인증이 필요한 API 링크를 공개 버전 원문으로 변환한다: target=admrul&ID=2100000280938",
+      "status": "passed",
+      "duration": 0.777499999999975
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "법규 시행일은 실재 날짜이고 오늘의 기준은 한국 날짜다",
+      "status": "passed",
+      "duration": 2.3461000000000354
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "API의 9999년 시행일을 검증된 적용일로 취급하지 않는다",
+      "status": "passed",
+      "duration": 1.438600000000008
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "전체 건수보다 많은 목록 응답은 성공으로 처리하지 않는다",
+      "status": "passed",
+      "duration": 19.94889999999998
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "별표 파일은 공식 출처 링크만 수집한다",
+      "status": "passed",
+      "duration": 1.1263999999999896
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "폐지 메타데이터는 본문이 없어도 이력으로 보관하고 폐지제정을 자동 폐지로 보지 않는다",
+      "status": "passed",
+      "duration": 0.5581999999999994
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "자치법규 API의 제개정정보에 기록된 폐지를 인식한다",
+      "status": "passed",
+      "duration": 0.26940000000001874
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "조례 응답에 별표가 없더라도 별표 완전성을 승인하지 않는다",
+      "status": "passed",
+      "duration": 0.3643000000000143
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "현행 조례의 조문·부칙·별표를 모두 보관한다",
+      "status": "passed",
+      "duration": 0.4037999999999897
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "비정상 응답을 법규로 저장하지 않는다",
+      "status": "passed",
+      "duration": 0.2185999999999808
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "비정상 응답을 법규로 저장하지 않는다",
+      "status": "passed",
+      "duration": 0.20879999999999654
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "비정상 응답을 법규로 저장하지 않는다",
+      "status": "passed",
+      "duration": 0.21910000000002583
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "비정상 응답을 법규로 저장하지 않는다",
+      "status": "passed",
+      "duration": 0.15489999999999782
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "목록만 반환된 본문을 거부한다",
+      "status": "passed",
+      "duration": 0.14980000000002747
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "0건과 잘못된 목록 응답을 구분한다",
+      "status": "passed",
+      "duration": 4.065599999999961
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "페이지 누락·반복 시 전체 수집 성공으로 처리하지 않는다",
+      "status": "passed",
+      "duration": 5.231799999999964
+    },
+    {
+      "file": "tests/sources.test.ts",
+      "name": "출처 수집 실패는 이전 전문을 지우지 않는다",
+      "status": "passed",
+      "duration": 29.502400000000023
+    },
+    {
+      "file": "tests/store.test.ts",
+      "name": "긴 행정규칙이 있어도 해당 지역 조례와 국가법을 모델에 먼저 전달한다",
+      "status": "passed",
+      "duration": 87.29020000000003
+    },
+    {
+      "file": "tests/store.test.ts",
+      "name": "폐지 시행일부터는 종전 법규를 현행 근거로 되살리지 않는다",
+      "status": "passed",
+      "duration": 23.019500000000107
+    },
+    {
+      "file": "tests/store.test.ts",
+      "name": "후속 버전의 적용기간 종료가 구 버전을 되살리지 않는다",
+      "status": "passed",
+      "duration": 22.284599999999955
+    },
+    {
+      "file": "tests/store.test.ts",
+      "name": "동일 시행일의 상충 원문은 임의 선택하거나 검증 완료로 처리하지 않는다",
+      "status": "passed",
+      "duration": 24.67990000000009
+    },
+    {
+      "file": "tests/store.test.ts",
+      "name": "본문이 같아도 적용기간 변경은 과거 보고서의 재검토를 요구한다",
+      "status": "passed",
+      "duration": 27.284700000000043
+    },
+    {
+      "file": "tests/store.test.ts",
+      "name": "기준일에 유효한 최신 버전만 반환하고 이후 개정을 섞지 않는다",
+      "status": "passed",
+      "duration": 27.423200000000065
+    },
+    {
+      "file": "tests/store.test.ts",
+      "name": "법규 변경 시 과거 검토 원문은 보존하고 재검토 표시한다",
+      "status": "passed",
+      "duration": 26.53150000000005
+    },
+    {
+      "file": "tests/store.test.ts",
+      "name": "동일한 전문 수집은 중복하지 않고 검증 상태 유지",
+      "status": "passed",
+      "duration": 23.802799999999934
+    },
+    {
+      "file": "tests/store.test.ts",
+      "name": "백업·복원은 원본을 보존하고 인증·승인은 포함하지 않는다",
+      "status": "passed",
+      "duration": 54.8202
+    },
+    {
+      "file": "tests/store.test.ts",
+      "name": "잘못된 백업은 일부분도 적용하지 않는다",
+      "status": "passed",
+      "duration": 45.36059999999998
+    },
+    {
+      "file": "tests/store.test.ts",
+      "name": "공개 데이터에 민원·부정확한 해시가 있으면 가져오지 않는다",
+      "status": "passed",
+      "duration": 26.22079999999994
+    },
+    {
+      "file": "tests/v2-golden.test.ts",
+      "name": "G01: 가상 판정 행렬 expected=pending",
+      "status": "passed",
+      "duration": 44.567999999999984
+    },
+    {
+      "file": "tests/v2-golden.test.ts",
+      "name": "G02: 가상 판정 행렬 expected=out_of_scope",
+      "status": "passed",
+      "duration": 51.10480000000001
+    },
+    {
+      "file": "tests/v2-golden.test.ts",
+      "name": "G03: 가상 판정 행렬 expected=fulfilled",
+      "status": "passed",
+      "duration": 72.69420000000002
+    },
+    {
+      "file": "tests/v2-golden.test.ts",
+      "name": "G04: 가상 판정 행렬 expected=risk_candidate",
+      "status": "passed",
+      "duration": 70.47659999999996
+    },
+    {
+      "file": "tests/v2-golden.test.ts",
+      "name": "G05: 가상 판정 행렬 expected=pending",
+      "status": "passed",
+      "duration": 61.826400000000035
+    },
+    {
+      "file": "tests/v2-golden.test.ts",
+      "name": "G06: 가상 판정 행렬 expected=pending",
+      "status": "passed",
+      "duration": 74.28399999999999
+    },
+    {
+      "file": "tests/v2-golden.test.ts",
+      "name": "G07: 가상 판정 행렬 expected=pending",
+      "status": "passed",
+      "duration": 61.00959999999998
+    },
+    {
+      "file": "tests/v2-golden.test.ts",
+      "name": "G08: 가상 판정 행렬 expected=pending",
+      "status": "passed",
+      "duration": 59.342899999999986
+    },
+    {
+      "file": "tests/v2-golden.test.ts",
+      "name": "G09: 가상 판정 행렬 expected=pending",
+      "status": "passed",
+      "duration": 62.03899999999999
+    },
+    {
+      "file": "tests/v2-golden.test.ts",
+      "name": "AC04: 만료한 증빙을 새 사실 승인에 재사용할 수 없다",
+      "status": "passed",
+      "duration": 42.07479999999998
+    },
+    {
+      "file": "tests/v2-golden.test.ts",
+      "name": "AC10 AC11: 시행 예정인 근거를 현행 판단에 쓰지 않는다",
+      "status": "passed",
+      "duration": 46.657100000000014
+    },
+    {
+      "file": "tests/v2-golden.test.ts",
+      "name": "V2-11 V2-13 AC30 AC31: 하나의 이행 사실은 다른 하위 의무의 완료를 입증하지 않는다",
+      "status": "passed",
+      "duration": 64.00699999999983
+    },
+    {
+      "file": "tests/v2-golden.test.ts",
+      "name": "V2-23: 조치 완료 확인은 과거 판정을 덮어쓰지 않는다",
+      "status": "passed",
+      "duration": 65.99300000000017
+    },
+    {
+      "file": "tests/v3-collection.test.ts",
+      "name": "V3-F01/S2: 실제 worker·기존 façade는 느린 조회 중 다른 저장을 막지 않고 완료 결과를 재조회한다",
+      "status": "passed",
+      "duration": 1118.5521999999999
+    },
+    {
+      "file": "tests/v3-collection.test.ts",
+      "name": "V3-F02: 실제 parser→목록·상세 실패·첨부 미지원 그래프가 부분 상태로 보존된다",
+      "status": "passed",
+      "duration": 32.75070000000005
+    },
+    {
+      "file": "tests/v3-collection.test.ts",
+      "name": "V3-F03: HTTP 200 오류 응답을 정상 0건으로 저장하지 않는다",
+      "status": "passed",
+      "duration": 33.36959999999999
+    },
+    {
+      "file": "tests/v3-policies.test.ts",
+      "name": "V3-C01: hazmat_manager.replacement 후보 실행·독립 가상 승인·자료 누락 보류",
+      "status": "passed",
+      "duration": 113.37220000000002
+    },
+    {
+      "file": "tests/v3-policies.test.ts",
+      "name": "V3-C01: hazmat_manager.appointment_report 후보 실행·독립 가상 승인·자료 누락 보류",
+      "status": "passed",
+      "duration": 84.87830000000008
+    },
+    {
+      "file": "tests/v3-policies.test.ts",
+      "name": "V3-C01: hazmat_manager.deputy 후보 실행·독립 가상 승인·자료 누락 보류",
+      "status": "passed",
+      "duration": 91.60989999999993
+    },
+    {
+      "file": "tests/v3-policies.test.ts",
+      "name": "V3-C01: hazmat_manager.deputy_period 후보 실행·독립 가상 승인·자료 누락 보류",
+      "status": "passed",
+      "duration": 90.67579999999998
+    },
+    {
+      "file": "tests/v3-policies.test.ts",
+      "name": "V3-C01: hazmat_check.record_retention 후보 실행·독립 가상 승인·자료 누락 보류",
+      "status": "passed",
+      "duration": 97.99609999999996
+    },
+    {
+      "file": "tests/v3-policies.test.ts",
+      "name": "V3-C01: hazmat_check.result_submission 후보 실행·독립 가상 승인·자료 누락 보류",
+      "status": "passed",
+      "duration": 88.0077
+    },
+    {
+      "file": "tests/v3-policies.test.ts",
+      "name": "V3-C02/S3: 보존 3·25·30년과 미확인 종류, 제출 개정 적용례를 분리한다",
+      "status": "passed",
+      "duration": 0.5665999999998803
+    },
+    {
+      "file": "tests/v3-policies.test.ts",
+      "name": "V3-C03/S1/S3: 후임 선임·신고·대리·점검·제출의 불이행 사실을 서로 대체하지 않는다",
+      "status": "passed",
+      "duration": 0.5837999999998829
+    },
+    {
+      "file": "tests/v3-policies.test.ts",
+      "name": "V3-C04: 미승인 profile·잘못된 기산 사건·실제 영역의 모의 승인은 unknown이다",
+      "status": "passed",
+      "duration": 0.587500000000091
+    },
+    {
+      "file": "tests/v3-policies.test.ts",
+      "name": "V3-C05: 반기·연간·직전 사건 반복을 명시적으로 계산하고 법정값으로 자동 지정하지 않는다",
+      "status": "passed",
+      "duration": 0.4260999999999058
+    },
+    {
+      "file": "tests/v3-policies.test.ts",
+      "name": "V3-C07: 월말 초일 제외의 실제 기산일과 해당일 없는 달의 말일을 구분한다",
+      "status": "passed",
+      "duration": 0.28389999999990323
+    },
+    {
+      "file": "tests/v3-policies.test.ts",
+      "name": "V3-C08: 감경량·연장일이 미확인이면 효과를 적용하지 않고 잔존 의무를 보존한다",
+      "status": "passed",
+      "duration": 1.1628000000000611
+    },
+    {
+      "file": "tests/v3-policies.test.ts",
+      "name": "V3-C06/AC28: 간주 방향·대상·기간과 승인 요구 여부, 잔존 의무를 구분한다",
+      "status": "passed",
+      "duration": 0.5854999999999109
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-J10: 검색 0건·일시 오류는 원천 삭제가 아니며 확인된 비공개 이력도 과거 근거를 보존한다",
+      "status": "passed",
+      "duration": 33.1653
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-P01: 날짜 포함·제외 왕복, 윤년과 변경 경계를 보존한다",
+      "status": "passed",
+      "duration": 2.091099999999983
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-P02: 열린 종료와 미확인 종료를 실제 종료일로 만들지 않는다",
+      "status": "passed",
+      "duration": 0.25090000000000146
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-P03: 시각 경계에 하루를 더하지 않고 서울 자정을 구분한다",
+      "status": "passed",
+      "duration": 15.161699999999996
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-J01: 접수 반복은 동일 ID, 내용 충돌과 다른 영역 접근은 차단한다",
+      "status": "passed",
+      "duration": 31.148300000000063
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-J02: 만료된 worker와 취소 이후 응답은 저장하지 않는다",
+      "status": "passed",
+      "duration": 36.891500000000065
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-J03: 원문·checkpoint는 함께 rollback되고 0건과 실패가 구분된다",
+      "status": "passed",
+      "duration": 33.99699999999996
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-J04: 공유 quota 차단은 다른 작업에도 적용되고 권한 없는 해제를 거절한다",
+      "status": "passed",
+      "duration": 34.20819999999992
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-J05: 응답 없는 transport도 총 시간 예산으로 끝난다",
+      "status": "passed",
+      "duration": 1042.6091000000001
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-J06: 304는 대응 원문과 query·validator가 있어야 재사용한다",
+      "status": "passed",
+      "duration": 0.6746000000000549
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-J07: 실제 두 독립 프로세스의 동시 claim은 한 worker만 획득한다",
+      "status": "passed",
+      "duration": 485.3895
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-J08: 실제 두 프로세스는 다른 작업에서도 provider/key 호출 lease를 공유한다",
+      "status": "passed",
+      "duration": 473.4277000000002
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-J09: 프로세스 비정상 종료 뒤 마지막 저장 checkpoint에서 재개한다",
+      "status": "passed",
+      "duration": 401.6690000000003
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-S2: 수탁업체 조회 timeout/success는 위탁 가능으로 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.3700999999996384
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-S2: 수탁업체 조회 success/error는 위탁 가능으로 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.0988999999999578
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-S2: 수탁업체 조회 empty/success는 위탁 가능으로 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.0601000000001477
+    },
+    {
+      "file": "tests/v3-runtime.test.ts",
+      "name": "V3-S2: 동명 업체·다른 시설·과거 처분과 현재 효력을 구분한다",
+      "status": "passed",
+      "duration": 0.4591000000000349
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-H01: 전체 앱 HTTP에서 cookie·CSRF·업무 권한을 독립 확인한다",
+      "status": "passed",
+      "duration": 139.14430000000016
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-H02: HTTP 저장·자기 승인 차단·독립 승인·반려·철회·변경 이력을 보존한다",
+      "status": "passed",
+      "duration": 52.14160000000015
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-H03: 권한 공급 없는 앱은 v2 관리 경로를 활성화하지 않는다",
+      "status": "passed",
+      "duration": 30.934000000000196
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-L01/S1: legacy 확인 표시를 입증 승인으로 바꾸지 않고 문서·추적·export를 연결한다",
+      "status": "passed",
+      "duration": 95.27349999999979
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-L02: 기존 자연어 POST→저장→추적 HTTP까지 격리 연결된다",
+      "status": "passed",
+      "duration": 91.50340000000006
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-E01: AI 분석·사실 추출의 전송 unknown는 실제 fetch 0회",
+      "status": "passed",
+      "duration": 26.92009999999982
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-E01: AI 분석·사실 추출의 전송 false는 실제 fetch 0회",
+      "status": "passed",
+      "duration": 30.251899999999978
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-E02: 질문 허용만으로 첨부 원문·다른 목적·다른 제공자 전송을 허용하지 않는다",
+      "status": "passed",
+      "duration": 29.232500000000073
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-B01/S4: 암호 백업·복원은 원본·이력을 보존하고 현재 승인은 초기화한다",
+      "status": "passed",
+      "duration": 182.65379999999982
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-B02: 복원 v2_imported 실패 시 DB와 새 원본을 rollback하고 기존 원본은 유지한다",
+      "status": "passed",
+      "duration": 148.50019999999995
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-B02: 복원 legacy_imported 실패 시 DB와 새 원본을 rollback하고 기존 원본은 유지한다",
+      "status": "passed",
+      "duration": 123.03589999999986
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-B02: 복원 before_publish 실패 시 DB와 새 원본을 rollback하고 기존 원본은 유지한다",
+      "status": "passed",
+      "duration": 156.8687
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-B02: 복원 after_publish 실패 시 DB와 새 원본을 rollback하고 기존 원본은 유지한다",
+      "status": "passed",
+      "duration": 160.60970000000043
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-B03: 2MiB를 넘는 원본도 별도 HTTP 백업·복원 제한 내 왕복한다",
+      "status": "passed",
+      "duration": 934.4270000000001
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-B04: 실제 복원 프로세스 중단 뒤 일지로 새 원본만 정리하고 재복원한다",
+      "status": "passed",
+      "duration": 333.16280000000006
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-E03: 금지 원본의 요약·인코딩 파생자료는 허용 표시가 있어도 전송되지 않는다",
+      "status": "passed",
+      "duration": 30.664800000000014
+    },
+    {
+      "file": "tests/v3-workflow.test.ts",
+      "name": "V3-H04: 자료 보완→정책→판정→조치까지 HTTP 역할별 승인 후 원문 변경은 관련 판단만 무효화한다",
+      "status": "passed",
+      "duration": 122.89290000000028
+    },
+    {
+      "file": "tests/v4-egress-backup.test.ts",
+      "name": "V4-B06: 실제 intake 정규화 payload 등록·전송 직전 철회·MCP context 누락은 outbound 0회",
+      "status": "passed",
+      "duration": 33.78710000000001
+    },
+    {
+      "file": "tests/v4-egress-backup.test.ts",
+      "name": "V4-B07: v4 보호자료 계층 백업은 키 제외·복원 거부 기본값·실패 원자성을 보존한다",
+      "status": "passed",
+      "duration": 49.64229999999998
+    },
+    {
+      "file": "tests/v4-operation-matrix.test.ts",
+      "name": "V4-A08: 기존 52 operation 모두 실제 adapter 경유 합성 응답·capture 대조; 공식 specimen 검증은 별도",
+      "status": "passed",
+      "duration": 523.0825000000001
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A01: parser 이전 BOM·공백 바이트와 변환 hash를 분리 보존하고 credential echo를 암호화한다",
+      "status": "passed",
+      "duration": 62.23750000000007
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A02: 잘못된 응답 를 정상 0건으로 바꾸지 않는다",
+      "status": "passed",
+      "duration": 37.5705999999999
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A02: 잘못된 응답 <html>login</html>를 정상 0건으로 바꾸지 않는다",
+      "status": "passed",
+      "duration": 37.34409999999991
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A02: 잘못된 응답 <response><items>를 정상 0건으로 바꾸지 않는다",
+      "status": "passed",
+      "duration": 35.609699999999975
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A02: 잘못된 응답 {\"response\":를 정상 0건으로 바꾸지 않는다",
+      "status": "passed",
+      "duration": 34.827600000000075
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A03: 중단된 스트림은 받은 부분 원문만 보존한다",
+      "status": "passed",
+      "duration": 30.68489999999997
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A04: 실제 호출별 permit이 병렬 호출을 직렬화하고 오래된 fence 해제를 거절한다",
+      "status": "passed",
+      "duration": 222.8560000000001
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-B01: 보호 자료의 영역·키·TTL은 실패를 명시하고 queue hold를 허용하지 않는다",
+      "status": "passed",
+      "duration": 20.69640000000004
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-B02: 실제 prepare→worker→adapter→capture에서 민감 검색어는 큐·일지·event에 평문으로 남지 않는다",
+      "status": "passed",
+      "duration": 45.70060000000012
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-B03: enqueue 후 철회는 worker의 실제 outbound를 0회로 유지한다",
+      "status": "passed",
+      "duration": 29.952600000000075
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-B04: 같은 hash 다른 버전·목적·제공자와 이전 파생물에 해제가 전파되지 않는다",
+      "status": "passed",
+      "duration": 20.74030000000016
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A09: A07 transport 소진은 실제 시도 2회와 retry disposition으로 구분한다",
+      "status": "passed",
+      "duration": 1.07549999999992
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A10: 서로 다른 프로세스의 같은 계정 permit은 한 호출만 허용한다",
+      "status": "passed",
+      "duration": 363.2729999999999
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A05: 특수주소 127.0.0.1 차단",
+      "status": "passed",
+      "duration": 0.4855000000000018
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A05: 특수주소 10.0.0.1 차단",
+      "status": "passed",
+      "duration": 0.20240000000012515
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A05: 특수주소 169.254.169.254 차단",
+      "status": "passed",
+      "duration": 0.10539999999991778
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A05: 특수주소 192.168.0.1 차단",
+      "status": "passed",
+      "duration": 0.06780000000003383
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A05: 특수주소 100.64.0.1 차단",
+      "status": "passed",
+      "duration": 0.044700000000148066
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A05: 특수주소 ::1 차단",
+      "status": "passed",
+      "duration": 4.268900000000031
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A05: 특수주소 ::ffff:127.0.0.1 차단",
+      "status": "passed",
+      "duration": 0.9013999999999669
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A05: 특수주소 2001:db8::1 차단",
+      "status": "passed",
+      "duration": 0.08249999999998181
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A06: 허용 범위 밖 URL http://files.example.test/public/a.pdf 차단",
+      "status": "passed",
+      "duration": 0.24700000000007094
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A06: 허용 범위 밖 URL https://evil.test/public/a.pdf 차단",
+      "status": "passed",
+      "duration": 0.08780000000001564
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A06: 허용 범위 밖 URL https://user@files.example.test/public/a.pdf 차단",
+      "status": "passed",
+      "duration": 0.0909999999998945
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A06: 허용 범위 밖 URL https://files.example.test/public/%2e%2e/a.pdf 차단",
+      "status": "passed",
+      "duration": 0.09349999999994907
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A06: 허용 범위 밖 URL https://files.example.test/public/a.pdf?serviceKey=secret 차단",
+      "status": "passed",
+      "duration": 0.2764999999999418
+    },
+    {
+      "file": "tests/v4-runtime.test.ts",
+      "name": "V4-A07: 모의 downloader의 실제 연결 주소·서명·범위를 검사하고 직접 렌더하지 않는다",
+      "status": "passed",
+      "duration": 21.896600000000035
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-D01: risk_assessment.evaluation 독립 후보·필요 사실·가상 이행과 미확인 보류",
+      "status": "passed",
+      "duration": 101.17489999999998
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-D01: risk_assessment.worker_participation 독립 후보·필요 사실·가상 이행과 미확인 보류",
+      "status": "passed",
+      "duration": 86.48779999999988
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-D01: risk_assessment.risk_reduction 독립 후보·필요 사실·가상 이행과 미확인 보류",
+      "status": "passed",
+      "duration": 85.8780999999999
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-D01: risk_assessment.effectiveness 독립 후보·필요 사실·가상 이행과 미확인 보류",
+      "status": "passed",
+      "duration": 89.50709999999981
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-D01: risk_assessment.retention 독립 후보·필요 사실·가상 이행과 미확인 보류",
+      "status": "passed",
+      "duration": 88.84130000000005
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-D01: environment.waste_contractor 독립 후보·필요 사실·가상 이행과 미확인 보류",
+      "status": "passed",
+      "duration": 95.24000000000024
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-D01: risk_assessment.representative_particip… 독립 후보·필요 사실·가상 이행과 미확인 보류",
+      "status": "passed",
+      "duration": 79.92000000000007
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-D01: risk_assessment.sharing 독립 후보·필요 사실·가상 이행과 미확인 보류",
+      "status": "passed",
+      "duration": 74.29119999999966
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-C01: 주제 후보 선택 폐기물 수탁업체 위탁 계약",
+      "status": "passed",
+      "duration": 1.2121999999999389
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-C01: 주제 후보 선택 위험성평가 근로자대표 참여",
+      "status": "passed",
+      "duration": 0.3488999999999578
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-C01: 주제 후보 선택 폐기물과 위험물 정기점검",
+      "status": "passed",
+      "duration": 0.13739999999961583
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-C01: 주제 후보 선택 ABC XYZ 낯선 약어",
+      "status": "passed",
+      "duration": 0.1172999999998865
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-C02: 사람이 고친 사실을 보존하고 충돌·기존 trace·연결 승인 재검토를 남긴다",
+      "status": "passed",
+      "duration": 71.5933
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-C03/S2: 신고 경로·다른 시설·만료 처분·자료 기준일·현재량 누락은 자동 수탁 가능이 아니다",
+      "status": "passed",
+      "duration": 2.336699999999837
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-C04/S3: 늦은 제출·접수·보완 이력을 현재 시정과 함께 보존한다",
+      "status": "passed",
+      "duration": 2.0668000000000575
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-C05/S5: 양식만 존재·대표 요구 미확인·정기 및 수시평가를 분리한다",
+      "status": "passed",
+      "duration": 0.29500000000007276
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-B05: synthetic=true 명시 context 관리 HTTP→worker→원문 접근 권한",
+      "status": "passed",
+      "duration": 159.2228
+    },
+    {
+      "file": "tests/v4-workflow.test.ts",
+      "name": "V4-B05: synthetic=false 명시 context 관리 HTTP→worker→원문 접근 권한",
+      "status": "passed",
+      "duration": 63.80569999999989
+    },
+    {
+      "file": "tests/v5-process.test.ts",
+      "name": "V5-A05: 격리 실제 TLS 소켓에서 pin·인증서·원문 bytes 확인하고 redirect 거부",
+      "status": "passed",
+      "duration": 309.9874
+    },
+    {
+      "file": "tests/v5-process.test.ts",
+      "name": "V5-B04: 다른 프로세스의 revoke commit 이전·이후 admission과 취소 순서",
+      "status": "passed",
+      "duration": 350.8677999999999
+    },
+    {
+      "file": "tests/v5-process.test.ts",
+      "name": "V5-B05: 실제 복원 프로세스 중단 뒤 공개 세대는 없고 잠금 복구 후 재복원",
+      "status": "passed",
+      "duration": 4601.2051
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A01: 공식 form5 발견·암호 원문·실제 격리 파서 연결",
+      "status": "passed",
+      "duration": 912.5584000000001
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A01: 공식 notice 발견·암호 원문·실제 격리 파서 연결",
+      "status": "passed",
+      "duration": 671.9964000000004
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A02: 첨부 주소 추측·다른 파일ID는 발견으로 인정하지 않는다",
+      "status": "passed",
+      "duration": 0.43540000000029977
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A03: 위험 압축 항목 ../escape.xml를 파서 진입 전 거절",
+      "status": "passed",
+      "duration": 381.9183000000003
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A03: 위험 압축 항목 C:stream.xml를 파서 진입 전 거절",
+      "status": "passed",
+      "duration": 242.28759999999966
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A03: 위험 압축 항목 Contents/payload.zip를 파서 진입 전 거절",
+      "status": "passed",
+      "duration": 217.4126000000001
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A03: 위험 압축 항목 Contents/entity.xml를 파서 진입 전 거절",
+      "status": "passed",
+      "duration": 211.2887999999998
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-A04: OCR 미지원과 사용자 취소를 추출 완료로 만들지 않는다",
+      "status": "passed",
+      "duration": 18.952499999999418
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-C01: 공식 필드만 제공하며 누락·빈 값·0·번호 선행 0을 구분",
+      "status": "passed",
+      "duration": 1.2331999999996697
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-C02: XML 단일·복수와 A08 wrapper를 명시적으로 해석",
+      "status": "passed",
+      "duration": 2.387699999999313
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-C03: 정상 0건·기관 오류·불명 구조·0건 충돌을 구분",
+      "status": "passed",
+      "duration": 0.3245999999999185
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-C04: 실제 worker raw→후보→수동 보완→독립 검토→기존 검토 trace 다운로드",
+      "status": "passed",
+      "duration": 151.4449999999997
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-D01: 서식 목적·필요란·환산 근거·전일 재고·음수·참조 충돌 보존",
+      "status": "passed",
+      "duration": 0.4930000000003929
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-D02: 평가일·개시일·조회일은 별개이며 개정 전후 기록 조문 유지",
+      "status": "passed",
+      "duration": 0.14280000000053406
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-B01: 같은 snapshot 통합 백업→세대 복원·원본·작업 중지·전송 거부·현재 승인 무효",
+      "status": "passed",
+      "duration": 1100.3896000000004
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-B02: 미분류 자원은 통합 완료로 바꾸지 않고 복원 대상 덮어쓰기 금지",
+      "status": "passed",
+      "duration": 2698.9715000000006
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-B03: admission 이전 철회는 0회·이후 철회는 취소와 미관측 송신 구분",
+      "status": "passed",
+      "duration": 93.52590000000055
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-H01: 앱 시험 설정 true와 가상 영역 true는 권한을 자동 부여하지 않는다",
+      "status": "passed",
+      "duration": 28.548500000000786
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-H01: 앱 시험 설정 true와 가상 영역 false는 권한을 자동 부여하지 않는다",
+      "status": "passed",
+      "duration": 23.768699999998717
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-H01: 앱 시험 설정 false와 가상 영역 true는 권한을 자동 부여하지 않는다",
+      "status": "passed",
+      "duration": 22.70179999999891
+    },
+    {
+      "file": "tests/v5-runtime.test.ts",
+      "name": "V5-H01: 앱 시험 설정 false와 가상 영역 false는 권한을 자동 부여하지 않는다",
+      "status": "passed",
+      "duration": 23.922199999999066
+    },
+    {
+      "file": "tests/verification.test.ts",
+      "name": "API 경로의 부칙·시행일 필드명을 법문 표현으로 세지 않는다",
+      "status": "passed",
+      "duration": 3.682800000000043
+    },
+    {
+      "file": "tests/verification.test.ts",
+      "name": "정확한 법규명 후보만 연결하고 유사 제목·폐지·미시행·타지역은 누락으로 남긴다",
+      "status": "passed",
+      "duration": 4.668500000000051
+    },
+    {
+      "file": "tests/verification.test.ts",
+      "name": "같은 제목의 중복 버전은 하나를 임의로 확정하지 않는다",
+      "status": "passed",
+      "duration": 0.33679999999998245
+    },
+    {
+      "file": "tests/verification.test.ts",
+      "name": "부칙·예외·별표·위임은 정확한 원문 위치를 보존하며 표시 한도를 밝힌다",
+      "status": "passed",
+      "duration": 0.8979999999999677
+    },
+    {
+      "file": "tests/verification.test.ts",
+      "name": "기준일 경계·미래 기준일·24시간 경계를 구분한다",
+      "status": "passed",
+      "duration": 0.3410999999999831
+    },
+    {
+      "file": "tests/verification.test.ts",
+      "name": "본문에 표지가 없어도 예외 없음으로 확인하지 않는다",
+      "status": "passed",
+      "duration": 0.2787000000000148
+    },
+    {
+      "file": "tests/verification.test.ts",
+      "name": "긴 본문 뒤의 예외를 AI 문맥에 포함하되 전체 검토 완료로 표시하지 않는다",
+      "status": "passed",
+      "duration": 1.7814000000000192
+    },
+    {
+      "file": "tests/verification.test.ts",
+      "name": "검토 결과·내보내기에 누락 연결이 보존되고 clear_risk로 승격되지 않는다",
+      "status": "passed",
+      "duration": 22.2337
+    }
+  ]
+}

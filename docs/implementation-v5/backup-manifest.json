@@ -1,0 +1,76 @@
+{
+  "version": "v5.1",
+  "sourceDigest": "b558902d89ad8bb780282e8413c7f1ffeea61f551aaa6830ec7e029fd63ff403",
+  "runtime": "v26.7.0",
+  "createdAt": "2026-10-08T16:49:26.016Z",
+  "tableInventory": [
+    "reviews",
+    "evidence",
+    "evidence_fts",
+    "evidence_fts_data",
+    "evidence_fts_idx",
+    "evidence_fts_content",
+    "evidence_fts_docsize",
+    "evidence_fts_config",
+    "documents",
+    "settings",
+    "sources",
+    "audit",
+    "rules",
+    "v2_migrations",
+    "v2_entities",
+    "v2_approvals",
+    "v2_dependencies",
+    "v2_invalidations",
+    "v3_review_events",
+    "sqlite_sequence",
+    "v4_payloads",
+    "v4_provenance",
+    "v4_grants",
+    "v3_legacy_links",
+    "v3_shadow",
+    "v4_trace_history",
+    "v4_merge_conflicts",
+    "v3_jobs",
+    "v3_job_units",
+    "v3_quota",
+    "v3_job_events",
+    "v4_captures",
+    "v3_egress",
+    "v3_derivations",
+    "v3_source_events",
+    "v3_restore_runs"
+  ],
+  "includes": [
+    "영역에 연결된 legacy 검토·문서·증빙·원본",
+    "v2 자료·정책 버전·승인 이력",
+    "v3 작업·단위·이력",
+    "v4 암호 원문·파생·전송 승인 이력",
+    "v4/v5 검토 trace·후보·전송 intent·이관 이력"
+  ],
+  "excludes": [
+    "API·OAuth·암호키",
+    "다른 tenant·가상 구분 영역",
+    "설정 인증정보·실행 lease·계정 공통 호출 permit",
+    "로컬 일반 감사 로그"
+  ],
+  "omissions": [],
+  "files": [
+    {
+      "hash": "e54c0685375fa87e8bbe24ca9ccb1a6d57a596d0ecb571f24e0641989513de85",
+      "bytes": 67,
+      "representation": "v2-original"
+    },
+    {
+      "hash": "e54c0685375fa87e8bbe24ca9ccb1a6d57a596d0ecb571f24e0641989513de85",
+      "bytes": 67,
+      "representation": ".txt"
+    }
+  ],
+  "hashes": {
+    "legacy": "ae089fc234c0568d58afeadcd527776c1bce07291ccdd1c274231571dc7ca736",
+    "layer": "f460e3748f9eafac3683482d32f94c48b5654f08c1d24d61c27cb7716b4f832a",
+    "other": "3df0d98208111fdb93d3a3a62491ccd4f9777c6977b9120f47e3fb207c71ead7"
+  },
+  "completeApplicationBackup": true
+}
