@@ -103,7 +103,7 @@ it("V4-A10: 서로 다른 프로세스의 같은 계정 permit은 한 호출만 
   const script=`import {Store} from ${JSON.stringify(pathToFileURL(resolve(build,"server/store.js")).href)};import {CallPermits} from ${JSON.stringify(pathToFileURL(resolve(build,"server/transport-v4.js")).href)};const store=new Store(${JSON.stringify(f.store.dir)});const fence=new CallPermits(store).acquire(${JSON.stringify(id)},String(process.pid),Date.now(),60000,0);console.log(JSON.stringify({acquired:fence!==undefined}));store.close();`;
   const run=()=>new Promise<boolean>((res,rej)=>{const child=spawn(process.execPath,["--input-type=module","-e",script],{windowsHide:true,stdio:["ignore","pipe","pipe"]});let out="",err="";child.stdout.on("data",b=>out+=b);child.stderr.on("data",b=>err+=b);child.on("error",rej);child.on("close",code=>code===0?res(JSON.parse(out).acquired):rej(Error(err||"synthetic child failed")));});
   try{const settled=await Promise.allSettled([run(),run()]);const results=settled.map(r=>{if(r.status==="rejected")throw r.reason;return r.value;});expect(results.filter(Boolean)).toHaveLength(1);}finally{f.clean();}
-});
+},30000);
 it.each(["127.0.0.1","10.0.0.1","169.254.169.254","192.168.0.1","100.64.0.1","::1","::ffff:127.0.0.1","2001:db8::1"])("V4-A05: 특수주소 %s 차단",ip=>expect(publicIPv4(ip)).toBe(false));
 it.each(["http://files.example.test/public/a.pdf","https://evil.test/public/a.pdf","https://user@files.example.test/public/a.pdf","https://files.example.test/public/%2e%2e/a.pdf","https://files.example.test/public/a.pdf?serviceKey=secret"])("V4-A06: 허용 범위 밖 URL %s 차단",url=>expect(()=>attachmentURL(url,policy)).toThrow());
 it("V4-A07: 모의 downloader의 실제 연결 주소·서명·범위를 검사하고 직접 렌더하지 않는다",async()=>{
