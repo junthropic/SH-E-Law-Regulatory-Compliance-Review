@@ -9,7 +9,7 @@ import { ProtectedPayloads, type PayloadKey } from "./protected-payload-v4.js";
 import { PayloadProvenance } from "./provenance-v4.js";
 import { LegacyBridge } from "./legacy-bridge-v3.js";
 import { assertPrincipal, type Principal } from "./compliance-v2.js";
-const extras = ["v4_trace_history","v4_merge_conflicts","v5_send_intents","v5_waste_proposals","v5_migrations","v6_records","v6_review_bindings","v6_training_cases","v6_training_current","v6_attachment_records","v6_migration_routes"];
+const extras = ["v4_trace_history","v4_merge_conflicts","v5_send_intents","v5_waste_proposals","v5_migrations","v6_records","v6_review_bindings","v6_training_cases","v6_training_current","v6_attachment_records","v6_migration_routes","v7_safety_manager_cases","v7_safety_manager_current"];
 const definitions:Record<string,string>={
   v4_trace_history:"seq INTEGER PRIMARY KEY AUTOINCREMENT,tenant TEXT,review TEXT,body TEXT",
   v4_merge_conflicts:"seq INTEGER PRIMARY KEY AUTOINCREMENT,tenant TEXT,synthetic INTEGER,target TEXT,body TEXT",
@@ -22,7 +22,11 @@ const definitions:Record<string,string>={
   v6_training_current:"id TEXT,tenant TEXT,synthetic INTEGER,body TEXT,PRIMARY KEY(id,tenant,synthetic)",
   v6_attachment_records:"id TEXT PRIMARY KEY,tenant TEXT,synthetic INTEGER,body TEXT",
   v6_migration_routes:"id TEXT PRIMARY KEY,tenant TEXT,synthetic INTEGER,body TEXT",
+  v7_safety_manager_cases:"id TEXT,tenant TEXT,synthetic INTEGER,version INTEGER,payload TEXT,body TEXT,PRIMARY KEY(id,tenant,synthetic,version)",
+  v7_safety_manager_current:"id TEXT,tenant TEXT,synthetic INTEGER,body TEXT,PRIMARY KEY(id,tenant,synthetic)",
 };
+// Managed fact cases are restored as a new version that needs a fresh independent review (no restored approval).
+const caseTables=[["v6_training_cases","v6_training_current"],["v7_safety_manager_cases","v7_safety_manager_current"]] as const;
 const allowed = new Set(["reviews","documents","evidence","sources","rules","audit","settings","sqlite_sequence","v2_migrations","v2_entities","v2_dependencies","v2_approvals","v2_invalidations","v3_review_events","v3_legacy_links","v3_shadow","v3_jobs","v3_job_units","v3_job_events","v3_quota","v3_egress","v3_derivations","v3_source_events","v3_restore_runs","v4_payloads","v4_captures","v4_provenance","v4_grants","v4_call_permits",...extras]);
 function access(p:Principal,key:PayloadKey) { assertPrincipal(p);if(!p.roles.includes("backup_operator")||key.bytes.length!==32)throw Error("백업 권한·키 필요"); }
 function safeDirectory(path:string) {
@@ -113,10 +117,10 @@ export function restoreGeneration(target:string,p:Principal,key:PayloadKey,archi
       }
     }
     if((store.db.prepare("PRAGMA integrity_check").get() as any).integrity_check!=="ok")throw Error("복원 DB 무결성 실패");
-    if(b.other.v6_training_cases){const rows=store.db.prepare("SELECT * FROM v6_training_cases WHERE tenant=? AND synthetic=? ORDER BY version DESC").all(p.tenant,+p.synthetic) as any[],seen=new Set<string>();
+    for(const [cases,current] of caseTables)if(b.other[cases]){const rows=store.db.prepare(`SELECT * FROM ${cases} WHERE tenant=? AND synthetic=? ORDER BY version DESC`).all(p.tenant,+p.synthetic) as any[],seen=new Set<string>();
       for(const r of rows){if(seen.has(r.id))continue;seen.add(r.id);const data=JSON.parse(vault.get(p,r.payload,"unit").toString()),next={...data,version:r.version+1,input:{...data.input,independentFactsReviewed:null},review:null,historicalReview:data.review,restored:true,legalApproval:false};
-        const payload=new ProtectedPayloads(store,key).put(p,"unit",Buffer.from(JSON.stringify(next)),7*86400000);store.db.prepare("INSERT INTO v6_training_cases VALUES(?,?,?,?,?,?)").run(r.id,p.tenant,+p.synthetic,next.version,payload,r.body);
-        store.db.prepare("UPDATE v6_training_current SET body=? WHERE id=? AND tenant=? AND synthetic=?").run(JSON.stringify({id:r.id,version:next.version,hash:sha(JSON.stringify(next))}),r.id,p.tenant,+p.synthetic);}}
+        const payload=new ProtectedPayloads(store,key).put(p,"unit",Buffer.from(JSON.stringify(next)),7*86400000);store.db.prepare(`INSERT INTO ${cases} VALUES(?,?,?,?,?,?)`).run(r.id,p.tenant,+p.synthetic,next.version,payload,r.body);
+        store.db.prepare(`UPDATE ${current} SET body=? WHERE id=? AND tenant=? AND synthetic=?`).run(JSON.stringify({id:r.id,version:next.version,hash:sha(JSON.stringify(next))}),r.id,p.tenant,+p.synthetic);}}
     fault?.("db_flush");store.db.exec("PRAGMA wal_checkpoint(TRUNCATE)");store.close();store=undefined;fault?.("before_publish");
     const result={generation,archiveHash:digest,manifest:b.manifest,completeApplicationRestore:b.manifest.completeApplicationBackup,paused:true,egress:"denied",currentApprovals:false,production:false};
     const temporary=join(root,"current.json.tmp");fault?.("pointer_write");const pointerFD=openSync(temporary,"wx");pointerTemporaryOwned=true;try{writeFileSync(pointerFD,JSON.stringify(result));fault?.("pointer_flush");fsyncSync(pointerFD);}finally{closeSync(pointerFD);}
