@@ -8,6 +8,7 @@ import {
   redact,
 } from "../server/legal.js";
 import { basis, rule, evidence } from "./helpers.js";
+import { koreaDate } from "../shared/dates.js";
 import { randomUUID } from "node:crypto";
 import type { CaseFact, LegalIssue } from "../shared/types.js";
 const facts: CaseFact[] = [
@@ -33,7 +34,7 @@ const facts: CaseFact[] = [
     confirmed: true,
   },
 ];
-const today = new Date().toISOString().slice(0, 10);
+const today = koreaDate(); // same civil date the app uses, so KST 00:00–08:59 runs do not test "yesterday"
 describe("법률 판정 검증", () => {
   it("정확한 연속 원문만 인용한다", () => {
     const e = evidence();
