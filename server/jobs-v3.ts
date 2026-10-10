@@ -585,7 +585,8 @@ export async function workOne(
     try {
       return jobs.fail(job, error);
     } catch (rejection) {
-      // ponytail: best-effort trace; a failed audit write must not change the null result.
+      // The lease expired or the worker was fenced out, so this worker may no longer change the job.
+      // Keep a trace of the refused failure; if even that write fails, still return null as before.
       try {
         jobs.failRejected(job, error, rejection);
       } catch {}
