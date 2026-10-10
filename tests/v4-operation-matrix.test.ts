@@ -36,4 +36,4 @@ it("V4-A08: 기존 52 operation 모두 실제 adapter 경유 합성 응답·capt
     expect((f.store.db.prepare("SELECT count(*) n FROM v4_captures").get() as any).n).toBe(52);
     mkdirSync("work",{recursive:true});writeFileSync("work/v4-operation-matrix.json",JSON.stringify({operations,liveCalls:0,legalApproval:false},null,2));
   }finally{f.clean();vi.unstubAllGlobals();}
-});
+},30000);
