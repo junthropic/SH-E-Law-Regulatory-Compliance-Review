@@ -1,0 +1,41 @@
+{
+  "copied": [
+    {
+      "file": "docs/implementation-v7/source/v7-safety-manager-law-details.json",
+      "sourcePath": "C:\\Code\\6. Aside\\2026-10-08_EHS_판정기준_구현설계\\원문근거\\v7\\v7-safety-manager-law-details.json",
+      "bytes": 23351,
+      "sha256": "95abd975bafe6a0c5db155173364a4a29b7bbb4b7025b17f0db3c6062c0409bb",
+      "sourceSha256": "95abd975bafe6a0c5db155173364a4a29b7bbb4b7025b17f0db3c6062c0409bb",
+      "identicalToSource": true,
+      "copiedAt": "2026-10-10T09:29:13.120Z",
+      "privacyCheck": "no email/phone/RRN/business-no/credential/real-workplace patterns found (2026-10-10)"
+    },
+    {
+      "file": "docs/implementation-v7/source/v7-safety-manager-law.json",
+      "sourcePath": "C:\\Code\\6. Aside\\2026-10-08_EHS_판정기준_구현설계\\원문근거\\v7\\v7-safety-manager-law.json",
+      "bytes": 9798,
+      "sha256": "9bec0d32feda0356b2d5d3a6bd2a577e76f7b8701e0507019c6b3b726f5b5692",
+      "sourceSha256": "9bec0d32feda0356b2d5d3a6bd2a577e76f7b8701e0507019c6b3b726f5b5692",
+      "identicalToSource": true,
+      "copiedAt": "2026-10-10T09:29:13.121Z",
+      "privacyCheck": "no email/phone/RRN/business-no/credential/real-workplace patterns found (2026-10-10)"
+    },
+    {
+      "file": "docs/implementation-v7/source/사용자_v6_잔여gate_첨부원문.json",
+      "sourcePath": "C:\\Code\\6. Aside\\2026-10-08_EHS_판정기준_구현설계\\원문근거\\v7\\사용자_v6_잔여gate_첨부원문.json",
+      "bytes": 86037,
+      "sha256": "4f6194e715f41d7dff32f69e51c8cab9fbfeb5fd9cb2575c3590d3a699e008c0",
+      "sourceSha256": "4f6194e715f41d7dff32f69e51c8cab9fbfeb5fd9cb2575c3590d3a699e008c0",
+      "identicalToSource": true,
+      "copiedAt": "2026-10-10T09:29:13.122Z",
+      "privacyCheck": "no email/phone/RRN/business-no/credential/real-workplace patterns found (2026-10-10)"
+    }
+  ],
+  "excluded": [
+    {
+      "file": "v7-delivery-verification.json",
+      "sourcePath": "C:\\Code\\6. Aside\\2026-10-08_EHS_판정기준_구현설계\\원문근거\\v7\\v7-delivery-verification.json",
+      "reason": "contains a local filesystem path with the Windows account name and an app session id; not copied per instruction"
+    }
+  ]
+}
