@@ -1,0 +1,102 @@
+{
+  "purpose": "v7 T2 전수 목록: trace 자료의 저장·읽기·export·백업 위치와 보호·소유권·부모·평문 잔류. 코드 읽기 결과이며 운영 DB를 열지 않았다.",
+  "createdOn": "2026-10-10",
+  "codeRevision": "feat/v7-safety-manager b98ed6a",
+  "method": "server/** 정적 조사(탐색 에이전트 2개, 읽기 전용) + 핵심 주장 직접 대조(테이블 수, store.ts 핵심 테이블 tenant 열 없음, records-v6.ts:45-46 binding 없으면 guard 생략, dossier.ts:425 reviewer-packet guard 없음, implementation-v6/migration-status.json 플래그)",
+  "productionReach": {
+    "entrypoint": "server/index.ts:4 createApp() 인자 없음",
+    "registeredInProduction": "app.ts·public-apis·intake·dossier 라우트만. compliance-v2(grants 필요), v3 bridge·collection(app.ts:48 시험+합성 전용), management-v4~v7(테스트·스크립트 전용)은 등록되지 않음",
+    "productionTables": "핵심 8개(reviews, evidence, evidence_fts, documents, settings, sources, audit, rules) + v2_collection_jobs/pages. v2~v7 테이블은 테스트·격리 host에서만 생성"
+  },
+  "tables": {
+    "total": 44,
+    "physicalWithFtsShadowAndSequence": 50,
+    "tenantColumn": 28,
+    "noTenantOwnershipUnknown": 16,
+    "noTenantList": ["reviews","evidence","evidence_fts","documents","settings","sources","audit","rules","v2_collection_jobs","v2_collection_pages","v2_migrations","v3_job_units","v3_quota","v3_job_events","v3_restore_runs","v4_call_permits"],
+    "noTenantNote": "v3_job_units·v3_job_events는 v3_jobs를 통해서만 간접 추정 가능",
+    "syntheticColumn": 20,
+    "content": {
+      "vaultProtectedOnly": 9,
+      "vaultProtectedList": ["v4_payloads","v4_captures","v5_migrations","v5_waste_proposals","v6_records","v6_attachment_records","v6_migration_routes","v6_training_cases","v7_safety_manager_cases"],
+      "mixedVaultAndPlaintext": 2,
+      "mixedList": ["v3_jobs","v3_job_units"],
+      "plaintextUserOrCollected": 10,
+      "plaintextList": ["reviews","evidence","evidence_fts","documents","settings","v2_collection_pages","v2_entities","v3_legacy_links","v3_shadow","v4_trace_history"],
+      "plaintextMetadataOrNotes": 10,
+      "hashOrRefOnly": 13
+    },
+    "parentLinkage": {"confirmed": 19, "partial": 13, "none": 11, "notApplicable": 1},
+    "backup": {
+      "v5AllowedSet": 41,
+      "exportedInV5Archive": 33,
+      "allowedButNotExported": ["settings","audit","sources","rules","v2_migrations","v2_dependencies","v3_restore_runs","v4_call_permits"],
+      "inNoBackupList": ["v2_collection_jobs","v2_collection_pages"],
+      "rebuiltNotBackedUp": ["evidence_fts"]
+    }
+  },
+  "files": {
+    "locations": 16,
+    "encrypted": 1,
+    "mixedPlaintextDbWithEncryptedColumn": 4,
+    "plaintext": 11,
+    "tenantScoped": 3,
+    "plaintextList": ["<data>/originals","<data>/v2-originals/<sha(tenant)>","<data>/legal-attachments","<data>/legal-raw","<data>/public-import-*.json (임시)","<data>/v3-restore (임시)","<target>/current.json·restore.lock","backups/private-*.json","data/public/bundle.json.gz(공개)",".local/server-4317.*.log·watchdog.log","work/*-e2e-* (시험)"]
+  },
+  "reads": {
+    "routesReturningStoredData": 33,
+    "protectedWithGraphCheck": 2,
+    "protectedStorageWithoutGraphCheck": 2,
+    "mixed": 3,
+    "metadataOnly": 4,
+    "legacyPlaintext": 22,
+    "tenantScoped": 15,
+    "productionRoutesCookieOnlyNoTenant": 18,
+    "examples": {
+      "protectedWithCheck": ["GET /api/management-v6/training/:id","GET /api/management-v7/safety-manager/:id"],
+      "legacyEvenWhenBound": ["GET /api/reviews/:id app.ts:385","GET /api/reviews/:id/events app.ts:389","GET /api/reviews/:id/reviewer-packet dossier.ts:425","GET /api/backup app.ts:554","GET /api/documents/:id/original app.ts:453"]
+    }
+  },
+  "exports": {
+    "paths": 9,
+    "protected": 1,
+    "mixed": 3,
+    "plaintext": 5,
+    "guardManagedExportCallSites": 1,
+    "guardScope": "records-v6.ts:45-46: v6_review_bindings 테이블·행이 없으면 검사 없이 통과 → binding 없는 legacy 검토는 자유 export"
+  },
+  "externalResults": {
+    "stores": 15,
+    "parentLinkedAndPersisted": 2,
+    "notLinked": 12,
+    "notStored": 1,
+    "linked": ["AttachmentGraph.collect attachment-graph-v6.ts:45","training/safety-manager cases [own, sourceNode]"],
+    "note": "analyze·extractIntake의 결과 node는 실행 문맥(메모리)에만 있고 저장된 결과에는 연결되지 않음. 보호된 사례 결과도 publish 시 평문 reviews 테이블로 복사됨(training-cases-v6.ts:40, safety-manager-cases-v7.ts:43)"
+  },
+  "plaintextResidue": {
+    "locations": 12,
+    "list": [
+      "reviews.error 원문 메시지 reviews.ts:332, app.ts:362-373",
+      "audit 테이블 평문·tenant 없음·v5 백업 제외",
+      "v3_job_events rejection.message jobs-v3.ts:348-358",
+      "v2_collection_pages 전체 검색 결과 collection-journal-v2.ts:65-67",
+      "settings intake-* (요청·사실·조회 기록) intake.ts:490,703,738",
+      "v3_jobs/v3_job_units 평문 query·결과(이관 후에도 잔류)",
+      "v3_shadow·v4_trace_history·v2_entities 전체 근거·사실 값",
+      "보호 사례 결과의 평문 reviews 복사",
+      "bindDocument 후에도 documents 행·originals 파일 평문 유지",
+      "legal-raw/·legal-attachments/ 파일",
+      "v2-originals/<sha(tenant)>/ 파일",
+      "임시 평문 DB snapshot·restore staging (작업 후 삭제)"
+    ],
+    "clean": ["console 페이로드 로그 0 (logger:false)","server 코드의 work/ 쓰기 0","MCP·vault stderr 저장 0"]
+  },
+  "legacyFallbacks": [
+    "guardManagedExport binding 없으면 생략 records-v6.ts:45-46",
+    "knownManagedContextRequired: v6_records 미등록 hash는 통과 records-v6.ts:38,40",
+    "실행 문맥 없으면 AI·추출이 v3 digest gate로 대체 ai.ts:196,212,225; intake.ts:147,155,168",
+    "이관 후에도 옛 평문 v3 job 읽기·재개 가능(이관 표시 확인 없음) migration-resume-v6.ts:12-31, jobs-v3.ts:360-386",
+    "copyReviewTrace 보호 복사는 있으나 route 없음, 모든 trace reader가 평문 v3_shadow를 읽음 migration-v5.ts:111-142, legacy-bridge-v3.ts:319-328"
+  ],
+  "flags": {"allTraceCovered": false, "plaintextRemovalComplete": false, "sourcePlaintextRetained": true, "plaintextDeletedThisRun": 0}
+}

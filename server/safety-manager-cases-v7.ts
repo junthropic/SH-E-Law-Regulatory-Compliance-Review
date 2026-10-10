@@ -4,7 +4,7 @@ import {ProtectedPayloads} from "./protected-payload-v4.js";
 import {ManagedRecords} from "./records-v6.js";
 import {assertPrincipal,type Principal} from "./compliance-v2.js";
 import {SafetyManagerInput,evaluateSafetyManager,selectSafetyManager,LEGAL_BASIS_DATE,type SafetyManagerCase} from "./safety-manager-v7.js";
-import {LegacyBridge} from "./legacy-bridge-v3.js";
+import {ProtectedTraceReader} from "./trace-reader-v7.js";
 import type {LegalIssue} from "../shared/types.js";
 
 // Same flow as v6 TrainingCases: source document → versioned supplement → independent fact review → existing review → export.
@@ -33,7 +33,7 @@ export class SafetyManagerCases {
   review(p:Principal,id:string,version:number,note:string){const old=this.read(p,id);if(!p.roles.includes("case_reviewer")||p.id===old.author||old.version!==version||note.trim().length<15)throw Error("독립 사실 검토 권한·버전 확인 필요");
     return this.save(p,id,version,{...old,input:{...old.input,independentFactsReviewed:true},review:{actor:p.id,note,synthetic:p.synthetic,legalApproval:false}});}
   evaluate(p:Principal,id:string){const data=this.read(p,id);return {caseId:id,version:data.version,source:data.source,results:evaluateSafetyManager(data.input),legalApproval:false,enabled:false};}
-  publish(p:Principal,id:string,reviewId:string){const data=this.read(p,id),store=this.vault.store;new LegacyBridge(store,"v7").trace(p,reviewId);const r=store.review(reviewId);if(!r)throw Error("검토 기록 없음");
+  publish(p:Principal,id:string,reviewId:string){const data=this.read(p,id),store=this.vault.store;new ProtectedTraceReader(this.vault).trace(p,reviewId);const r=store.review(reviewId);if(!r)throw Error("검토 기록 없음");
     if(r.request.asOf!==data.input.asOf||!r.request.documentIds.includes(data.source.id))throw Error("검토 기준일·선택 자료와 안전관리자 후보 불일치");
     const selected=selectSafetyManager(r.request.prompt);if(!selected.length)throw Error("질문에 산업안전보건법 안전관리자 검토 범위가 없습니다.");
     const descriptions={pending:"자료·사실을 보완한 뒤 판단해야 합니다.",fulfilled_candidate:"요건 충족의 합성 후보입니다. 법적 충분성은 별도 검토가 필요합니다.",risk_candidate:"요건 미충족의 합성 후보입니다. 법률 위반 확정은 아닙니다.",out_of_scope_candidate:"이 의무에 대한 비대상 후보입니다. 다른 의무를 면제하지 않습니다.",not_due:"보고 기한이 아직 도래하지 않았습니다. 기한 내 관할 접수를 확인하세요."};
