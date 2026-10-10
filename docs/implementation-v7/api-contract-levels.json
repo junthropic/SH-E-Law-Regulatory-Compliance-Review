@@ -1,0 +1,27 @@
+{
+  "createdOn": "2026-10-10",
+  "scope": "T3: v6에서 공식 typed/wrapper model을 확보하지 못한 8개 operation",
+  "columns": "officialModel(기관 공식 typed model) / officialTable(공식 평면 입출력 표) / internalContract(공식 표를 토대로 한 내부 계약 시험) / officialExample / observedLiveResponse / liveKeyResponse",
+  "rows": [
+    {"id": "qna:PolicyQnaList", "officialModel": false, "officialTable": "OCT[0] oprtinSeqNo 28330", "internalContract": "V7-T01", "encoderMatchesOfficialRequired": true, "decoderReadsOfficialFieldNames": true, "notOfficial": ["resultList 컨테이너", "resultCode 위치", "S00 성공·E03 빈 결과 코드", "resultCount 필수 처리(공식 표는 옵션)"], "observedLiveResponse": 0, "liveKeyResponse": 0},
+    {"id": "qna:PolicyQnaItem", "officialModel": false, "officialTable": "OCT[1] oprtinSeqNo 28331", "internalContract": "V7-T02", "encoderMatchesOfficialRequired": true, "decoderReadsOfficialFieldNames": true, "notOfficial": ["resultData 컨테이너", "법령 항목 평면/중첩 여부", "CLOB 길이"], "fixtureNotes": ["public-apis.test.ts:391 lawList 중첩·v4-operation-matrix.test.ts:20 title 사용은 공식 표와 다름 (기존 시험, 수정하지 않음)"], "observedLiveResponse": 0, "liveKeyResponse": 0},
+    {"id": "fire:getMaterialList", "officialModel": false, "officialTable": "OCT[2] oprtinSeqNo 25785", "internalContract": "V7-T03", "encoderMatchesOfficialRequired": true, "decoderReadsOfficialFieldNames": true, "notOfficial": ["header/body/items 경로", "00·0 성공·03 빈 결과 코드", "단건·다건 표현"], "observedLiveResponse": 0, "liveKeyResponse": 0},
+    {"id": "fire:getMaterialInfo", "officialModel": false, "officialTable": "OCT[3] oprtinSeqNo 25786", "internalContract": "V7-T04", "encoderMatchesOfficialRequired": true, "decoderReadsOfficialFieldNames": true, "notOfficial": ["body.item 경로", "다건 가능 여부", "rtecsno 이후 필수 표시의 강제 여부(정책 결정 사항)"], "observedLiveResponse": 0, "liveKeyResponse": 0},
+    {"id": "chemical-accidents:csclist", "officialModel": false, "officialTable": "OCT[4] oprtinSeqNo 34941", "internalContract": "V7-T05", "encoderMatchesOfficialRequired": true, "decoderReadsOfficialFieldNames": true, "notOfficial": ["wrapper", "코드", "단건·다건", "dataNo 형식"], "observedLiveResponse": 0, "liveKeyResponse": 0},
+    {"id": "address:addrLinkApi.do", "officialModel": false, "officialTable": null, "internalContract": null, "encoderMatchesOfficialRequired": "unknown", "decoderReadsOfficialFieldNames": "unknown", "blocked": "저장소에 공식 입출력 표 없음(address-guide 캡처는 0바이트·빈 SPA 셸). 공개 문서 재수집 필요", "observedLiveResponse": 0, "liveKeyResponse": 0},
+    {"id": "fire-approval:opnFsuplAprv01", "officialModel": false, "officialTable": "OCT[5] oprtinSeqNo 31527", "internalContract": "V7-T06", "encoderMatchesOfficialRequired": "partial", "decoderReadsOfficialFieldNames": true, "conflict": "공식 표 인증키 이름 ServiceKey(size 표기 '4') ↔ 앱·기존 시험 serviceKey. 판단 근거가 저장소에 없어 변경·검사하지 않음", "notOfficial": ["header/data wrapper", "totalCount 위치", "코드"], "observedLiveResponse": 0, "liveKeyResponse": 0},
+    {"id": "fire-revocation:opnFsuplRtrcn01", "officialModel": false, "officialTable": "OCT[8] oprtinSeqNo 31524", "internalContract": "V7-T06", "encoderMatchesOfficialRequired": "partial", "decoderReadsOfficialFieldNames": true, "conflict": "fire-approval과 같은 인증키 이름 충돌", "notOfficial": ["header/data wrapper", "totalCount 위치", "코드"], "observedLiveResponse": 0, "liveKeyResponse": 0}
+  ],
+  "summary": {
+    "operations": 8,
+    "officialModel": 0,
+    "officialTable": 7,
+    "internalContractTests": 7,
+    "officialExample": 0,
+    "observedLiveResponse": 0,
+    "liveKeyResponse": 0,
+    "modelCountOverall": "44/52 유지 (공식 model 집계 기준을 완화하지 않음)",
+    "gatewayErrorTable": "data.go.kr 공통 오류표(01·04·05·10·12·20·22·23·29·30·31)만 있음. 03/E03/NODATA는 공식 근거 없음",
+    "decisionsNeeded": ["fire-* 인증키 이름 ServiceKey/serviceKey", "주소 API 공식 표 확보 방법"]
+  }
+}
