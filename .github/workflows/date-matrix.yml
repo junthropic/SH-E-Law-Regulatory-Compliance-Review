@@ -16,6 +16,10 @@ on:
         description: "Comma-separated TZ values (blank = UTC,Asia/Seoul)"
         required: false
         default: ""
+      vitest_args:
+        description: "Extra Vitest arguments, whitespace-separated (blank = none), e.g. --maxWorkers=2"
+        required: false
+        default: ""
 permissions:
   contents: read
 jobs:
@@ -40,6 +44,7 @@ jobs:
           SHE_MATRIX_DATES: ${{ inputs.dates }}
           SHE_MATRIX_TIMES: ${{ inputs.times }}
           SHE_MATRIX_TZS: ${{ inputs.tzs }}
+          SHE_MATRIX_VITEST_ARGS: ${{ inputs.vitest_args }}
         run: node tests/date-matrix.mjs work/date-matrix
       - name: Publish summary
         if: always()

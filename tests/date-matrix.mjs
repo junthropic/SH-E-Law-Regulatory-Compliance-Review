@@ -1,6 +1,7 @@
 // Date × time × timezone matrix for the full Vitest suite. Test tooling only; it does not touch app code.
 // Usage: node tests/date-matrix.mjs [outDir]   (run `npm run build` first; process tests read build/)
 // Optional filters: SHE_MATRIX_DATES=2026-10-31,2027-01-01  SHE_MATRIX_TIMES=09:00:00  SHE_MATRIX_TZS=UTC
+// Optional extra Vitest arguments (whitespace-separated): SHE_MATRIX_VITEST_ARGS="--maxWorkers=2"
 // Each run sets SHE_TEST_NOW (explicit +09:00 offset) and TZ; vitest.config.ts turns that into one clock
 // offset shared by every test worker and Node child. The clock keeps advancing during the run, so a run
 // that starts at KST 08:59:59 crosses 09:00 almost at once; exact boundary checks live in date-boundary.test.ts.
@@ -17,6 +18,7 @@ const out = resolve(process.argv[2] ?? "work/date-matrix");
 mkdirSync(out, { recursive: true });
 if (!existsSync(resolve("build/server/store.js"))) throw new Error("build/ is missing: run `npm run build` first");
 const vitest = resolve("node_modules/vitest/vitest.mjs");
+const vitestArgs = (process.env.SHE_MATRIX_VITEST_ARGS ?? "").split(/\s+/).filter(Boolean);
 
 const rows = [];
 for (const d of dates)
@@ -31,7 +33,7 @@ for (const d of dates)
       delete env.SHE_TEST_CLOCK_OFFSET_MS; // computed once per run by vitest.config.ts
       const startedReal = new Date().toISOString();
       const t0 = Date.now();
-      const r = spawnSync(process.execPath, [vitest, "run", "--reporter=json", "--outputFile=" + report], {
+      const r = spawnSync(process.execPath, [vitest, "run", ...vitestArgs, "--reporter=json", "--outputFile=" + report], {
         env,
         encoding: "utf8",
         windowsHide: true,
@@ -84,7 +86,7 @@ for (const d of dates)
       );
     }
 
-const meta = { node: process.version, platform: process.platform, release: os.release(), generatedReal: new Date().toISOString() };
+const meta = { node: process.version, platform: process.platform, release: os.release(), vitestArgs, generatedReal: new Date().toISOString() };
 writeFileSync(join(out, "summary.json"), JSON.stringify({ meta, rows }, null, 2));
 const md = [
   `# Date matrix (${meta.platform}, Node ${meta.node})`,
