@@ -13,8 +13,14 @@ export const safetyManagerPolicies=[
 export type SafetyManagerId=typeof safetyManagerPolicies[number]["id"];
 const ids=safetyManagerPolicies.map(p=>p.id) as [SafetyManagerId,...SafetyManagerId[]];
 // Evaluation exists only for these; the rest are not offered until implemented and tested.
-export const implementedSafetyManager:readonly SafetyManagerId[]=["safety_manager.appointment","safety_manager.qualification"];
+export const implementedSafetyManager:readonly SafetyManagerId[]=ids;
 export const LEGAL_BASIS_DATE="2026-10-08";
+// 영 제16조제6항(선임·위탁 보고): 제32132호 개정, 조문 시행일 2021-11-19 (MST 236793). Earlier events: text of the time not checked.
+export const REPORT_RULE_FROM="2021-11-19";
+// 영 제16조제7항(해임·위탁 해지 보고): 제35483호 신설, 조문 시행일 2025-04-29 (MST 270951); 부칙 제2조: 이 영 시행 이후 해임·해지부터 적용.
+export const DISMISSAL_RULE_FROM="2025-04-29";
+// 시행규칙 별지 제2호·제3호(개정)·제3호의2(신설) 서식: 2025-04-29 판 (MST 271027).
+export const FORMS_FROM="2025-04-29";
 
 const date=z.string().date().refine(s=>new Date(s).toISOString().slice(0,10)===s),truth=z.boolean().nullable();
 const sid=z.string().regex(/^[A-Za-z0-9_.-]{1,100}$/);
@@ -26,6 +32,18 @@ const Manager=z.object({
   grade:z.enum(["기술사","기사","산업기사","unknown","na"]).default("na"),safetyEngineerEquivalent:truth.default(null),
   degreeRelatedReviewed:truth.default(null),fourYearDegree:truth.default(null),supervisorYears:z.number().min(0).max(80).nullable().default(null),experienceYears:z.number().min(0).max(80).nullable().default(null),
   trainingCompletedOn:date.nullable().default(null),examPassed:truth.default(null),sameDivision:truth.default(null),otherLawApplies:truth.default(null),
+  // 전담: the head count alone does not prove the duty allocation; the allocation record is a separate fact.
+  assignment:z.enum(["dedicated","concurrent","unknown"]).default("unknown"),dutyAllocationEvidence:z.enum(["document","none","unknown"]).default("unknown"),assignmentReviewed:truth.default(null),
+}).strict();
+const eventKinds=["appointment","reappointment","entrustment","agency_change","increase_ordered","replacement_ordered","dismissal","entrustment_termination","resignation","unknown"] as const;
+const Filing=z.object({
+  // Only a receipt by the competent office proves submission; a file, draft or sent mail does not.
+  evidence:z.enum(["receipt","sent_only","draft","none","unknown"]),receivedOn:date.nullable(),sentOn:date.nullable().default(null),
+  office:z.enum(["competent","other","unknown"]),formUsed:z.enum(["annex2","annex3","annex3-2","other","unknown"]).default("unknown"),formFieldsReviewed:truth.default(null),
+}).strict();
+const Event=z.object({id:sid,kind:z.enum(eventKinds),date:date.nullable(),managerId:sid.nullable().default(null),filing:Filing.nullable().default(null),reviewed:truth}).strict();
+const Performance=z.object({
+  item:z.number().int().min(1).max(10),applies:truth,evidence:z.enum(["record","appointment_only","none","unknown"]),from:date.nullable().default(null),to:date.nullable().default(null),reviewed:truth,
 }).strict();
 export const SafetyManagerInput=z.object({
   subject:sid,site:sid,asOf:date,legalBasisDate:z.literal(LEGAL_BASIS_DATE),scopeReviewed:truth,
@@ -36,13 +54,18 @@ export const SafetyManagerInput=z.object({
   joint:z.object({claimed:truth,sameEmployer:truth,sameSigungu:truth,within15km:truth,combinedWorkers:z.number().int().nonnegative().nullable(),combinedAmount100M:z.number().nonnegative().nullable(),reviewed:truth}).strict(),
   entrustment:z.object({claimed:truth,agencyDesignated:truth,start:date.nullable(),end:date.nullable(),reviewed:truth}).strict(),
   managers:z.array(Manager).max(50),
+  events:z.array(Event).max(100).default([]),
+  // Public holidays other than Saturday/Sunday need a reviewed list (lunar, substitute and ad-hoc holidays are not computable here).
+  holidayCalendar:z.object({dates:z.array(date).max(400),reviewed:truth,source:z.string().max(500)}).strict().nullable().default(null),
+  performance:z.object({items:z.array(Performance).max(20),workPatternConsidered:truth,reviewed:truth}).strict().nullable().default(null),
   nonperformanceProven:z.array(z.enum(ids)).max(6),
   independentFactsReviewed:truth,
 }).strict();
 export type SafetyManagerCase=z.infer<typeof SafetyManagerInput>;
 type M=SafetyManagerCase["managers"][number];
-type State="pending"|"fulfilled_candidate"|"risk_candidate"|"out_of_scope_candidate";
-export type SafetyManagerResult={id:SafetyManagerId;label:string;state:State;classification:"more_data"|"human_review";required:number|null;counted:number;missing:string[];notes:string[];managers:{id:string;status:"valid"|"invalid"|"unknown"|"inactive";reasons:string[]}[];enabled:false;legalApproved:false};
+type State="pending"|"fulfilled_candidate"|"risk_candidate"|"out_of_scope_candidate"|"not_due";
+export type EventCheck={id:string;kind:string;date:string|null;deadline:string|null;state:State;submission:"ok"|"late"|"pending"|"none";form:"ok"|"mismatch"|"pending";reasons:string[]};
+export type SafetyManagerResult={id:SafetyManagerId;label:string;state:State;classification:"more_data"|"human_review";required:number|null;counted:number;missing:string[];notes:string[];managers:{id:string;status:"valid"|"invalid"|"unknown"|"inactive";reasons:string[]}[];events:EventCheck[];confirmedItems:number[];enabled:false;legalApproved:false};
 
 // 별표 3 row groups. A: 1~27, B: 28~48, C: 49(건설업).
 const group=(row:number)=>row<=27?"A":row<=48?"B":"C";
@@ -108,7 +131,7 @@ function counting(c:SafetyManagerCase) {
   return {valid,unknown,missing,entrusted:entrust==="counts",joint,entrust};
 }
 function result(id:SafetyManagerId,state:State,extra:Partial<SafetyManagerResult>):SafetyManagerResult {
-  return {id,label:safetyManagerPolicies.find(p=>p.id===id)!.label,state,classification:state==="pending"?"more_data":"human_review",required:null,counted:0,missing:[],notes:[],managers:[],enabled:false,legalApproved:false,...extra};
+  return {id,label:safetyManagerPolicies.find(p=>p.id===id)!.label,state,classification:state==="pending"?"more_data":"human_review",required:null,counted:0,missing:[],notes:[],managers:[],events:[],confirmedItems:[],enabled:false,legalApproved:false,...extra};
 }
 export function evaluateAppointment(c:SafetyManagerCase):SafetyManagerResult {
   const id="safety_manager.appointment",need=requirement(c),missing=[...need.missing];common(c,missing);
@@ -193,14 +216,133 @@ export function evaluateQualification(c:SafetyManagerCase):SafetyManagerResult {
   if(c.nonperformanceProven.includes(id))return result(id,"risk_candidate",base);
   return result(id,"pending",{...base,missing:["자격 요건을 갖춘 안전관리자 선임 자료 또는 무자격을 입증하는 자료"]});
 }
+// 영 제16조제2항: 300명 이상(건설 120억원, 토목 150억원 이상)이면 전담. null = facts missing.
+export function dedicationRequired(c:SafetyManagerCase):boolean|null {
+  if(c.annexRow===null||c.rowReviewed!==true)return null;
+  if(c.annexRow===49){const k=c.construction;if(!k||k.amount100M===null||k.amountReviewed!==true)return null;if(k.civilEngineering===null&&k.amount100M>=120&&k.amount100M<150)return null;return k.amount100M>=(k.civilEngineering?150:120);}
+  if(c.regularWorkers===null||c.workersBasisReviewed!==true)return null;return c.regularWorkers>=300;
+}
+export function evaluateDedication(c:SafetyManagerCase):SafetyManagerResult {
+  const id="safety_manager.dedication",need=requirement(c),missing=[...need.missing];common(c,missing);
+  if(need.outOfScope)return result(id,missing.length?"pending":"out_of_scope_candidate",{missing,notes:need.notes});
+  const req=dedicationRequired(c);
+  if(req===null)return result(id,"pending",{missing:missing.length?missing:["전담 대상 여부(상시근로자 300명·건설 공사금액) 확인"]});
+  if(!req)return result(id,missing.length?"pending":"out_of_scope_candidate",{missing,notes:["영 제16조제2항 전담 대상 규모 미만: 선임 의무와 별개로 전담 의무 비대상 후보"]});
+  if(need.required===null||missing.length)return result(id,"pending",{missing});
+  const k=counting(c),notes=k.entrust!=="none"||k.joint!=="none"?["위탁·공동선임은 전담 의무를 면제하지 않음(영 제19조제1항·제16조제4항 요건과 별개)"]:[];
+  const rows=k.valid.map(m=>{const ok=m.assignmentReviewed===true&&m.dutyAllocationEvidence==="document";
+    const status=(ok&&m.assignment==="dedicated"?"valid":ok&&m.assignment==="concurrent"?"invalid":"unknown") as "valid"|"invalid"|"unknown";
+    return {id:m.id,status,reasons:status!=="unknown"?[]:[ok?"전담·겸임 구분 확인(업무배분 자료는 있으나 구분 미기재)":"실제 업무배분·겸직 여부 자료와 검토(인원 수만으로 전담 확정 불가)"]};});
+  const dedicated=rows.filter(r=>r.status==="valid").length,base={required:need.required,counted:dedicated,notes,managers:rows};
+  if(dedicated>=need.required)return result(id,"fulfilled_candidate",base);
+  const open=[...rows.filter(r=>r.status==="unknown").map(r=>r.id+": "+r.reasons[0]),...k.missing];
+  if(open.length)return result(id,"pending",{...base,missing:open});
+  if(c.nonperformanceProven.includes(id))return result(id,"risk_candidate",base);
+  return result(id,"pending",{...base,missing:["전담 안전관리자 배치 자료 또는 겸직으로 인한 미이행을 입증하는 자료"]});
+}
+const addDays=(d:string,n:number)=>new Date(Date.parse(d)+n*86400000).toISOString().slice(0,10);
+const weekend=(d:string)=>{const w=new Date(Date.parse(d)).getUTCDay();return w===0||w===6;};
+// "…한 날부터 14일 이내": 행정기본법 제6조① → 민법 제157조(초일 불산입)·제161조(말일이 토요일·공휴일이면 익일 만료).
+// Saturday and Sunday (관공서 공휴일 규정 제2조제1호) are applied here; other holidays only from a reviewed calendar,
+// so without one the result is the earliest certain deadline and a later receipt stays pending.
+export function reportDeadline(eventDate:string,cal:SafetyManagerCase["holidayCalendar"]) {
+  const known=cal?.reviewed===true?new Set(cal.dates):null;let d=addDays(eventDate,14);
+  while(weekend(d)||known?.has(d))d=addDays(d,1);
+  return {deadline:d,holidaysConfirmed:known!==null};
+}
+type Ev=SafetyManagerCase["events"][number];
+function filingCheck(c:SafetyManagerCase,e:Ev,form:"annex2"|"annex3"|"annex3-2",id:SafetyManagerId):EventCheck {
+  const base={id:e.id,kind:e.kind,date:e.date},reasons:string[]=[];
+  if(e.date===null||e.reviewed!==true)return {...base,deadline:null,state:"pending",submission:"pending",form:"pending",reasons:["사건일·사건 종류 확인"]};
+  if(e.date>c.asOf)return {...base,deadline:null,state:"not_due",submission:"none",form:"pending",reasons:["평가일 이후 사건"]};
+  const {deadline,holidaysConfirmed}=reportDeadline(e.date,c.holidayCalendar),f=e.filing;
+  // Form fit is a separate sub-condition; an unconfirmed form never blocks the deadline/submission decision.
+  const formState:"ok"|"mismatch"|"pending"=e.date<FORMS_FROM||!f||f.formUsed==="unknown"||f.formFieldsReviewed!==true?"pending":f.formUsed===form?"ok":"mismatch";
+  if(e.date<FORMS_FROM)reasons.push("사건 당시 서식 판 미확보: 서식 적합만 보류");
+  if(f?.evidence==="receipt"&&f.receivedOn&&f.office==="competent"){
+    if(f.receivedOn<e.date)return {...base,deadline,state:"pending",submission:"pending",form:formState,reasons:[...reasons,"접수일이 사건일보다 앞섬: 날짜 확인"]};
+    if(f.receivedOn<=deadline)return {...base,deadline,state:"fulfilled_candidate",submission:"ok",form:formState,reasons};
+    if(!holidaysConfirmed)return {...base,deadline,state:"pending",submission:"pending",form:formState,reasons:[...reasons,`접수일 ${f.receivedOn}이 토·일 반영 기한 ${deadline} 이후: 그 밖의 공휴일 연장 여부 확인(검토된 공휴일 목록 필요)`]};
+    return {...base,deadline,state:c.nonperformanceProven.includes(id)?"risk_candidate":"pending",submission:"late",form:formState,reasons:[...reasons,`기한 ${deadline} 후 접수(${f.receivedOn})`]};
+  }
+  if(f?.evidence==="receipt")reasons.push("관할 지방고용노동관서 접수 여부·접수일 확인");
+  if(f?.evidence==="sent_only")reasons.push("발송 기록은 관할 접수일이 아님");
+  if(f?.evidence==="draft")reasons.push("보고서 파일·초안은 제출 증거가 아님");
+  if(c.asOf<=deadline)return {...base,deadline,state:"not_due",submission:"none",form:formState,reasons};
+  if(!holidaysConfirmed)return {...base,deadline,state:"pending",submission:"pending",form:formState,reasons:[...reasons,"토·일 외 공휴일 연장 여부 확인(검토된 공휴일 목록 필요)"]};
+  return {...base,deadline,state:c.nonperformanceProven.includes(id)?"risk_candidate":"pending",submission:"none",form:formState,reasons:[...reasons,"관할 접수 자료 또는 미제출을 입증하는 자료"]};
+}
+const rank:State[]=["risk_candidate","pending","not_due","fulfilled_candidate","out_of_scope_candidate"];
+function aggregate(id:SafetyManagerId,c:SafetyManagerCase,checks:EventCheck[],notes:string[]):SafetyManagerResult {
+  const missing:string[]=[];common(c,missing);
+  if(!checks.length)return result(id,"pending",{missing:[...missing,"해당 사건(선임·위탁·해임 등) 자료: 자료 없음은 미이행이 아님"],notes});
+  const state=rank.find(s=>checks.some(x=>x.state===s))!;
+  const open=checks.filter(x=>x.state==="pending").flatMap(x=>x.reasons.map(r=>`${x.id}: ${r}`));
+  const formNotes=checks.filter(x=>x.form!=="ok").map(x=>`${x.id}: 서식 적합 ${x.form==="mismatch"?"불일치":"보류"}`);
+  if(missing.length)return result(id,"pending",{missing:[...missing,...open],notes:[...notes,...formNotes],events:checks});
+  return result(id,state,{missing:open,notes:[...notes,...formNotes],events:checks});
+}
+const reportKinds=["appointment","reappointment","entrustment","agency_change","increase_ordered","replacement_ordered"];
+export function evaluateReport(c:SafetyManagerCase):SafetyManagerResult {
+  const id="safety_manager.report",need=requirement(c);
+  if(need.outOfScope)return result(id,"out_of_scope_candidate",{notes:[...need.notes,"선임 의무 대상이 아닌 사업장: 영 제16조제6항 보고 비대상 후보"]});
+  const form=c.annexRow===49?"annex3":"annex2";
+  const checks=c.events.filter(e=>reportKinds.includes(e.kind)||e.kind==="unknown").map(e=>{
+    if(e.kind==="unknown")return {id:e.id,kind:e.kind,date:e.date,deadline:null,state:"pending" as State,submission:"pending" as const,form:"pending" as const,reasons:["사건 종류(선임·위탁·증원·교체·해임 등) 확인"]};
+    if(e.date!==null&&e.date<REPORT_RULE_FROM)return {id:e.id,kind:e.kind,date:e.date,deadline:null,state:"pending" as State,submission:"pending" as const,form:"pending" as const,reasons:[`${REPORT_RULE_FROM} 이전 사건: 사건 당시 조문 미확인`]};
+    return filingCheck(c,e,form,id);
+  });
+  return aggregate(id,c,checks,["기한: 사건일 다음 날부터 14일(민법 제157조), 말일 토·일·검토된 공휴일이면 다음 날(제161조)","수리증 없음만으로 미이행 확정하지 않음"]);
+}
+export function evaluateDismissalReport(c:SafetyManagerCase):SafetyManagerResult {
+  const id="safety_manager.dismissal_report",need=requirement(c);
+  if(need.outOfScope)return result(id,"out_of_scope_candidate",{notes:[...need.notes,"선임 의무 대상이 아닌 사업장: 영 제16조제7항 보고 비대상 후보"]});
+  const checks=c.events.filter(e=>["dismissal","entrustment_termination","resignation","unknown"].includes(e.kind)).map(e=>{
+    const head={id:e.id,kind:e.kind,date:e.date,deadline:null,submission:"pending" as const,form:"pending" as const};
+    if(e.kind==="resignation")return {...head,state:"pending" as State,reasons:["퇴사는 해임·위탁 해지와 다른 사건: 해임 보고 대상인지 확인"]};
+    if(e.kind==="unknown")return {...head,state:"pending" as State,reasons:["사건 종류 확인"]};
+    if(e.date!==null&&e.date<DISMISSAL_RULE_FROM)return {...head,submission:"none" as const,state:"out_of_scope_candidate" as State,reasons:["신설 전 사건 — 비대상 (영 제16조제7항 2025-04-29 신설, 부칙 제2조)"]};
+    return filingCheck(c,e,"annex3-2",id);
+  });
+  return aggregate(id,c,checks,["해임·위탁 해지 보고는 선임 보고와 별개 사건으로 평가"]);
+}
+const dutyNames=["","위원회·규정에서 정한 업무","위험성평가 보좌·지도","안전인증·자율안전확인 기계 구입 보좌","안전교육계획·실시 보좌","순회점검·지도·조치 건의","재해 원인 조사·재발방지 보좌","재해 통계 보좌","법령 이행 보좌","업무 수행 내용의 기록·유지","장관이 정하는 사항"];
+export function evaluatePerformance(c:SafetyManagerCase):SafetyManagerResult {
+  const id="safety_manager.performance",need=requirement(c),missing=[...need.missing];common(c,missing);
+  if(need.outOfScope)return result(id,missing.length?"pending":"out_of_scope_candidate",{missing,notes:need.notes});
+  const notes=["업무수행 기록 유지 의무(영 제18조제1항제9호)와 별개로 법령상 일률 보존기간·횟수·서식은 만들지 않음"];
+  const p=c.performance;if(!p)return result(id,"pending",{missing:[...missing,"영 제18조 업무별 실제 수행 기록"],notes});
+  const confirmed:number[]=[],open:string[]=[];
+  for(let n=1;n<=10;n++){
+    const rows=p.items.filter(x=>x.item===n);
+    if(rows.some(x=>x.applies===true&&x.evidence==="record"&&x.reviewed===true)){confirmed.push(n);continue;}
+    if(n!==9&&rows.length&&rows.every(x=>x.applies===false&&x.reviewed===true))continue; // 해당 사건이 없어 적용되지 않는 업무 (제9호 기록·유지는 항상 적용)
+    open.push(`제${n}호 ${dutyNames[n]}: ${rows.some(x=>x.evidence==="appointment_only")?"선임계·위탁계약·조직도는 실제 수행 증거가 아님":"수행 기록 미확인"}`);
+  }
+  if(p.workPatternConsidered!==true)open.push("배치 시 연장·야간·휴일근로 등 작업 형태 고려(영 제18조제2항)");
+  if(p.reviewed!==true)missing.push("업무수행 자료의 독립 검토");
+  const base={confirmedItems:confirmed,notes:[...notes,`확인 범위: ${confirmed.length?confirmed.map(n=>"제"+n+"호").join("·"):"없음"}`]};
+  if(missing.length)return result(id,"pending",{...base,missing:[...missing,...open]});
+  if(!open.length)return result(id,"fulfilled_candidate",base);
+  if(c.nonperformanceProven.includes(id))return result(id,"risk_candidate",{...base,missing:open});
+  return result(id,"pending",{...base,missing:open});
+}
 export function evaluateSafetyManager(c:SafetyManagerCase):SafetyManagerResult[] {
-  return [evaluateAppointment(c),evaluateQualification(c)];
+  return [evaluateAppointment(c),evaluateQualification(c),evaluateDedication(c),evaluateReport(c),evaluateDismissalReport(c),evaluatePerformance(c)];
 }
 // Industrial-safety 안전관리자 only; hazmat/gas/electric/health managers and other roles are different duties.
 export function selectSafetyManager(text:string) {
   if(!/안전관리자/.test(text)||!/산업안전|산안법|안전관리전문기관|별표\s*[34]/.test(text))return [];
   if(/위험물|고압가스|도시가스|액화석유가스|전기안전관리자|화약류|보건관리자|안전보건관리책임자|안전보건관리담당자/.test(text)&&!/산업안전보건법\s*(?:제17조|상)?\s*안전관리자/.test(text))return [];
-  const explicit=safetyManagerPolicies.filter(p=>implementedSafetyManager.includes(p.id)&&({"safety_manager.appointment":/선임|인원|몇\s*명|공동|위탁/.test(text),"safety_manager.qualification":/자격|학위|기사|지도사|시험/.test(text)} as Record<string,boolean>)[p.id]);
+  const report=/(?:선임|위탁(?!\s*해지)).{0,12}(?:보고|신고|제출)|증원|교체|재선임|수탁기관/.test(text),dismissal=/해임|해지|퇴사|퇴직/.test(text);
+  const explicit=safetyManagerPolicies.filter(p=>implementedSafetyManager.includes(p.id)&&({
+    "safety_manager.appointment":/선임|인원|몇\s*명|공동|위탁/.test(text)&&!report&&!dismissal||/인원|몇\s*명|공동\s*선임/.test(text),
+    "safety_manager.qualification":/자격|학위|기사|지도사|시험/.test(text),
+    "safety_manager.dedication":/전담|겸직|겸임/.test(text),
+    "safety_manager.report":report,
+    "safety_manager.dismissal_report":dismissal,
+    "safety_manager.performance":/업무\s*수행|순회|업무\s*기록|직무\s*수행|수행\s*기록/.test(text),
+  } as Record<string,boolean>)[p.id]);
   return explicit.length?explicit:safetyManagerPolicies.filter(p=>implementedSafetyManager.includes(p.id));
 }
 export function safetyManagerCandidate(id:SafetyManagerId,basis:Ref[],author:string):Extract<Body,{kind:"policy"}> {

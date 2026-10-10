@@ -112,6 +112,6 @@ it("V7-Q06: 위탁분은 전문기관을 안전관리자로 보고 개인 자격
 it("V7-S01: 산업안전보건법 안전관리자 주제만 선택하고 위험물·보건관리자 등과 섞지 않는다",()=>{
   expect(selectSafetyManager("산업안전보건법 안전관리자 선임 인원 확인").map(x=>x.id)).toEqual(["safety_manager.appointment"]);
   expect(selectSafetyManager("산업안전 안전관리자 자격 확인").map(x=>x.id)).toEqual(["safety_manager.qualification"]);
-  expect(selectSafetyManager("산업안전보건법 안전관리자 검토").length).toBe(2);
+  expect(selectSafetyManager("산업안전보건법 안전관리자 검토").length).toBe(6);
   for(const t of ["위험물 안전관리자 선임","안전관리자 직무교육","산업안전 보건관리자 선임","전기안전관리자 선임 산업안전"])expect(selectSafetyManager(t)).toEqual([]);
 });

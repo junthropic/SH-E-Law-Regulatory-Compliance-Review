@@ -36,7 +36,7 @@ export class SafetyManagerCases {
   publish(p:Principal,id:string,reviewId:string){const data=this.read(p,id),store=this.vault.store;new LegacyBridge(store,"v7").trace(p,reviewId);const r=store.review(reviewId);if(!r)throw Error("검토 기록 없음");
     if(r.request.asOf!==data.input.asOf||!r.request.documentIds.includes(data.source.id))throw Error("검토 기준일·선택 자료와 안전관리자 후보 불일치");
     const selected=selectSafetyManager(r.request.prompt);if(!selected.length)throw Error("질문에 산업안전보건법 안전관리자 검토 범위가 없습니다.");
-    const descriptions={pending:"자료·사실을 보완한 뒤 판단해야 합니다.",fulfilled_candidate:"요건 충족의 합성 후보입니다. 법적 충분성은 별도 검토가 필요합니다.",risk_candidate:"요건 미충족의 합성 후보입니다. 법률 위반 확정은 아닙니다.",out_of_scope_candidate:"이 의무에 대한 비대상 후보입니다. 다른 의무를 면제하지 않습니다."};
+    const descriptions={pending:"자료·사실을 보완한 뒤 판단해야 합니다.",fulfilled_candidate:"요건 충족의 합성 후보입니다. 법적 충분성은 별도 검토가 필요합니다.",risk_candidate:"요건 미충족의 합성 후보입니다. 법률 위반 확정은 아닙니다.",out_of_scope_candidate:"이 의무에 대한 비대상 후보입니다. 다른 의무를 면제하지 않습니다.",not_due:"보고 기한이 아직 도래하지 않았습니다. 기한 내 관할 접수를 확인하세요."};
     const issues:LegalIssue[]=evaluateSafetyManager(data.input).filter(x=>selected.some(s=>s.id===x.id)).map(x=>({id:id+":"+x.id,ruleId:x.id,title:x.label,category:x.classification,conclusion:descriptions[x.state],
       conditions:[`사실 후보 버전 ${data.version} · 원본 해시 ${data.source.originalHash}`,`법률 기준일 ${LEGAL_BASIS_DATE} · 평가일 ${data.input.asOf}`,`필요 인원 ${x.required??"미확인"} · 확인 인원 ${x.counted}`,...x.notes,p.synthetic?"가상 자료 검증 · 법률 승인 없음":"자료 후보 검토 · 법률 승인 없음"],
       citations:[],exceptions:[],missing:x.missing,nextActions:["별표 3 행·인원 산정 근거와 선임·자격 원본 자료를 독립 검토하세요."],severity:"unspecified"}));

@@ -32,7 +32,8 @@ it.each(implemented)("V7-C01: $id 원문→수동 보완→독립 검토→기�
     expect(()=>svc.supplement(p,first.id,first.version,fixed)).toThrow(); // stale version
     expect(()=>svc.review({...p,roles:[...p.roles,"case_reviewer"]},first.id,manual.version,"자기 자료는 독립 확인으로 처리할 수 없습니다.")).toThrow();
     const checked=svc.review({...reviewer,roles:[...reviewer.roles,"writer"]},first.id,manual.version,"가상 사업장 업종 행·인원·선임 자료를 독립 합성 actor로 확인했습니다.");local(svc.records.graph,checked.own);
-    expect(svc.evaluate(p,first.id).results.find(r=>r.id===policy.id)?.state).toBe("fulfilled_candidate");
+    // 120 workers: 전담 is out of scope (영 제16조제2항 300명), every other duty is a fulfilled candidate on the synthetic facts.
+    expect(svc.evaluate(p,first.id).results.find(r=>r.id===policy.id)?.state).toBe(policy.id==="safety_manager.dedication"?"out_of_scope_candidate":"fulfilled_candidate");
     const review=newReview({...request(),asOf:fixed.asOf,prompt:"가상 사업장 산업안전보건법 "+policy.label+" 검토를 요청합니다.",documentIds:[d.id]});f.store.saveReview(review);
     new LegacyBridge(f.store,"v7").attach(p,review,"project");f.store.saveReview(review);
     // The hazmat (위험물) 안전관리자 candidates are a different duty and must not be mixed in.
