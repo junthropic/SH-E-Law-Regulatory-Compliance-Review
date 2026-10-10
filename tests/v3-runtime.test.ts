@@ -254,10 +254,33 @@ it("V3-J05: 응답 없는 transport도 총 시간 예산으로 끝난다", async
       async () => {
         await new Promise(() => {});
       },
-      100,
+      // 500ms lease (< 1s budget): a 100ms lease expired under CI load before the budget fired (V3-J11 covers that path).
+      500,
     );
     expect(jobs.get(writer, j.id).state).toBe("failed");
     expect(jobs.get(writer, j.id).reason).toBe("timeout");
+  } finally {
+    f.clean();
+  }
+});
+it("V3-J11: lease 만료로 fail()이 거부되면 거부 기록을 남기고 다음 claim이 failed(budget)로 정리한다", async () => {
+  const f = testStore();
+  try {
+    // Injected clock: the worker's lease expires deterministically, no event-loop stall needed.
+    let t = 1_000_000;
+    const jobs = new DurableJobs(f.store, () => t),
+      j = jobs.enqueue(writer, "expired-fail", { ...input, budgetMs: 1000 });
+    const run = workOne(jobs, "worker", () => new Promise(() => {}), 100);
+    t += 5000; // lease (100ms) and budget (1s) both passed on the job clock
+    expect(await run).toBeNull();
+    expect(jobs.get(writer, j.id).state).toBe("running");
+    const events = f.store.db
+      .prepare("SELECT event, body FROM v3_job_events WHERE job=? ORDER BY seq")
+      .all(j.id) as { event: string; body: string }[];
+    expect(events.map((e) => e.event)).toEqual(["accepted", "claimed", "fail_rejected"]);
+    expect(JSON.parse(events[2].body)).toMatchObject({ reason: "만료 후 실패 기록 거부", code: "timeout", owner: "worker" });
+    expect(jobs.claim("other", 100)).toBeNull();
+    expect(jobs.get(writer, j.id)).toMatchObject({ state: "failed", reason: "budget" });
   } finally {
     f.clean();
   }

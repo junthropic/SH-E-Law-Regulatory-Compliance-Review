@@ -344,6 +344,19 @@ export class DurableJobs {
       return n;
     });
   }
+  /** fail() was refused for a worker whose lease expired or was fenced out. Record it; job state is untouched. */
+  failRejected(j: Job, error: unknown, rejection: unknown) {
+    const now = this.read(j.id),
+      expired =
+        !!now && now.fence === j.fence && now.state === "running" && now.leaseUntil <= this.now();
+    this.event(j.id, "fail_rejected", {
+      fence: j.fence,
+      owner: j.owner,
+      code: error instanceof PublicApiError ? error.code : "format",
+      reason: expired ? "만료 후 실패 기록 거부" : "실패 기록 거부",
+      rejection: rejection instanceof Error ? rejection.message : String(rejection),
+    });
+  }
   control(p: Principal, id: string, action: "pause" | "resume" | "cancel") {
     return this.transaction(() => {
       const j = this.get(p, id);
@@ -571,7 +584,12 @@ export async function workOne(
           : jobs.now() + Math.max(60000, error.retryAfterMs);
     try {
       return jobs.fail(job, error);
-    } catch {
+    } catch (rejection) {
+      // The lease expired or the worker was fenced out, so this worker may no longer change the job.
+      // Keep a trace of the refused failure; if even that write fails, still return null as before.
+      try {
+        jobs.failRejected(job, error, rejection);
+      } catch {}
       return null;
     }
   } finally {
