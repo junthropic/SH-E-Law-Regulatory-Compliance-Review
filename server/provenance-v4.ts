@@ -2,6 +2,9 @@ import { randomUUID } from "node:crypto";
 import { Store, sha } from "./store.js";
 import { assertPrincipal, type Principal, type Ref, ComplianceRepository } from "./compliance-v2.js";
 import { EgressDenied } from "./egress-v3.js";
+// Per-tenant "current version" pointers of managed fact cases (v6 training, v7 safety manager).
+const caseCurrentTables = ["v6_training_current", "v7_safety_manager_current"] as const;
+type CaseCurrentTable = typeof caseCurrentTables[number];
 export class PayloadProvenance {
   constructor(readonly store: Store) {
     store.db.exec(`CREATE TABLE IF NOT EXISTS v4_provenance(id TEXT PRIMARY KEY,tenant TEXT,synthetic INTEGER,body TEXT);
@@ -11,9 +14,8 @@ export class PayloadProvenance {
     assertPrincipal(p);
     const row=this.store.db.prepare("SELECT body FROM v4_provenance WHERE id=? AND tenant=? AND synthetic=?").get(id,p.tenant,+p.synthetic) as {body:string}|undefined;
     if(!row) throw new EgressDenied();const b=JSON.parse(row.body);
-    if(b.sourceIdentity){const s=b.sourceIdentity;if(!["documents","reviews","evidence","v6_training_current"].includes(s.table))throw new EgressDenied();
-      const current=s.table==="v6_training_current"?this.store.db.prepare("SELECT body FROM v6_training_current WHERE id=? AND tenant=? AND synthetic=?").get(s.id,p.tenant,+p.synthetic) as {body:string}|undefined:undefined;
-      const value=s.table==="v6_training_current"?current?JSON.parse(current.body):null:this.store.get(s.table,s.id);
+    if(b.sourceIdentity){const s=b.sourceIdentity;if(!["documents","reviews","evidence",...caseCurrentTables].includes(s.table))throw new EgressDenied();
+      const value=this.storedValue(p,s.table,s.id);
       if(!value||sha(JSON.stringify(value))!==s.objectHash)throw new EgressDenied();}
     return b;
   }
@@ -25,9 +27,13 @@ export class PayloadProvenance {
   // Server entrypoints record the actual submitted input; this is not approval.
   input(p: Principal, serialized: string) { return this.insert(p,{digest:sha(serialized),parents:[],transformer:"user-input-v4",requiresRelease:true}); }
   // Used only by trusted host bindings. Source content/version is read again on every grant check.
-  bindStored(p:Principal,table:"documents"|"reviews"|"evidence"|"v6_training_current",id:string,serialized:string) {
-    const row=table==="v6_training_current"?this.store.db.prepare("SELECT body FROM v6_training_current WHERE id=? AND tenant=? AND synthetic=?").get(id,p.tenant,+p.synthetic) as {body:string}|undefined:undefined;
-    const value=table==="v6_training_current"?row?JSON.parse(row.body):null:this.store.get(table,id);
+  private storedValue(p:Principal,table:string,id:string):unknown {
+    if(!(caseCurrentTables as readonly string[]).includes(table))return this.store.get(table as "documents"|"reviews"|"evidence",id);
+    const row=this.store.db.prepare(`SELECT body FROM ${table} WHERE id=? AND tenant=? AND synthetic=?`).get(id,p.tenant,+p.synthetic) as {body:string}|undefined;
+    return row?JSON.parse(row.body):null;
+  }
+  bindStored(p:Principal,table:"documents"|"reviews"|"evidence"|CaseCurrentTable,id:string,serialized:string) {
+    const value=this.storedValue(p,table,id);
     if(!value)throw new EgressDenied();
     return this.insert(p,{digest:sha(serialized),parents:[],transformer:"stored-source-v6",requiresRelease:true,sourceIdentity:{table,id,objectHash:sha(JSON.stringify(value)),originalHash:(value as any).hash??null,version:(value as any).version??(value as any).updatedAt??null}});
   }

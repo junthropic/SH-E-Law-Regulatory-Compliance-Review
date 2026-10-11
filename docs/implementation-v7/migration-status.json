@@ -1,0 +1,43 @@
+{
+  "createdOn": "2026-10-10",
+  "scope": "T2: 확정된 합성 객체만 이관. 소유권 불명 자료는 tenant에 붙이지 않음. 평문 원본 삭제 0.",
+  "inventory": "trace-inventory.json",
+  "counts": {
+    "targetTablesTotal": 44,
+    "targetFileLocations": 16,
+    "migrationCategoriesThisRun": 2,
+    "migrationCategories": [
+      {"id": "review-trace", "tables": ["v3_shadow"], "mechanism": "copyReviewTrace(기존) → 해시·영역 대조 → v7_trace_routes 읽기 전환 → 보호 사본으로 재읽기", "readersSwitched": ["TrainingCases.publish (v6)", "SafetyManagerCases.publish (v7)"], "fallbackAfterSwitch": "없음(보호 사본 없음·평문 변경 시 거부)", "eligibility": "tenant 열 + body.synthetic 일치 + 합성 주체만"},
+      {"id": "v3-job", "tables": ["v3_jobs", "v3_job_units", "v3_job_events"], "mechanism": "v6 MigrationResume(기존) + 이번에 이관된 이전 작업의 평문 재개·결과 읽기 차단", "fallbackAfterSwitch": "재개·units 읽기 차단, 상태 조회(get)만 유지(기존 시험 V6-Q01/Q02가 사용)", "eligibility": "tenant·synthetic 열 일치"}
+    ],
+    "tablesCoveredByMigration": 4,
+    "reReadVerifiedTests": ["V7-M01 보호 경로 재읽기 = 원본", "V7-M02 사본 삭제·평문 변경 시 거부(대체 없음)", "V7-M03 다른 영역·비합성 거부", "V7-M04 이전 작업 재개·결과 읽기 차단", "V6-Q01/Q02 이관 작업 재개(기존)"],
+    "syntheticObjectsMigratedInTests": {"reviewTraces": 5, "jobs": 1},
+    "ownershipUnknownTables": 16,
+    "ownershipUnknownList": ["reviews","evidence","evidence_fts","documents","settings","sources","audit","rules","v2_collection_jobs","v2_collection_pages","v2_migrations","v3_job_units","v3_quota","v3_job_events","v3_restore_runs","v4_call_permits"],
+    "ownershipUnknownNote": "v3_job_units·v3_job_events는 v3_jobs 경유로만 이관 범주에 포함. 핵심 8개 표는 tenant 열이 없어 이관하지 않음",
+    "externalResultsWithoutParent": 12,
+    "plaintextResidueLocations": 12,
+    "plaintextDeleted": 0,
+    "plaintextRetained": "전부 보존 (v3_shadow 행, v3 작업 행, documents·originals 등)"
+  },
+  "backupClassification": {
+    "allServerTablesClassified": true,
+    "test": "V7-B02 (server/ 의 모든 CREATE TABLE 이름이 분류됨)",
+    "excludedPublicCache": [{"table": "v2_collection_jobs", "classification": "공개 캐시 — 제외(재수집 가능)"}, {"table": "v2_collection_pages", "classification": "공개 캐시 — 제외(재수집 가능)"}],
+    "newBackedUp": ["v7_safety_manager_cases", "v7_safety_manager_current", "v7_trace_routes"]
+  },
+  "flags": {
+    "protectedCopyVerified": true,
+    "readPathMigrated": "부분 — review-trace 2개 reader와 이관 작업만",
+    "allTraceCovered": false,
+    "plaintextRemovalComplete": false,
+    "sourcePlaintextRetained": true,
+    "deletionAuthorized": false
+  },
+  "knownLimits": [
+    "보호 사본은 ProtectedPayloads 7일 TTL(기존 copyReviewTrace 값). 만료 후 읽기는 거부되며 재이관 필요 — 법정 보존·hold 기간 결정 전",
+    "v3_shadow를 읽는 다른 reader(management-v3/v4/v5 trace route)는 아직 평문 경로",
+    "운영 경로(createApp())는 이 표들을 만들지 않으므로 운영 자료 이관은 0"
+  ]
+}

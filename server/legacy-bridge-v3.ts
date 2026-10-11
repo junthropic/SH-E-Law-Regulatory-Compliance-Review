@@ -18,9 +18,10 @@ import { candidatePolicy, selectedPolicies } from "./policies-v3.js";
 import { convertPeriod } from "./periods-v3.js";
 import { selectPolicies, v4Candidate, nextPolicies } from "./policies-v4.js";
 import {selectTraining,trainingCandidate,trainingPolicies,type TrainingId} from "./training-v6.js";
+import {selectSafetyManager,safetyManagerCandidate,safetyManagerPolicies,type SafetyManagerId} from "./safety-manager-v7.js";
 export class LegacyBridge {
   readonly repo: ComplianceRepository;
-  constructor(readonly store: Store, readonly version: "v3" | "v4" | "v6" = "v3") {
+  constructor(readonly store: Store, readonly version: "v3" | "v4" | "v6" | "v7" = "v3") {
     this.repo = new ComplianceRepository(store);
     store.db
       .exec(`CREATE TABLE IF NOT EXISTS v3_legacy_links(tenant TEXT,legacy TEXT,kind TEXT,body TEXT,PRIMARY KEY(tenant,legacy,kind));
@@ -244,15 +245,19 @@ export class LegacyBridge {
     }
     const text=r.request.prompt+" "+Object.values(r.request.answers).join(" ");
     const base=this.version!=="v3"?selectPolicies(text):undefined;
-    const education=this.version==="v6"?selectTraining(text):[];
-    const selection=base?{...base,policies:[...base.policies,...education],unclassified:base.unclassified&&!education.length}:undefined;
+    const education=this.version==="v6"||this.version==="v7"?selectTraining(text):[];
+    // v7: industrial-safety 안전관리자 (산업안전보건법 제17조). The hazmat topic also matches "안전관리자 선임",
+    // so when this topic is chosen the hazmat (위험물안전관리법) candidates are left out instead of mixed in.
+    const safety=this.version==="v7"?selectSafetyManager(text):[];
+    const kept=safety.length&&base?base.policies.filter(s=>!selectedPolicies.some(h=>h.id===s.id)):base?.policies??[];
+    const selection=base?{...base,policies:[...kept,...education,...safety],unclassified:base.unclassified&&!education.length&&!safety.length}:undefined;
     const rows = (selection?.policies || selectedPolicies).map((s) => {
       const pol = this.map(
         p,
         r.id + ":" + s.id,
         "policy",
         { basis: sources.map(entityRef), id: s.id },
-        s.id.startsWith("training.")?trainingCandidate(s.id as TrainingId,sources.map(entityRef),p.id):(this.version!=="v3"?v4Candidate:candidatePolicy)(s.id as Parameters<typeof v4Candidate>[0], sources.map(entityRef), p.id),
+        s.id.startsWith("training.")?trainingCandidate(s.id as TrainingId,sources.map(entityRef),p.id):s.id.startsWith("safety_manager.")?safetyManagerCandidate(s.id as SafetyManagerId,sources.map(entityRef),p.id):(this.version!=="v3"?v4Candidate:candidatePolicy)(s.id as Parameters<typeof v4Candidate>[0], sources.map(entityRef), p.id),
       );
       const decision = this.map(
         p,
@@ -344,7 +349,7 @@ export function projectEvaluation(
     id: ref.id,
     category,
     title:
-      [...selectedPolicies,...nextPolicies,...trainingPolicies].find((p) => p.id === policyId)?.label || "의무별 검토",
+      [...selectedPolicies,...nextPolicies,...trainingPolicies,...safetyManagerPolicies].find((p) => p.id === policyId)?.label || "의무별 검토",
     conclusion: descriptions[r.outcome],
     conditions: [
       `평가 기록 ${ref.id} · 버전 ${ref.version} · 기준일 ${r.scope.periodTo}`,

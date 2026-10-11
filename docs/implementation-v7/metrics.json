@@ -1,0 +1,37 @@
+{
+  "createdOn": "2026-10-10",
+  "codeRevision": "feat/v7-safety-manager (PR #10)",
+  "legalBasisDate": "2026-10-08",
+  "policies": {
+    "original": 43,
+    "additionalSeparate": 2,
+    "executableCandidatesBefore": 17,
+    "executableCandidatesAfter": 23,
+    "originalUnimplementedBefore": 26,
+    "originalUnimplementedAfter": 20,
+    "unimplementedBreakdownAfter": {"safetyInspection": 5, "remaining": 15},
+    "implementedThisRun": ["safety_manager.appointment","safety_manager.qualification","safety_manager.dedication","safety_manager.report","safety_manager.dismissal_report","safety_manager.performance"],
+    "countRule": "6개 모두 독립 구현·시험·흐름 연결(V7-C01 6/6, 격리 브라우저 e2e-v7 6/6) 후 반영",
+    "enabled": 0,
+    "expertApproved": 0,
+    "realSiteVerified": 0,
+    "accuracy": null
+  },
+  "tests": {
+    "newV7": 76,
+    "newV7Breakdown": {"v7-safety-manager": 36, "v7-safety-manager-duties": 15, "v7-workflow": 11, "v7-backup": 1, "v7-migration": 6, "v7-api-contracts": 7},
+    "baselineMainCI": {"commit": "d138dca", "run": 38041510706, "linux": "579 passed + 1 skipped / 580", "windows": "580 / 580", "attempt": 1},
+    "v6IsolatedReportedSeparately": {"tests": "565/565", "browser": "10/10", "note": "v6 격리 환경 보고값. GitHub CI 기준선과 다른 열"},
+    "localWindowsFullSuite": "656 / 656 (Node 26.7, 2026-10-10)",
+    "browserScripts": {"existing": "10/10 pass (isolated SHE_DATA_DIR)", "v7": "e2e-v7 pass", "screenVerifiedSteps": ["upload","question → existing review","Markdown export (browser fetch)"], "serviceVerifiedSteps": ["manual supplement","independent fact review"], "note": "수동 보완·독립 검토는 UI가 없어 격리 서비스로 확인. 전체 브라우저 검증이 아님"}
+  },
+  "dateMatrix": {
+    "localWindowsNode26": "30/30 조건 643/643 (b98ed6a)",
+    "githubLinuxNode24": "30/30 조건 642 passed + 1 skipped(DPAPI), 실패 0 (run 38047226739)",
+    "githubWindowsNode24": "25/30 조건 643/643, 5조건 시간 초과 6건 (V5-B01 ×2 중 1회 20.4초, V4-A04, V5-A04, store 백업, V2-06). v7 시험 실패 0",
+    "note": "매트릭스 후 추가된 T2·T3 시험 13개는 매트릭스 미실행(일반 CI·로컬만)"
+  },
+  "trace": {"seeFile": "migration-status.json"},
+  "apiContracts": {"seeFile": "api-contract-levels.json"},
+  "zeroCounts": {"uiChanged": 0, "sharedChanged": 0, "productionTouched": 0, "realKeysUsed": 0, "deploys": 0, "restarts": 0, "activations": 0, "plaintextDeleted": 0}
+}

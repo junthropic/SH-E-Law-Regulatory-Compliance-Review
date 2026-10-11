@@ -366,6 +366,8 @@ export class DurableJobs {
         throw new Error("종료 작업 상태 변경 불가");
       if (action === "resume" && j.state !== "paused" && j.state !== "failed")
         throw new Error("재개 가능한 상태 아님");
+      if (action === "resume" && this.migratedAway(p, id))
+        throw new Error("보호 경로로 이관된 작업: 이관 작업으로만 재개");
       j.fence++;
       j.owner = null;
       j.leaseUntil = 0;
@@ -385,8 +387,18 @@ export class DurableJobs {
       return j;
     });
   }
+  // A job copied to the protected path (v6 MigrationResume) keeps its plaintext rows, but they are no longer
+  // resumed or read as results; the migrated job is the only route. State lookups (get) stay available.
+  private migratedAway(p: Principal, id: string) {
+    if (!this.store.db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='v6_migration_routes'").get()) return false;
+    return !!this.store.db
+      .prepare("SELECT 1 FROM v6_migration_routes WHERE id=? AND tenant=? AND synthetic=?")
+      .get(id, p.tenant, +p.synthetic);
+  }
   units(p: Principal, id: string) {
     this.get(p, id);
+    if (this.migratedAway(p, id))
+      throw new Error("보호 경로로 이관된 작업: 평문 결과 대신 이관 작업을 읽으세요");
     return (
       this.store.db
         .prepare("SELECT body FROM v3_job_units WHERE job=?")

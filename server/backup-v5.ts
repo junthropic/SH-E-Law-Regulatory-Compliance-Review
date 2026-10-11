@@ -9,7 +9,7 @@ import { ProtectedPayloads, type PayloadKey } from "./protected-payload-v4.js";
 import { PayloadProvenance } from "./provenance-v4.js";
 import { LegacyBridge } from "./legacy-bridge-v3.js";
 import { assertPrincipal, type Principal } from "./compliance-v2.js";
-const extras = ["v4_trace_history","v4_merge_conflicts","v5_send_intents","v5_waste_proposals","v5_migrations","v6_records","v6_review_bindings","v6_training_cases","v6_training_current","v6_attachment_records","v6_migration_routes"];
+const extras = ["v4_trace_history","v4_merge_conflicts","v5_send_intents","v5_waste_proposals","v5_migrations","v6_records","v6_review_bindings","v6_training_cases","v6_training_current","v6_attachment_records","v6_migration_routes","v7_safety_manager_cases","v7_safety_manager_current","v7_trace_routes"];
 const definitions:Record<string,string>={
   v4_trace_history:"seq INTEGER PRIMARY KEY AUTOINCREMENT,tenant TEXT,review TEXT,body TEXT",
   v4_merge_conflicts:"seq INTEGER PRIMARY KEY AUTOINCREMENT,tenant TEXT,synthetic INTEGER,target TEXT,body TEXT",
@@ -22,8 +22,18 @@ const definitions:Record<string,string>={
   v6_training_current:"id TEXT,tenant TEXT,synthetic INTEGER,body TEXT,PRIMARY KEY(id,tenant,synthetic)",
   v6_attachment_records:"id TEXT PRIMARY KEY,tenant TEXT,synthetic INTEGER,body TEXT",
   v6_migration_routes:"id TEXT PRIMARY KEY,tenant TEXT,synthetic INTEGER,body TEXT",
+  v7_safety_manager_cases:"id TEXT,tenant TEXT,synthetic INTEGER,version INTEGER,payload TEXT,body TEXT,PRIMARY KEY(id,tenant,synthetic,version)",
+  v7_safety_manager_current:"id TEXT,tenant TEXT,synthetic INTEGER,body TEXT,PRIMARY KEY(id,tenant,synthetic)",
+  v7_trace_routes:"review TEXT,tenant TEXT,synthetic INTEGER,body TEXT,PRIMARY KEY(review,tenant,synthetic)",
 };
+// Managed fact cases are restored as a new version that needs a fresh independent review (no restored approval).
+const caseTables=[["v6_training_cases","v6_training_current"],["v7_safety_manager_cases","v7_safety_manager_current"]] as const;
+// Public search cache (collection-journal-v2): classified, not exported; it can be collected again from the public source.
+const excludedPublicCache=["v2_collection_jobs","v2_collection_pages"];
 const allowed = new Set(["reviews","documents","evidence","sources","rules","audit","settings","sqlite_sequence","v2_migrations","v2_entities","v2_dependencies","v2_approvals","v2_invalidations","v3_review_events","v3_legacy_links","v3_shadow","v3_jobs","v3_job_units","v3_job_events","v3_quota","v3_egress","v3_derivations","v3_source_events","v3_restore_runs","v4_payloads","v4_captures","v4_provenance","v4_grants","v4_call_permits",...extras]);
+export function backupClassification(table:string):"backed_up"|"excluded_public_cache"|"rebuilt_index"|"unclassified" {
+  return allowed.has(table)?"backed_up":excludedPublicCache.includes(table)?"excluded_public_cache":table.startsWith("evidence_fts")?"rebuilt_index":"unclassified";
+}
 function access(p:Principal,key:PayloadKey) { assertPrincipal(p);if(!p.roles.includes("backup_operator")||key.bytes.length!==32)throw Error("백업 권한·키 필요"); }
 function safeDirectory(path:string) {
   const abs=resolve(path),root=parse(abs).root;let cur=abs;
@@ -60,12 +70,13 @@ export async function backupGeneration(store:Store,p:Principal,key:PayloadKey,so
       const rows=(snap.db.prepare(`SELECT * FROM ${table.name} WHERE tenant=?`).all(p.tenant) as any[]).filter(r=>cols.includes("synthetic")?r.synthetic===+p.synthetic:reviewIds.has(r.review));
       other[table.name]={sql:table.sql,rows};
     }
-    const omissions=[...decoded.missingOriginals.map((s:string)=>"원본 누락:"+s),...tables.filter(t=>!allowed.has(t.name)&&!t.name.startsWith("evidence_fts")).map(t=>"미분류 테이블:"+t.name)];
+    const omissions=[...decoded.missingOriginals.map((s:string)=>"원본 누락:"+s),...tables.filter(t=>!allowed.has(t.name)&&!excludedPublicCache.includes(t.name)&&!t.name.startsWith("evidence_fts")).map(t=>"미분류 테이블:"+t.name)];
     for(const t of ["reviews","documents"])if(snap.all(t).length!==decoded.legacy[t].length)omissions.push("영역 소유권 미연결:"+t);
     for(const t of ["sources","rules"])if(snap.all(t).length)omissions.push("공개 자료 별도 복구 경로:"+t);
     const manifest={version:"v5.1",sourceDigest,runtime:process.version,createdAt:new Date().toISOString(),tableInventory:tables.map(t=>t.name),
       includes:["영역에 연결된 legacy 검토·문서·증빙·원본","v2 자료·정책 버전·승인 이력","v3 작업·단위·이력","v4 암호 원문·파생·전송 승인 이력","v4/v5 검토 trace·후보·전송 intent·이관 이력"],
-      excludes:["API·OAuth·암호키","다른 tenant·가상 구분 영역","설정 인증정보·실행 lease·계정 공통 호출 permit","로컬 일반 감사 로그"],omissions,
+      excludes:["API·OAuth·암호키","다른 tenant·가상 구분 영역","설정 인증정보·실행 lease·계정 공통 호출 permit","로컬 일반 감사 로그"],
+      excludedTables:tables.filter(t=>excludedPublicCache.includes(t.name)).map(t=>({table:t.name,classification:"공개 캐시 — 제외(재수집 가능)"})),omissions,
       files:[...Object.entries(decoded.compliance.originals).map(([hash,value])=>({hash,bytes:Buffer.from(value as string,"base64").length,representation:"v2-original"})),...decoded.legacy.documents.map((d:any)=>({hash:d.hash,bytes:Buffer.from(d.original,"base64").length,representation:d.type})),...Object.entries(decoded.annexes).map(([ref,value])=>({ref,hash:sha(Buffer.from(value as string,"base64")),bytes:Buffer.from(value as string,"base64").length,representation:"legal-attachment"}))],
       hashes:{legacy:sha(JSON.stringify(legacy)),layer:sha(JSON.stringify(layer)),other:sha(JSON.stringify(other))},completeApplicationBackup:omissions.length===0};
     fault?.("manifest_build");return {archive:seal({manifest,legacy,layer,other},p,key),manifest};
@@ -113,10 +124,10 @@ export function restoreGeneration(target:string,p:Principal,key:PayloadKey,archi
       }
     }
     if((store.db.prepare("PRAGMA integrity_check").get() as any).integrity_check!=="ok")throw Error("복원 DB 무결성 실패");
-    if(b.other.v6_training_cases){const rows=store.db.prepare("SELECT * FROM v6_training_cases WHERE tenant=? AND synthetic=? ORDER BY version DESC").all(p.tenant,+p.synthetic) as any[],seen=new Set<string>();
+    for(const [cases,current] of caseTables)if(b.other[cases]){const rows=store.db.prepare(`SELECT * FROM ${cases} WHERE tenant=? AND synthetic=? ORDER BY version DESC`).all(p.tenant,+p.synthetic) as any[],seen=new Set<string>();
       for(const r of rows){if(seen.has(r.id))continue;seen.add(r.id);const data=JSON.parse(vault.get(p,r.payload,"unit").toString()),next={...data,version:r.version+1,input:{...data.input,independentFactsReviewed:null},review:null,historicalReview:data.review,restored:true,legalApproval:false};
-        const payload=new ProtectedPayloads(store,key).put(p,"unit",Buffer.from(JSON.stringify(next)),7*86400000);store.db.prepare("INSERT INTO v6_training_cases VALUES(?,?,?,?,?,?)").run(r.id,p.tenant,+p.synthetic,next.version,payload,r.body);
-        store.db.prepare("UPDATE v6_training_current SET body=? WHERE id=? AND tenant=? AND synthetic=?").run(JSON.stringify({id:r.id,version:next.version,hash:sha(JSON.stringify(next))}),r.id,p.tenant,+p.synthetic);}}
+        const payload=new ProtectedPayloads(store,key).put(p,"unit",Buffer.from(JSON.stringify(next)),7*86400000);store.db.prepare(`INSERT INTO ${cases} VALUES(?,?,?,?,?,?)`).run(r.id,p.tenant,+p.synthetic,next.version,payload,r.body);
+        store.db.prepare(`UPDATE ${current} SET body=? WHERE id=? AND tenant=? AND synthetic=?`).run(JSON.stringify({id:r.id,version:next.version,hash:sha(JSON.stringify(next))}),r.id,p.tenant,+p.synthetic);}}
     fault?.("db_flush");store.db.exec("PRAGMA wal_checkpoint(TRUNCATE)");store.close();store=undefined;fault?.("before_publish");
     const result={generation,archiveHash:digest,manifest:b.manifest,completeApplicationRestore:b.manifest.completeApplicationBackup,paused:true,egress:"denied",currentApprovals:false,production:false};
     const temporary=join(root,"current.json.tmp");fault?.("pointer_write");const pointerFD=openSync(temporary,"wx");pointerTemporaryOwned=true;try{writeFileSync(pointerFD,JSON.stringify(result));fault?.("pointer_flush");fsyncSync(pointerFD);}finally{closeSync(pointerFD);}
