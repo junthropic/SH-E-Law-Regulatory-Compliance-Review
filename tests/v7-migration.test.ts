@@ -32,7 +32,10 @@ it("V7-M01: 합성 검토 trace를 보호 복사·대조한 뒤 읽기를 보호
 it("V7-M02: 전환 후에는 보호 사본이 없거나 평문이 바뀌면 평문으로 대체하지 않고 거부한다",()=>{
   const f=testStore(),v=new ProtectedPayloads(f.store,key),reader=new ProtectedTraceReader(v);
   try{const r=traced(f),route=reader.migrate(p,r.id);
-    f.store.db.prepare("UPDATE v3_shadow SET body=? WHERE review=?").run(JSON.stringify({...JSON.parse((f.store.db.prepare("SELECT body FROM v3_shadow WHERE review=?").get(r.id) as {body:string}).body),asOf:"2026-10-11"}),r.id);
+    // Tamper with a field the trace never has, so the change does not depend on today's date (asOf comes from koreaDate()).
+    const original=(f.store.db.prepare("SELECT body FROM v3_shadow WHERE review=?").get(r.id) as {body:string}).body;
+    f.store.db.prepare("UPDATE v3_shadow SET body=? WHERE review=?").run(JSON.stringify({...JSON.parse(original),tamperedAfterMigration:true}),r.id);
+    expect(sha((f.store.db.prepare("SELECT body FROM v3_shadow WHERE review=?").get(r.id) as {body:string}).body)).not.toBe(route.hash);
     expect(()=>reader.trace(p,r.id)).toThrow("재이관 필요");
     const r2=traced(f),route2=reader.migrate(p,r2.id);
     expect(f.store.db.prepare("DELETE FROM v4_payloads WHERE id=?").run(route2.ref).changes).toBe(1);
