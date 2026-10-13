@@ -195,9 +195,7 @@ export async function encryptedBackup(
           !/^\.(txt|pdf|hwp|hwpx|docx)$/.test(d.type)
         )
           throw new Error("원본 경로 확인 필요");
-        const original = readFileSync(
-          join(store.dir, "originals", d.id + d.type),
-        );
+        const original = store.readOriginal(d.id + d.type);
         if (sha(original) !== d.hash) throw new Error("원본 무결성 오류");
         return { ...d, original: original.toString("base64") };
       });

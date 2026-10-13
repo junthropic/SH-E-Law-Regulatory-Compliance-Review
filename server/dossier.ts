@@ -237,7 +237,7 @@ export function attachComparisons(store: Store, r: ReviewResult) {
       );
   }
 }
-export function registerDossier(app: FastifyInstance, store: Store) {
+export function registerDossier(app: FastifyInstance, store: Store, checkExport: (id: string) => unknown = () => undefined) {
   const review = (params: unknown) => {
     const { id } = z.object({ id: z.string().uuid() }).parse(params);
     const r = store.review(id);
@@ -424,6 +424,7 @@ export function registerDossier(app: FastifyInstance, store: Store) {
   });
   app.get("/api/reviews/:id/reviewer-packet", async (req, reply) => {
     const r = review(req.params);
+    checkExport(r.id);
     reply.header(
       "Content-Disposition",
       `attachment; filename="reviewer-packet-${r.id}.json"`,

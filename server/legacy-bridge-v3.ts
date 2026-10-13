@@ -139,9 +139,7 @@ export class LegacyBridge {
     for (const id of r.request.documentIds) {
       const d = this.store.document(id);
       if (!d) continue;
-      const bytes = readFileSync(
-        join(this.store.dir, "originals", d.id + d.type),
-      );
+      const bytes = this.store.readOriginal(d.id + d.type);
       if (sha(bytes) !== d.hash) throw new Error("연결 원본 해시 불일치");
       const original = this.repo.putOriginal(p, bytes);
       const e = this.map(

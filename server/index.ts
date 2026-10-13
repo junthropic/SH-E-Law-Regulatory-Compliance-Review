@@ -1,7 +1,35 @@
 import { createApp } from "./app.js";
 import { resolve } from "node:path";
+import { mkdirSync } from "node:fs";
 import { createLegacyRedirect } from "./legacy-address.js";
-const { app, store } = await createApp();
+import { Store } from "./store.js";
+import { openProductionCipher } from "./storage-crypto-v8.js";
+import { migrateToEncrypted } from "./storage-migration-v8.js";
+import { EgressGuard } from "./egress-guard-v8.js";
+import { purgeExpired } from "./retention-v8.js";
+import { safeMessage } from "./redact-v8.js";
+import type { AiConsent } from "./ai-consent-v8.js";
+// Errors that escape every handler are printed without paths or values, then the process stops.
+process.on("uncaughtException", (e) => {
+  console.error("SH·E 오류: " + safeMessage(e instanceof Error ? e.message : String(e)));
+  process.exit(1);
+});
+process.on("unhandledRejection", (e) => {
+  console.error("SH·E 오류: " + safeMessage(e instanceof Error ? e.message : String(e)));
+  process.exit(1);
+});
+// Outbound allow-list: installed before any module captures fetch. AI hosts need consent + an approved preview.
+let consent: AiConsent | undefined;
+new EgressGuard((url, method, body) => consent?.authorize(url, method, body) ?? false).install();
+const dataDir = resolve(process.env.SHE_DATA_DIR || ".local");
+mkdirSync(dataDir, { recursive: true });
+const cipher = await openProductionCipher(dataDir);
+const { app, store, aiConsent } = await createApp(new Store(dataDir, { cipher }));
+consent = aiConsent;
+if (cipher) migrateToEncrypted(store);
+// Optional automatic deletion of uploaded originals (default off): at start-up and once a day.
+purgeExpired(store);
+setInterval(() => purgeExpired(store), 86400000).unref();
 try {
   store.importPublic(resolve("data/public/bundle.json"));
 } catch {
