@@ -1,0 +1,67 @@
+{
+  "format": "she-msix-install-test-v8",
+  "startedAt": "2026-10-13T13:58:37.6699838Z",
+  "environment": {
+    "os": "10.0.26100.0",
+    "image": "win25-vs2026 20260925.250.1",
+    "runnerIsAdmin": true
+  },
+  "steps": {
+    "installed": true,
+    "launched": true,
+    "consoleHidden": true,
+    "scenario": true,
+    "backupExported": true,
+    "singleInstance": true,
+    "appQuitStopsServer": true,
+    "launcherStopStopsServer": true,
+    "uninstalled": true,
+    "dataRemovedOnUninstall": true,
+    "reinstalled": true,
+    "restoredAfterReinstall": true
+  },
+  "timings": {
+    "firstStartSeconds": 138.3,
+    "secondStartSeconds": 2.7
+  },
+  "scenario": {
+    "phase": "before",
+    "mcpQuery": 403,
+    "publicUpdate": 403,
+    "uninstallNotice": true,
+    "reviewId": "eb15dd42-a227-4036-b753-332f23c6319e",
+    "issues": 1,
+    "safetyManagerCandidate": true,
+    "hazmatMixed": false,
+    "backupProtection": "windows-dpapi-current-user",
+    "backupBytes": 2926103
+  },
+  "notes": [],
+  "package": {
+    "fullName": "SHELaw.Beta.LocalTest_0.8.0.0_x64__y4ype5f4g9xrp",
+    "signatureKind": "Developer",
+    "installedForUser": true
+  },
+  "processes": [
+    "node",
+    "SHELaw"
+  ],
+  "singleInstanceDetail": {
+    "launchersAt15s": 1,
+    "servers": 1,
+    "samePort": true
+  },
+  "restore": {
+    "ok": true,
+    "reviews": 1,
+    "documents": 0
+  },
+  "nonAdmin": {
+    "attempted": true,
+    "taskLastResult": "0x0",
+    "result": "installed=True admin=False"
+  },
+  "finishedAt": "2026-10-13T14:04:44.6861135Z",
+  "passed": true,
+  "ciRun": "https://github.com/junthropic/SH-E-Law-Regulatory-Compliance-Review/actions/runs/38409111339"
+}

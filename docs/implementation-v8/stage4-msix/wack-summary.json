@@ -1,0 +1,150 @@
+{
+  "overall": "PASS",
+  "tests": [
+    {
+      "index": "2",
+      "name": "Install signed driver and executable files",
+      "optional": true,
+      "result": "PASS"
+    },
+    {
+      "index": "11",
+      "name": "User account control run level",
+      "optional": true,
+      "result": "PASS"
+    },
+    {
+      "index": "77",
+      "name": "Application count",
+      "optional": true,
+      "result": "PASS"
+    },
+    {
+      "index": "31",
+      "name": "App manifest",
+      "optional": false,
+      "result": "PASS"
+    },
+    {
+      "index": "87",
+      "name": "File association verbs",
+      "optional": true,
+      "result": "PASS"
+    },
+    {
+      "index": "86",
+      "name": "Registry checks",
+      "optional": true,
+      "result": "PASS"
+    },
+    {
+      "index": "91",
+      "name": "Enterprise Features",
+      "optional": false,
+      "result": "PASS"
+    },
+    {
+      "index": "90",
+      "name": "Resource Packages",
+      "optional": false,
+      "result": "PASS"
+    },
+    {
+      "index": "70",
+      "name": "Banned file analyzer",
+      "optional": false,
+      "result": "PASS"
+    },
+    {
+      "index": "62",
+      "name": "Private code signing",
+      "optional": false,
+      "result": "PASS"
+    },
+    {
+      "index": "45",
+      "name": "App resources",
+      "optional": true,
+      "result": "PASS"
+    },
+    {
+      "index": "61",
+      "name": "Branding",
+      "optional": false,
+      "result": "PASS"
+    },
+    {
+      "index": "46",
+      "name": "Debug configuration",
+      "optional": true,
+      "result": "PASS"
+    },
+    {
+      "index": "52",
+      "name": "Special use capabilities",
+      "optional": false,
+      "result": "PASS"
+    },
+    {
+      "index": "56",
+      "name": "ExclusiveTo attribute",
+      "optional": false,
+      "result": "PASS"
+    },
+    {
+      "index": "57",
+      "name": "Type location",
+      "optional": false,
+      "result": "PASS"
+    },
+    {
+      "index": "55",
+      "name": "Type name case-sensitivity",
+      "optional": false,
+      "result": "PASS"
+    },
+    {
+      "index": "54",
+      "name": "Type name correctness",
+      "optional": false,
+      "result": "PASS"
+    },
+    {
+      "index": "58",
+      "name": "General metadata correctness",
+      "optional": true,
+      "result": "PASS"
+    },
+    {
+      "index": "53",
+      "name": "Properties",
+      "optional": false,
+      "result": "PASS"
+    },
+    {
+      "index": "89",
+      "name": "Archive files usage",
+      "optional": true,
+      "result": "FAIL"
+    },
+    {
+      "index": "88",
+      "name": "Blocked executables",
+      "optional": true,
+      "result": "FAIL"
+    },
+    {
+      "index": "63",
+      "name": "Platform appropriate files",
+      "optional": true,
+      "result": "PASS"
+    },
+    {
+      "index": "92",
+      "name": "DPIAwarenessValidation",
+      "optional": false,
+      "result": "PASS"
+    }
+  ],
+  "version": "10.0.26100.8249"
+}
