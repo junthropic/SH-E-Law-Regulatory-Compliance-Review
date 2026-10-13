@@ -1,7 +1,12 @@
 name: Build and test
+# Actions minutes: a PR commit used to run twice (push + pull_request) on both OSes, and Windows minutes count double.
+# Now: pull_request -> Linux only; push to main and manual dispatch -> Linux and Windows.
+# Run Windows on a branch before merge with: gh workflow run ci.yml --ref <branch>
 on:
   push:
+    branches: [main]
   pull_request:
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -10,7 +15,7 @@ jobs:
       # Report Linux and Windows independently; a failure on one OS must not cancel the other.
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: ${{ github.event_name == 'pull_request' && fromJSON('["ubuntu-latest"]') || fromJSON('["ubuntu-latest","windows-latest"]') }}
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7.0.1
