@@ -50,7 +50,8 @@ function scanText(rel,text,findings,nameList){
   for(const [kind,re] of KEY_PATTERNS)for(const m of text.matchAll(re))add(kind,m.index,m[0]);
   for(const m of text.matchAll(EMAIL))if(!EMAIL_ALLOW.some(a=>a.test(m[0])))add("email",m.index,m[0]);
   // The current user's path and names are reported without a value hash (a short value's hash could be guessed back).
-  for(const m of text.matchAll(USER_PATH))if(!USER_PATH_ALLOW.has(m[1])){if(currentUser&&m[1].toLowerCase()===currentUser)findings.push({file:rel,kind:"user-path",line:lineOf(m.index),currentUser:true});else add("user-path",m.index,m[0]);}
+  // The current user's own folder is reported even when its name is on the allow list (e.g. a CI account named "runner").
+  for(const m of text.matchAll(USER_PATH)){if(currentUser&&m[1].toLowerCase()===currentUser)findings.push({file:rel,kind:"user-path",line:lineOf(m.index),currentUser:true});else if(!USER_PATH_ALLOW.has(m[1]))add("user-path",m.index,m[0]);}
   for(const n of nameList){let i=-1;while((i=text.indexOf(n,i+1))!==-1)findings.push({file:rel,kind:"name",line:lineOf(i)});}
 }
 function scanEntry(rel,buf,findings,nameList,pkg){
