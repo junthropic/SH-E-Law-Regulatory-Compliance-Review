@@ -50,6 +50,7 @@ import { deleteDocument } from "./retention-v8.js";
 import { safeMessage } from "./redact-v8.js";
 import { attachPreview, registerPreviewV8 } from "./preview-v8.js";
 import { registerBetaV8, markCsv, markMarkdown, selfReviewOf } from "./beta-v8.js";
+import { isInstalled, MCP_OFF_MESSAGE, PUBLIC_UPDATE_OFF_MESSAGE } from "./installed-v8.js";
 
 export async function createApp(store = new Store(), test = false, complianceGrants?: ReadonlyMap<string, Principal>, v3?: {adapter?:"v3"|"v4"|"v6";principal:Principal;mode:"shadow"|"project";collect?:boolean;backupKey?:{key:Buffer;id:string}}, enforcement?: () => Execution) {
   if(v3 && (!test || !v3.principal.synthetic))throw new Error("v3 연결은 명시된 격리 가상 환경에서만 실행합니다.");
@@ -592,7 +593,9 @@ export async function createApp(store = new Store(), test = false, complianceGra
     if (jobs.size) throw new Error("진행 중인 작업이 끝난 뒤 검증하세요.");
     return approveReviewBasis(store, req.body);
   });
-  app.post("/api/public/update", async () => {
+  app.post("/api/public/update", async (_req, reply) => {
+    // Installed build: law data comes from the user's own collection, never from the maker's repository.
+    if (isInstalled()) return reply.code(403).send({ error: PUBLIC_UPDATE_OFF_MESSAGE });
     if (jobs.size || syncing) throw new Error("작업이 끝난 뒤 갱신하세요.");
     return updatePublicBundle(store);
   });
@@ -612,7 +615,8 @@ export async function createApp(store = new Store(), test = false, complianceGra
     vault.remove("epeople-session");
     return { ok: true };
   });
-  app.post("/api/mcp/query", async (req) => {
+  app.post("/api/mcp/query", async (req, reply) => {
+    if (isInstalled()) return reply.code(403).send({ error: MCP_OFF_MESSAGE });
     const b = z
       .object({
         tool: z.enum([

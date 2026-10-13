@@ -1,0 +1,30 @@
+import { createHash } from "node:crypto";
+import { existsSync, readFileSync } from "node:fs";
+import { publicBundlePath } from "./public-bundle.js";
+import type { Store } from "./store.js";
+
+// v8 stage 4: the MSIX launcher (packaging/msix/launcher) starts the server with SHE_INSTALLED=1.
+// In the installed build, features whose traffic would bypass the in-process egress guard are off.
+export const isInstalled = () => process.env.SHE_INSTALLED === "1";
+
+// /api/mcp/query runs korean-law-mcp as a child process, so its requests never pass EgressGuard.
+export const MCP_OFF_MESSAGE =
+  "설치판에서는 법령 MCP 조회를 제공하지 않습니다. 법령은 베타 화면의 ‘API 키 설정’에서 키를 넣고 수집하세요.";
+
+// /api/public/update downloads the maker's GitHub bundle (already refused by EgressGuard); the installed build says why.
+export const PUBLIC_UPDATE_OFF_MESSAGE =
+  "설치판은 제작자 저장소에서 법령 자료를 받지 않습니다. 법령은 베타 화면의 ‘API 키 설정’에서 키를 넣고 수집하세요.";
+
+export const UNINSTALL_NOTICE = "앱을 제거하면 저장된 자료가 삭제됩니다. 먼저 백업하세요.";
+
+// Installed build start-up: import the bundled public law data only when that file differs from the last import.
+// Re-importing the same ~28 MB bundle on every start took about 90 seconds on a typical PC.
+export function importPublicOnce(store: Store, path: string): "imported" | "unchanged" | "absent" {
+  const file = publicBundlePath(path);
+  if (!existsSync(file)) return "absent";
+  const digest = createHash("sha256").update(readFileSync(file)).digest("hex");
+  if (store.setting<{ bundleSha256?: string } | null>("public-bundle-status", null)?.bundleSha256 === digest) return "unchanged";
+  store.importPublic(path);
+  store.put("settings", "public-bundle-status", { ...store.setting<object>("public-bundle-status", {}), bundleSha256: digest });
+  return "imported";
+}

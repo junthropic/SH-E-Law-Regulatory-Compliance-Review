@@ -1,0 +1,67 @@
+name: MSIX package and install test
+# v8 stage 4. Not part of PR/main CI (Windows minutes count double). Run it by pushing a branch to msix-test/<name>
+# (git push origin HEAD:msix-test/<name>), or manually once this file is on main: gh workflow run msix.yml --ref <branch>
+# Clean Windows runner: build a test-signed MSIX -> package scan -> install/run/backup/uninstall/reinstall/restore -> WACK.
+# The test certificate (private key) is created in RUNNER_TEMP and never uploaded.
+on:
+  workflow_dispatch:
+  push:
+    branches: ["msix-test/**"]
+permissions:
+  contents: read
+jobs:
+  msix:
+    runs-on: windows-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - name: Build test-signed MSIX
+        run: node scripts/build-msix-v8.mjs --test-identity --sign-test --out "$env:RUNNER_TEMP\msix" --cert-dir "$env:RUNNER_TEMP\cert"
+      - name: Package scan
+        id: scan
+        continue-on-error: true
+        run: node scripts/package-scan.mjs "$env:RUNNER_TEMP\msix\SHELaw-Beta_0.8.0.0_x64_test.msix" --package --write-allow "$env:RUNNER_TEMP\msix\scan-draft.json" --allow packaging/msix/scan-exceptions.json --json "$env:RUNNER_TEMP\msix\scan.json"
+      - name: Install test
+        id: install
+        continue-on-error: true
+        shell: powershell
+        run: .\scripts\msix-install-test-v8.ps1 -Msix "$env:RUNNER_TEMP\msix\SHELaw-Beta_0.8.0.0_x64_test.msix" -Cer "$env:RUNNER_TEMP\cert\test-signing.cer" -Out "$env:RUNNER_TEMP\result"
+      - name: Windows App Certification Kit
+        id: wack
+        continue-on-error: true
+        shell: powershell
+        run: |
+          $kit = Join-Path ${env:ProgramFiles(x86)} "Windows Kits\10\App Certification Kit\appcert.exe"
+          if (-not (Test-Path $kit)) { Write-Output "appcert.exe not found on this runner"; exit 1 }
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP\result" | Out-Null
+          (Get-Item $kit).VersionInfo.FileVersion | Out-File "$env:RUNNER_TEMP\result\wack-version.txt"
+          & $kit reset
+          & $kit test -appxpackagepath "$env:RUNNER_TEMP\msix\SHELaw-Beta_0.8.0.0_x64_test.msix" -reportoutputpath "$env:RUNNER_TEMP\result\wack.xml"
+          if (-not (Test-Path "$env:RUNNER_TEMP\result\wack.xml")) { exit 1 }
+          $overall = ([xml](Get-Content "$env:RUNNER_TEMP\result\wack.xml" -Raw)).REPORT.OVERALL_RESULT
+          Write-Output "WACK overall: $overall"
+          if ($overall -ne "PASS") { exit 1 }
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: msix-results
+          retention-days: 14
+          path: |
+            ${{ runner.temp }}/msix/*.msix
+            ${{ runner.temp }}/msix/msix-build.json
+            ${{ runner.temp }}/msix/scan.json
+            ${{ runner.temp }}/msix/scan-draft.json
+            ${{ runner.temp }}/result/install-test.json
+            ${{ runner.temp }}/result/wack.xml
+            ${{ runner.temp }}/result/wack-version.txt
+      - name: Fail if a check failed
+        if: steps.scan.outcome != 'success' || steps.install.outcome != 'success' || steps.wack.outcome != 'success'
+        run: |
+          Write-Output "scan=${{ steps.scan.outcome }} install=${{ steps.install.outcome }} wack=${{ steps.wack.outcome }}"
+          exit 1

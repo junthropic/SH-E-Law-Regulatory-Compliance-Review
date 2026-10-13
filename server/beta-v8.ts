@@ -1,7 +1,8 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
-import { Store } from "./store.js";
+import { gunzipSync, gzipSync } from "node:zlib";
+import { Store, PUBLIC_IMPORT_NOTE } from "./store.js";
 import { Vault } from "./vault.js";
 import { connectionServices } from "../shared/connection-catalog.js";
 import { presentReview } from "../shared/result-language.js";
@@ -14,6 +15,14 @@ import { PREVIEW_LABEL } from "./preview-v8.js";
 import { AI_NOTICE } from "./ai-consent-v8.js";
 import { retentionDays } from "./retention-v8.js";
 import { maskSensitive, safeMessage } from "./redact-v8.js";
+import { isInstalled, UNINSTALL_NOTICE } from "./installed-v8.js";
+
+// Evidence imported unchanged from the bundled public law data is left out of the encrypted backup: it ships with the app,
+// and with it a typical backup was ~340 MB, over the 200 MB restore limit. Reviews keep their own copy of the evidence they used.
+export function betaBackup(store: Store) {
+  const b = makeBackup(store);
+  return { ...b, evidence: b.evidence.filter((e: any) => !(e.verified === false && e.verificationNote === PUBLIC_IMPORT_NOTE)) };
+}
 import type { Collection, KeyGroup, Keys, Notice, SelfReview, BetaReview, FeedbackFile } from "./beta-contract-v8.js";
 
 // v8 stage 3 server side of the /beta/ screens. Everything here is local: keys go to the Windows-protected
@@ -243,8 +252,10 @@ export function registerBetaV8(app: FastifyInstance, d: BetaDeps) {
       { title: "AI 분석", text: AI_NOTICE + " 기본은 꺼져 있고, 켜더라도 보낼 내용을 화면에서 확인해 승인한 건만 한 번 전송합니다. 전송 기록에는 시각·대상·크기만 남고 내용은 남지 않습니다.", proof: ["V8-A01", "V8-A02", "V8-A03"] },
       { title: "보존·삭제", text: "기본은 계속 보관합니다. 30·90·365일 자동 삭제를 고를 수 있고, 언제든 영구 삭제할 수 있습니다. 삭제 기록에는 본문이 남지 않습니다.", proof: ["V8-R01"] },
       { title: "오류 기록", text: "오류 메시지에는 본문·키·파일 경로를 넣지 않습니다.", proof: ["V8-L01", "V8-L02"] },
-      { title: "암호화 백업", text: "이 화면의 백업 파일은 암호화되며, 만든 Windows 사용자 계정의 보호 키로 엽니다. 다른 사용자나 다른 PC에서의 복원은 확인하지 않았고 되지 않을 수 있습니다. 백업에는 인증키·설정·감사 기록이 들어가지 않습니다.", proof: ["V8-K01", "V8-K02"] },
+      { title: "암호화 백업", text: "이 화면의 백업 파일은 암호화되며, 만든 Windows 사용자 계정의 보호 키로 엽니다. 다른 사용자나 다른 PC에서의 복원은 확인하지 않았고 되지 않을 수 있습니다. 백업에는 인증키·설정·감사 기록이 들어가지 않습니다. 앱에 함께 들어 있는 공개 법령 초기 자료도 넣지 않습니다(검토 결과에 쓰인 근거 조문은 검토 기록과 함께 백업됩니다).", proof: ["V8-K01", "V8-K02", "V8-M05"] },
       { title: "기존 화면의 백업", text: "기존 화면(연결 설정)의 JSON 백업은 암호화되지 않은 파일입니다. 회사 자료는 이 화면의 암호화 백업을 쓰세요.", proof: ["V8-K03"] },
+      // Installed (MSIX) build only: Windows removes the app's data folder on uninstall and cannot ask first.
+      ...(isInstalled() ? [{ title: "앱 제거", text: UNINSTALL_NOTICE + " 같은 Windows 사용자로 다시 설치한 뒤 백업 가져오기로 복원되는 것을 설치 시험에서 확인했습니다.", proof: ["V8-M04"] }] : []),
     ],
   }));
 
@@ -271,7 +282,8 @@ export function registerBetaV8(app: FastifyInstance, d: BetaDeps) {
     if (d.busy()) return reply.code(409).send({ error: "진행 중인 작업이 끝난 뒤 백업하세요." });
     const key = randomBytes(32), iv = randomBytes(12), c = createCipheriv("aes-256-gcm", key, iv);
     c.setAAD(Buffer.from("she-backup-v8"));
-    const data = Buffer.concat([c.update(JSON.stringify(makeBackup(store)), "utf8"), c.final()]);
+    // Compressed before encryption (law texts shrink several-fold); restore accepts compressed and uncompressed payloads.
+    const data = Buffer.concat([c.update(gzipSync(Buffer.from(JSON.stringify(betaBackup(store)), "utf8"))), c.final()]);
     const file = {
       format: "she-backup-v8" as const,
       createdAt: new Date().toISOString(),
@@ -309,7 +321,8 @@ export function registerBetaV8(app: FastifyInstance, d: BetaDeps) {
       const dc = createDecipheriv("aes-256-gcm", key, Buffer.from(parsed.iv, "base64"));
       dc.setAAD(Buffer.from("she-backup-v8"));
       dc.setAuthTag(Buffer.from(parsed.tag, "base64"));
-      plain = Buffer.concat([dc.update(Buffer.from(parsed.data, "base64")), dc.final()]).toString("utf8");
+      const bytes = Buffer.concat([dc.update(Buffer.from(parsed.data, "base64")), dc.final()]);
+      plain = (bytes[0] === 0x1f && bytes[1] === 0x8b ? gunzipSync(bytes, { maxOutputLength: 512 * 1024 * 1024 }) : bytes).toString("utf8");
     } catch {
       return reply.code(400).send({ error: "백업 파일이 손상되었거나 변경되었습니다." });
     } finally {

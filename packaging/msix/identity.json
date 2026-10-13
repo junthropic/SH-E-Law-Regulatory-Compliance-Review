@@ -1,0 +1,8 @@
+{
+  "_comment": "Partner Center > 제품 > 제품 관리 > 제품 ID 의 Package/Identity/Name 과 Package/Identity/Publisher 값을 사용자가 전달하면 채운다. TODO 값이 남아 있으면 --store 빌드는 거부된다.",
+  "identityName": "TODO_PARTNER_CENTER_IDENTITY_NAME",
+  "publisher": "TODO_PARTNER_CENTER_PUBLISHER",
+  "displayName": "한국 환경안전보건관리자 법령조회 프로그램",
+  "publisherDisplayName": "ARETE",
+  "version": "0.8.0.0"
+}

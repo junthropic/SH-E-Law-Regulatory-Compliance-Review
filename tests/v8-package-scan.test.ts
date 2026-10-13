@@ -1,11 +1,12 @@
 import {it,expect} from "vitest";
-import {mkdtempSync,mkdirSync,writeFileSync,rmSync} from "node:fs";
+import {mkdtempSync,mkdirSync,writeFileSync,rmSync,readFileSync} from "node:fs";
+import {gzipSync} from "node:zlib";
 import {join} from "node:path";
-import {tmpdir} from "node:os";
+import {tmpdir,userInfo} from "node:os";
 import {spawnSync} from "node:child_process";
 import AdmZip from "adm-zip";
 // @ts-expect-error plain ESM script without type declarations
-import {scan,summarize} from "../scripts/package-scan.mjs";
+import {scan,summarize,applyExceptions,draftExceptions} from "../scripts/package-scan.mjs";
 // Synthetic values only, assembled at runtime so no key-like literal is stored in the repository.
 const fakeOpenAi="sk-"+"Zq9".repeat(10),fakeService="A".repeat(44)+"%2B"+"b".repeat(12)+"==";
 const fakeMail="beta.user"+"@"+"corp-mail.kr",fakePath="C:"+"\\Users\\"+"hong"+"\\Documents\\x.txt",fakeName="홍길동";
@@ -70,5 +71,45 @@ it("V8-S05: UTF-16 문자열(바이너리·매니페스트)의 이름·경로도
   try{writeFileSync(join(d,"bin.dat"),Buffer.concat([Buffer.from([0,1,2,0]),Buffer.from(fakePath+" "+fakeName,"utf16le")]));
     const kinds=new Set(scan(d,{nameList:[fakeName]}).map((f:any)=>f.kind));
     expect(kinds.has("user-path")).toBe(true);expect(kinds.has("name")).toBe(true);
+  }finally{rmSync(d,{recursive:true,force:true});}
+});
+it("V8-S08: .gz 파일은 풀어서 내용을 검사한다(초기 공개 법령 자료 포함)",()=>{
+  const d=dir();
+  try{writeFileSync(join(d,"bundle.json.gz"),gzipSync(Buffer.from(JSON.stringify({note:"문의 "+fakeMail}))));
+    const found=scan(d,{nameList:[]});
+    expect(found.map((f:any)=>f.file+":"+f.kind)).toEqual(["bundle.json.gz:email"]);
+    writeFileSync(join(d,"bundle.json.gz"),Buffer.from("not gzip"));
+    expect(scan(d,{nameList:[]}).map((f:any)=>f.kind)).toEqual(["unreadable-archive"]);
+  }finally{rmSync(d,{recursive:true,force:true});}
+});
+it("V8-S09: 예외 목록은 파일·종류·값 해시가 모두 같은 항목만 받고, 이름·현재 사용자 경로·금지 폴더는 예외로 받지 않는다",()=>{
+  const d=dir(),me=userInfo().username,mePath=["C:","Users",me,"AppData","x"].join("\\");
+  try{mkdirSync(join(d,"docs"));writeFileSync(join(d,"docs","n.md"),"x");
+    writeFileSync(join(d,"NOTICE.txt"),`Copyright ${fakeMail}\n`);writeFileSync(join(d,"me.txt"),`${mePath} ${fakeName}\n`);
+    const found=scan(d,{pkg:true,nameList:[fakeName]});
+    const draft=draftExceptions(found);
+    expect(draft.entries.map((e:any)=>e.file+":"+e.kind)).toEqual(["NOTICE.txt:email"]);
+    expect(JSON.stringify({found,draft}).includes(me)).toBe(false);
+    expect(found.find((f:any)=>f.kind==="name").valueSha256).toBeUndefined();
+    const all={entries:found.map((f:any)=>({file:f.file,kind:f.kind,valueSha256:f.valueSha256,count:1,reason:"forced"}))};
+    const {accepted,blocking}=applyExceptions(found,all);
+    expect(accepted.map((f:any)=>f.file)).toEqual(["NOTICE.txt"]);
+    expect(blocking.map((f:any)=>f.kind).sort()).toEqual(["forbidden-folder","name","user-path"]);
+    writeFileSync(join(d,"NOTICE.txt"),`Copyright other.${fakeMail}\n`);
+    expect(applyExceptions(scan(d,{pkg:true,nameList:[]}),all).blocking.some((f:any)=>f.file==="NOTICE.txt")).toBe(true);
+  }finally{rmSync(d,{recursive:true,force:true});}
+});
+it("V8-S10: 명령행 --allow 는 검토 안 된 예외 목록을 거부하고, 검토된 목록으로 통과한 건수를 따로 보고한다",()=>{
+  const d=dir(),pkg=join(d,"pkg");
+  try{mkdirSync(pkg);writeFileSync(join(pkg,"THIRD_PARTY_NOTICES.txt"),`(c) ${fakeMail}\n`);
+    const run=(...a:string[])=>spawnSync(process.execPath,["scripts/package-scan.mjs",...a],{encoding:"utf8"});
+    expect(run(pkg,"--package").status).toBe(1);
+    expect(run(pkg,"--package","--write-allow",join(d,"draft.json")).status).toBe(1);
+    expect(run(pkg,"--package","--allow",join(d,"draft.json")).status).toBe(2);
+    const reviewed=JSON.parse(readFileSync(join(d,"draft.json"),"utf8"));for(const e of reviewed.entries)e.reason="third-party-license-notice";
+    writeFileSync(join(d,"ok.json"),JSON.stringify(reviewed));
+    const ok=run(pkg,"--package","--allow",join(d,"ok.json"));
+    expect(ok.status).toBe(0);expect(JSON.parse(ok.stdout)).toMatchObject({total:0,accepted:1});
+    expect(ok.stdout.includes(fakeMail)).toBe(false);
   }finally{rmSync(d,{recursive:true,force:true});}
 });
