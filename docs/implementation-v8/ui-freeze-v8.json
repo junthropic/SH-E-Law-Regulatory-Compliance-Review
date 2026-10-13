@@ -1,0 +1,237 @@
+{
+  "frozenAt": "2026-10-13",
+  "rule": "이 목록의 파일은 수정하지 않는다. 바꿔야 하면 사용자 승인 후 동결을 풀고 이 파일을 다시 만든다.",
+  "hash": "sha256, CRLF→LF 정규화",
+  "counts": {
+    "v6": 29,
+    "v8Beta": 16,
+    "total": 45
+  },
+  "files": [
+    {
+      "path": "src/App.tsx",
+      "set": "v6-frozen-29",
+      "hash": "dd319f0633b9b5ff9f071451e7d54dd4337f8a44b84e6f4c507466ae3e657b20"
+    },
+    {
+      "path": "src/Dossier.tsx",
+      "set": "v6-frozen-29",
+      "hash": "48ee3d7139b01519c6eb1aea2e85be886d67f056017c46800a33edbdd90e20c4"
+    },
+    {
+      "path": "src/Intake.tsx",
+      "set": "v6-frozen-29",
+      "hash": "33cab5dd859329d9fcea98b35fcf6cadc0ec7473d47b2225826b07e02cd7bcdf"
+    },
+    {
+      "path": "src/main.tsx",
+      "set": "v6-frozen-29",
+      "hash": "c80d3bb180519131a1e962f9533134f82e7c219b8194eb01ee658941ccd3a2fa"
+    },
+    {
+      "path": "src/PublicApis.tsx",
+      "set": "v6-frozen-29",
+      "hash": "c7a2d552344052c45430384c720d741f9fd30bd84aeb417e94bef15a6928a185"
+    },
+    {
+      "path": "src/ReviewApproval.tsx",
+      "set": "v6-frozen-29",
+      "hash": "67749acd6b0fed37244d32fd2896a81ab32112872e5386dc51372376c3a31e01"
+    },
+    {
+      "path": "src/style.css",
+      "set": "v6-frozen-29",
+      "hash": "fd569a99864b91d330045274c937458323b8dfbf84f9c43042a04d3622154c72"
+    },
+    {
+      "path": "src/Tools.tsx",
+      "set": "v6-frozen-29",
+      "hash": "ad865ce54902c0cc18dcba532f5f40ae8ddfe2068b6b9a3028b08afc96861bc5"
+    },
+    {
+      "path": "src/Verification.tsx",
+      "set": "v6-frozen-29",
+      "hash": "f692152de4fdb42a216f8df5f94ba6f321d2aea0d0673af8f5685250da3d4eec"
+    },
+    {
+      "path": "shared/additional-search.ts",
+      "set": "v6-frozen-29",
+      "hash": "6a1e5fc21be9260b111684e99f6a83e8a70706f25d866b056a10c5c837fa35fc"
+    },
+    {
+      "path": "shared/connection-catalog.ts",
+      "set": "v6-frozen-29",
+      "hash": "f7ecab2c493689c1f5d73c4581be084df3ce1a9f543840ac7460721d92b5b536"
+    },
+    {
+      "path": "shared/dates.ts",
+      "set": "v6-frozen-29",
+      "hash": "936233efd427cce7c1c4e9266149531680ee22288bd60064da71466d06802e9a"
+    },
+    {
+      "path": "shared/dossier.ts",
+      "set": "v6-frozen-29",
+      "hash": "36751c401e03dc13a310643bc752ee80b8e29629b842d3759a8b45fa6ce087a8"
+    },
+    {
+      "path": "shared/identifiers.ts",
+      "set": "v6-frozen-29",
+      "hash": "ac20cc751af15e5c17e30ac148cb2616a6bb566fe7b4ffbfce48c1000e8ab87a"
+    },
+    {
+      "path": "shared/information-notice.ts",
+      "set": "v6-frozen-29",
+      "hash": "5e5feae7416891037e80956f112a496d0652f42220f9c98a553b1b34a46de94c"
+    },
+    {
+      "path": "shared/intake.ts",
+      "set": "v6-frozen-29",
+      "hash": "1433bd2d82e74ce0965c5d7560725e02404fbeebe70d8c244829d5eddb350b0b"
+    },
+    {
+      "path": "shared/jurisdictions.ts",
+      "set": "v6-frozen-29",
+      "hash": "92a8e48d609ecad3f22de8d861a99afeab66c9dd0adf31348e9c71ddcbfc81c4"
+    },
+    {
+      "path": "shared/public-apis.ts",
+      "set": "v6-frozen-29",
+      "hash": "13f24f1c22dd26939f264cfb89118e46defcac4d4adb148ce3fc088cb040e909"
+    },
+    {
+      "path": "shared/result-language.ts",
+      "set": "v6-frozen-29",
+      "hash": "59f80dc6629b1209d96c50a371abe7e40bb285f7ed68048983308b669b250ead"
+    },
+    {
+      "path": "shared/review-domains.ts",
+      "set": "v6-frozen-29",
+      "hash": "76328b781875ddf675d16f8436bceb6aebb2431c85a3b54f73b030094da63df7"
+    },
+    {
+      "path": "shared/types.ts",
+      "set": "v6-frozen-29",
+      "hash": "952317f631100200df22791fd906994cec0d81462619bcdfc4de043278d1a957"
+    },
+    {
+      "path": "shared/verification.ts",
+      "set": "v6-frozen-29",
+      "hash": "4adaf38a1f80b8f76cc87d9381d2da21b901254f6936af984af19f8781b0ffcf"
+    },
+    {
+      "path": "dist/assets/index-BivsNquf.js",
+      "set": "v6-frozen-29",
+      "hash": "f5e02451e2bf5e160c692eff497e600321ac33c4091faedeafd878513d6b085a"
+    },
+    {
+      "path": "dist/assets/index-DiiLZ3H5.css",
+      "set": "v6-frozen-29",
+      "hash": "b04c4895c8f024f5d2b3167021bcb9a04da878766c5de9649904998d83cf6f8d"
+    },
+    {
+      "path": "dist/index.html",
+      "set": "v6-frozen-29",
+      "hash": "9a43daf9a70750fe34a2a367b9fbe0f3e3213539652d66d48aecea88c03571bd"
+    },
+    {
+      "path": "index.html",
+      "set": "v6-frozen-29",
+      "hash": "bd8a92000dcd4fbc64c1048ead5907e4e71ea65da89e3676cbd06b7e3f44a32f"
+    },
+    {
+      "path": "vite.config.ts",
+      "set": "v6-frozen-29",
+      "hash": "99fbb8ce7e92c85f103f41fad1ab7a8a8f0fd70393e47a162064c7d4adf002da"
+    },
+    {
+      "path": "package.json",
+      "set": "v6-frozen-29",
+      "hash": "514e6b846a0013077454197c280ae475ee4557053f31cb34075c189b7eeed798"
+    },
+    {
+      "path": "package-lock.json",
+      "set": "v6-frozen-29",
+      "hash": "88bd1a407f1c68234294e32c5b14d51b989b2164ee192895f1862ad15a37badd"
+    },
+    {
+      "path": "beta/App.tsx",
+      "set": "v8-beta",
+      "hash": "023f5c7af45294a8349f92d37c3f94346c984efdf7fcc37dfdc6050d13495f1f"
+    },
+    {
+      "path": "beta/DataPage.tsx",
+      "set": "v8-beta",
+      "hash": "3e9cb4307b0d1afb0fefb30ef3b8964d5a9cba1cf03e6073f3d1421bcd21d682"
+    },
+    {
+      "path": "beta/FeedbackPage.tsx",
+      "set": "v8-beta",
+      "hash": "6cc0e3ec47eb05d20f9cdb613e98a3d7d2b1262765a1a8415dacfc8109f056be"
+    },
+    {
+      "path": "beta/KeysPage.tsx",
+      "set": "v8-beta",
+      "hash": "5b81b76a705f979e881197cad17e81bce12aa623298231630b087cbcb95b4d32"
+    },
+    {
+      "path": "beta/ReviewPage.tsx",
+      "set": "v8-beta",
+      "hash": "2fc21be548870fa6b85aa8d3da0077dec1ae6c851da9808ef84b34150d82af5b"
+    },
+    {
+      "path": "beta/api.ts",
+      "set": "v8-beta",
+      "hash": "191d000c1a27b117756b8cda36aca683c490c2739a3c9047f13b4d3860fa4b4f"
+    },
+    {
+      "path": "beta/beta.css",
+      "set": "v8-beta",
+      "hash": "297a95f3717463c2b491da58b958586d178db903777b1e77384702888d53aafd"
+    },
+    {
+      "path": "beta/index.html",
+      "set": "v8-beta",
+      "hash": "cac564a812a6791e9143e91ce75e58f32231cfef5fbf7eb023a0f2d3743a53f7"
+    },
+    {
+      "path": "beta/main.tsx",
+      "set": "v8-beta",
+      "hash": "54b7276601f53facda8569da98d5c448975228e50fb1397f760865487de50d65"
+    },
+    {
+      "path": "dist-beta/assets/index-BP_4_mhK.js",
+      "set": "v8-beta",
+      "hash": "4cbae81805e6abfe3e29ae745c1dc8a11aa05e8676917be5f1e04279be64f0e1"
+    },
+    {
+      "path": "dist-beta/assets/index-DgRywZSo.css",
+      "set": "v8-beta",
+      "hash": "30bc7d7eada951c7e7b138e444fd8214c84b1b3145024039134639c8741018b8"
+    },
+    {
+      "path": "dist-beta/build-info.json",
+      "set": "v8-beta",
+      "hash": "ce1c0ff62ed8f0e2ceb4bee0376fbde9569d78b0d2d4da92accb2600399859df"
+    },
+    {
+      "path": "dist-beta/index.html",
+      "set": "v8-beta",
+      "hash": "e1f860afd504c2a356074d0fec9dd34dc5ad5c11b4569917631b0a96936a5b28"
+    },
+    {
+      "path": "server/beta-contract-v8.ts",
+      "set": "v8-beta",
+      "hash": "447bb3ddabb7ab89424255853b6108c7c267d570d31bc5d8eb525df5610bfddd"
+    },
+    {
+      "path": "tsconfig.beta.json",
+      "set": "v8-beta",
+      "hash": "6406f7bcea707f3f8a66f236e396bfdfb37ab5a2f33f1dbefee2e53f5156bae6"
+    },
+    {
+      "path": "vite.beta.config.ts",
+      "set": "v8-beta",
+      "hash": "f49bc4e280144e7d2a0e07931c530c25c2bbaa56bf3f7004d978ec6e9f8009ab"
+    }
+  ]
+}

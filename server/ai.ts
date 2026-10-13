@@ -11,6 +11,7 @@ import type { VerificationReport } from "../shared/verification.js";
 import type { CaseAssessment } from "../shared/dossier.js";
 import { requireEgress,requestDigest } from "./egress-v3.js";
 import { knownManagedContextRequired } from "./records-v6.js";
+import { aiSendGate } from "./ai-consent-v8.js";
 
 export async function readResponseStream(
   response: Response,
@@ -212,6 +213,7 @@ export async function analyze(
   const transmission = hasPayloadExecution() ? checkSerializedPayload(serializedPayload,"review","openai","ai-context-v4",true) : undefined;
   const accessToken = await auth.accessToken();
   transmission?.recheck();
+  await aiSendGate(serializedPayload, "검토 분석", onProgress);
   const send=async(signal?:AbortSignal)=>{const r = await fetch("https://api.openai.com/v1/responses", {
     method: "POST",
     headers: {

@@ -548,4 +548,24 @@ export function registerPublicApis(
     store.audit("public_api_import", `${item.service}:${item.hash}`);
     return doc;
   });
+  // v8 beta key screen: the same save/remove steps as the per-service routes above, for one key across services.
+  return {
+    async saveKey(id: string, raw: string, replace: boolean): Promise<"unchanged" | "saved" | "replaced" | "conflict"> {
+      const key = normalizeServiceKey(raw), previous = await vault.read<string>(`public-${id}`);
+      if (previous === key) return "unchanged";
+      if (previous && !replace) return "conflict";
+      await vault.write(`public-${id}`, key);
+      if ((await vault.read<string>(`public-${id}`)) !== key)
+        throw new PublicApiError("저장한 인증키 재읽기 검증에 실패했습니다.");
+      store.put("settings", stateKey(id), {});
+      cache.clear();
+      store.audit("public_api_key_saved", id);
+      return previous ? "replaced" : "saved";
+    },
+    removeKey(id: string) {
+      vault.remove(`public-${id}`);
+      store.put("settings", stateKey(id), {});
+      cache.clear();
+    },
+  };
 }

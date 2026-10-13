@@ -237,7 +237,7 @@ export function attachComparisons(store: Store, r: ReviewResult) {
       );
   }
 }
-export function registerDossier(app: FastifyInstance, store: Store, checkExport: (id: string) => unknown = () => undefined) {
+export function registerDossier(app: FastifyInstance, store: Store, checkExport: (id: string) => unknown = () => undefined, packetExtra: (id: string) => Record<string, unknown> = () => ({})) {
   const review = (params: unknown) => {
     const { id } = z.object({ id: z.string().uuid() }).parse(params);
     const r = store.review(id);
@@ -448,6 +448,7 @@ export function registerDossier(app: FastifyInstance, store: Store, checkExport:
         evidenceHashes: r.evidence.map((e) => e.hash),
         rules: [],
       },
+      ...packetExtra(r.id),
     };
   });
 }
