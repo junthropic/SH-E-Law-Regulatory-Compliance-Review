@@ -1,8 +1,10 @@
 import Fastify from "fastify";
+import { restrictToLoopback } from "./loopback-v8.js";
 
 // Retire the old preview address without forwarding credentials or opening a second store.
 export function createLegacyRedirect() {
   const app = Fastify({ logger: false });
+  restrictToLoopback(app);
   app.addHook("onRequest", async (req, reply) => {
     reply
       .header("Cache-Control", "no-store")

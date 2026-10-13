@@ -17,6 +17,7 @@ import type {
 } from "../shared/types.js";
 import { regions } from "../shared/types.js";
 import { BundleSchema } from "./schemas.js";
+import { StorageCipher, StorageLockedError, isSealedText, isSealedBytes } from "./storage-crypto-v8.js";
 import { publicBundlePath, readPublicBundle } from "./public-bundle.js";
 
 export const sha = (s: string | Buffer) =>
@@ -43,15 +44,20 @@ export function atomicJson(path: string, data: unknown) {
   writeFileSync(path + ".tmp", JSON.stringify(data, null, 2), { mode: 0o600 });
   renameSync(path + ".tmp", path);
 }
+// Tables whose body holds company material (questions, facts, uploaded text, drafts).
+// evidence/sources/rules hold public legal text and stay searchable.
+export const SEALED_TABLES = new Set(["reviews", "documents", "settings"]);
 export class Store {
   db: DatabaseSync;
   dir: string;
-  constructor(dir = resolve(process.env.SHE_DATA_DIR || ".local")) {
+  cipher?: StorageCipher;
+  constructor(dir = resolve(process.env.SHE_DATA_DIR || ".local"), options: { cipher?: StorageCipher } = {}) {
     this.dir = dir;
+    this.cipher = options.cipher;
     mkdirSync(dir, { recursive: true });
     mkdirSync(join(dir, "originals"), { recursive: true });
     this.db = new DatabaseSync(join(dir, "private.sqlite"));
-    this.db.exec(`PRAGMA busy_timeout=2000; PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON;
+    this.db.exec(`PRAGMA busy_timeout=2000; PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA secure_delete=ON;
       CREATE TABLE IF NOT EXISTS reviews(id TEXT PRIMARY KEY, body TEXT NOT NULL);
       CREATE TABLE IF NOT EXISTS evidence(id TEXT PRIMARY KEY, sourceId TEXT, hash TEXT, body TEXT NOT NULL);
       CREATE INDEX IF NOT EXISTS evidence_source_id ON evidence(sourceId);
@@ -63,25 +69,51 @@ export class Store {
       CREATE TABLE IF NOT EXISTS rules(id TEXT PRIMARY KEY, body TEXT NOT NULL);
       PRAGMA user_version=1;`);
   }
+  encodeBody(table: string, id: string, body: unknown) {
+    const json = JSON.stringify(body);
+    return this.cipher && SEALED_TABLES.has(table)
+      ? this.cipher.sealText(json, table + "\0" + id)
+      : json;
+  }
+  decodeBody(table: string, id: string, raw: string) {
+    if (!isSealedText(raw)) return JSON.parse(raw);
+    if (!this.cipher) throw new StorageLockedError();
+    return JSON.parse(this.cipher.openText(raw, table + "\0" + id));
+  }
   get<T>(table: string, id: string): T | undefined {
     const r = this.db
       .prepare(
         `SELECT body FROM ${table} WHERE ${table === "settings" ? "key" : "id"}=?`,
       )
       .get(id) as { body: string } | undefined;
-    return r ? JSON.parse(r.body) : undefined;
+    return r ? this.decodeBody(table, id, r.body) : undefined;
   }
   all<T>(table: string): T[] {
+    const key = table === "settings" ? "key" : "id";
     return (
-      this.db.prepare(`SELECT body FROM ${table}`).all() as { body: string }[]
-    ).map((x) => JSON.parse(x.body));
+      this.db.prepare(`SELECT ${key} AS k, body FROM ${table}`).all() as { k: string; body: string }[]
+    ).map((x) => this.decodeBody(table, x.k, x.body));
   }
   put(table: string, id: string, body: unknown) {
     this.db
       .prepare(
         `INSERT INTO ${table}(${table === "settings" ? "key" : "id"},body) VALUES(?,?) ON CONFLICT(${table === "settings" ? "key" : "id"}) DO UPDATE SET body=excluded.body`,
       )
-      .run(id, JSON.stringify(body));
+      .run(id, this.encodeBody(table, id, body));
+  }
+  // Uploaded originals: sealed on disk when a cipher is set; legacy plaintext files stay readable until migrated.
+  originalPath(name: string) {
+    if (!/^[A-Za-z0-9-]+.[a-z]+$/.test(name)) throw new Error("원본 경로 확인 필요");
+    return join(this.dir, "originals", name);
+  }
+  writeOriginal(name: string, bytes: Buffer, path = this.originalPath(name)) {
+    writeFileSync(path, this.cipher ? this.cipher.sealBytes(bytes, "original\0" + name) : bytes, { mode: 0o600 });
+  }
+  readOriginal(name: string) {
+    const raw = readFileSync(this.originalPath(name));
+    if (!isSealedBytes(raw)) return raw;
+    if (!this.cipher) throw new StorageLockedError();
+    return this.cipher.openBytes(raw, "original\0" + name);
   }
   delete(table: string, id: string) {
     this.db.prepare(`DELETE FROM ${table} WHERE id=?`).run(id);

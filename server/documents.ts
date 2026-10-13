@@ -1,9 +1,10 @@
 import { randomUUID } from "node:crypto";
-import { writeFileSync, unlinkSync, existsSync } from "node:fs";
+import { unlinkSync } from "node:fs";
 import { join, extname, basename } from "node:path";
 import { extractDocument } from "./extraction.js";
 import { Store, sha } from "./store.js";
 import type { DocumentRecord } from "../shared/types.js";
+import { deleteDocument } from "./retention-v8.js";
 export async function ingestDocument(
   store: Store,
   name: string,
@@ -60,9 +61,7 @@ export async function ingestDocument(
     responseDate: "",
     region: "",
   };
-  writeFileSync(join(store.dir, "originals", doc.id + ext), buffer, {
-    mode: 0o600,
-  });
+  store.writeOriginal(doc.id + ext, buffer);
   try {
     store.put("documents", doc.id, doc);
   } catch (error) {
@@ -71,10 +70,7 @@ export async function ingestDocument(
   }
   return doc;
 }
+// v8: deletion goes through retention-v8 (deletion log, review marking, WAL flush).
 export function removeDocument(store: Store, id: string) {
-  const d = store.document(id);
-  if (!d) return;
-  const p = join(store.dir, "originals", id + d.type);
-  if (existsSync(p)) unlinkSync(p);
-  store.delete("documents", id);
+  deleteDocument(store, id);
 }

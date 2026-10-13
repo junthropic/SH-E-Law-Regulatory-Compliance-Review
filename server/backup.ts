@@ -21,9 +21,7 @@ export function makeBackup(store: Store) {
     sources: store.all("sources"),
     documents: store.all<DocumentRecord>("documents").map((d) => ({
       ...d,
-      original: readFileSync(
-        join(store.dir, "originals", d.id + d.type),
-      ).toString("base64"),
+      original: store.readOriginal(d.id + d.type).toString("base64"),
     })),
     rules: store.rules(),
   };
@@ -53,7 +51,7 @@ export function restoreBackup(store: Store, input: unknown) {
         old: existsSync(path) ? readFileSync(path) : undefined,
       });
       const tmp = path + "." + randomUUID() + ".tmp";
-      writeFileSync(tmp, Buffer.from(d.original, "base64"), { mode: 0o600 });
+      store.writeOriginal(d.id + d.type, Buffer.from(d.original, "base64"), tmp);
       renameSync(tmp, path);
       const { original, ...doc } = d;
       store.put("documents", d.id, { ...doc, confirmed: false });

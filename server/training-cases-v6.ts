@@ -6,6 +6,7 @@ import {assertPrincipal,type Principal} from "./compliance-v2.js";
 import {TrainingInput,evaluateTraining,selectTraining,type TrainingCase} from "./training-v6.js";
 import {ProtectedTraceReader} from "./trace-reader-v7.js";
 import type {LegalIssue} from "../shared/types.js";
+import {protectedReference} from "./protected-reference-v8.js";
 
 // Explicit management binding only; neither this class nor synthetic review activates law.
 export class TrainingCases {
@@ -35,7 +36,7 @@ export class TrainingCases {
   publish(p:Principal,id:string,reviewId:string){const data=this.read(p,id),store=this.vault.store;new ProtectedTraceReader(this.vault).trace(p,reviewId);const r=store.review(reviewId);if(!r)throw Error("검토 기록 없음");
     if(r.request.asOf!==data.input.asOf||!r.request.documentIds.includes(data.source.id))throw Error("검토 기준일·선택 자료와 교육 후보 불일치");
     const selected=selectTraining(r.request.prompt);if(!selected.length)throw Error("질문에 교육 검토 범위가 없습니다.");
-    const descriptions={pending:"자료·사실을 보완한 뒤 판단해야 합니다.",fulfilled_candidate:"교육 이행의 합성 후보입니다. 법적 충분성은 별도 검토가 필요합니다.",risk_candidate:"교육 미이행의 합성 후보입니다. 법률 위반 확정은 아닙니다.",out_of_scope_candidate:"이 교육에 대한 비대상 후보입니다. 다른 의무를 면제하지 않습니다.",not_due:"해당 교육 기한이 아직 도래하지 않았습니다. 선행 교육을 별도로 확인하세요."};
-    const issues:LegalIssue[]=evaluateTraining(data.input).filter(x=>selected.some(s=>s.id===x.id)).map(x=>({id:id+":"+x.id,ruleId:x.id,title:x.label,category:x.classification,conclusion:descriptions[x.state],conditions:[`사실 후보 버전 ${data.version} · 원본 해시 ${data.source.originalHash}`,`필요시간 ${x.requiredHours??"미확인"} · 확인시간 ${x.countedHours} · 기한 ${x.deadline??"미확인"}`,p.synthetic?"가상 자료 검증 · 법률 승인 없음":"자료 후보 검토 · 법률 승인 없음"],citations:[],exceptions:[],missing:x.missing,nextActions:["해당 교육 대상·내용·방법·예외의 원문과 실제 증빙을 독립 검토하세요."],severity:"unspecified"}));
+    // B-2: only references go into the plaintext review; results stay in the protected store.
+    const issues:LegalIssue[]=evaluateTraining(data.input).filter(x=>selected.some(s=>s.id===x.id)).map(x=>protectedReference(id,data.version,x.id,x.label));
     r.issues=[...r.issues.filter(x=>!x.ruleId?.startsWith("training.")),...issues];r.needsReview=true;store.saveReview(r);const binding=this.records.bindReview(p,reviewId,[data.node,data.sourceNode]);return {reviewId,version:data.version,issues:issues.length,binding,legalApproval:false,enabled:false};}
 }

@@ -25,7 +25,7 @@ import {
 } from "./reference-collection.js";
 import { buildVerification } from "./verification.js";
 import { syncSources, PetitionConnector, regionRegistry } from "./sources.js";
-import { ingestDocument, removeDocument } from "./documents.js";
+import { ingestDocument } from "./documents.js";
 import { versionDiff, quantityRatio } from "./legal.js";
 import { markdown, csv } from "./exports.js";
 import { makeBackup, restoreBackup } from "./backup.js";
@@ -39,10 +39,15 @@ import { registerDossier } from "./dossier.js";
 import { registerComplianceV2 } from "./compliance-api-v2.js";
 import type { Principal } from "./compliance-v2.js";
 import { LegacyBridge } from "./legacy-bridge-v3.js";
-import { guardManagedExport } from "./records-v6.js";
+import { checkReviewExport } from "./export-check-v8.js";
 import { EgressGate,EgressDenied } from "./egress-v3.js";
 import { CollectionService } from "./collection-service-v3.js";
 import { registerManagementV3 } from "./management-v3.js";
+import { restrictToLoopback } from "./loopback-v8.js";
+import { AiConsent } from "./ai-consent-v8.js";
+import { registerSecurityV8 } from "./security-routes-v8.js";
+import { deleteDocument } from "./retention-v8.js";
+import { safeMessage } from "./redact-v8.js";
 
 export async function createApp(store = new Store(), test = false, complianceGrants?: ReadonlyMap<string, Principal>, v3?: {adapter?:"v3"|"v4"|"v6";principal:Principal;mode:"shadow"|"project";collect?:boolean;backupKey?:{key:Buffer;id:string}}, enforcement?: () => Execution) {
   if(v3 && (!test || !v3.principal.synthetic))throw new Error("v3 연결은 명시된 격리 가상 환경에서만 실행합니다.");
@@ -53,6 +58,7 @@ export async function createApp(store = new Store(), test = false, complianceGra
     bodyLimit: 2 * 1024 * 1024,
     requestTimeout: 60000,
   });
+  restrictToLoopback(app);
   // No default users, approvals or production migration. Host must supply authenticated role grants.
   if (complianceGrants?.size) registerComplianceV2(app, store, complianceGrants);
   const memoryAuth = test || process.env.SHE_EPHEMERAL_AUTH === "1";
@@ -160,7 +166,7 @@ export async function createApp(store = new Store(), test = false, complianceGra
         ? "입력 내용을 확인하세요: " +
           err.issues.map((i) => i.path.join(".") + " " + i.message).join(", ")
         : err instanceof Error
-          ? err.message
+          ? safeMessage(err.message, store.dir)
           : "요청 실패";
     const code =
       err instanceof Error && "statusCode" in err
@@ -174,7 +180,9 @@ export async function createApp(store = new Store(), test = false, complianceGra
   }
   registerPublicApis(app, store, vault, memoryAuth,v3?.collect&&collection?(service,query)=>collection.facade(v3.principal,service,query):undefined);
   registerIntake(app, store, vault, auth, jobs);
-  registerDossier(app, store);
+  registerDossier(app, store, (id) => checkReviewExport(store, id, "reviewer-packet", enforcement?.()));
+  const aiConsent = new AiConsent(store);
+  registerSecurityV8(app, store, aiConsent);
   app.get("/api/bootstrap", async (req, reply) => {
     let token = req.cookies.she_session;
     if (!token || !sessions.has(token)) {
@@ -239,7 +247,7 @@ export async function createApp(store = new Store(), test = false, complianceGra
       return reply
         .code(400)
         .type("text/plain; charset=utf-8")
-        .send(e instanceof Error ? e.message : "인증 실패");
+        .send(e instanceof Error ? safeMessage(e.message, store.dir) : "인증 실패");
     }
   });
   app.get("/api/reviews", async () =>
@@ -414,7 +422,7 @@ export async function createApp(store = new Store(), test = false, complianceGra
     const r = store.review((req.params as any).id);
     if (!r) return reply.code(404).send({ error: "검토 없음" });
     const format = (req.query as any).format;
-    guardManagedExport(store,r.id,enforcement?.());
+    checkReviewExport(store,r.id,"export",enforcement?.());
     reply.header(
       "Content-Disposition",
       `attachment; filename="review-${r.id}.${format === "csv" ? "csv" : "md"}"`,
@@ -459,7 +467,7 @@ export async function createApp(store = new Store(), test = false, complianceGra
         "Content-Disposition",
         `attachment; filename*=UTF-8''${encodeURIComponent(d.name)}`,
       )
-      .send(readFileSync(join(store.dir, "originals", d.id + d.type)));
+      .send(store.readOriginal(d.id + d.type));
   });
   app.post("/api/documents/:id/confirm", async (req) => {
     const d = store.document((req.params as any).id);
@@ -483,7 +491,7 @@ export async function createApp(store = new Store(), test = false, complianceGra
     return { ok: true };
   });
   app.delete("/api/documents/:id", async (req) => {
-    removeDocument(store, (req.params as any).id);
+    deleteDocument(store, (req.params as any).id);
     return { ok: true };
   });
   app.get("/api/evidence", async () =>
@@ -626,5 +634,5 @@ export async function createApp(store = new Store(), test = false, complianceGra
     await Promise.allSettled(jobs);
     store.close();
   });
-  return { app, store, auth, vault };
+  return { app, store, auth, vault, aiConsent };
 }
