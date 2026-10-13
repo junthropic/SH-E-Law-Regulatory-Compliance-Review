@@ -19,6 +19,7 @@ import { Store, sha } from "./store.js";
 import { Vault } from "./vault.js";
 import { ChatGPTAuth } from "./auth.js";
 import { readResponseStream } from "./ai.js";
+import { aiSendGate } from "./ai-consent-v8.js";
 import { confirmedAnswer, redact } from "./legal.js";
 import { searchPublic, detailPublic } from "./public-apis.js";
 import { withPublicApiState } from "./public-api-transport.js";
@@ -155,6 +156,7 @@ export async function extractIntake(
   const transmission = hasPayloadExecution() ? checkSerializedPayload(serializedPayload,"extract","openai","intake-extract-v4",true) : undefined;
   const accessToken = await auth.accessToken();
   transmission?.recheck();
+  await aiSendGate(serializedPayload, "질문 사실 추출");
   const send=async(signal?:AbortSignal)=>{const response = await fetch("https://api.openai.com/v1/responses", {
     method: "POST",
     headers: {

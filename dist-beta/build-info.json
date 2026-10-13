@@ -1,0 +1,49 @@
+{
+  "sourceDigest": "891404a8f884bbc8664239fc3b89095d387fc28a6f0c387a25bb6b7297b41c4d",
+  "files": [
+    {
+      "path": "beta/api.ts",
+      "hash": "191d000c1a27b117756b8cda36aca683c490c2739a3c9047f13b4d3860fa4b4f"
+    },
+    {
+      "path": "beta/App.tsx",
+      "hash": "023f5c7af45294a8349f92d37c3f94346c984efdf7fcc37dfdc6050d13495f1f"
+    },
+    {
+      "path": "beta/beta.css",
+      "hash": "297a95f3717463c2b491da58b958586d178db903777b1e77384702888d53aafd"
+    },
+    {
+      "path": "beta/DataPage.tsx",
+      "hash": "3e9cb4307b0d1afb0fefb30ef3b8964d5a9cba1cf03e6073f3d1421bcd21d682"
+    },
+    {
+      "path": "beta/FeedbackPage.tsx",
+      "hash": "6cc0e3ec47eb05d20f9cdb613e98a3d7d2b1262765a1a8415dacfc8109f056be"
+    },
+    {
+      "path": "beta/index.html",
+      "hash": "cac564a812a6791e9143e91ce75e58f32231cfef5fbf7eb023a0f2d3743a53f7"
+    },
+    {
+      "path": "beta/KeysPage.tsx",
+      "hash": "5b81b76a705f979e881197cad17e81bce12aa623298231630b087cbcb95b4d32"
+    },
+    {
+      "path": "beta/main.tsx",
+      "hash": "54b7276601f53facda8569da98d5c448975228e50fb1397f760865487de50d65"
+    },
+    {
+      "path": "beta/ReviewPage.tsx",
+      "hash": "2fc21be548870fa6b85aa8d3da0077dec1ae6c851da9808ef84b34150d82af5b"
+    },
+    {
+      "path": "server/beta-contract-v8.ts",
+      "hash": "447bb3ddabb7ab89424255853b6108c7c267d570d31bc5d8eb525df5610bfddd"
+    },
+    {
+      "path": "vite.beta.config.ts",
+      "hash": "f49bc4e280144e7d2a0e07931c530c25c2bbaa56bf3f7004d978ec6e9f8009ab"
+    }
+  ]
+}

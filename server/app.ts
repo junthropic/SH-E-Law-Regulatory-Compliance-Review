@@ -49,6 +49,7 @@ import { registerSecurityV8 } from "./security-routes-v8.js";
 import { deleteDocument } from "./retention-v8.js";
 import { safeMessage } from "./redact-v8.js";
 import { attachPreview, registerPreviewV8 } from "./preview-v8.js";
+import { registerBetaV8, markCsv, markMarkdown, selfReviewOf } from "./beta-v8.js";
 
 export async function createApp(store = new Store(), test = false, complianceGrants?: ReadonlyMap<string, Principal>, v3?: {adapter?:"v3"|"v4"|"v6";principal:Principal;mode:"shadow"|"project";collect?:boolean;backupKey?:{key:Buffer;id:string}}, enforcement?: () => Execution) {
   if(v3 && (!test || !v3.principal.synthetic))throw new Error("v3 연결은 명시된 격리 가상 환경에서만 실행합니다.");
@@ -180,9 +181,12 @@ export async function createApp(store = new Store(), test = false, complianceGra
     registerManagementV3(app,store,complianceGrants,collection,v3.backupKey);
     if(v3.collect){app.addHook("onReady",async()=>{collection.start();});app.addHook("onClose",async()=>{await collection.stop();});}
   }
-  registerPublicApis(app, store, vault, memoryAuth,v3?.collect&&collection?(service,query)=>collection.facade(v3.principal,service,query):undefined);
+  const publicKeys = registerPublicApis(app, store, vault, memoryAuth,v3?.collect&&collection?(service,query)=>collection.facade(v3.principal,service,query):undefined);
   registerIntake(app, store, vault, auth, jobs);
-  registerDossier(app, store, (id) => checkReviewExport(store, id, "reviewer-packet", enforcement?.()));
+  registerDossier(app, store, (id) => checkReviewExport(store, id, "reviewer-packet", enforcement?.()), (id) => {
+    const selfReview = selfReviewOf(store, id);
+    return selfReview ? { selfReview } : {};
+  });
   const aiConsent = new AiConsent(store);
   registerSecurityV8(app, store, aiConsent);
   registerPreviewV8(app, store);
@@ -436,7 +440,7 @@ export async function createApp(store = new Store(), test = false, complianceGra
           ? "text/csv; charset=utf-8"
           : "text/markdown; charset=utf-8",
       )
-      .send(format === "csv" ? csv(r) : markdown(r));
+      .send(format === "csv" ? markCsv(store, r.id, csv(r)) : markMarkdown(store, r.id, markdown(r)));
   });
   app.get("/api/documents", async () =>
     store.all<DocumentRecord>("documents").map((d) => {
@@ -525,7 +529,7 @@ export async function createApp(store = new Store(), test = false, complianceGra
       return { label: "비교 가능한 이전 전문이 없습니다.", changes: [] };
     return versionDiff(other, e);
   });
-  app.post("/api/sync", async () => {
+  const startSync = async () => {
     if (syncing) throw new Error("이미 갱신 중입니다.");
     const oc = process.env.LAW_OC || (await vault.read<any>("law"))?.lawOc;
     if (!oc) throw new Error("법제처 OC를 먼저 저장하세요.");
@@ -540,6 +544,14 @@ export async function createApp(store = new Store(), test = false, complianceGra
       });
     jobs.add(job);
     return { started: true };
+  };
+  app.post("/api/sync", async () => startSync());
+  registerBetaV8(app, {
+    store, vault, memory: memoryAuth, keys: publicKeys,
+    busy: () => jobs.size > 0 || syncing,
+    syncing: () => syncing,
+    startSync,
+    schedule: !test,
   });
   app.post("/api/quantity-ratio", async (req) => {
     const b = z
@@ -626,12 +638,26 @@ export async function createApp(store = new Store(), test = false, complianceGra
           response.header("Cache-Control", "no-store");
       },
     });
+  }
+  // v8 beta screens: a separate entry built from beta/ into dist-beta/. The frozen screens above are unchanged.
+  const beta = existsSync(resolve("dist-beta/index.html"));
+  if (beta)
+    await app.register(staticPlugin, {
+      root: resolve("dist-beta"),
+      prefix: "/beta/",
+      decorateReply: false,
+      setHeaders(response, path) {
+        if (path.endsWith("index.html")) response.header("Cache-Control", "no-store");
+      },
+    });
+  if (existsSync(resolve("dist/index.html")))
     app.setNotFoundHandler((req, reply) =>
       req.url.startsWith("/api/")
         ? reply.code(404).send({ error: "API 없음" })
-        : reply.sendFile("index.html"),
+        : beta && (req.url === "/beta" || req.url.startsWith("/beta/"))
+          ? reply.sendFile("index.html", resolve("dist-beta"))
+          : reply.sendFile("index.html"),
     );
-  }
   app.addHook("onClose", async () => {
     await petitions.close();
     await Promise.allSettled(jobs);

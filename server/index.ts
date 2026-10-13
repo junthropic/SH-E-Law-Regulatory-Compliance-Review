@@ -8,7 +8,7 @@ import { migrateToEncrypted } from "./storage-migration-v8.js";
 import { EgressGuard } from "./egress-guard-v8.js";
 import { purgeExpired } from "./retention-v8.js";
 import { safeMessage } from "./redact-v8.js";
-import type { AiConsent } from "./ai-consent-v8.js";
+import { setAiSendGate, type AiConsent } from "./ai-consent-v8.js";
 // Errors that escape every handler are printed without paths or values, then the process stops.
 process.on("uncaughtException", (e) => {
   console.error("SH·E 오류: " + safeMessage(e instanceof Error ? e.message : String(e)));
@@ -26,6 +26,8 @@ mkdirSync(dataDir, { recursive: true });
 const cipher = await openProductionCipher(dataDir);
 const { app, store, aiConsent } = await createApp(new Store(dataDir, { cipher }));
 consent = aiConsent;
+// Every AI send waits for the user to approve the exact payload on the beta screen (one approval, one send).
+setAiSendGate((payload, purpose, onWait) => aiConsent.awaitApproval(payload, purpose, onWait));
 if (cipher) migrateToEncrypted(store);
 // Optional automatic deletion of uploaded originals (default off): at start-up and once a day.
 purgeExpired(store);

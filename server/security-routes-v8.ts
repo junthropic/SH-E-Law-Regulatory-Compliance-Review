@@ -15,6 +15,13 @@ export function registerSecurityV8(app: FastifyInstance, store: Store, consent: 
     return enabled ? consent.enable() : consent.revoke();
   });
   app.get("/api/ai/send-log", async () => consent.log());
+  // Pending AI sends: the screen shows the exact payload; approve sends it once, reject cancels it.
+  app.get("/api/ai/pending", async () => consent.pending());
+  app.post("/api/ai/pending/:id", async (req) => {
+    const { id } = z.object({ id: z.string().uuid() }).parse(req.params);
+    const { approve } = z.object({ approve: z.boolean() }).strict().parse(req.body);
+    return consent.decide(id, approve);
+  });
   app.get("/api/retention", async () => ({ autoDeleteDays: retentionDays(store), choices: RETENTION_CHOICES, log: deletionLog(store) }));
   app.post("/api/retention", async (req) => {
     const { autoDeleteDays } = z.object({ autoDeleteDays: z.union([z.literal(30), z.literal(90), z.literal(365), z.null()]) }).parse(req.body);

@@ -7,6 +7,7 @@ import {
   unlinkSync,
 } from "node:fs";
 import { join } from "node:path";
+import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
 export class VaultUnavailableError extends Error {
   constructor() {
     super(
@@ -110,6 +111,25 @@ export class Vault {
     const p = join(this.dir, name + ".dpapi");
     writeFileSync(p + ".tmp", cipher, { mode: 0o600 });
     renameSync(p + ".tmp", p);
+  }
+  // v8 backup key wrap. Windows: DPAPI current-user scope, so only this Windows user can unwrap.
+  // Ephemeral (tests, SHE_EPHEMERAL_AUTH): a per-instance random key stands in for the user scope.
+  private sessionKey = randomBytes(32);
+  async protect(text: string): Promise<string> {
+    if (!this.ephemeral) return "dpapi:" + (await this.transform(Buffer.from(text).toString("base64"), true));
+    const iv = randomBytes(12), c = createCipheriv("aes-256-gcm", this.sessionKey, iv);
+    const body = Buffer.concat([c.update(text, "utf8"), c.final()]);
+    return "session:" + Buffer.concat([iv, c.getAuthTag(), body]).toString("base64");
+  }
+  async unprotect(wrapped: string): Promise<string> {
+    if (wrapped.startsWith("dpapi:") && !this.ephemeral)
+      return Buffer.from(await this.transform(wrapped.slice(6), false), "base64").toString("utf8");
+    if (wrapped.startsWith("session:") && this.ephemeral) {
+      const raw = Buffer.from(wrapped.slice(8), "base64"), d = createDecipheriv("aes-256-gcm", this.sessionKey, raw.subarray(0, 12));
+      d.setAuthTag(raw.subarray(12, 28));
+      return Buffer.concat([d.update(raw.subarray(28)), d.final()]).toString("utf8");
+    }
+    throw new Error("wrap scope mismatch");
   }
   remove(name: string) {
     if (!/^[a-z-]+$/.test(name)) throw new Error("invalid vault key");

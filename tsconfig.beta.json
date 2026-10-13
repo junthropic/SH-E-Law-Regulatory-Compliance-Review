@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "noEmit": true },
+  "include": ["beta", "server/beta-contract-v8.ts", "vite.beta.config.ts"]
+}
