@@ -1,4 +1,4 @@
-import {it,expect} from "vitest";
+import {it,expect,vi} from "vitest";
 import {randomBytes} from "node:crypto";
 import {testStore,request,basis} from "./helpers.js";
 import {Vault} from "../server/vault.js";
@@ -68,6 +68,8 @@ it("V7-S02: 같은 질문이 v6 연결에서는 위험물 안전관리자 후보
 },30000);
 it("V7-F01: 기본 앱 경로(브리지 없음)의 안전관리자 질문은 위험물·산업안전보건법 후보 어느 쪽으로도 가지 않는다",async()=>{
   // server/index.ts calls createApp() without the v3 option, so finalize is undefined and runReview runs without a bridge.
+  // No real network: the default path looks up law.go.kr; answer every outbound request with a synthetic refusal (403).
+  const outbound:string[]=[];vi.stubGlobal("fetch",vi.fn(async(u:unknown)=>{outbound.push(new URL(String((u as {url?:string})?.url??u)).host);return new Response("synthetic refusal",{status:403});}));
   const f=testStore();
   try{
     const at=new Date(Date.now()-3600_000).toISOString();
@@ -79,7 +81,8 @@ it("V7-F01: 기본 앱 경로(브리지 없음)의 안전관리자 질문은 위
       expect(review.status).toBe("completed");
       expect(review.issues.some(i=>/^(hazmat_manager|safety_manager)\./.test(i.ruleId??"")||i.title==="안전관리자 재선임")).toBe(false);
     }
-  }finally{f.clean();}
+    expect(outbound.every(h=>h==="www.law.go.kr")).toBe(true); // only the law lookup is attempted, and it never leaves the test
+  }finally{vi.unstubAllGlobals();f.clean();}
 },30000);
 it("V7-C02: 다른 tenant는 안전관리자 후보를 읽거나 보완할 수 없다",async()=>{
   const f=testStore(),v=new ProtectedPayloads(f.store,key),svc=new SafetyManagerCases(v);
