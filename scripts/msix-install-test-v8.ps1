@@ -25,7 +25,7 @@ $record = [ordered]@{
 }
 function Clean([string]$s) {
   foreach ($p in @($env:LOCALAPPDATA, $env:TEMP, $env:USERPROFILE, $env:RUNNER_TEMP)) { if ($p) { $s = $s.Replace($p, "%" + "PATH%") } }
-  return $s
+  return ($s -replace '(?i)[a-z]:\\Users\\[^\\\s]+', 'C:\Users\<user>')
 }
 function Step([string]$step, [scriptblock]$body) {
   try { $ok = [bool](& $body) } catch { $ok = $false; $script:record.notes += ($step + ": " + (Clean $_.Exception.Message)) }
@@ -85,7 +85,10 @@ Step "backupExported" { (Test-Path $backup) -and ((Get-Item $backup).Length -gt 
 Step "singleInstance" {
   Launch; Start-Sleep -Seconds 15
   $again = WaitPort 30
-  ((AppProcesses "SHELaw.exe").Count -eq 1) -and ((AppProcesses "node.exe").Count -eq 1) -and ($again -eq $port)
+  $launchers = (AppProcesses "SHELaw.exe").Count; $servers = (AppProcesses "node.exe").Count
+  $script:record.singleInstanceDetail = [ordered]@{ launchersAt15s = $launchers; servers = $servers; samePort = ($again -eq $port) }
+  if ($launchers -ne 1) { Start-Sleep -Seconds 45; $launchers = (AppProcesses "SHELaw.exe").Count; $script:record.singleInstanceDetail.launchersAt60s = $launchers }
+  ($launchers -eq 1) -and ($servers -eq 1) -and ($again -eq $port)
 }
 Step "appQuitStopsServer" { Scenario @("quit", "--port", "$port") | Out-Null; WaitGone 30 }
 Step "launcherStopStopsServer" {
@@ -123,13 +126,13 @@ try {
   New-LocalUser -Name $user -Password (ConvertTo-SecureString $pw -AsPlainText -Force) -AccountNeverExpires | Out-Null
   $cmd = "try { Add-AppxPackage -Path 'C:\SHETest\app.msix'; `$p = Get-AppxPackage -Name '$name'; 'installed=' + [bool]`$p + ' admin=' + ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) | Out-File C:\SHETest\nonadmin.txt; if (`$p) { Remove-AppxPackage -Package `$p.PackageFullName } } catch { 'error=' + `$_.Exception.Message | Out-File C:\SHETest\nonadmin.txt }"
   $encoded = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($cmd))
-  $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument ("-NoProfile -NonInteractive -EncodedCommand " + $encoded)
-  Register-ScheduledTask -TaskName "SHETestNonAdmin" -Action $action -User $user -Password $pw -RunLevel Limited | Out-Null
-  Start-ScheduledTask -TaskName "SHETestNonAdmin"
-  $sw = [Diagnostics.Stopwatch]::StartNew()
-  while (-not (Test-Path "C:\SHETest\nonadmin.txt") -and $sw.Elapsed.TotalSeconds -lt 300) { Start-Sleep -Seconds 2 }
+  # A standard user has no batch-logon right for scheduled tasks; start the process with that user's credentials instead.
+  $cred = New-Object Management.Automation.PSCredential($user, (ConvertTo-SecureString $pw -AsPlainText -Force))
+  $proc = Start-Process powershell.exe -Credential $cred -LoadUserProfile -WorkingDirectory $shared -WindowStyle Hidden -PassThru `
+    -ArgumentList @("-NoProfile", "-NonInteractive", "-EncodedCommand", $encoded)
+  if (-not $proc.WaitForExit(300000)) { $proc.Kill() }
+  $record.nonAdmin.exitCode = $proc.ExitCode
   $record.nonAdmin.result = if (Test-Path "C:\SHETest\nonadmin.txt") { Clean ((Get-Content "C:\SHETest\nonadmin.txt" -Raw).Trim()) } else { "no result in 300 s" }
-  Unregister-ScheduledTask -TaskName "SHETestNonAdmin" -Confirm:$false
 } catch { $record.nonAdmin.result = "attempt failed: " + (Clean $_.Exception.Message) }
 
 $record.finishedAt = (Get-Date).ToUniversalTime().ToString("o")

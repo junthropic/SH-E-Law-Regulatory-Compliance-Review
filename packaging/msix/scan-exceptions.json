@@ -575,6 +575,41 @@
       "valueSha256": "8d0214eb48accc246c5f2009d383f7cf14d476afc23084eb1d814aaa3a0e7f3f",
       "count": 1,
       "reason": "third-party-license-notice"
+    },
+    {
+      "file": "THIRD_PARTY_NOTICES.txt",
+      "kind": "email",
+      "valueSha256": "94691f5b99ab8c54bc0d6ffc3d99436f661faf993cb787da3cffc8865235ff67",
+      "count": 1,
+      "reason": "third-party-license-notice: Node.js LICENSE (official Node distribution used by the CI build)"
+    },
+    {
+      "file": "THIRD_PARTY_NOTICES.txt",
+      "kind": "email",
+      "valueSha256": "4a6ff4c29f2716dba2bc42ea773fc0f30b23c72a0f71fbe048097a6efeac0fc0",
+      "count": 1,
+      "reason": "third-party-license-notice: Node.js LICENSE (official Node distribution used by the CI build)"
+    },
+    {
+      "file": "THIRD_PARTY_NOTICES.txt",
+      "kind": "email",
+      "valueSha256": "59190f05e806055fb80ba57d062baab64c23be17986e0706de9b4b65638e6b23",
+      "count": 1,
+      "reason": "third-party-license-notice: Node.js LICENSE (official Node distribution used by the CI build)"
+    },
+    {
+      "file": "THIRD_PARTY_NOTICES.txt",
+      "kind": "email",
+      "valueSha256": "3c51116159b668a48b0d2fefd4e6e8ccad2d59450069253d7ff7b5424617f867",
+      "count": 1,
+      "reason": "third-party-license-notice: Node.js LICENSE (official Node distribution used by the CI build)"
+    },
+    {
+      "file": "THIRD_PARTY_NOTICES.txt",
+      "kind": "email",
+      "valueSha256": "201f531c30bf5722402a89a35239cc0c22b123eefc25a3ea8d24ebe28ae22851",
+      "count": 1,
+      "reason": "third-party-license-notice: Node.js LICENSE (official Node distribution used by the CI build)"
     }
   ]
 }
