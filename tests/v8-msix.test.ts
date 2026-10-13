@@ -1,5 +1,5 @@
 import { it, expect, vi, beforeEach, afterEach } from "vitest";
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { createApp } from "../server/app.js";
 import { Store, sha, PUBLIC_IMPORT_NOTE } from "../server/store.js";
@@ -70,6 +70,8 @@ it("V8-M03: 설치판 시작은 같은 공개 법령 초기 자료를 다시 가
     writePublicBundle(path + ".gz", { schemaVersion: 1, createdAt: "2026-10-01T00:00:00.000Z", evidence: [evidence({ verified: false })], sources: [] });
     const spy = vi.spyOn(t.store, "importPublic");
     expect(importPublicOnce(t.store, path)).toBe("imported");
+    const wal = join(t.store.dir, "private.sqlite-wal"); // folded into the database after the import
+    if (existsSync(wal)) expect(statSync(wal).size).toBe(0);
     expect(importPublicOnce(t.store, path)).toBe("unchanged");
     expect(spy).toHaveBeenCalledTimes(1);
     writePublicBundle(path + ".gz", { schemaVersion: 1, createdAt: "2026-10-02T00:00:00.000Z", evidence: [evidence({ verified: false })], sources: [] });

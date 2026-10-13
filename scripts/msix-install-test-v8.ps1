@@ -51,7 +51,7 @@ function WaitPort([int]$seconds) {
 function WaitGone([int]$seconds) {
   $sw = [Diagnostics.Stopwatch]::StartNew()
   while ($sw.Elapsed.TotalSeconds -lt $seconds) {
-    if ((AppProcesses "node.exe").Count -eq 0 -and (AppProcesses "SHELaw.exe").Count -eq 0) { return $true }
+    if (@(AppProcesses "node.exe").Count -eq 0 -and @(AppProcesses "SHELaw.exe").Count -eq 0) { return $true }
     Start-Sleep -Milliseconds 500
   }
   return $false
@@ -85,9 +85,9 @@ Step "backupExported" { (Test-Path $backup) -and ((Get-Item $backup).Length -gt 
 Step "singleInstance" {
   Launch; Start-Sleep -Seconds 15
   $again = WaitPort 30
-  $launchers = (AppProcesses "SHELaw.exe").Count; $servers = (AppProcesses "node.exe").Count
+  $launchers = @(AppProcesses "SHELaw.exe").Count; $servers = @(AppProcesses "node.exe").Count
   $script:record.singleInstanceDetail = [ordered]@{ launchersAt15s = $launchers; servers = $servers; samePort = ($again -eq $port) }
-  if ($launchers -ne 1) { Start-Sleep -Seconds 45; $launchers = (AppProcesses "SHELaw.exe").Count; $script:record.singleInstanceDetail.launchersAt60s = $launchers }
+  if ($launchers -ne 1) { Start-Sleep -Seconds 45; $launchers = @(AppProcesses "SHELaw.exe").Count; $script:record.singleInstanceDetail.launchersAt60s = $launchers }
   ($launchers -eq 1) -and ($servers -eq 1) -and ($again -eq $port)
 }
 Step "appQuitStopsServer" { Scenario @("quit", "--port", "$port") | Out-Null; WaitGone 30 }
@@ -114,7 +114,7 @@ Step "restoredAfterReinstall" {
 try { Scenario @("quit", "--port", "$port") | Out-Null; WaitGone 30 | Out-Null } catch { }
 try { Remove-AppxPackage -Package (Pkg).PackageFullName } catch { }
 
-# Best effort: the same install as a standard (non-administrator) Windows user, through a scheduled task.
+# Best effort: the same install as a throwaway standard (non-administrator) Windows user, through a scheduled task.
 # Recorded separately; the runner account itself is an administrator.
 $record.nonAdmin = [ordered]@{ attempted = $true }
 try {
@@ -126,13 +126,24 @@ try {
   New-LocalUser -Name $user -Password (ConvertTo-SecureString $pw -AsPlainText -Force) -AccountNeverExpires | Out-Null
   $cmd = "try { Add-AppxPackage -Path 'C:\SHETest\app.msix'; `$p = Get-AppxPackage -Name '$name'; 'installed=' + [bool]`$p + ' admin=' + ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) | Out-File C:\SHETest\nonadmin.txt; if (`$p) { Remove-AppxPackage -Package `$p.PackageFullName } } catch { 'error=' + `$_.Exception.Message | Out-File C:\SHETest\nonadmin.txt }"
   $encoded = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($cmd))
-  # A standard user has no batch-logon right for scheduled tasks; start the process with that user's credentials instead.
-  $cred = New-Object Management.Automation.PSCredential($user, (ConvertTo-SecureString $pw -AsPlainText -Force))
-  $proc = Start-Process powershell.exe -Credential $cred -LoadUserProfile -WorkingDirectory $shared -WindowStyle Hidden -PassThru `
-    -ArgumentList @("-NoProfile", "-NonInteractive", "-EncodedCommand", $encoded)
-  if (-not $proc.WaitForExit(300000)) { $proc.Kill() }
-  $record.nonAdmin.exitCode = $proc.ExitCode
+  # Standard users lack the batch-logon right a password scheduled task needs; grant it to this throwaway account (CI machine only).
+  $sid = (Get-LocalUser -Name $user).SID.Value
+  $inf = Join-Path $shared "rights.inf"; $db = Join-Path $shared "rights.sdb"
+  & secedit /export /cfg $inf /areas USER_RIGHTS | Out-Null
+  $lines = Get-Content $inf
+  if ($lines -match '^SeBatchLogonRight') { $lines = $lines -replace '^(SeBatchLogonRight\s*=.*)$', ('$1,*' + $sid) }
+  else { $lines = $lines -replace '^\[Privilege Rights\]$', ("[Privilege Rights]`r`nSeBatchLogonRight = *" + $sid) }
+  Set-Content -Path $inf -Value $lines -Encoding Unicode
+  & secedit /configure /db $db /cfg $inf /areas USER_RIGHTS | Out-Null
+  $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument ("-NoProfile -NonInteractive -EncodedCommand " + $encoded) -WorkingDirectory $shared
+  Register-ScheduledTask -TaskName "SHETestNonAdmin" -Action $action -User $user -Password $pw -RunLevel Limited | Out-Null
+  Start-ScheduledTask -TaskName "SHETestNonAdmin"
+  $sw = [Diagnostics.Stopwatch]::StartNew()
+  while (-not (Test-Path "C:\SHETest\nonadmin.txt") -and $sw.Elapsed.TotalSeconds -lt 300) { Start-Sleep -Seconds 2 }
+  $info = Get-ScheduledTaskInfo -TaskName "SHETestNonAdmin"
+  $record.nonAdmin.taskLastResult = "0x{0:X}" -f $info.LastTaskResult
   $record.nonAdmin.result = if (Test-Path "C:\SHETest\nonadmin.txt") { Clean ((Get-Content "C:\SHETest\nonadmin.txt" -Raw).Trim()) } else { "no result in 300 s" }
+  Unregister-ScheduledTask -TaskName "SHETestNonAdmin" -Confirm:$false
 } catch { $record.nonAdmin.result = "attempt failed: " + (Clean $_.Exception.Message) }
 
 $record.finishedAt = (Get-Date).ToUniversalTime().ToString("o")

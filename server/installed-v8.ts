@@ -26,5 +26,7 @@ export function importPublicOnce(store: Store, path: string): "imported" | "unch
   if (store.setting<{ bundleSha256?: string } | null>("public-bundle-status", null)?.bundleSha256 === digest) return "unchanged";
   store.importPublic(path);
   store.put("settings", "public-bundle-status", { ...store.setting<object>("public-bundle-status", {}), bundleSha256: digest });
+  // The import writes ~650 MB through the write-ahead log; fold it into the database so the log file does not stay that size.
+  store.db.exec("PRAGMA wal_checkpoint(TRUNCATE)");
   return "imported";
 }
