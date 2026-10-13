@@ -13,7 +13,7 @@ import { newReview } from "../server/reviews.js";
 import { makeBackup } from "../server/backup.js";
 import { purgeExpired, setRetentionDays, deletionLog, ORIGINAL_DELETED } from "../server/retention-v8.js";
 import { PREVIEW_SWITCH } from "../server/export-check-v8.js";
-import { PROTECTED_REFERENCE_NOTE } from "../server/protected-reference-v8.js";
+import { PROTECTED_REFERENCE_NOTE, protectedReference } from "../server/protected-reference-v8.js";
 import { safeMessage } from "../server/redact-v8.js";
 import { ProtectedPayloads } from "../server/protected-payload-v4.js";
 import { PayloadProvenance } from "../server/provenance-v4.js";
@@ -241,7 +241,7 @@ it("V8-B3: 미리보기 스위치를 켜면 binding 없는 검토 export와 검�
     f.store.put("reviews", review.id, tampered);
     expect((await get("export?format=markdown")).statusCode).not.toBe(200);
     expect((await get("reviewer-packet")).statusCode).not.toBe(200);
-    f.store.put("reviews", review.id, { ...review, issues: [{ id: "x", ruleId: "safety_manager.appointment", title: "t", category: "human_review", conclusion: "", conditions: [], citations: [], exceptions: [], missing: [], nextActions: [], severity: "unspecified" }] });
+    f.store.put("reviews", review.id, { ...review, issues: [protectedReference(randomUUID(), 1, "safety_manager.appointment", "안전관리자 선임(인원)")] });
     expect((await get("export?format=markdown")).statusCode).not.toBe(200);
     expect((await get("reviewer-packet")).statusCode).not.toBe(200);
   } finally { await app.close(); f.clean(); }

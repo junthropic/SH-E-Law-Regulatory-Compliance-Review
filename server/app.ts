@@ -39,7 +39,7 @@ import { registerDossier } from "./dossier.js";
 import { registerComplianceV2 } from "./compliance-api-v2.js";
 import type { Principal } from "./compliance-v2.js";
 import { LegacyBridge } from "./legacy-bridge-v3.js";
-import { checkReviewExport } from "./export-check-v8.js";
+import { checkReviewExport, previewOn } from "./export-check-v8.js";
 import { EgressGate,EgressDenied } from "./egress-v3.js";
 import { CollectionService } from "./collection-service-v3.js";
 import { registerManagementV3 } from "./management-v3.js";
@@ -48,11 +48,13 @@ import { AiConsent } from "./ai-consent-v8.js";
 import { registerSecurityV8 } from "./security-routes-v8.js";
 import { deleteDocument } from "./retention-v8.js";
 import { safeMessage } from "./redact-v8.js";
+import { attachPreview, registerPreviewV8 } from "./preview-v8.js";
 
 export async function createApp(store = new Store(), test = false, complianceGrants?: ReadonlyMap<string, Principal>, v3?: {adapter?:"v3"|"v4"|"v6";principal:Principal;mode:"shadow"|"project";collect?:boolean;backupKey?:{key:Buffer;id:string}}, enforcement?: () => Execution) {
   if(v3 && (!test || !v3.principal.synthetic))throw new Error("v3 연결은 명시된 격리 가상 환경에서만 실행합니다.");
   const bridge=v3?new LegacyBridge(store,v3.adapter||"v3"):undefined;
-  const finalize=v3&&bridge?(r:ReviewResult)=>{bridge.attach(v3.principal,r,v3.mode);}:undefined;
+  // Default path: v8 preview switch (off = no-op, the review is unchanged).
+  const finalize=v3&&bridge?(r:ReviewResult)=>{bridge.attach(v3.principal,r,v3.mode);}:(r:ReviewResult)=>{if(previewOn(store))attachPreview(r);};
   const app = Fastify({
     logger: false,
     bodyLimit: 2 * 1024 * 1024,
@@ -183,6 +185,7 @@ export async function createApp(store = new Store(), test = false, complianceGra
   registerDossier(app, store, (id) => checkReviewExport(store, id, "reviewer-packet", enforcement?.()));
   const aiConsent = new AiConsent(store);
   registerSecurityV8(app, store, aiConsent);
+  registerPreviewV8(app, store);
   app.get("/api/bootstrap", async (req, reply) => {
     let token = req.cookies.she_session;
     if (!token || !sessions.has(token)) {

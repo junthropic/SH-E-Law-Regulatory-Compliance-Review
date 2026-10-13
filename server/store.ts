@@ -51,12 +51,13 @@ export class Store {
   db: DatabaseSync;
   dir: string;
   cipher?: StorageCipher;
-  constructor(dir = resolve(process.env.SHE_DATA_DIR || ".local"), options: { cipher?: StorageCipher } = {}) {
+  constructor(dir = resolve(process.env.SHE_DATA_DIR || ".local"), options: { cipher?: StorageCipher; memory?: boolean } = {}) {
     this.dir = dir;
     this.cipher = options.cipher;
     mkdirSync(dir, { recursive: true });
     mkdirSync(join(dir, "originals"), { recursive: true });
-    this.db = new DatabaseSync(join(dir, "private.sqlite"));
+    // memory: scratch database that never touches disk (v8 preview evaluation).
+    this.db = new DatabaseSync(options.memory ? ":memory:" : join(dir, "private.sqlite"));
     this.db.exec(`PRAGMA busy_timeout=2000; PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA secure_delete=ON;
       CREATE TABLE IF NOT EXISTS reviews(id TEXT PRIMARY KEY, body TEXT NOT NULL);
       CREATE TABLE IF NOT EXISTS evidence(id TEXT PRIMARY KEY, sourceId TEXT, hash TEXT, body TEXT NOT NULL);
