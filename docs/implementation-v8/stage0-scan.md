@@ -29,5 +29,15 @@
 ## 3. 판단
 
 - 키 값이 노출된 곳은 `.env.api-keys` 하나다. 저장소는 Private이며, 사용자가 키를 재발급한 뒤 작업 트리에서 제거한다(이력은 유지).
+- 2026-10-13 후속: 사용자가 키 재발급을 마쳐 `.env.api-keys`(추적 해제, Git 무시 대상)와 `docs/development-history/api-key-archive.md`를 제거했다. 이력의 blob `b18cc4b` 값은 폐기된 이전 키다. 제거 후 `--git-tracked` 재검사 결과는 아래 4절.
 - 이름·사용자 경로·개인 메일은 문서·로그·커밋 정보에만 있고 앱 소스(`server/`, `shared/`, `src/`)에는 없다.
 - 패키지는 `scripts/package-scan.mjs --package`로 금지 폴더(`docs/`, `tests/`, `.local/`, `work/`, `.git` 등)·`.env*`·인증서 개인 키·DB·개발 스크립트를 실패 처리하므로, 위 기록들은 패키지에 들어갈 수 없다.
+
+## 4. 키 파일 제거 후 재검사 (2026-10-13, `--git-tracked`)
+
+| 종류 | 건수 | 판정 |
+|---|---|---|
+| 실제 API 키 (`.env` 형식 대입) | **0** | `.env.api-keys` 제거로 해소 |
+| 키 대입 패턴 (그 밖) | 3 | 1절과 같은 오탐 (`server/auth.ts`, `tests/ai-auth.test.ts`) |
+| base64 긴 문자열 | 302 | 1절과 같은 오탐 |
+| 개인 키 블록 | 1 | 시험용 합성 TLS 키 |
