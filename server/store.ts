@@ -20,6 +20,8 @@ import { BundleSchema } from "./schemas.js";
 import { StorageCipher, StorageLockedError, isSealedText, isSealedBytes } from "./storage-crypto-v8.js";
 import { publicBundlePath, readPublicBundle } from "./public-bundle.js";
 
+// Marks evidence rows imported unchanged from the bundled public law data (see importPublic).
+export const PUBLIC_IMPORT_NOTE = "공개 데이터 수입: 현장 검증 별도";
 export const sha = (s: string | Buffer) =>
   createHash("sha256").update(s).digest("hex");
 // A text hash alone does not bind jurisdiction, legal version or effective dates.
@@ -299,7 +301,7 @@ export class Store {
         this.saveEvidence({
           ...e,
           verified: false,
-          verificationNote: "공개 데이터 수입: 현장 검증 별도",
+          verificationNote: PUBLIC_IMPORT_NOTE,
         });
       for (const s of d.sources)
         this.put("sources", s.id, { ...s, verified: false });

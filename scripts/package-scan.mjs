@@ -6,9 +6,17 @@
 //   node scripts/package-scan.mjs --git-history [--json out.json]      (every blob reachable from any ref)
 // --package additionally fails on files that must not ship (forbidden folders, dev scripts, private keys).
 // Names to look for come from SHE_SCAN_NAMES (comma separated) or .local/package-scan-names.txt (git-ignored); never from this file.
+// --allow <exceptions.json> (v8 stage 4): third-party text that ships with the package (license notices, library code) is
+// reviewed once and recorded by file, kind and the SHA-256 of the matched text. Only exact matches are accepted; a new or
+// changed match fails. Names, the current Windows user's path, forbidden folders/files and dev scripts can never be excepted.
+//   --write-allow <draft.json> writes every exceptable finding of this scan as a draft for review (reason "UNREVIEWED").
+// .gz files are decompressed and their content is scanned.
 import {readFileSync,readdirSync,statSync,existsSync,writeFileSync} from "node:fs";
 import {join,relative,sep} from "node:path";
 import {spawnSync} from "node:child_process";
+import {createHash} from "node:crypto";
+import {userInfo} from "node:os";
+import {gunzipSync} from "node:zlib";
 import AdmZip from "adm-zip";
 
 const KEY_PATTERNS=[
@@ -35,12 +43,16 @@ const DEV_SCRIPT=/^scripts[\\/].*\.(mjs|ts|py)$/;
 
 function names(){const env=(process.env.SHE_SCAN_NAMES||"").split(",").map(s=>s.trim()).filter(Boolean);
   const file=".local/package-scan-names.txt";return [...env,...(existsSync(file)?readFileSync(file,"utf8").split(/\r?\n/).map(s=>s.trim()).filter(Boolean):[])];}
+const valueHash=v=>createHash("sha256").update(v).digest("hex");
+const currentUser=(()=>{try{return userInfo().username.toLowerCase();}catch{return "";}})();
 function scanText(rel,text,findings,nameList){
-  const lineOf=i=>text.slice(0,i).split("\n").length,add=(kind,i)=>findings.push({file:rel,kind,line:lineOf(i)});
-  for(const [kind,re] of KEY_PATTERNS)for(const m of text.matchAll(re))add(kind,m.index);
-  for(const m of text.matchAll(EMAIL))if(!EMAIL_ALLOW.some(a=>a.test(m[0])))add("email",m.index);
-  for(const m of text.matchAll(USER_PATH))if(!USER_PATH_ALLOW.has(m[1]))add("user-path",m.index);
-  for(const n of nameList){let i=-1;while((i=text.indexOf(n,i+1))!==-1)add("name",i);}
+  const lineOf=i=>text.slice(0,i).split("\n").length,add=(kind,i,v,extra={})=>findings.push({file:rel,kind,line:lineOf(i),valueSha256:valueHash(v),...extra});
+  for(const [kind,re] of KEY_PATTERNS)for(const m of text.matchAll(re))add(kind,m.index,m[0]);
+  for(const m of text.matchAll(EMAIL))if(!EMAIL_ALLOW.some(a=>a.test(m[0])))add("email",m.index,m[0]);
+  // The current user's path and names are reported without a value hash (a short value's hash could be guessed back).
+  // The current user's own folder is reported even when its name is on the allow list (e.g. a CI account named "runner").
+  for(const m of text.matchAll(USER_PATH)){if(currentUser&&m[1].toLowerCase()===currentUser)findings.push({file:rel,kind:"user-path",line:lineOf(m.index),currentUser:true});else if(!USER_PATH_ALLOW.has(m[1]))add("user-path",m.index,m[0]);}
+  for(const n of nameList){let i=-1;while((i=text.indexOf(n,i+1))!==-1)findings.push({file:rel,kind:"name",line:lineOf(i)});}
 }
 function scanEntry(rel,buf,findings,nameList,pkg){
   const norm=rel.split(/[\\/]/);
@@ -50,6 +62,7 @@ function scanEntry(rel,buf,findings,nameList,pkg){
     if(DEV_SCRIPT.test(rel))findings.push({file:rel,kind:"dev-script",line:0});
   }
   if(buf.length>50_000_000)return; // very large binaries: names/paths only
+  if(/\.gz$/i.test(rel)){try{buf=gunzipSync(buf,{maxOutputLength:512_000_000});}catch{findings.push({file:rel,kind:"unreadable-archive",line:0});return;}}
   scanText(rel,buf.toString("utf8"),findings,nameList);
   if(buf.includes(0))scanText(rel,buf.toString("utf16le"),findings,nameList); // UTF-16 strings in binaries/manifests
 }
@@ -78,15 +91,34 @@ export function scanHistory({nameList=names()}={}){
   for(const rec of log.split("\x01")){const [h,a,c,body]=rec.trim().split("\x00");if(!h)continue;scanText("commit "+h.slice(0,10)+" metadata",[a,c,body].join("\n"),findings,nameList);}
   return findings;
 }
+const NEVER_EXCEPT=new Set(["name","forbidden-folder","forbidden-file","dev-script","unreadable-archive"]);
+export const exceptable=f=>!NEVER_EXCEPT.has(f.kind)&&!f.currentUser&&!!f.valueSha256;
+const exceptionKey=f=>[f.file,f.kind,f.valueSha256].join("|");
+// Accepted = exact file+kind+value match within the recorded count; everything else blocks.
+export function applyExceptions(findings,exceptions){
+  const left=new Map();for(const e of exceptions.entries)left.set(exceptionKey(e),(left.get(exceptionKey(e))||0)+(e.count||1));
+  const accepted=[],blocking=[];
+  for(const f of findings){const k=exceptionKey(f);if(exceptable(f)&&left.get(k)>0){left.set(k,left.get(k)-1);accepted.push(f);}else blocking.push(f);}
+  return {accepted,blocking};
+}
+export function draftExceptions(findings){
+  const m=new Map();
+  for(const f of findings.filter(exceptable)){const k=exceptionKey(f),e=m.get(k);if(e)e.count++;else m.set(k,{file:f.file,kind:f.kind,valueSha256:f.valueSha256,count:1,reason:"UNREVIEWED"});}
+  return {format:"she-package-scan-exceptions-v1",entries:[...m.values()]};
+}
 export function summarize(findings){const byKind={},byFile={};for(const f of findings){byKind[f.kind]=(byKind[f.kind]||0)+1;const k=f.file;byFile[k]??={};byFile[k][f.kind]=(byFile[k][f.kind]||0)+1;}return {total:findings.length,byKind,files:Object.keys(byFile).length,byFile};}
 
 if(import.meta.url===`file://${process.argv[1].replace(/\\/g,"/").replace(/^([A-Za-z]):/,"/$1:")}`||process.argv[1]?.endsWith("package-scan.mjs")){
-  const args=process.argv.slice(2),jsonAt=args.indexOf("--json"),out=jsonAt>=0?args[jsonAt+1]:null;
-  const target=args.find((a,i)=>!a.startsWith("--")&&!(jsonAt>=0&&i===jsonAt+1));
+  const args=process.argv.slice(2),valueOf=n=>{const i=args.indexOf(n);return i>=0?args[i+1]:null;};
+  const out=valueOf("--json"),allowFile=valueOf("--allow"),draftFile=valueOf("--write-allow");
+  const target=args.find((a,i)=>!a.startsWith("--")&&!["--json","--allow","--write-allow"].includes(args[i-1]));
   const tracked=()=>{const f=[];for(const rel of spawnSync("git",["ls-files","-z"],{encoding:"utf8",maxBuffer:1<<28}).stdout.split("\0").filter(Boolean))if(existsSync(rel))scanEntry(rel,readFileSync(rel),f,names(),false);return f;};
   const findings=args.includes("--git-history")?scanHistory():args.includes("--git-tracked")?tracked():scan(target??".",{pkg:args.includes("--package")});
-  const summary=summarize(findings);
-  if(out)writeFileSync(out,JSON.stringify({generatedAt:new Date().toISOString(),target:args.includes("--git-history")?"git-history":target,summary,findings},null,2));
-  console.log(JSON.stringify({total:summary.total,byKind:summary.byKind,files:summary.files}));
-  process.exitCode=findings.length?1:0;
+  if(draftFile)writeFileSync(draftFile,JSON.stringify(draftExceptions(findings),null,2)+"\n");
+  const exceptions=allowFile?JSON.parse(readFileSync(allowFile,"utf8")):{entries:[]};
+  if(exceptions.entries.some(e=>!e.reason||e.reason==="UNREVIEWED")){console.error("package-scan: 검토되지 않은 예외 항목이 있습니다.");process.exit(2);}
+  const {accepted,blocking}=applyExceptions(findings,exceptions),summary=summarize(blocking);
+  if(out)writeFileSync(out,JSON.stringify({generatedAt:new Date().toISOString(),target:args.includes("--git-history")?"git-history":target,summary,...(allowFile?{accepted:summarize(accepted)}:{}),findings:blocking},null,2));
+  console.log(JSON.stringify({total:summary.total,byKind:summary.byKind,files:summary.files,...(allowFile?{accepted:accepted.length}:{})}));
+  process.exitCode=blocking.length?1:0;
 }

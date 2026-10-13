@@ -13,9 +13,10 @@ export async function isolatedParse(bytes: Buffer, signal?: AbortSignal): Promis
   if (bytes.length > 20_000_000) return Promise.reject(Error("문서 용량 초과"));
   signal?.throwIfAborted();
   const worker = fileURLToPath(new URL(import.meta.url.endsWith(".ts") ? "./parser-worker-v5.ts" : "./parser-worker-v5.js", import.meta.url));
-  const modules = resolve(dirname(createRequire(import.meta.url).resolve("kordoc")), "../..");
   let ancestor=dirname(worker);while(!existsSync(resolve(ancestor,"node_modules"))&&dirname(ancestor)!==ancestor)ancestor=dirname(ancestor);
   const alias=resolve(ancestor,"node_modules");
+  // The installed (MSIX) build bundles kordoc into the worker file; only its external pdfjs-dist stays in node_modules.
+  let modules=alias;try{modules=resolve(dirname(createRequire(import.meta.url).resolve("kordoc")),"../..");}catch{}
   return new Promise((done, fail) => {
     const child = fork(worker, [], { windowsHide: true, env: { SYSTEMROOT: process.env.SYSTEMROOT, PATH: "" },
       execArgv: ["--permission", `--allow-fs-read=${worker}`, `--allow-fs-read=${modules}`, `--allow-fs-read=${alias}`, "--max-old-space-size=256"], stdio: ["ignore", "ignore", "ignore", "ipc"] });

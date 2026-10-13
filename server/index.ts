@@ -9,6 +9,7 @@ import { EgressGuard } from "./egress-guard-v8.js";
 import { purgeExpired } from "./retention-v8.js";
 import { safeMessage } from "./redact-v8.js";
 import { setAiSendGate, type AiConsent } from "./ai-consent-v8.js";
+import { importPublicOnce, isInstalled } from "./installed-v8.js";
 // Errors that escape every handler are printed without paths or values, then the process stops.
 process.on("uncaughtException", (e) => {
   console.error("SH·E 오류: " + safeMessage(e instanceof Error ? e.message : String(e)));
@@ -33,7 +34,8 @@ if (cipher) migrateToEncrypted(store);
 purgeExpired(store);
 setInterval(() => purgeExpired(store), 86400000).unref();
 try {
-  store.importPublic(resolve("data/public/bundle.json"));
+  if (isInstalled()) importPublicOnce(store, resolve("data/public/bundle.json"));
+  else store.importPublic(resolve("data/public/bundle.json"));
 } catch {
   store.audit("bundle_import", "공개 자료 가져오기 실패. 기존 자료 보존.");
 }
@@ -43,8 +45,9 @@ for (const r of store.all<any>("reviews"))
     r.error = "이전 실행이 종료되었습니다. 새 검토로 재시도하세요.";
     store.saveReview(r);
   }
+// The installed build has no old address to forward from.
 const legacy =
-  Number(process.env.PORT || 4317) === 4317 ? createLegacyRedirect() : null;
+  Number(process.env.PORT || 4317) === 4317 && !isInstalled() ? createLegacyRedirect() : null;
 if (legacy)
   app.addHook("onClose", async () => {
     await legacy.close();
