@@ -72,7 +72,7 @@ ChatGPT 연결 없이도 자료·사실 확인 목록, 수량 계산, 자료함�
 
 ## 공개 자료 자동 갱신
 
-기본 브랜치의 `.github/workflows/public-law-sync.yml`은 한국시간 06:00에 실행하도록 설정되어 있습니다. GitHub 예약 작업은 지연될 수 있습니다. `LAW_OC`를 저장소의 **Settings → Secrets and variables → Actions**에 등록하세요. 인증값을 코드나 커밋에 넣지 마세요.
+기본 브랜치의 `.github/workflows/public-law-sync.yml`은 매주 금요일 18:00(미국 동부 표준시 EST, UTC-5)에 실행하도록 설정되어 있습니다. 한국 시간으로는 토요일 08:00입니다. GitHub 예약은 UTC 기준이라 미국 서머타임(EDT) 동안에는 현지 19:00에 실행됩니다. GitHub 예약 작업은 지연될 수 있습니다. `LAW_OC`를 저장소의 **Settings → Secrets and variables → Actions**에 등록하세요. 인증값을 코드나 커밋에 넣지 마세요.
 
 수집기는 **독립 임시 DB**를 사용합니다. 개인 DB를 공개 번들로 내보내는 기능은 없습니다. 출처별 실패 시 마지막 성공 전문을 보존하고 실패 상태를 기록합니다. 일부 실패도 Actions에 실패로 표시합니다. 로컬 앱에서는 연결 설정의 **Git 공개 법규 가져오기**를 눌러 기본 브랜치의 공개 번들을 반영할 수 있습니다.
 
