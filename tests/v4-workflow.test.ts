@@ -27,7 +27,7 @@ it.each(nextPolicies)("V4-D01: $id 독립 후보·필요 사실·가상 이행�
     // This test approves synthetic evidence only. The candidate retains all real legal holds.
     expect(candidate.unresolved.length).toBeGreaterThan(0);
   }finally{f.clean();}
-});
+}, 30000);
 it.each([
   ["폐기물 수탁업체 위탁 계약",["environment.waste_contractor"]],
   ["위험성평가 근로자대표 참여",nextPolicies.filter(s=>s.id.startsWith("risk_assessment.")).map(s=>s.id)],

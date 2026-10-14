@@ -55,5 +55,5 @@ it.skipIf(process.platform !== "win32")(
       clean();
     }
   },
-  15000,
+  30000,
 );

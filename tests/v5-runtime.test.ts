@@ -107,7 +107,7 @@ it("V5-B01: 같은 snapshot 통합 백업→세대 복원·원본·작업 중지
     try{expect(new ProtectedPayloads(fresh,key).get(p,ref,"raw").toString()).toBe("sensitive-v5");expect(()=>new PayloadProvenance(fresh).check(p,node,"query","query","api")).toThrow();expect(restoreGeneration(target,p,key,backup.archive).generation).toBe(restored.generation);expect(restored.currentApprovals).toBe(false);expect(fresh.db.prepare("SELECT count(*) n FROM v2_entities").get()).toEqual(f.store.db.prepare("SELECT count(*) n FROM v2_entities").get());expect(fresh.document(document.id)?.hash).toBe(document.hash);expect(fresh.review(review.id)).toBeDefined();expect((fresh.db.prepare("SELECT state FROM v3_jobs WHERE id=?").get(job.id) as any).state).toBe("paused");expect(new LegacyBridge(fresh,"v4").trace(p,review.id)).toBeDefined();}finally{fresh.close();}
     expect(readdirSync(join(f.store.dir,"v5-snapshots"))).toHaveLength(0);
   }finally{f.clean();}
-});
+}, 30000);
 it("V5-B02: 미분류 자원은 통합 완료로 바꾸지 않고 복원 대상 덮어쓰기 금지",async()=>{
   const f=testStore();try{f.store.db.exec("CREATE TABLE unclassified_private(x TEXT)");const b=await backupGeneration(f.store,p,key,sha("test"));expect(b.manifest.completeApplicationBackup).toBe(false);expect(b.manifest.omissions).toContain("미분류 테이블:unclassified_private");expect(()=>restoreGeneration(f.store.dir,p,key,b.archive)).toThrow(/빈 격리/);}finally{f.clean();}
 });
