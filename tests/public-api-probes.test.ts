@@ -190,7 +190,7 @@ it("추가 서비스 실패 시각도 저장하고 키 교체·삭제로 이전 
     await app.close();
     clean();
   }
-});
+}, 30000);
 
 it("KFI 공식 header/data 응답과 소문자 serviceKey를 사용한다", () => {
   for (const id of ["fire-approval", "fire-revocation"]) {

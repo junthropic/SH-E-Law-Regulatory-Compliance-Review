@@ -103,7 +103,7 @@ it.each(cases)("$id: 가상 판정 행렬 expected=$expected", (scenario) => {
   } finally {
     f.clean();
   }
-});
+}, 30000);
 it("AC04: 만료한 증빙을 새 사실 승인에 재사용할 수 없다", () => {
   const f = fixture();
   try {

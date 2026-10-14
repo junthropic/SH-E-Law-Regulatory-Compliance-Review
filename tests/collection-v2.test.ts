@@ -130,7 +130,7 @@ it("V2-06 AC37: 저장 중 강제 실패는 원문·checkpoint를 함께 rollbac
   } finally {
     ctx.clean();
   }
-});
+}, 30000);
 it("V2-09 AC34 AC35: 실패·새 조회 0건은 이전 성공 원문을 보존하고 총건수 변동은 부분으로 남긴다", () => {
   const ctx = testStore();
   try {

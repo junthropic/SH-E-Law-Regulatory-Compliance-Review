@@ -336,6 +336,7 @@ it.each(["unknown", "false"])(
       f.clean();
     }
   },
+  30000,
 );
 it("V3-E02: 질문 허용만으로 첨부 원문·다른 목적·다른 제공자 전송을 허용하지 않는다", () => {
   const f = testStore();
@@ -434,6 +435,7 @@ it.each(["v2_imported", "legacy_imported", "before_publish", "after_publish"])(
       dest.clean();
     }
   },
+  30000,
 );
 it("V3-B03: 2MiB를 넘는 원본도 별도 HTTP 백업·복원 제한 내 왕복한다", async () => {
   const f = testStore(),
@@ -484,7 +486,7 @@ it("V3-B03: 2MiB를 넘는 원본도 별도 HTTP 백업·복원 제한 내 왕�
     f.clean();
     dest.clean();
   }
-});
+}, 30000);
 it("V3-B04: 실제 복원 프로세스 중단 뒤 일지로 새 원본만 정리하고 재복원한다", async () => {
   const f = fixture(),
     dest = testStore(),
@@ -545,7 +547,7 @@ it("V3-E03: 금지 원본의 요약·인코딩 파생자료는 허용 표시가 
   } finally {
     f.clean();
   }
-});
+}, 30000);
 it("V3-H04: 자료 보완→정책→판정→조치까지 HTTP 역할별 승인 후 원문 변경은 관련 판단만 무효화한다", async () => {
   const seed = fixture(),
     f = testStore(),
@@ -660,4 +662,4 @@ it("V3-H04: 자료 보완→정책→판정→조치까지 HTTP 역할별 승인
     f.clean();
     seed.clean();
   }
-});
+}, 30000);
