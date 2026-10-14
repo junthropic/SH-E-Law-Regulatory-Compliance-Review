@@ -31,7 +31,7 @@ it("V8-D02: 제출 자료에 메일 주소·PC 경로가 없고 문의처는 자
 
 it("V8-D03: 상세 설명 첫 줄은 베타 라벨이고, 증명하지 않은 보안·학습 보장 표현을 쓰지 않는다", () => {
   const listing = read("store-listing.md");
-  const description = listing.split("## 3. 상세 설명")[1].split("\n").find((l) => l.startsWith("> "));
+  const description = listing.split("## 3. 상세 설명")[1].split(/\r?\n/).find((l) => l.startsWith("> "));
   expect(description).toBe(`> ${PREVIEW_LABEL}`);
   expect(listing.split("## 2. 짧은 설명")[1]).toContain(PREVIEW_LABEL);
   const banned = [/국제\s*보안\s*인증/, /ISO\s*\d/, /다중화/, /학습\s*미사용/, /학습에\s*(사용|이용)하지\s*않/, /보장합니다/, /100\s*%/, /완벽/];
