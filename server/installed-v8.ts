@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { publicBundlePath } from "./public-bundle.js";
 import type { Store } from "./store.js";
+import { koreaDate } from "../shared/dates.js";
 
 // v8 stage 4: the MSIX launcher (packaging/msix/launcher) starts the server with SHE_INSTALLED=1.
 // In the installed build, features whose traffic would bypass the in-process egress guard are off.
@@ -18,6 +19,13 @@ export const PUBLIC_UPDATE_OFF_MESSAGE =
 // 국민신문고 본인 민원 자동 수집 (Edge browser automation; its traffic never passes EgressGuard). Fixed off in the
 // installed build: no setting turns it on, and playwright-core is not shipped.
 export const PETITION_OFF_MESSAGE = "설치판에서는 지원하지 않습니다. 국민신문고 회신은 직접 내려받아 자료함에 올리세요.";
+
+// Must match the cron in .github/workflows/public-law-sync.yml ("0 23 * * 5"; V8-M10 checks both).
+export const PUBLIC_LAW_SCHEDULE = "매주 금요일 오후 6시(미국 동부 표준시 EST, 한국 시간 토요일 오전 8시)";
+export function publicLawNotice(publishedAt?: string) {
+  const made = publishedAt && !Number.isNaN(Date.parse(publishedAt)) ? `(이 PC에 들어온 자료의 생성일 ${koreaDate(new Date(publishedAt))})` : "";
+  return `앱에 들어 있는 공개 법령 초기 자료는 앱을 만들 때의 자료입니다${made}. 제작자 쪽 공개 법령 자료는 ${PUBLIC_LAW_SCHEDULE}에 자동으로 갱신되고(GitHub 예약 실행이라 늦어질 수 있습니다), 새 앱 버전을 낼 때 함께 들어갑니다. 설치판은 이 자료를 인터넷으로 받아오지 않습니다. 최신 법령이 필요하면 ‘API 키 설정’에서 법제처 키를 넣고 직접 수집하세요.`;
+}
 
 export const UNINSTALL_NOTICE = "앱을 제거하면 저장된 자료가 삭제됩니다. 먼저 백업하세요.";
 
