@@ -107,15 +107,6 @@ export const NoticeSchema = z.object({
   items: z.array(z.object({ title: z.string(), text: z.string(), proof: z.array(z.string()).min(1) }).strict()),
 }).strict();
 
-export const FeedbackFileSchema = z.object({
-  format: z.literal("she-feedback-v8"),
-  createdAt: z.string(),
-  category: z.string(),
-  message: z.string(),
-  environment: z.object({ appVersion: z.string(), platform: z.string(), previewSwitch: z.boolean(), aiEnabled: z.boolean() }).strict().nullable(),
-  notice: z.string(),
-}).strict();
-
 export const BackupFileSchema = z.object({
   format: z.literal("she-backup-v8"),
   createdAt: z.string(),
@@ -147,6 +138,5 @@ export type Collection = z.infer<typeof CollectionSchema>;
 export type SelfReview = z.infer<typeof SelfReviewSchema>;
 export type BetaReview = z.infer<typeof BetaReviewSchema>;
 export type Notice = z.infer<typeof NoticeSchema>;
-export type FeedbackFile = z.infer<typeof FeedbackFileSchema>;
 export type RestoreResult = z.infer<typeof RestoreResultSchema>;
 export type AiPending = z.infer<typeof AiPendingSchema>;

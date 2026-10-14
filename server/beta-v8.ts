@@ -14,7 +14,7 @@ import { previewOn } from "./export-check-v8.js";
 import { PREVIEW_LABEL } from "./preview-v8.js";
 import { AI_NOTICE } from "./ai-consent-v8.js";
 import { retentionDays } from "./retention-v8.js";
-import { maskSensitive, safeMessage } from "./redact-v8.js";
+import { safeMessage } from "./redact-v8.js";
 import { isInstalled, publicLawNotice, UNINSTALL_NOTICE } from "./installed-v8.js";
 
 // Evidence imported unchanged from the bundled public law data is left out of the encrypted backup: it ships with the app,
@@ -23,10 +23,11 @@ export function betaBackup(store: Store) {
   const b = makeBackup(store);
   return { ...b, evidence: b.evidence.filter((e: any) => !(e.verified === false && e.verificationNote === PUBLIC_IMPORT_NOTE)) };
 }
-import type { Collection, KeyGroup, Keys, Notice, SelfReview, BetaReview, FeedbackFile } from "./beta-contract-v8.js";
+import type { Collection, KeyGroup, Keys, Notice, SelfReview, BetaReview } from "./beta-contract-v8.js";
 
 // v8 stage 3 server side of the /beta/ screens. Everything here is local: keys go to the Windows-protected
-// vault, reviews and settings to the encrypted store, and feedback/backup leave only as files the user saves.
+// vault, reviews and settings to the encrypted store, and a backup leaves only as a file the user saves.
+// (The feedback-file screen and its route were removed in the 2026-10-14 redesign; V8-F01 checks they stay gone.)
 export const BETA_LABEL = "베타 — 검토 후보, 법적 판단 아님";
 export const SELF_REVIEW_LABEL = "자가 검토 — 독립 검토 아님" as const;
 export const MISSING_LABEL = "미연결 — 수집 안 됨";
@@ -259,24 +260,6 @@ export function registerBetaV8(app: FastifyInstance, d: BetaDeps) {
       ...(isInstalled() ? [{ title: "앱 제거", text: UNINSTALL_NOTICE + " 같은 Windows 사용자로 다시 설치한 뒤 백업 가져오기로 복원되는 것을 설치 시험에서 확인했습니다.", proof: ["V8-M04"] }] : []),
     ],
   }));
-
-  app.post("/api/beta/feedback", async (req): Promise<FeedbackFile> => {
-    const b = z.object({
-      category: z.enum(["오류", "개선 제안", "법령·판정 내용", "기타"]),
-      message: z.string().trim().min(1).max(4000),
-      includeEnvironment: z.boolean(),
-    }).strict().parse(req.body);
-    return {
-      format: "she-feedback-v8",
-      createdAt: new Date().toISOString(),
-      category: b.category,
-      message: maskSensitive(b.message, store.dir),
-      environment: b.includeEnvironment
-        ? { appVersion: "0.1.0", platform: process.platform, previewSwitch: previewOn(store), aiEnabled: !!store.setting<{ enabled?: boolean }>("ai-consent", {}).enabled }
-        : null,
-      notice: "이 파일은 자동으로 전송되지 않습니다. 직접 첨부해 보낼 때만 전달됩니다. 검토 내용·업로드 자료·인증키는 들어 있지 않습니다.",
-    };
-  });
 
   // Encrypted backup: a fresh AES-256-GCM key per file, wrapped by the vault (DPAPI current user on Windows).
   app.get("/api/beta/backup", async (_req, reply) => {

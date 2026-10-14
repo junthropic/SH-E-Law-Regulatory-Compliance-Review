@@ -148,6 +148,8 @@ for (const dir of [...[...packages.keys()].sort(), pdfjsRoot, ...runtimeRequired
   if (notices.some((n) => n.name === pkg.name && n.version === pkg.version)) continue;
   notices.push({ name: pkg.name, version: pkg.version, license: typeof pkg.license === "string" ? pkg.license : JSON.stringify(pkg.license ?? "UNKNOWN"), text: licenseText(dir) });
 }
+// Fonts bundled into dist-beta/ by the beta build (beta/beta.css @font-face): the license text ships with the package.
+notices.push({ name: "Pretendard (font: Regular, SemiBold, Bold woff2)", version: "1.3.9", license: "OFL-1.1", text: readFileSync(join(root, "beta/fonts/LICENSE-Pretendard.txt"), "utf8").trim() });
 notices.push({ name: "Node.js", version: process.version.slice(1), license: "MIT and others (see text)", text: existsSync(nodeLicense) ? readFileSync(nodeLicense, "utf8").trim() : null });
 const noticeFile = ["SH·E 법령조회 베타에 포함된 외부 소프트웨어와 라이선스", "",
   ...notices.flatMap((n) => [`==== ${n.name} ${n.version} (${n.license}) ====`, n.text ?? "(패키지에 라이선스 파일 없음 — package.json 의 license 항목 참조)", ""])].join("\n");

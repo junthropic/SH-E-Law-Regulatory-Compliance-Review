@@ -64,10 +64,19 @@ try {
   await page.getByRole("button", { name: "검토 시작" }).click();
   await page.getByRole("heading", { name: "판정 후보" }).waitFor({ timeout: 20000 });
   const body = await page.locator("main").innerText();
-  assert.match(body, /\[검토 후보 — 법적 판단 아님, 베타\]/);
-  assert.match(body, /법률 기준일 2026-10-08/);
-  assert.match(body, /근거 조문: 산업안전보건법/);
+  // Redesign: the label shows once in the notice band and once per card as a tag; the basis is its own block.
+  assert.equal(await page.locator(".beta-banner strong").first().innerText(), "검토 후보 — 법적 판단 아님, 베타");
+  const cards = page.locator("article.beta-issue");
+  assert.ok((await cards.count()) > 0);
+  assert.equal(await page.locator("article.beta-issue .beta-tag").count(), await cards.count());
+  assert.match(await cards.first().locator(".beta-basis").innerText(), /법률 기준일\s+2026-10-08/);
+  assert.match(await cards.first().locator(".beta-basis").innerText(), /근거 조문\s+산업안전보건법/);
+  assert.doesNotMatch(body, /\[검토 후보 — 법적 판단 아님, 베타\]/); // prefix shown by the tag, not repeated
   assert.doesNotMatch(body, /위반 가능성/);
+  // Exports are unchanged: the label prefix and the plain condition lines are still in the file.
+  const exported = await (await page.request.get(`${origin}/api/reviews/${page.url().split("/").pop()}/export?format=md`)).text();
+  assert.match(exported, /\[검토 후보 — 법적 판단 아님, 베타\]/);
+  assert.match(exported, /근거 조문: 산업안전보건법/);
   await shot("02-candidates");
 
   // 2. Self review: labelled, not independent.
@@ -125,14 +134,10 @@ try {
   await page.getByText(/복원했습니다: 검토 \d+건, 자료 1건/).waitFor();
   await shot("05-data-backup");
 
-  // 6. Feedback becomes a saved file; nothing is sent.
+  // 6. No feedback screen: the menu has no such item and the old route falls back to the review screen.
+  assert.equal(await page.locator("nav[aria-label='베타 메뉴'] a", { hasText: "피드백" }).count(), 0);
   await page.goto(origin + "/beta/#/feedback");
-  await page.getByRole("textbox", { name: "내용", exact: true }).fill("합성 의견: 판정 후보 화면의 근거 조문 표시가 도움이 됩니다.");
-  const [fb] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "피드백 파일 만들기" }).click()]);
-  const fbPath = join(dir, "feedback.json");
-  await fb.saveAs(fbPath);
-  assert.equal(JSON.parse(readFileSync(fbPath, "utf8")).format, "she-feedback-v8");
-  await shot("06-feedback");
+  await page.getByRole("heading", { name: "새 검토" }).waitFor();
 
   // 7. AI approval: a pending send shows its exact payload; approving releases exactly that send.
   aiConsent.enable();
@@ -155,7 +160,7 @@ try {
   assert.deepEqual(errors, []);
   assert.deepEqual(outside, []);
   assert.deepEqual([...new Set(serverCalls)].filter((h) => h !== "www.law.go.kr" && h !== "apis.data.go.kr"), []);
-  console.log(JSON.stringify({ ok: true, screenshots: 8, outsideRequests: outside.length, serverHosts: [...new Set(serverCalls)] }));
+  console.log(JSON.stringify({ ok: true, screenshots: 7, outsideRequests: outside.length, serverHosts: [...new Set(serverCalls)] }));
 } finally {
   await browser?.close();
   await app.close();

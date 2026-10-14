@@ -8,7 +8,7 @@ import { Vault } from "../server/vault.js";
 import { ingestDocument } from "../server/documents.js";
 import { AiConsent, aiSendGate, setAiSendGate } from "../server/ai-consent-v8.js";
 import { dailyCollectionTick, SELF_REVIEW_LABEL } from "../server/beta-v8.js";
-import { BackupFileSchema, FeedbackFileSchema, KeysSchema, NoticeSchema } from "../server/beta-contract-v8.js";
+import { BackupFileSchema, KeysSchema, NoticeSchema } from "../server/beta-contract-v8.js";
 import { connectionServices } from "../shared/connection-catalog.js";
 import { testStore, request } from "./helpers.js";
 
@@ -284,29 +284,35 @@ it("V8-A03: AI 전송은 보낼 내용 그대로 승인 대기열에 오르고, 
   }
 });
 
-it("V8-F01: 피드백 파일은 사용자가 저장할 내용만 담고 경로·키 형태 값은 가리며 외부로 보내지 않는다", async () => {
+it("V8-F01: 피드백 기능은 없다 — 서버 경로가 등록되지 않고(404), 베타 화면·빌드 결과에 피드백 메뉴·화면이 없으며, she-feedback 파일 형식이 남아 있지 않다", async () => {
   const t = testStore();
   const { app, headers } = await open(t.store);
-  const fetchSpy = vi.fn(async () => new Response("", { status: 403 }));
-  vi.stubGlobal("fetch", fetchSpy);
   try {
-    await review(app, headers, t.store, { prompt: "피드백에 들어가면 안 되는 합성 검토 질문" });
-    fetchSpy.mockClear();
-    const message = "화면 오류 — " + userPath("Desktop\\a.txt") + " 와 " + fakeKey("c") + " 확인";
-    const res = await app.inject({ method: "POST", url: "/api/beta/feedback", headers, payload: { category: "오류", message, includeEnvironment: true } });
-    const f = FeedbackFileSchema.parse(res.json());
-    expect(f.message).not.toContain("someone");
-    expect(f.message).not.toContain(fakeKey("c"));
-    expect(f.message).toContain("화면 오류");
-    expect(res.body).not.toContain("피드백에 들어가면 안 되는");
-    expect(f.environment).toMatchObject({ appVersion: "0.1.0", previewSwitch: false, aiEnabled: false });
-    const bare = FeedbackFileSchema.parse((await app.inject({ method: "POST", url: "/api/beta/feedback", headers, payload: { category: "기타", message: "짧은 의견", includeEnvironment: false } })).json());
-    expect(bare.environment).toBeNull();
-    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(app.hasRoute({ method: "POST", url: "/api/beta/feedback" })).toBe(false);
+    const res = await app.inject({ method: "POST", url: "/api/beta/feedback", headers, payload: { category: "오류", message: "합성 의견", includeEnvironment: true } });
+    expect(res.statusCode).toBe(404);
+    expect(res.body).not.toContain("she-feedback");
   } finally {
     await app.close();
     t.clean();
   }
+  // The contract no longer has a feedback file type.
+  const contract = await import("../server/beta-contract-v8.js");
+  expect(Object.keys(contract).filter((k) => /feedback/i.test(k))).toEqual([]);
+  // Sources and the committed beta build: no feedback screen, menu item, route or file format.
+  const walk = (dir: string): string[] => readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(join(dir, e.name)) : [join(dir, e.name)]));
+  const text = (dir: string) => walk(dir).filter((f) => /\.(tsx?|js|css|html|json)$/.test(f));
+  expect(walk("beta").filter((f) => /feedback/i.test(f))).toEqual([]);
+  for (const f of [...text("beta"), ...text("dist-beta"), ...text("server"), ...text("shared")]) {
+    const s = readFileSync(f, "utf8");
+    expect(s.includes("she-feedback"), f).toBe(false);
+    expect(s.includes("/api/beta/feedback"), f).toBe(false);
+  }
+  const bundle = text("dist-beta").filter((f) => f.endsWith(".js")).map((f) => readFileSync(f, "utf8")).join("\n");
+  expect(bundle.length).toBeGreaterThan(0);
+  expect(bundle).not.toContain("피드백");
+  expect(bundle).not.toContain("#/feedback");
+  expect(bundle).toContain("데이터·백업"); // the menu the check reads is really in this bundle
 });
 
 it("V8-N03: 데이터 처리 안내의 모든 항목에 증명 시험 ID가 있고, 그 ID의 시험이 실제로 존재한다", async () => {
