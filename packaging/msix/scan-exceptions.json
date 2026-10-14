@@ -1,329 +1,12 @@
 {
   "format": "she-package-scan-exceptions-v1",
-  "_comment": "v8 stage 4: reviewed third-party text in the MSIX (license notices, library files, library code bundled into app/server) and two stage-0-reviewed code false positives. Matched by file+kind+SHA-256 of the matched text; values are never stored. Regenerate with package-scan --write-allow and review when dependencies change.",
+  "_comment": "v8 stage 4, approved by the user 2026-10-14 (194 findings). Only third-party text inside libraryPaths, matched by file+kind+SHA-256 of the matched text; values are never stored. A new or changed match is not accepted and is reported. Regenerate with package-scan --write-allow and review when dependencies change.",
+  "libraryPaths": [
+    "app/node_modules/",
+    "app/server/vendor/",
+    "THIRD_PARTY_NOTICES.txt"
+  ],
   "entries": [
-    {
-      "file": "app/node_modules/playwright-core/lib/xdg-open",
-      "kind": "email",
-      "valueSha256": "cad1853e76c73f34451cade39c6256229fb011f8e77e909221be174cc9166082",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/xdg-open",
-      "kind": "email",
-      "valueSha256": "082b19ca4e231b0f1c8cc127e76ebbc2c8d4915ed5e40f8dad503c31c9b743c6",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/xdg-open",
-      "kind": "email",
-      "valueSha256": "bb629ca1dee5e25922d94171b07fed98177db4b7b2546b72f85b807f62a5ab5a",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/xdg-open",
-      "kind": "email",
-      "valueSha256": "ceea02c6bb77faf024ff7833adb54b258c1b8bac21be599086e9eed6ee05d54a",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/coreBundle.js",
-      "kind": "key:assignment",
-      "valueSha256": "f01712dc272f9e67b4fd259af3b350dad71a15763e6e2157428652769f356552",
-      "count": 2,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/coreBundle.js",
-      "kind": "user-path",
-      "valueSha256": "370118d8db6a2ad441cdff94bda2f53caff97d5fcb6ba9a5632d0bce5e78c50f",
-      "count": 2,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/vite/htmlReport/report.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "49e3aeba302efb42dec49d93fe345a485adf258a02f76e686d606c11b227a809",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "8be08cb58ef3739dfc482502fa341b866eed50b13f576e795ec48d210d41d63e",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "6eee99a09a93a2783dec6ecedd410e31694efb6e1cb42468ce87fe85b3881464",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "3c8a3606f920497e37af351e8af18ad0cc8303573326f40bd5be7ecea00eb658",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "c4bc28b5c12ba480e4b77be64bca7efb3ef7efe6d90f54f89d17cacb1b857108",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "3ffbd242770f11ed4bb156910720d10cabeb92644e266e19daa7159cd83c92e9",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "fbfa508f1651a50c82c7a21cd1b1b3e2ec8404cfcf2765af271502434d0bbbc5",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "666b2ebcff041bf047cb1abf213b58e720d1a285bd55b6ad424b034dac60f78d",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "f98dc3d47ccde73fb7adf3981e6def5dba2bb356402e2e6d79d8c9215f1eace9",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "84bcb5e705b525f8ec01dddaa57608a2c9a4ab5de0f08b7ec3486b63a3656efb",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "fba93bd300bf61f64e105b2a2eb4c11fc1e3e57f678c0ed55458946ca65ec06c",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "8eb9f206ff2e04008f99b29e5c7e4e65d0b319fe0094137609f37b5f005791ee",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "343cff012552c174a34dff6960b0f71c9f83baa98380b48c01da05cd1f678c8d",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "59a2ca6a0880b990961a905d58179fc228ea4900765199739d18223df7b3ea7b",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "9f995a99f1f9bf7b85d2d8572cdb82da66f400fbb51280a33d120b95379963b6",
-      "count": 15,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "0185076a17e7659ede3b374cdfdf23d127ceb55a80516e44b1d735218bb96090",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "059f32f60051de742bd721041701c4c1c2a2464c4f88abd6b55a0f7a95e2670f",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "d137a8cc03deff1852afeb29f14cecaa5d1de5bf23a6e6272a8ad77962147db1",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "11f1764ba17e2302564108b8e944297b971b6db80b4e130ee57781b5cb1178e1",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "a4f16788e34456377c672ba24f08c7a2b4d3afb5c3bd673dfd9509e17f850e9a",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "ff137572d905669790ba40b803d110602b8b50dd9ee5e8581738e5dc0bc78da1",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "84bf5b0ce4b8eea6b16cf80df52033fa1e232084fabecc3d23d102de9bd825db",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "5fbdd2c979ea3138a5462e0f303486b5ac9895c8bca9f2dc8915706ec491cfba",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "email",
-      "valueSha256": "844ec3acd815eb5cd1ed5fcd679016e0fed60c434b9cdcf7d63ab9a5ea0d73b0",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js",
-      "kind": "email",
-      "valueSha256": "d7c7dcd6b212ad8eaa5aacef394e491daaa510680bf770245bf8065ed13e5908",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "8d0214eb48accc246c5f2009d383f7cf14d476afc23084eb1d814aaa3a0e7f3f",
-      "count": 3,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "295dee0d3dbb93aac67e72ae4af40f728f050e5fd18417ad60d1ed19186ae03b",
-      "count": 22,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "7b80822671c9f80e2749a69f48801f9bd08a1047629b2cbae95eb74db8418275",
-      "count": 2,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "b0373516d594ddd199b25c3655332b354837e065c5cc232f5043189897900ca7",
-      "count": 2,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "d7c7dcd6b212ad8eaa5aacef394e491daaa510680bf770245bf8065ed13e5908",
-      "count": 4,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "a990d20a02bd75cd1fe1f06287415e931454d4edf6eabbad12e50c8f4a317cb9",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "d8398707027e7d7704734165f90e84e8ecfd5742fe31031970bf4d9ad72a8b5b",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "6745929765d332ec1aebc5cb828d9d0e2b91a2f5e62504785387cf7c843a3d11",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "a8269064e9d496cd18c8bfa1564a1373620efc6e0577a6abc57ca005720d82b6",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "811242966264b8f78acfcbba69399119d238f59cb409bc42925f0c5d05e4cc0d",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "6171597a6caee498078b77f7bfa7bab8669b1f258404a6840e5f05ad3110a785",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "5038fa6b09725b96230341914bd5b1f9151bc347232d038005443d8352857487",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "8f2871ca3dbbf730111ddd59ac9826254defad0039f6ca009296efe83923598f",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "439caf3a901bc93070a23184327bd78ce9ecc9384d1356abacb91d6f611e493c",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
-    {
-      "file": "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
-      "kind": "email",
-      "valueSha256": "77ae22ae1f20b65edb73b3fbbfac406010c0991c5bf5745754b42eeb37fd4483",
-      "count": 1,
-      "reason": "third-party-library-file: playwright-core"
-    },
     {
       "file": "app/node_modules/pdfjs-dist/legacy/build/pdf.mjs",
       "kind": "key:base64-service-key",
@@ -416,60 +99,46 @@
       "reason": "third-party-library-file: pdfjs-dist"
     },
     {
-      "file": "app/server/chunk-PAreOLIL.js",
-      "kind": "email",
-      "valueSha256": "0c7e6a405862e402eb76a70f8a26fc732d07c32931e9fae9ab1582911d2e8a3b",
-      "count": 1,
-      "reason": "third-party-code-in-bundle: C:\\she\\repo\\node_modules\\linkify-it\\index.mjs"
-    },
-    {
-      "file": "app/server/index.js",
+      "file": "app/server/vendor/fastify.js",
       "kind": "key:base64-service-key",
       "valueSha256": "8a7e5652a03a95188864abb1fda7617e2cabf99d94e35d6d807eb2c620125dd1",
       "count": 1,
-      "reason": "third-party-code-in-bundle: C:\\she\\repo\\node_modules\\fastify\\lib\\config-validator.js"
+      "reason": "third-party-code-in-bundle: fastify"
     },
     {
-      "file": "app/server/index.js",
-      "kind": "key:base64-service-key",
-      "valueSha256": "9f995a99f1f9bf7b85d2d8572cdb82da66f400fbb51280a33d120b95379963b6",
-      "count": 15,
-      "reason": "third-party-code-in-bundle: C:\\she\\repo\\node_modules\\@modelcontextprotocol\\sdk\\dist\\esm\\types.js"
-    },
-    {
-      "file": "app/server/index.js",
-      "kind": "key:assignment",
-      "valueSha256": "5ac0453d8b10dc2be13165e729d18a9391d045cfbf2606b1a84f78253eedf3a0",
-      "count": 1,
-      "reason": "third-party-code-in-bundle: C:\\she\\repo\\node_modules\\@fastify\\cookie\\index.js"
-    },
-    {
-      "file": "app/server/index.js",
-      "kind": "key:assignment",
-      "valueSha256": "711f48466b8843ce9bd2ac3e884ff94239554e4195fb8cb16c228ce598371395",
-      "count": 1,
-      "reason": "own-code-false-positive: server/auth.ts token field mapping (stage 0 reviewed)"
-    },
-    {
-      "file": "app/server/index.js",
-      "kind": "key:assignment",
-      "valueSha256": "29b72121e7c3ca9e8295204597cbb6a6d2fd8c18f5e17c006fe827f17958be4c",
-      "count": 1,
-      "reason": "own-code-false-positive: server/auth.ts token field mapping (stage 0 reviewed)"
-    },
-    {
-      "file": "app/server/index.js",
+      "file": "app/server/vendor/fastify.js",
       "kind": "email",
       "valueSha256": "a31f2cfa2f47e61401c03e5da35e9d41ad50f23dd8e332895c03fb96a158532d",
       "count": 1,
-      "reason": "third-party-code-in-bundle: C:\\she\\repo\\node_modules\\toad-cache\\dist\\toad-cache.cjs"
+      "reason": "third-party-code-in-bundle: fastify"
     },
     {
-      "file": "app/server/index.js",
+      "file": "app/server/vendor/fastify.js",
       "kind": "email",
       "valueSha256": "690f4c6c980dbb44683092eb398a6339311642351247d0559b24854c4be34d35",
       "count": 1,
-      "reason": "third-party-code-in-bundle: C:\\she\\repo\\node_modules\\thread-stream\\package.json"
+      "reason": "third-party-code-in-bundle: fastify"
+    },
+    {
+      "file": "app/server/vendor/fastify__cookie.js",
+      "kind": "key:assignment",
+      "valueSha256": "5ac0453d8b10dc2be13165e729d18a9391d045cfbf2606b1a84f78253eedf3a0",
+      "count": 1,
+      "reason": "third-party-code-in-bundle: fastify__cookie"
+    },
+    {
+      "file": "app/server/vendor/kordoc.js",
+      "kind": "email",
+      "valueSha256": "0c7e6a405862e402eb76a70f8a26fc732d07c32931e9fae9ab1582911d2e8a3b",
+      "count": 1,
+      "reason": "third-party-code-in-bundle: kordoc"
+    },
+    {
+      "file": "app/server/vendor/modelcontextprotocol__sdk.js",
+      "kind": "key:base64-service-key",
+      "valueSha256": "9f995a99f1f9bf7b85d2d8572cdb82da66f400fbb51280a33d120b95379963b6",
+      "count": 15,
+      "reason": "third-party-code-in-bundle: modelcontextprotocol__sdk"
     },
     {
       "file": "THIRD_PARTY_NOTICES.txt",

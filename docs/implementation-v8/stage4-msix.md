@@ -22,8 +22,9 @@
 |---|---|
 | `SHELaw.exe` | 시작 메뉴 실행기(C# 5, Windows 기본 .NET Framework 컴파일러로 빌드). 소스는 `packaging/msix/launcher/` |
 | `app/node/node.exe` | 빌드한 Node(공식 배포본). CI 빌드는 24.21.0 |
-| `app/server/*.js` | 서버를 rolldown으로 묶은 파일. 실제로 쓰는 코드만 들어간다. 개발 의존성·시험·문서는 들어가지 않는다 |
-| `app/node_modules/` | 묶을 수 없는 두 라이브러리의 실행 파일만 넣었다. `pdfjs-dist`(PDF 판독)와 `playwright-core`(국민신문고 연결) |
+| `app/server/*.js` | 우리 서버 코드를 rolldown으로 묶은 파일. 실제로 쓰는 코드만 들어간다. 개발 의존성·시험·문서는 들어가지 않는다 |
+| `app/server/vendor/*.js` | 묶은 외부 npm 패키지. 패키지마다 파일 하나다(2026-10-14부터, §12) |
+| `app/node_modules/` | 묶을 수 없는 라이브러리의 실행 파일만 넣었다. `pdfjs-dist`(PDF 판독)와 `cfb`·`adler-32`·`crc-32`(옛 HWP 판독). `playwright-core`는 2026-10-14에 뺐다(§12) |
 | `app/dist/`, `app/dist-beta/` | 기존 화면과 베타 화면의 빌드 결과 |
 | `app/data/public/bundle.json.gz` | 공개 법령 초기 자료(패키지 생성 시점) |
 | `THIRD_PARTY_NOTICES.txt` | 들어간 외부 패키지 105개의 라이선스 전문과 Node 라이선스 |
@@ -38,8 +39,9 @@
   - 묶은 파일에서 rolldown이 남기는 `//#region node_modules/...` 주석을 지운다.
   - 설치판에서 쓰지 않는 제작자 저장소 주소(`bundles.ts`)를 지운다. 정확히 1곳이 아니면 빌드가 실패한다.
 - 매니페스트(`packaging/msix/AppxManifest.template.xml`, 값은 `packaging/msix/identity.json`):
-  - 표시 이름 `한국 환경안전보건관리자 법령조회 프로그램`, 게시자 표시 이름 `ARETE`, 버전 `0.8.0.0`
-  - `Identity Name`과 `Publisher`는 `TODO_PARTNER_CENTER_*` 자리표시다. `--store` 빌드는 이 값이 채워질 때까지 거부된다.
+  - 표시 이름 `한국 환경안전보건관리자 법령조회 프로그램`, 버전 `0.8.0.0`
+  - Partner Center 값(2026-10-14 사용자 전달): `Identity Name` = `Junthropic.KoreanSHELawComplianceCheckProgram`, `Publisher` = `CN=097FA085-6606-4CC5-9DE9-D20F20A8ECEA`, `PublisherDisplayName` = `Junthropic`(처음 정한 `ARETE`를 대신함)
+  - 표시 이름은 Partner Center에서 예약한 앱 이름과 정확히 같아야 한다. 아직 확인하지 못했다(§12)
   - 시험 빌드는 `SHELaw.Beta.LocalTest` / `CN=SHELaw Local Test`를 쓴다.
   - 권한은 `runFullTrust` 하나다. 최소 Windows 버전은 10.0.19041(Windows 10 2004)이다.
 
@@ -178,9 +180,96 @@ Partner Center의 제한된 기능(restricted capability) 설명란에 쓸 문�
 - 기존 시험은 바꾸거나 건너뛰지 않았다.
 - 화면 동결 목록(29+16)은 그대로다. `server/beta-contract-v8.ts`도 바꾸지 않았다.
 
-## 11. 남은 사용자 결정
+## 11. 사용자 결정 (2026-10-14)
 
-1. **Partner Center 값:** 제품 ID 화면의 `Package/Identity/Name`과 `Package/Identity/Publisher`(CN=...)를 받아야 Store용 패키지를 만들 수 있다.
-2. **검사기 예외 목록 방식(§6) 승인:** 외부 라이선스·라이브러리의 글자를 "값 해시로 정확히 일치할 때만 통과"로 받을지 정해야 한다. 받지 않으면 라이선스 전문을 빼야 하는데, 그러면 라이선스 조건을 지키기 어렵다.
-3. **선택 WACK 항목 2개(§5):** 지금처럼 둘지(권장) 정한다. 압축 법령 자료를 풀어서 넣으면 설치 크기가 약 200MB 늘어난다.
-4. **국민신문고 연결 기능(playwright-core):** 설치판에 계속 둘지 정한다. 기본안은 유지다(기존 기능).
+1. Partner Center 값을 받아 반영했다(§2).
+2. 검사기 예외 목록 194건 승인. 조건은 다음 세 가지이며, §12에 구현을 적었다.
+   - 외부 라이브러리 경로에만 적용한다.
+   - 예외 목록 자체에 실명·개인 메일·키 패턴이 있으면 실패한다.
+   - 새로 걸리는 항목은 자동 통과시키지 않고 보고한다.
+3. 선택 WACK 2건은 그대로 둔다. 사유는 §12.3에 적었다.
+4. 국민신문고 자동 수집은 설치판에서 막고, 설정으로도 켤 수 없게 했다(§12.4).
+
+## 12. 2026-10-14 후속 작업
+
+### 12.1 서버 묶음 구조와 격리 파서 수정
+
+- 실제 공개 표본 문서(`form5.pdf`, `notice.hwpx`)로 설치판의 격리 파서(`parser-worker-v5`)를 돌려 보니 **동작하지 않았다**. 원인은 두 가지였다.
+  1. 묶은 파일이 서로를 가져오는데, 격리 파서의 읽기 권한(`--permission`)은 자기 파일과 `node_modules`만 허용한다.
+  2. kordoc이 옛 HWP용 `cfb`를 실행 중에 `require`로 불러오는데, 묶음에 들어가지 않았다.
+- 이 파서는 법령 첨부(별표·서식) 판독에 쓰는 경로다. 화면 업로드는 다른 파서(`parse-worker`)를 쓰고, 이쪽은 정상이었다.
+- 고친 점:
+  - 외부 npm 코드는 모두 `app/server/vendor/<패키지>.js`로, 우리 코드는 `app/server/*.js`로 나눴다.
+  - 격리 파서는 `vendor/`만 추가로 읽을 수 있다(`server/extraction-v5.ts`).
+  - 파서가 vendor 밖 파일을 가져오면 빌드가 실패한다.
+  - `cfb`·`adler-32`·`crc-32`는 `app/node_modules/`에 실행 파일과 라이선스만 넣었다.
+- 결과(로컬, 설치판 파일 그대로):
+
+| 파서 | form5.pdf | notice.hwpx |
+|---|---|---|
+| 격리 파서 | 8,049자 | 26,213자 |
+| 일반 파서 | 8,049자 | 26,213자 |
+
+- 합성 DOCX는 격리 파서가 압축 안전 검사로 거절한다. 개발 환경과 같은 동작이다(V5 설계).
+
+### 12.2 검사기 예외 목록 (승인 조건 구현)
+
+- `packaging/msix/scan-exceptions.json`의 `libraryPaths` = `app/node_modules/`, `app/server/vendor/`, `THIRD_PARTY_NOTICES.txt`.
+  - 이 경로 밖 항목이 하나라도 있으면 검사가 실패한다(종료 코드 2).
+  - 우리 코드(`app/server/*.js`)에는 예외가 적용되지 않는다.
+- 우리 코드 오탐 2건(`server/auth.ts`의 토큰 필드 대입)은 예외로 두지 않고 코드를 고쳤다(`data["access_token"]` 형태). 동작은 같다.
+- 검사기는 예외 목록 파일 자체도 검사한다. 이메일, 사용자 경로, 키 패턴, 이름(`SHE_SCAN_NAMES` 또는 `.local` 목록) 중 하나라도 있으면 실패한다(V8-S11, V8-M09).
+  - CI는 저장소 비밀값 `SHE_SCAN_NAMES`를 쓴다. 사용자가 등록해야 이름 검사가 CI에서도 켜진다.
+- 새로 걸리거나 바뀐 항목은 통과시키지 않는다.
+  - CI는 차단 항목을 파일·종류·개수로 작업 요약(Job Summary)에 적는다. 값은 적지 않는다.
+  - 초안(`--write-allow`)은 `UNREVIEWED` 상태로만 만들어지며, 그 상태로는 검사기가 받지 않는다.
+- 승인 194건 → 현재 **63건**(39개 항목). 새로 생긴 값은 0건이다(모든 값 해시가 승인 목록에 있음).
+  - 줄어든 이유: `playwright-core`를 뺐고 우리 코드 오탐 2건을 고쳤다.
+  - 묶음 구조 변경으로 파일 경로만 바뀐 항목이 20건 있다(`app/server/index.js` → `app/server/vendor/<패키지>.js`). 값은 같다.
+
+| 출처 | 일치 건수 |
+|---|---|
+| 라이선스 전문(`THIRD_PARTY_NOTICES.txt`, CI의 Node LICENSE 5건 포함) | 28 |
+| `app/node_modules/pdfjs-dist` | 15 |
+| `app/server/vendor/`(@modelcontextprotocol/sdk 15, fastify 3, @fastify/cookie 1, kordoc 1) | 20 |
+
+### 12.3 선택 WACK 2건을 그대로 두는 이유 (사용자 결정)
+
+| 시험 | 그대로 두는 이유 |
+|---|---|
+| Blocked executables | 실행기가 `node.exe`를 띄우는 것이 앱 구조 자체다(`runFullTrust` 사유, §7). 서버의 DPAPI 처리에 `powershell.exe`를 쓴다. 나머지 지적은 압축 법령 자료·node.exe·pdf.js 안의 "cmd", "reg" 같은 글자 일치 오탐이다. 선택 시험이라 WACK 전체 결과는 PASS다 |
+| Archive files usage | `bundle.json.gz` 안에는 법령 JSON만 있고 실행 파일은 없다. 패키지 검사기가 풀어서 확인한다(V8-S08). 풀어서 넣으면 설치 크기가 약 200MB 늘어난다 |
+
+Store 심사에서 문의가 오면 이 표와 §7 문안으로 답한다.
+
+### 12.4 국민신문고 연결 (설치판)
+
+- **작업 전 확인:** 앱에는 질의 초안 작성·자동 제출 기능이 없다.
+  - 실제로 있던 것은 "본인 민원 회신 자동 수집"이다. 승낙·선택자 설정 파일로 Edge 브라우저를 띄우고, 사용자가 로그인하면 회신을 자료함으로 저장한다.
+  - 이 브라우저 통신은 EgressGuard 밖이었다.
+- **바꾼 것:**
+  - 설치판(`SHE_INSTALLED=1`)에서 `/api/petitions/connect`·`/collect`는 403과 "설치판에서는 지원하지 않습니다. 국민신문고 회신은 직접 내려받아 자료함에 올리세요."로 응답한다.
+  - 이 판단은 실행 환경 값만 보고, 설정 값은 읽지 않는다. 따라서 설정으로 켤 수 없다.
+  - `playwright-core`는 수집을 시작할 때만 불러오도록 바꾸고, 설치 패키지에서 뺐다.
+  - EgressGuard 허용 목록에서 `www.epeople.go.kr`를 지웠다. 서버가 그 주소로 보내는 요청은 없다.
+- **유지:**
+  - 기존 화면의 "국민신문고 직접 열기" 링크(사용자 브라우저로 여는 일반 링크)
+  - 회신 파일 수동 업로드
+  - 연결 해제(저장된 세션 삭제)
+  - 화면(UI 동결 파일)은 바꾸지 않았다.
+- **증명:** V8-M08
+  - 유효한 승낙 파일과 임의 설정 값을 넣어도 403이다.
+  - 허용 목록에 없음(`blocked`)을 확인했다.
+  - EgressGuard 기록에서 허용된 국민신문고 요청은 0건이고, 네트워크 계층 호출도 0건이다.
+  - V8-M07은 패키지 폴더에 `playwright`가 없음을 확인한다.
+
+### 12.5 아직 다시 하지 못한 것
+
+- 깨끗한 Windows CI 설치 시험(V8-M04 기록)과 WACK는 이번 변경 **전** 빌드로 한 결과다.
+- GitHub Actions 결제·한도 문제로 CI가 시작되지 않아(2026-10-14, "recent account payments have failed or your spending limit needs to be increased") 다시 돌리지 못했다.
+- 한도가 풀리면 `msix.yml`을 다시 돌린다. 이번에는 시험 서명본과 Store 업로드용 미서명본을 함께 만든다. 그 결과로 기록을 바꾼다.
+- 로컬에서는 바뀐 빌드로 다음을 다시 확인했다(§12.1, 설치판 화면 캡처).
+  - 실행기(패키지 없이)
+  - 안전관리자 시나리오
+  - 백업
+  - 격리 파서

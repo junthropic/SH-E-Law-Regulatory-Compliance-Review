@@ -11,7 +11,7 @@ export const PUBLIC_EGRESS = [
   /^apis\.data\.go\.kr$/,
   /^www\.data\.go\.kr$/,
   /^business\.juso\.go\.kr$/,
-  /^www\.epeople\.go\.kr$/,
+  // www.epeople.go.kr removed (2026-10-14): no server request goes there; 국민신문고 collection ran in a separate browser and is off in the installed build.
   /^www\.moel\.go\.kr$/,
   /^www\.gg\.go\.kr$/,
   /^www\.hscity\.go\.kr$/,

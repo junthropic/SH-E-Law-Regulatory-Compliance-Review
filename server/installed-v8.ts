@@ -15,6 +15,10 @@ export const MCP_OFF_MESSAGE =
 export const PUBLIC_UPDATE_OFF_MESSAGE =
   "설치판은 제작자 저장소에서 법령 자료를 받지 않습니다. 법령은 베타 화면의 ‘API 키 설정’에서 키를 넣고 수집하세요.";
 
+// 국민신문고 본인 민원 자동 수집 (Edge browser automation; its traffic never passes EgressGuard). Fixed off in the
+// installed build: no setting turns it on, and playwright-core is not shipped.
+export const PETITION_OFF_MESSAGE = "설치판에서는 지원하지 않습니다. 국민신문고 회신은 직접 내려받아 자료함에 올리세요.";
+
 export const UNINSTALL_NOTICE = "앱을 제거하면 저장된 자료가 삭제됩니다. 먼저 백업하세요.";
 
 // Installed build start-up: import the bundled public law data only when that file differs from the last import.

@@ -1,8 +1,8 @@
 {
-  "_comment": "Partner Center > 제품 > 제품 관리 > 제품 ID 의 Package/Identity/Name 과 Package/Identity/Publisher 값을 사용자가 전달하면 채운다. TODO 값이 남아 있으면 --store 빌드는 거부된다.",
-  "identityName": "TODO_PARTNER_CENTER_IDENTITY_NAME",
-  "publisher": "TODO_PARTNER_CENTER_PUBLISHER",
+  "_comment": "Partner Center > 제품 ID 값 (사용자 전달 2026-10-14). displayName 은 Partner Center에서 예약한 앱 이름과 정확히 같아야 한다.",
+  "identityName": "Junthropic.KoreanSHELawComplianceCheckProgram",
+  "publisher": "CN=097FA085-6606-4CC5-9DE9-D20F20A8ECEA",
   "displayName": "한국 환경안전보건관리자 법령조회 프로그램",
-  "publisherDisplayName": "ARETE",
+  "publisherDisplayName": "Junthropic",
   "version": "0.8.0.0"
 }

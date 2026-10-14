@@ -94,9 +94,11 @@ export function scanHistory({nameList=names()}={}){
 const NEVER_EXCEPT=new Set(["name","forbidden-folder","forbidden-file","dev-script","unreadable-archive"]);
 export const exceptable=f=>!NEVER_EXCEPT.has(f.kind)&&!f.currentUser&&!!f.valueSha256;
 const exceptionKey=f=>[f.file,f.kind,f.valueSha256].join("|");
-// Accepted = exact file+kind+value match within the recorded count; everything else blocks.
+// Exceptions apply only inside the library paths the exceptions file names (e.g. app/node_modules/, app/server/vendor/).
+export const inLibraryPath=(file,exceptions)=>(exceptions.libraryPaths??[]).some(p=>p.endsWith("/")?file.startsWith(p):file===p);
+// Accepted = exact file+kind+value match within the recorded count, in a library path; everything else blocks.
 export function applyExceptions(findings,exceptions){
-  const left=new Map();for(const e of exceptions.entries)left.set(exceptionKey(e),(left.get(exceptionKey(e))||0)+(e.count||1));
+  const left=new Map();for(const e of exceptions.entries)if(inLibraryPath(e.file,exceptions))left.set(exceptionKey(e),(left.get(exceptionKey(e))||0)+(e.count||1));
   const accepted=[],blocking=[];
   for(const f of findings){const k=exceptionKey(f);if(exceptable(f)&&left.get(k)>0){left.set(k,left.get(k)-1);accepted.push(f);}else blocking.push(f);}
   return {accepted,blocking};
@@ -117,6 +119,9 @@ if(import.meta.url===`file://${process.argv[1].replace(/\\/g,"/").replace(/^([A-
   if(draftFile)writeFileSync(draftFile,JSON.stringify(draftExceptions(findings),null,2)+"\n");
   const exceptions=allowFile?JSON.parse(readFileSync(allowFile,"utf8")):{entries:[]};
   if(exceptions.entries.some(e=>!e.reason||e.reason==="UNREVIEWED")){console.error("package-scan: 검토되지 않은 예외 항목이 있습니다.");process.exit(2);}
+  if(exceptions.entries.some(e=>!inLibraryPath(e.file,exceptions))){console.error("package-scan: 라이브러리 경로 밖의 예외 항목이 있습니다.");process.exit(2);}
+  // The exceptions file itself must hold no name, e-mail, user path or key-like text (it records hashes only).
+  if(allowFile){const own=[];scanText(allowFile,readFileSync(allowFile,"utf8"),own,names());if(own.length){console.error("package-scan: 예외 목록 파일 자체에서 발견: "+JSON.stringify(summarize(own).byKind));process.exit(2);}}
   const {accepted,blocking}=applyExceptions(findings,exceptions),summary=summarize(blocking);
   if(out)writeFileSync(out,JSON.stringify({generatedAt:new Date().toISOString(),target:args.includes("--git-history")?"git-history":target,summary,...(allowFile?{accepted:summarize(accepted)}:{}),findings:blocking},null,2));
   console.log(JSON.stringify({total:summary.total,byKind:summary.byKind,files:summary.files,...(allowFile?{accepted:accepted.length}:{})}));

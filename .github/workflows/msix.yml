@@ -1,7 +1,7 @@
 name: MSIX package and install test
 # v8 stage 4. Not part of PR/main CI (Windows minutes count double). Run it by pushing a branch to msix-test/<name>
 # (git push origin HEAD:msix-test/<name>), or manually once this file is on main: gh workflow run msix.yml --ref <branch>
-# Clean Windows runner: build a test-signed MSIX -> package scan -> install/run/backup/uninstall/reinstall/restore -> WACK.
+# Clean Windows runner: build a test-signed MSIX and the unsigned Store MSIX -> package scan -> install/run/backup/uninstall/reinstall/restore -> WACK.
 # The test certificate (private key) is created in RUNNER_TEMP and never uploaded.
 on:
   workflow_dispatch:
@@ -22,10 +22,28 @@ jobs:
       - run: npm ci
       - name: Build test-signed MSIX
         run: node scripts/build-msix-v8.mjs --test-identity --sign-test --out "$env:RUNNER_TEMP\msix" --cert-dir "$env:RUNNER_TEMP\cert"
+      - name: Build Store MSIX (unsigned; the Store signs it)
+        run: node scripts/build-msix-v8.mjs --store --skip-build --out "$env:RUNNER_TEMP\msix-store"
       - name: Package scan
         id: scan
         continue-on-error: true
-        run: node scripts/package-scan.mjs "$env:RUNNER_TEMP\msix\SHELaw-Beta_0.8.0.0_x64_test.msix" --package --write-allow "$env:RUNNER_TEMP\msix\scan-draft.json" --allow packaging/msix/scan-exceptions.json --json "$env:RUNNER_TEMP\msix\scan.json"
+        # Names to look for come from the repository secret SHE_SCAN_NAMES (comma separated); never from the repository.
+        env:
+          SHE_SCAN_NAMES: ${{ secrets.SHE_SCAN_NAMES }}
+        run: |
+          $failed = $false
+          foreach ($p in @("$env:RUNNER_TEMP\msix\SHELaw-Beta_0.8.0.0_x64_test.msix", "$env:RUNNER_TEMP\msix-store\SHELaw-Beta_0.8.0.0_x64_store.msix")) {
+            $name = [IO.Path]::GetFileNameWithoutExtension($p)
+            node scripts/package-scan.mjs $p --package --write-allow "$env:RUNNER_TEMP\msix\$name-scan-draft.json" --allow packaging/msix/scan-exceptions.json --json "$env:RUNNER_TEMP\msix\$name-scan.json"
+            if ($LASTEXITCODE -ne 0) { $failed = $true }
+            # New or changed findings are never accepted automatically: list them (file, kind, count; no values) for the user.
+            if (Test-Path "$env:RUNNER_TEMP\msix\$name-scan.json") {
+              $r = Get-Content "$env:RUNNER_TEMP\msix\$name-scan.json" -Raw | ConvertFrom-Json
+              "### $name: blocking $($r.summary.total), accepted $($r.accepted.total)" | Add-Content $env:GITHUB_STEP_SUMMARY
+              foreach ($f in $r.summary.byFile.PSObject.Properties) { "- $($f.Name): $(($f.Value | ConvertTo-Json -Compress))" | Add-Content $env:GITHUB_STEP_SUMMARY }
+            }
+          }
+          if ($failed) { exit 1 }
       - name: Install test
         id: install
         continue-on-error: true
@@ -60,8 +78,10 @@ jobs:
           path: |
             ${{ runner.temp }}/msix/*.msix
             ${{ runner.temp }}/msix/msix-build.json
-            ${{ runner.temp }}/msix/scan.json
-            ${{ runner.temp }}/msix/scan-draft.json
+            ${{ runner.temp }}/msix/*-scan.json
+            ${{ runner.temp }}/msix/*-scan-draft.json
+            ${{ runner.temp }}/msix-store/*.msix
+            ${{ runner.temp }}/msix-store/msix-build.json
             ${{ runner.temp }}/result/install-test.json
             ${{ runner.temp }}/result/wack.xml
             ${{ runner.temp }}/result/wack-summary.json

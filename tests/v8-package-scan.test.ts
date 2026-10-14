@@ -91,7 +91,7 @@ it("V8-S09: 예외 목록은 파일·종류·값 해시가 모두 같은 항목�
     expect(draft.entries.map((e:any)=>e.file+":"+e.kind)).toEqual(["NOTICE.txt:email"]);
     expect(JSON.stringify({found,draft}).includes(me)).toBe(false);
     expect(found.find((f:any)=>f.kind==="name").valueSha256).toBeUndefined();
-    const all={entries:found.map((f:any)=>({file:f.file,kind:f.kind,valueSha256:f.valueSha256,count:1,reason:"forced"}))};
+    const all={libraryPaths:["NOTICE.txt","me.txt","docs/"],entries:found.map((f:any)=>({file:f.file,kind:f.kind,valueSha256:f.valueSha256,count:1,reason:"forced"}))};
     const {accepted,blocking}=applyExceptions(found,all);
     expect(accepted.map((f:any)=>f.file)).toEqual(["NOTICE.txt"]);
     expect(blocking.map((f:any)=>f.kind).sort()).toEqual(["forbidden-folder","name","user-path"]);
@@ -106,10 +106,25 @@ it("V8-S10: 명령행 --allow 는 검토 안 된 예외 목록을 거부하고, 
     expect(run(pkg,"--package").status).toBe(1);
     expect(run(pkg,"--package","--write-allow",join(d,"draft.json")).status).toBe(1);
     expect(run(pkg,"--package","--allow",join(d,"draft.json")).status).toBe(2);
-    const reviewed=JSON.parse(readFileSync(join(d,"draft.json"),"utf8"));for(const e of reviewed.entries)e.reason="third-party-license-notice";
+    const reviewed=JSON.parse(readFileSync(join(d,"draft.json"),"utf8"));reviewed.libraryPaths=["THIRD_PARTY_NOTICES.txt"];for(const e of reviewed.entries)e.reason="third-party-license-notice";
     writeFileSync(join(d,"ok.json"),JSON.stringify(reviewed));
     const ok=run(pkg,"--package","--allow",join(d,"ok.json"));
     expect(ok.status).toBe(0);expect(JSON.parse(ok.stdout)).toMatchObject({total:0,accepted:1});
     expect(ok.stdout.includes(fakeMail)).toBe(false);
+  }finally{rmSync(d,{recursive:true,force:true});}
+});
+it("V8-S11: 예외는 지정한 라이브러리 경로 안에서만 받고, 예외 목록 파일 자체에 이메일·이름·키 모양 글자가 있으면 검사가 실패한다",()=>{
+  const d=dir(),pkg=join(d,"pkg");
+  try{mkdirSync(join(pkg,"lib"),{recursive:true});writeFileSync(join(pkg,"lib","x.js"),`// ${fakeMail}\n`);writeFileSync(join(pkg,"own.js"),`// ${fakeMail}\n`);
+    const run=(...a:string[])=>spawnSync(process.execPath,["scripts/package-scan.mjs",...a],{encoding:"utf8",env:{...process.env,SHE_SCAN_NAMES:fakeName}});
+    run(pkg,"--package","--write-allow",join(d,"draft.json"));
+    const draft=JSON.parse(readFileSync(join(d,"draft.json"),"utf8"));for(const e of draft.entries)e.reason="third-party-library-file";
+    const write=(name:string,body:unknown)=>{writeFileSync(join(d,name),JSON.stringify(body));return join(d,name);};
+    // own.js is outside the library path: the whole list is refused.
+    expect(run(pkg,"--package","--allow",write("all.json",{...draft,libraryPaths:["lib/"]})).status).toBe(2);
+    const lib={...draft,libraryPaths:["lib/"],entries:draft.entries.filter((e:any)=>e.file.startsWith("lib/"))};
+    const ok=run(pkg,"--package","--allow",write("lib.json",lib));
+    expect(ok.status).toBe(1);expect(JSON.parse(ok.stdout)).toMatchObject({total:1,accepted:1}); // own.js still blocks
+    for(const bad of [fakeMail,fakeName,fakeOpenAi])expect(run(pkg,"--package","--allow",write("bad.json",{...lib,note:"x "+bad})).status).toBe(2);
   }finally{rmSync(d,{recursive:true,force:true});}
 });

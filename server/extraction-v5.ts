@@ -15,11 +15,12 @@ export async function isolatedParse(bytes: Buffer, signal?: AbortSignal): Promis
   const worker = fileURLToPath(new URL(import.meta.url.endsWith(".ts") ? "./parser-worker-v5.ts" : "./parser-worker-v5.js", import.meta.url));
   let ancestor=dirname(worker);while(!existsSync(resolve(ancestor,"node_modules"))&&dirname(ancestor)!==ancestor)ancestor=dirname(ancestor);
   const alias=resolve(ancestor,"node_modules");
-  // The installed (MSIX) build bundles kordoc into the worker file; only its external pdfjs-dist stays in node_modules.
+  // The installed (MSIX) build bundles kordoc into server/vendor/ next to the worker; only its external pdfjs-dist stays in node_modules.
   let modules=alias;try{modules=resolve(dirname(createRequire(import.meta.url).resolve("kordoc")),"../..");}catch{}
+  const vendor=resolve(dirname(worker),"vendor");
   return new Promise((done, fail) => {
     const child = fork(worker, [], { windowsHide: true, env: { SYSTEMROOT: process.env.SYSTEMROOT, PATH: "" },
-      execArgv: ["--permission", `--allow-fs-read=${worker}`, `--allow-fs-read=${modules}`, `--allow-fs-read=${alias}`, "--max-old-space-size=256"], stdio: ["ignore", "ignore", "ignore", "ipc"] });
+      execArgv: ["--permission", `--allow-fs-read=${worker}`, ...(existsSync(vendor)?[`--allow-fs-read=${vendor}`]:[]), `--allow-fs-read=${modules}`, `--allow-fs-read=${alias}`, "--max-old-space-size=256"], stdio: ["ignore", "ignore", "ignore", "ipc"] });
     let result: Extraction | undefined, error: Error | undefined;
     const stop = () => { error = Error("문서 추출 취소"); child.kill(); };
     const timer = setTimeout(() => { error = Error("문서 추출 시간 한도 초과"); child.kill(); }, 30000);
