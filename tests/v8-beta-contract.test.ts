@@ -4,7 +4,7 @@ import { z } from "zod";
 import { createApp } from "../server/app.js";
 import { ingestDocument } from "../server/documents.js";
 import {
-  AiPendingSchema, BackupFileSchema, BetaReviewSchema, CollectionSchema, FeedbackFileSchema, KeySaveSchema,
+  AiPendingSchema, BackupFileSchema, BetaReviewSchema, CollectionSchema, KeySaveSchema,
   KeysSchema, NoticeSchema, ProbeSchema, RestoreResultSchema, SelfReviewSchema,
 } from "../server/beta-contract-v8.js";
 import { testStore, request } from "./helpers.js";
@@ -65,7 +65,6 @@ it("V8-C01: 베타 화면이 읽는 모든 API 응답이 고정된 형식과 일
     CollectionSchema.omit({ lastRunDate: true, lastMessage: true, lawConfigured: true, syncing: true }).parse(await post("/api/beta/collection", { dailyAuto: true }));
 
     NoticeSchema.parse(await get("/api/beta/notice"));
-    FeedbackFileSchema.parse(await post("/api/beta/feedback", { category: "기타", message: "합성 의견", includeEnvironment: true }));
     Existing.consent.parse(await get("/api/ai/consent"));
     Existing.consent.parse(await post("/api/ai/consent", { enabled: true }));
     Existing.sendLog.parse(await get("/api/ai/send-log"));

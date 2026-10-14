@@ -58,4 +58,12 @@ export function saveFile(name: string, content: string, type = "application/json
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+// Moves keyboard focus to a page title or an in-page section without touching the hash route.
+export function focusTarget(el: Element | null | undefined) {
+  if (!(el instanceof HTMLElement)) return;
+  if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+  el.scrollIntoView({ block: "start" });
+  el.focus({ preventScroll: true });
+}
+
 export const koreaToday = () => new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());

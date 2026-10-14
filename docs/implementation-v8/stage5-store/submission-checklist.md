@@ -65,4 +65,4 @@ Microsoft 계정 로그인, Partner Center 입력, 업로드, 제출 버튼은 �
 ## F. 제출 후
 
 - 인증 통과 후 Store 링크(`https://apps.microsoft.com/detail/<제품 ID>`)를 받으면 알려준다 → 🛠 베타 설치 안내의 `TODO_STORE_LINK`를 채운다.
-- 베타 사용자에게는 `beta-guide.md`(설치 안내·데이터 처리·한계·피드백)를 전달한다.
+- 베타 사용자에게는 `beta-guide.md`(설치 안내·데이터 처리·한계·문의 방법)를 전달한다.
