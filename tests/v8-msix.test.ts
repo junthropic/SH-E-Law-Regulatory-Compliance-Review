@@ -1,12 +1,17 @@
 import { it, expect, vi, beforeEach, afterEach } from "vitest";
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { tmpdir } from "node:os";
+import { spawnSync } from "node:child_process";
+import { EgressBlocked, EgressGuard, classifyHost } from "../server/egress-guard-v8.js";
+// @ts-expect-error plain ESM script without type declarations
+import { inLibraryPath } from "../scripts/package-scan.mjs";
 import { createApp } from "../server/app.js";
 import { Store, sha, PUBLIC_IMPORT_NOTE } from "../server/store.js";
 import { makeBackup } from "../server/backup.js";
 import { betaBackup } from "../server/beta-v8.js";
 import { writePublicBundle } from "../server/public-bundle.js";
-import { importPublicOnce, MCP_OFF_MESSAGE, PUBLIC_UPDATE_OFF_MESSAGE, UNINSTALL_NOTICE } from "../server/installed-v8.js";
+import { importPublicOnce, MCP_OFF_MESSAGE, PETITION_OFF_MESSAGE, PUBLIC_UPDATE_OFF_MESSAGE, UNINSTALL_NOTICE } from "../server/installed-v8.js";
 import { NoticeSchema, RestoreResultSchema } from "../server/beta-contract-v8.js";
 import { testStore, request, evidence, basis } from "./helpers.js";
 
@@ -126,19 +131,20 @@ it("V8-M05: 암호화 백업은 앱에 들어 있는 공개 법령 초기 자료
   }
 }, 30000);
 
-it("V8-M06: 패키지 구성 — runFullTrust 외 권한 없음, 관리자 권한 요청 없음, 127.0.0.1·콘솔 숨김·NODE_OPTIONS 제거, Partner Center 값은 TODO 자리표시", () => {
+it("V8-M06: 패키지 구성 — runFullTrust 외 권한 없음, 관리자 권한 요청 없음, 127.0.0.1·콘솔 숨김·NODE_OPTIONS 제거, Partner Center 값(2026-10-14 사용자 전달)이 그대로 들어 있다", () => {
   const manifest = readFileSync("packaging/msix/AppxManifest.template.xml", "utf8");
   expect([...manifest.matchAll(/<(?:\w+:)?Capability Name="([^"]+)"/g)].map((m) => m[1])).toEqual(["runFullTrust"]);
   expect(manifest).toContain('EntryPoint="Windows.FullTrustApplication"');
   const identity = JSON.parse(readFileSync("packaging/msix/identity.json", "utf8"));
-  expect(identity).toMatchObject({ displayName: "한국 환경안전보건관리자 법령조회 프로그램", publisherDisplayName: "ARETE" });
-  for (const k of ["identityName", "publisher"]) expect(identity[k]).toMatch(/^TODO_PARTNER_CENTER_|^CN=|^[-.A-Za-z0-9]{3,50}$/);
+  expect(identity).toMatchObject({ identityName: "Junthropic.KoreanSHELawComplianceCheckProgram", publisher: "CN=097FA085-6606-4CC5-9DE9-D20F20A8ECEA", publisherDisplayName: "Junthropic" });
+  expect(JSON.stringify(identity)).not.toContain("TODO");
   expect(readFileSync("packaging/msix/launcher/app.manifest", "utf8")).toContain('level="asInvoker"');
   const launcher = readFileSync("packaging/msix/launcher/Launcher.cs", "utf8");
   for (const s of ['EnvironmentVariables["SHE_INSTALLED"] = "1"', "psi.CreateNoWindow = true", 'EnvironmentVariables.Remove("NODE_OPTIONS")', "IPAddress.Loopback", "JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE", "LocalState"])
     expect(launcher).toContain(s);
   const build = readFileSync("scripts/build-msix-v8.mjs", "utf8");
-  expect(build).toMatch(/const absent = \[[^\]]*"korean-law-mcp"/);
+  expect(build).toMatch(/const absent = \[[^\]]*"korean-law-mcp", "playwright-core"/);
+  expect(build).toMatch(/const shipped = \["pdfjs-dist"\];/);
   expect(build).not.toMatch(/cpSync\([^)]*(tests|docs|\.local|work|\.env)/);
 });
 
@@ -147,4 +153,57 @@ it.runIf(existsSync(".local/msix/stage/AppxManifest.xml"))("V8-M07: 로컬에서
   const walk = (d: string) => { for (const n of readdirSync(d, { withFileTypes: true })) n.isDirectory() ? walk(join(d, n.name)) : files.push(join(d, n.name).replace(/\\/g, "/")); };
   walk(".local/msix/stage");
   expect(files.filter((f) => /\/(tests|docs|\.git|\.local|work)\/|\/scripts\/|\.env|\.(pfx|pem|key|sqlite)$/.test(f.replace(".local/msix/stage", "")))).toEqual([]);
+  // Off in the installed build, so not shipped; the isolated parser workers load only vendor/ files they may read.
+  expect(files.filter((f) => /playwright|korean-law-mcp/.test(f))).toEqual([]);
+  for (const w of ["parse-worker.js", "parser-worker-v5.js"])
+    expect([...readFileSync(".local/msix/stage/app/server/" + w, "utf8").matchAll(/from "\.\/([^"]+)"/g)].map((m) => m[1]).filter((f) => !f.startsWith("vendor/"))).toEqual([]);
+});
+
+it("V8-M08: 설치판은 국민신문고 계정 자동 수집을 서버에서 막고(설정·승낙 파일로도 못 켬), 국민신문고로 나가는 요청은 0건이며 허용 목록에도 없다", async () => {
+  vi.stubEnv("SHE_INSTALLED", "1");
+  const network = vi.mocked(fetch); // the synthetic network stub; the guard wraps it
+  const guard = new EgressGuard().install();
+  const t = testStore();
+  const { app, headers } = await open(t.store);
+  try {
+    // A complete, unexpired permission/selector file — the strongest input the old path accepted.
+    const config = { permissionReference: "TEST-ONLY-NOT-REAL-PERMISSION", approvedBy: "가상 운영기관", permissionExpiresAt: "2099-01-01T00:00:00.000Z",
+      permittedScope: "own", loginUrl: "https://www.epeople.go.kr/test-login", listUrl: "https://www.epeople.go.kr/test-list", selectorVersion: "fixture-1",
+      selectorsVerifiedAt: new Date().toISOString(), selectors: Object.fromEntries(["loggedIn", "items", "next", "title", "question", "answer", "agency", "responseDate"].map((k) => [k, ".fixture"])),
+      maxPages: 1, delayMs: 2000 };
+    t.store.put("settings", "petitions.enabled", true); // no such switch exists; even a planted setting changes nothing
+    const connect = await app.inject({ method: "POST", url: "/api/petitions/connect", headers, payload: config });
+    const collect = await app.inject({ method: "POST", url: "/api/petitions/collect", headers, payload: {} });
+    for (const r of [connect, collect]) expect([r.statusCode, r.json().error]).toEqual([403, PETITION_OFF_MESSAGE]);
+    expect(PETITION_OFF_MESSAGE.startsWith("설치판에서는 지원하지 않습니다")).toBe(true);
+    const status = (await app.inject({ url: "/api/status", headers })).json();
+    expect(status.petition.enabled).toBe(false);
+    // The allow-list no longer contains 국민신문고: any server-side request there is refused before a connection opens.
+    expect(classifyHost("www.epeople.go.kr")).toBe("blocked");
+    await expect(fetch("https://www.epeople.go.kr/")).rejects.toThrow(EgressBlocked);
+    expect(guard.records.filter((r) => r.host.endsWith("epeople.go.kr") && r.allowed)).toEqual([]);
+    expect(network.mock.calls.filter(([u]) => String(u).includes("epeople"))).toEqual([]); // nothing reached the network layer
+  } finally {
+    guard.uninstall();
+    await app.close();
+    t.clean();
+  }
+});
+
+it("V8-M09: 패키지 검사 예외 목록은 외부 라이브러리 경로에만 적용되고, 승인된 항목 수를 넘지 않으며, 파일 자체에 이름·이메일·키 모양 글자가 없다", () => {
+  const ex = JSON.parse(readFileSync("packaging/msix/scan-exceptions.json", "utf8"));
+  expect(ex.libraryPaths).toEqual(["app/node_modules/", "app/server/vendor/", "THIRD_PARTY_NOTICES.txt"]);
+  for (const e of ex.entries) {
+    expect(inLibraryPath(e.file, ex), e.file).toBe(true);
+    expect(e.reason).toMatch(/^third-party-(license-notice|library-file|code-in-bundle)/);
+    expect(e.valueSha256).toMatch(/^[0-9a-f]{64}$/);
+  }
+  // The user approved 194 matches on 2026-10-14; the list may only shrink.
+  expect(ex.entries.reduce((n: number, e: { count: number }) => n + e.count, 0)).toBeLessThanOrEqual(194);
+  // The scanner's own self-check of the list (e-mail, user path, key patterns, and names from SHE_SCAN_NAMES / .local) passes.
+  const empty = mkdtempSync(join(tmpdir(), "v8-empty-"));
+  try {
+    const r = spawnSync(process.execPath, ["scripts/package-scan.mjs", empty, "--package", "--allow", "packaging/msix/scan-exceptions.json"], { encoding: "utf8" });
+    expect([r.status, r.stderr]).toEqual([0, ""]);
+  } finally { rmSync(empty, { recursive: true, force: true }); }
 });

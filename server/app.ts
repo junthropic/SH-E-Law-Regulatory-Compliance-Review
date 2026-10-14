@@ -50,7 +50,7 @@ import { deleteDocument } from "./retention-v8.js";
 import { safeMessage } from "./redact-v8.js";
 import { attachPreview, registerPreviewV8 } from "./preview-v8.js";
 import { registerBetaV8, markCsv, markMarkdown, selfReviewOf } from "./beta-v8.js";
-import { isInstalled, MCP_OFF_MESSAGE, PUBLIC_UPDATE_OFF_MESSAGE } from "./installed-v8.js";
+import { isInstalled, MCP_OFF_MESSAGE, PETITION_OFF_MESSAGE, PUBLIC_UPDATE_OFF_MESSAGE } from "./installed-v8.js";
 
 export async function createApp(store = new Store(), test = false, complianceGrants?: ReadonlyMap<string, Principal>, v3?: {adapter?:"v3"|"v4"|"v6";principal:Principal;mode:"shadow"|"project";collect?:boolean;backupKey?:{key:Buffer;id:string}}, enforcement?: () => Execution) {
   if(v3 && (!test || !v3.principal.synthetic))throw new Error("v3 연결은 명시된 격리 가상 환경에서만 실행합니다.");
@@ -608,8 +608,8 @@ export async function createApp(store = new Store(), test = false, complianceGra
     }, 200);
     return { ok: true };
   });
-  app.post("/api/petitions/connect", async (req) => petitions.start(req.body));
-  app.post("/api/petitions/collect", async () => petitions.collect());
+  app.post("/api/petitions/connect", async (req, reply) => isInstalled() ? reply.code(403).send({ error: PETITION_OFF_MESSAGE }) : petitions.start(req.body));
+  app.post("/api/petitions/collect", async (_req, reply) => isInstalled() ? reply.code(403).send({ error: PETITION_OFF_MESSAGE }) : petitions.collect());
   app.post("/api/petitions/disconnect", async () => {
     await petitions.close();
     vault.remove("epeople-session");

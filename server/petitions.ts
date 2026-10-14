@@ -1,10 +1,5 @@
 import { z } from "zod";
-import {
-  chromium,
-  type Browser,
-  type BrowserContext,
-  type Page,
-} from "playwright-core";
+import type { Browser, BrowserContext, Page } from "playwright-core";
 import { Store } from "./store.js";
 import { Vault } from "./vault.js";
 import { ingestDocument } from "./documents.js";
@@ -70,6 +65,8 @@ export class EdgePetitionDriver implements PetitionDriver {
   private listOpened = false;
   async open(config: PetitionConfig, state?: unknown) {
     this.config = config;
+    // Loaded only when a collection starts: the installed build refuses earlier and does not ship playwright-core.
+    const { chromium } = await import("playwright-core");
     this.browser = await chromium.launch({
       channel: "msedge",
       headless: false,

@@ -3,9 +3,9 @@
 // Usage:
 //   node scripts/build-msix-v8.mjs --test-identity [--sign-test] [--out .local/msix]   local / CI install test
 //   node scripts/build-msix-v8.mjs --store [--out .local/msix]                         Store upload (unsigned; the Store signs)
-// Package layout:  SHELaw.exe (launcher) · Assets/ · THIRD_PARTY_NOTICES.txt · app/{node/node.exe, server/*.js, dist/, dist-beta/, data/public/, node_modules/{pdfjs-dist, playwright-core}}
+// Package layout:  SHELaw.exe (launcher) · Assets/ · THIRD_PARTY_NOTICES.txt · app/{node/node.exe, server/*.js, server/vendor/*.js, dist/, dist-beta/, data/public/, node_modules/pdfjs-dist}
 // The server is bundled with rolldown, so dev dependencies, tests, docs and unused library files never enter the package.
-// /api/mcp/query is off in the installed build (SHE_INSTALLED=1), so korean-law-mcp is not shipped.
+// Off in the installed build (SHE_INSTALLED=1), so not shipped: korean-law-mcp (/api/mcp/query), playwright-core (국민신문고 collection).
 // The test certificate's private key is created in memory and written only to the --cert-dir (default .local/msix-cert, git-ignored);
 // its password is random, passed to signtool, and never printed.
 import { build } from "rolldown";
@@ -63,29 +63,42 @@ for (const f of ["build/server/index.js", "dist/index.html", "dist-beta/index.ht
 rmSync(stage, { recursive: true, force: true });
 mkdirSync(app, { recursive: true });
 
-// Server bundle. Externals: node built-ins; pdfjs-dist and playwright-core (shipped as files, they load their own assets);
-// optional OCR/image engines kordoc tries and skips when absent; korean-law-mcp (MCP is off in the installed build).
+// Server bundle. Externals: node built-ins; pdfjs-dist (shipped as files, it loads its own worker/fonts); optional OCR/image
+// engines kordoc tries and skips when absent; korean-law-mcp (MCP is off in the installed build); playwright-core
+// (국민신문고 collection is off in the installed build and loads it only on demand).
+// Every npm module goes to app/server/vendor/<package>.js and our code stays in app/server/*.js, so third-party text is
+// identifiable by path (package scan exceptions apply only there). The isolated parser may read app/server/vendor/.
 const builtins = new Set([...builtinModules, ...builtinModules.map((m) => "node:" + m)]);
-const shipped = ["pdfjs-dist", "playwright-core"];
-const absent = ["korean-law-mcp", "sharp", "onnxruntime-node", "@huggingface/transformers", "@hyzyla/pdfium", "puppeteer-core"];
+const shipped = ["pdfjs-dist"];
+const absent = ["korean-law-mcp", "playwright-core", "sharp", "onnxruntime-node", "@huggingface/transformers", "@hyzyla/pdfium", "puppeteer-core"];
 const isExternal = (id) => builtins.has(id) || [...shipped, ...absent].some((e) => id === e || id.startsWith(e + "/"));
+const npmPackage = (id) => { const parts = id.split(/[\\/]/); const i = parts.lastIndexOf("node_modules"); if (i < 0) return null;
+  return parts[i + 1]?.startsWith("@") ? parts[i + 1] + "+" + parts[i + 2] : parts[i + 1]; };
 const bundle = await build({
   cwd: root,
   input: { index: "build/server/index.js", "parse-worker": "build/server/parse-worker.js", "parser-worker-v5": "build/server/parser-worker-v5.js" },
   platform: "node",
   external: isExternal,
-  output: { dir: join(app, "server"), format: "esm", entryFileNames: "[name].js", chunkFileNames: "chunk-[hash].js", comments: { legal: false } },
+  output: {
+    dir: join(app, "server"), format: "esm", entryFileNames: "[name].js", comments: { legal: false },
+    // Chunks made only of npm modules (or the bundler runtime), e.g. kordoc's lazily loaded parts, also go to vendor/.
+    chunkFileNames: (c) => c.name.startsWith("vendor/") || (c.facadeModuleId && npmPackage(c.facadeModuleId)) || (c.moduleIds.length && c.moduleIds.every((m) => npmPackage(m) || m.startsWith("\0"))) ? (c.name.startsWith("vendor/") ? "[name].js" : "vendor/[name].js") : "[name].js",
+    codeSplitting: { groups: [{ debugName: "vendor-by-package", name: (id) => { const pkg = npmPackage(id); return pkg ? "vendor/" + pkg.replace(/^@/, "").replace("+", "__") : /rolldown[\\/:]runtime|^\0/.test(id) ? "vendor/rolldown-runtime" : null; } }] },
+  },
   logLevel: "warn",
 });
+for (const w of ["parse-worker.js", "parser-worker-v5.js"]) {
+  const own = [...readFileSync(join(app, "server", w), "utf8").matchAll(/from "\.\/([^"]+)"/g)].map((m) => m[1]).filter((f) => !f.startsWith("vendor/"));
+  if (own.length) fail(w + " 가 vendor 밖 파일을 가져옵니다(격리 파서는 읽을 수 없음): " + own.join(", "));
+}
 // rolldown marks each module with a "//#region node_modules/..." comment; those build-time paths are not needed at run time.
 const MAKER_URL = /https:\/\/raw\.githubusercontent\.com\/[^/"'`\s]+\/SH-E-Law-Check\/[^"'`\s]*/g;
 let makerUrls = 0;
-for (const f of readdirSync(join(app, "server")).filter((f) => f.endsWith(".js"))) {
-  const p = join(app, "server", f);
+for (const f of walk(join(app, "server")).filter((f) => f.endsWith(".js"))) {
   // The maker-repository update URL (bundles.ts) is unreachable in the installed build (/api/public/update answers 403); drop it.
-  const text = readFileSync(p, "utf8").replace(/^\/\/#(?:region .*|endregion)\r?\n/gm, "");
+  const text = readFileSync(f, "utf8").replace(/^\/\/#(?:region .*|endregion)\r?\n/gm, "");
   makerUrls += (text.match(MAKER_URL) ?? []).length;
-  writeFileSync(p, text.replace(MAKER_URL, "https://invalid.invalid/removed-in-installed-build"));
+  writeFileSync(f, text.replace(MAKER_URL, "https://invalid.invalid/removed-in-installed-build"));
 }
 if (makerUrls !== 1) fail("제작자 저장소 주소를 정확히 1곳에서 지우지 못했습니다: " + makerUrls);
 writeFileSync(join(app, "package.json"), JSON.stringify({ private: true, type: "module" }) + "\n");
@@ -102,10 +115,20 @@ const pdfjsRoot = existsSync(pdfjs) ? pdfjs : dirname(require.resolve("pdfjs-dis
 const keepPdf = (s) => { const r = relative(pdfjsRoot, s).split(sep).join("/");
   return r === "" || r === "package.json" || r === "LICENSE" || r === "legacy" || r === "legacy/build" || /^legacy\/build\/pdf(\.worker)?\.mjs$/.test(r) || /^(cmaps|standard_fonts)(\/|$)/.test(r); };
 cpSync(pdfjsRoot, join(app, "node_modules", "pdfjs-dist"), { recursive: true, filter: keepPdf });
-const pwRoot = dirname(require.resolve("playwright-core/package.json"));
-const keepPw = (s) => { const r = relative(pwRoot, s).split(sep).join("/");
-  return r === "" || ["package.json", "LICENSE", "NOTICE", "ThirdPartyNotices.txt", "browsers.json", "index.js", "index.mjs"].includes(r) || (/^lib(\/|$)/.test(r) && !/\.(d\.ts|map|md)$/.test(r)); };
-cpSync(pwRoot, join(app, "node_modules", "playwright-core"), { recursive: true, filter: keepPw });
+// kordoc loads cfb (old binary .hwp) with a runtime require the bundler cannot follow: ship it and its dependencies
+// (package.json, license, main file only).
+const runtimeRequired = [];
+const shipCjs = (name, from) => {
+  const dir = dirname(createRequire(from).resolve(name + "/package.json"));
+  if (runtimeRequired.includes(dir)) return;
+  runtimeRequired.push(dir);
+  const pkg = JSON.parse(readFileSync(join(dir, "package.json"), "utf8"));
+  const main = createRequire(join(dir, "package.json")).resolve("./" + (pkg.main || "index.js").replace(/^\.\//, ""));
+  for (const f of [join(dir, "package.json"), main, ...readdirSync(dir).filter((n) => /^licen[cs]e/i.test(n)).map((n) => join(dir, n))])
+    cpSync(f, join(app, "node_modules", name, relative(dir, f)));
+  for (const dep of Object.keys(pkg.dependencies ?? {})) shipCjs(dep, join(dir, "package.json"));
+};
+shipCjs("cfb", require.resolve("kordoc"));
 
 // Node runtime (the version that builds is the version that ships; recorded below).
 mkdirSync(join(app, "node"), { recursive: true });
@@ -120,7 +143,7 @@ const packageRoot = (file) => { const parts = file.split(/[\\/]/); const i = par
 for (const chunk of bundle.output) for (const id of chunk.moduleIds ?? []) { const p = packageRoot(id); if (p && !packages.has(p)) packages.set(p, true); }
 const licenseText = (dir) => { const f = readdirSync(dir).find((n) => /^(licen[cs]e|copying)(\.(md|txt))?$/i.test(n)); return f ? readFileSync(join(dir, f), "utf8").trim() : null; };
 const notices = [];
-for (const dir of [...[...packages.keys()].sort(), pdfjsRoot, pwRoot]) {
+for (const dir of [...[...packages.keys()].sort(), pdfjsRoot, ...runtimeRequired]) {
   const pkg = JSON.parse(readFileSync(join(dir, "package.json"), "utf8"));
   if (notices.some((n) => n.name === pkg.name && n.version === pkg.version)) continue;
   notices.push({ name: pkg.name, version: pkg.version, license: typeof pkg.license === "string" ? pkg.license : JSON.stringify(pkg.license ?? "UNKNOWN"), text: licenseText(dir) });

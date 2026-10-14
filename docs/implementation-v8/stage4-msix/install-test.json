@@ -1,6 +1,6 @@
 {
   "format": "she-msix-install-test-v8",
-  "startedAt": "2026-10-13T13:58:37.6699838Z",
+  "startedAt": "2026-10-14T11:05:39.2105301Z",
   "environment": {
     "os": "10.0.26100.0",
     "image": "win25-vs2026 20260925.250.1",
@@ -21,20 +21,20 @@
     "restoredAfterReinstall": true
   },
   "timings": {
-    "firstStartSeconds": 138.3,
-    "secondStartSeconds": 2.7
+    "firstStartSeconds": 141.3,
+    "secondStartSeconds": 1.6
   },
   "scenario": {
     "phase": "before",
     "mcpQuery": 403,
     "publicUpdate": 403,
     "uninstallNotice": true,
-    "reviewId": "eb15dd42-a227-4036-b753-332f23c6319e",
+    "reviewId": "95e36b59-fbb7-4a82-89ea-bcbb13a69c52",
     "issues": 1,
     "safetyManagerCandidate": true,
     "hazmatMixed": false,
     "backupProtection": "windows-dpapi-current-user",
-    "backupBytes": 2926103
+    "backupBytes": 2922159
   },
   "notes": [],
   "package": {
@@ -61,7 +61,7 @@
     "taskLastResult": "0x0",
     "result": "installed=True admin=False"
   },
-  "finishedAt": "2026-10-13T14:04:44.6861135Z",
+  "finishedAt": "2026-10-14T11:11:38.1077175Z",
   "passed": true,
-  "ciRun": "https://github.com/junthropic/SH-E-Law-Regulatory-Compliance-Review/actions/runs/38409111339"
+  "ciRun": "https://github.com/junthropic/SH-E-Law-Regulatory-Compliance-Review/actions/runs/38553954580"
 }
