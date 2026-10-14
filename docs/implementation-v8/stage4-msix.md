@@ -263,13 +263,18 @@ Store 심사에서 문의가 오면 이 표와 §7 문안으로 답한다.
   - EgressGuard 기록에서 허용된 국민신문고 요청은 0건이고, 네트워크 계층 호출도 0건이다.
   - V8-M07은 패키지 폴더에 `playwright`가 없음을 확인한다.
 
-### 12.5 아직 다시 하지 못한 것
+### 12.5 바뀐 빌드로 다시 한 CI 시험 (2026-10-14, [run 38553954580](https://github.com/junthropic/SH-E-Law-Regulatory-Compliance-Review/actions/runs/38553954580))
 
-- 깨끗한 Windows CI 설치 시험(V8-M04 기록)과 WACK는 이번 변경 **전** 빌드로 한 결과다.
-- GitHub Actions 결제·한도 문제로 CI가 시작되지 않아(2026-10-14, "recent account payments have failed or your spending limit needs to be increased") 다시 돌리지 못했다.
-- 한도가 풀리면 `msix.yml`을 다시 돌린다. 이번에는 시험 서명본과 Store 업로드용 미서명본을 함께 만든다. 그 결과로 기록을 바꾼다.
-- 로컬에서는 바뀐 빌드로 다음을 다시 확인했다(§12.1, 설치판 화면 캡처).
-  - 실행기(패키지 없이)
-  - 안전관리자 시나리오
-  - 백업
-  - 격리 파서
+결제·한도 문제가 풀린 뒤 같은 커밋으로 시험 서명본과 Store 업로드용 미서명본을 만들어 다시 시험했다.
+
+| 항목 | 결과 |
+|---|---|
+| 시험 서명본 | 68.7MB(Node 24.21.0), 파일 264개 |
+| Store 업로드본 | `SHELaw-Beta_0.8.0.0_x64_store.msix` 68.7MB. Partner Center 값으로 MakeAppx 매니페스트 검증 통과 |
+| 설치 시험 | 12/12 통과. 첫 실행 141초, 두 번째 1.6초. 표준 사용자 설치 `installed=True admin=False` |
+| WACK 10.0.26100.8249 | 전체 PASS. 선택 시험 2건 FAIL은 §12.3 그대로 |
+| 패키지 검사 | 두 패키지 모두 차단 0, 예외 일치 63건(실명·메일·계정명 검사 포함) |
+
+- CI 안의 검사 단계는 요약 출력 스크립트 오류로 실패 처리됐다. PowerShell에서 `"$name:"`가 변수 이름으로 해석된 것이 원인이다.
+- 그래서 같은 실행의 두 패키지를 내려받아 같은 검사기·예외 목록으로 로컬에서 검사했다(`stage4-msix/package-scan.json`). 스크립트는 `${name}`으로 고쳤다.
+- 기록 파일: `stage4-msix/install-test.json`, `wack-summary.json`, `msix-build.json`, `msix-build-store.json`, `package-scan.json`.

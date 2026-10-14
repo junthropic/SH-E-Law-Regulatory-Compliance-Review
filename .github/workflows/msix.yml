@@ -39,7 +39,7 @@ jobs:
             # New or changed findings are never accepted automatically: list them (file, kind, count; no values) for the user.
             if (Test-Path "$env:RUNNER_TEMP\msix\$name-scan.json") {
               $r = Get-Content "$env:RUNNER_TEMP\msix\$name-scan.json" -Raw | ConvertFrom-Json
-              "### $name: blocking $($r.summary.total), accepted $($r.accepted.total)" | Add-Content $env:GITHUB_STEP_SUMMARY
+              "### ${name}: blocking $($r.summary.total), accepted $($r.accepted.total)" | Add-Content $env:GITHUB_STEP_SUMMARY
               foreach ($f in $r.summary.byFile.PSObject.Properties) { "- $($f.Name): $(($f.Value | ConvertTo-Json -Compress))" | Add-Content $env:GITHUB_STEP_SUMMARY }
             }
           }

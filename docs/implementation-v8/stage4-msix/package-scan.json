@@ -1,68 +1,115 @@
 {
-  "generatedAt": "2026-10-13T13:58:36.814Z",
-  "package": "SHELaw-Beta_0.8.0.0_x64_test.msix",
-  "summary": {
-    "total": 0,
-    "byKind": {},
-    "files": 0,
-    "byFile": {}
-  },
-  "accepted": {
-    "total": 194,
-    "byKind": {
-      "email": 80,
-      "key:assignment": 5,
-      "user-path": 3,
-      "key:base64-service-key": 106
+  "generatedAt": "2026-10-14T11:16:35.462Z",
+  "note": "CI run 38553954580 packages scanned with packaging/msix/scan-exceptions.json (names checked)",
+  "packages": {
+    "test": {
+      "summary": {
+        "total": 0,
+        "byKind": {},
+        "files": 0,
+        "byFile": {}
+      },
+      "accepted": {
+        "total": 63,
+        "byKind": {
+          "key:base64-service-key": 30,
+          "user-path": 1,
+          "email": 31,
+          "key:assignment": 1
+        },
+        "files": 11,
+        "byFile": {
+          "app/node_modules/pdfjs-dist/legacy/build/pdf.mjs": {
+            "key:base64-service-key": 1
+          },
+          "app/node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs": {
+            "key:base64-service-key": 1,
+            "user-path": 1
+          },
+          "app/node_modules/pdfjs-dist/standard_fonts/LiberationSans-Bold.ttf": {
+            "key:base64-service-key": 6
+          },
+          "app/node_modules/pdfjs-dist/standard_fonts/LiberationSans-BoldItalic.ttf": {
+            "key:base64-service-key": 1
+          },
+          "app/node_modules/pdfjs-dist/standard_fonts/LiberationSans-Italic.ttf": {
+            "key:base64-service-key": 3
+          },
+          "app/node_modules/pdfjs-dist/standard_fonts/LiberationSans-Regular.ttf": {
+            "key:base64-service-key": 2
+          },
+          "app/server/vendor/fastify.js": {
+            "key:base64-service-key": 1,
+            "email": 2
+          },
+          "app/server/vendor/fastify__cookie.js": {
+            "key:assignment": 1
+          },
+          "app/server/vendor/kordoc.js": {
+            "email": 1
+          },
+          "app/server/vendor/modelcontextprotocol__sdk.js": {
+            "key:base64-service-key": 15
+          },
+          "THIRD_PARTY_NOTICES.txt": {
+            "email": 28
+          }
+        }
+      }
     },
-    "files": 14,
-    "byFile": {
-      "app/node_modules/playwright-core/lib/xdg-open": {
-        "email": 4
+    "store": {
+      "summary": {
+        "total": 0,
+        "byKind": {},
+        "files": 0,
+        "byFile": {}
       },
-      "app/node_modules/playwright-core/lib/coreBundle.js": {
-        "key:assignment": 2,
-        "user-path": 2
-      },
-      "app/node_modules/playwright-core/lib/vite/htmlReport/report.js": {
-        "key:base64-service-key": 1
-      },
-      "app/node_modules/playwright-core/lib/utilsBundle.js": {
-        "key:base64-service-key": 75,
-        "email": 2
-      },
-      "app/node_modules/playwright-core/lib/utilsBundle.js.LICENSE": {
-        "email": 43
-      },
-      "app/node_modules/pdfjs-dist/legacy/build/pdf.mjs": {
-        "key:base64-service-key": 1
-      },
-      "app/node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs": {
-        "key:base64-service-key": 1,
-        "user-path": 1
-      },
-      "app/node_modules/pdfjs-dist/standard_fonts/LiberationSans-Bold.ttf": {
-        "key:base64-service-key": 6
-      },
-      "app/node_modules/pdfjs-dist/standard_fonts/LiberationSans-BoldItalic.ttf": {
-        "key:base64-service-key": 1
-      },
-      "app/node_modules/pdfjs-dist/standard_fonts/LiberationSans-Italic.ttf": {
-        "key:base64-service-key": 3
-      },
-      "app/node_modules/pdfjs-dist/standard_fonts/LiberationSans-Regular.ttf": {
-        "key:base64-service-key": 2
-      },
-      "app/server/chunk-PAreOLIL.js": {
-        "email": 1
-      },
-      "app/server/index.js": {
-        "key:base64-service-key": 16,
-        "key:assignment": 3,
-        "email": 2
-      },
-      "THIRD_PARTY_NOTICES.txt": {
-        "email": 28
+      "accepted": {
+        "total": 63,
+        "byKind": {
+          "key:base64-service-key": 30,
+          "user-path": 1,
+          "key:assignment": 1,
+          "email": 31
+        },
+        "files": 11,
+        "byFile": {
+          "app/node_modules/pdfjs-dist/legacy/build/pdf.mjs": {
+            "key:base64-service-key": 1
+          },
+          "app/node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs": {
+            "key:base64-service-key": 1,
+            "user-path": 1
+          },
+          "app/node_modules/pdfjs-dist/standard_fonts/LiberationSans-Bold.ttf": {
+            "key:base64-service-key": 6
+          },
+          "app/node_modules/pdfjs-dist/standard_fonts/LiberationSans-BoldItalic.ttf": {
+            "key:base64-service-key": 1
+          },
+          "app/node_modules/pdfjs-dist/standard_fonts/LiberationSans-Italic.ttf": {
+            "key:base64-service-key": 3
+          },
+          "app/node_modules/pdfjs-dist/standard_fonts/LiberationSans-Regular.ttf": {
+            "key:base64-service-key": 2
+          },
+          "app/server/vendor/fastify__cookie.js": {
+            "key:assignment": 1
+          },
+          "app/server/vendor/fastify.js": {
+            "key:base64-service-key": 1,
+            "email": 2
+          },
+          "app/server/vendor/kordoc.js": {
+            "email": 1
+          },
+          "app/server/vendor/modelcontextprotocol__sdk.js": {
+            "key:base64-service-key": 15
+          },
+          "THIRD_PARTY_NOTICES.txt": {
+            "email": 28
+          }
+        }
       }
     }
   }
