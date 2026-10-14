@@ -4,7 +4,21 @@
 이 문서는 시험·CI·후보 구현 범위의 기록이며, 법적 적합성이나 운영 동작을 검증한 문서가 아니다.
 v7 상세: `docs/implementation-v7/README.md`.
 
-## 1. 기준 커밋과 상태
+## 0. v8 현재 상태 (2026-10-14 갱신, 이 절이 아래 1~7절보다 최신)
+
+| 항목 | 값 |
+|---|---|
+| 지시서 | EHS 실행 지시서 v8 — 설치형 베타(Microsoft Store), 단계 0~5 |
+| 기준 main | `7c1a20a` (#25). main CI Linux 711 통과·4 건너뜀, Windows 714 통과·1 건너뜀 |
+| 단계별 기록 | `docs/implementation-v8/stage0-scan.md` ~ `stage5-store.md` |
+| 단계 5 | Store 제출 자료·베타 문서 `docs/implementation-v8/stage5-store/`(처리방침 MD·HTML, 등록 문구, 스크린샷 6장, 제출 체크리스트, 베타 안내, 변경 기록). 문서·코드 일치 시험 V8-D01~D05 |
+| 패키지 | `packaging/msix/identity.json` 0.8.0.0, Partner Center 값 반영. 최종 Store MSIX는 main에서 `msix.yml`로 다시 만든다(run 38553954580 산출물은 #24 이전) |
+| 사용자 결정 대기 | 예약 앱 이름 일치 확인, 보안 검증 계획 실행 여부(H1 높음), 문의 메일, 처리방침 게시 URL, DAST 도구 사용 여부 |
+| 제출 | Microsoft 계정·Partner Center·Store 제출은 사용자가 직접 한다 |
+| CI 방침 | PR은 Linux만, main push는 Linux+Windows. Windows 시간 초과는 실패 job만 재실행하고 기록. 무거운 시험은 개별 30초(#25) |
+| 알려진 문제 | 피드백 파일 `appVersion` "0.1.0" 고정, 시험 번호 V8-S01 중복(`stage5-store/changelog.md`) |
+
+## 1. 기준 커밋과 상태 (v7 시점 기록)
 
 | 항목 | 값 |
 |---|---|
