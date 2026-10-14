@@ -19,9 +19,12 @@ import { convertPeriod } from "./periods-v3.js";
 import { selectPolicies, v4Candidate, nextPolicies } from "./policies-v4.js";
 import {selectTraining,trainingCandidate,trainingPolicies,type TrainingId} from "./training-v6.js";
 import {selectSafetyManager,safetyManagerCandidate,safetyManagerPolicies,type SafetyManagerId} from "./safety-manager-v7.js";
+// v8 preview: a duty's legal basis is limited to sources of its own law. Without this, every source the base review collected
+// (for example dozens of 위험물안전관리법 texts) became an unresolved basis item of the 산업안전보건법 candidates.
+export const DUTY_LAW: [RegExp, RegExp][] = [[/^(safety_manager|training|risk_assessment)\./, /^산업안전보건법/]];
 export class LegacyBridge {
   readonly repo: ComplianceRepository;
-  constructor(readonly store: Store, readonly version: "v3" | "v4" | "v6" | "v7" = "v3") {
+  constructor(readonly store: Store, readonly version: "v3" | "v4" | "v6" | "v7" = "v3", readonly options: { basisByLaw?: boolean } = {}) {
     this.repo = new ComplianceRepository(store);
     store.db
       .exec(`CREATE TABLE IF NOT EXISTS v3_legacy_links(tenant TEXT,legacy TEXT,kind TEXT,body TEXT,PRIMARY KEY(tenant,legacy,kind));
@@ -250,12 +253,13 @@ export class LegacyBridge {
     const kept=safety.length&&base?base.policies.filter(s=>!selectedPolicies.some(h=>h.id===s.id)):base?.policies??[];
     const selection=base?{...base,policies:[...kept,...education,...safety],unclassified:base.unclassified&&!education.length&&!safety.length}:undefined;
     const rows = (selection?.policies || selectedPolicies).map((s) => {
+      const basis = this.basisFor(p, r, s.id, sources).map(entityRef);
       const pol = this.map(
         p,
         r.id + ":" + s.id,
         "policy",
-        { basis: sources.map(entityRef), id: s.id },
-        s.id.startsWith("training.")?trainingCandidate(s.id as TrainingId,sources.map(entityRef),p.id):s.id.startsWith("safety_manager.")?safetyManagerCandidate(s.id as SafetyManagerId,sources.map(entityRef),p.id):(this.version!=="v3"?v4Candidate:candidatePolicy)(s.id as Parameters<typeof v4Candidate>[0], sources.map(entityRef), p.id),
+        { basis, id: s.id },
+        s.id.startsWith("training.")?trainingCandidate(s.id as TrainingId,basis,p.id):s.id.startsWith("safety_manager.")?safetyManagerCandidate(s.id as SafetyManagerId,basis,p.id):(this.version!=="v3"?v4Candidate:candidatePolicy)(s.id as Parameters<typeof v4Candidate>[0], basis, p.id),
       );
       const decision = this.map(
         p,
@@ -313,6 +317,17 @@ export class LegacyBridge {
       );
     if(mode==="project" && selection?.unclassified) r.issues=[{id:"unclassified-"+r.id,category:"more_data",title:"검토 업무 확인 필요",conclusion:"질문의 업무 유형을 특정하지 못했습니다. 적용 여부를 판단하지 않았습니다.",conditions:[],citations:[],exceptions:[],missing:["대상 업무·시설과 검토하려는 행위"],nextActions:["질문의 업무 범위를 보완하세요."],severity:"unspecified"}];
     return trace;
+  }
+  // Option basisByLaw: sources of the duty's own law only; when the review collected none, the "관련 원문 미확보" source.
+  private basisFor(p: Principal, r: ReviewResult, policyId: string, sources: Entity[]) {
+    const law = this.options.basisByLaw ? DUTY_LAW.find(([duty]) => duty.test(policyId))?.[1] : undefined;
+    if (!law) return sources;
+    const own = sources.filter((s) => law.test(String((s.body as { title?: string }).title ?? "")));
+    return own.length ? own : [this.map(p, r.id + ":" + policyId, "missing_source", { missing: true, law: law.source }, {
+      kind: "source", title: "관련 원문 미확보", url: "https://example.invalid/missing", text: "", textHash: sha(""), version: "missing",
+      effectiveFrom: r.request.asOf, effectiveTo: null, sourceTag: "unverified", complete: false, decisiveCellsChecked: false, conflicts: [],
+      extractionVersion: "not_collected",
+    })];
   }
   trace(p: Principal, id: string) {
     assertPrincipal(p);

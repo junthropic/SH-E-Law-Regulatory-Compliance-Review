@@ -9,7 +9,8 @@ import { StorageCipher } from "../server/storage-crypto-v8.js";
 import { PREVIEW_LABEL, previewArticle } from "../server/preview-v8.js";
 import { PREVIEW_SWITCH } from "../server/export-check-v8.js";
 import { safetyManagerPolicies } from "../server/safety-manager-v7.js";
-import { testStore, request } from "./helpers.js";
+import { testStore, request, evidence } from "./helpers.js";
+import { sha } from "../server/store.js";
 
 // No real network: every outbound request gets a synthetic refusal.
 beforeEach(() => { vi.stubGlobal("fetch", vi.fn(async () => new Response("synthetic refusal", { status: 403 }))); });
@@ -107,3 +108,39 @@ it("V8-P05: 스위치는 기본 꺼짐이고 API로 켜고 끄며 변경을 감�
     expect((f.store.db.prepare("SELECT count(*) n FROM audit WHERE action='preview_switch'").get() as { n: number }).n).toBe(1);
   } finally { await app.close(); f.clean(); }
 });
+
+it("V8-P06: 미리보기 산업안전보건법 후보의 '추가로 확인할 것'에 기존 검토가 모은 위험물안전관리법 원문 이름이 섞이지 않는다", async () => {
+  const f = testStore();
+  f.store.put("settings", PREVIEW_SWITCH, true);
+  const law = (title: string, text: string) => evidence({ id: randomUUID(), sourceId: "test-" + title, title, text, hash: sha(text), verified: false, complete: false });
+  // Synthetic texts: both laws mention 안전관리자 선임, so the base review collects both.
+  for (const t of ["위험물안전관리법 시행규칙", "위험물안전관리법 시행령", "경기도 위험물안전관리 조례"]) f.store.saveEvidence(law(t, `${t} 시험용 가상 조문: 안전관리자 선임 신고(합성)`));
+  f.store.saveEvidence(law("산업안전보건법 시행령", "산업안전보건법 시행령 시험용 가상 조문: 안전관리자 선임 인원(합성)"));
+  const x = await run(f.store);
+  try {
+    expect(x.review.evidence.some((e) => e.title.startsWith("위험물안전관리법"))).toBe(true); // the base review did collect them
+    const duties = x.review.issues.filter((i) => /^(safety_manager|training)\./.test(i.ruleId ?? ""));
+    expect(duties.length).toBeGreaterThan(0);
+    for (const i of duties) expect(i.missing.filter((m) => /위험물/.test(m))).toEqual([]);
+    expect(duties.some((i) => i.missing.includes("산업안전보건법 시행령"))).toBe(true);
+    // "근거 확인이 필요한 부분": only the candidates' own law.
+    expect(x.review.gaps.filter((g) => /위험물/.test(g))).toEqual([]);
+    expect(x.review.gaps.some((g) => g.startsWith("산업안전보건법 시행령: "))).toBe(true);
+  } finally { await x.app.close(); f.clean(); }
+}, 30000);
+
+it("V8-P07: 기존 검토가 산업안전보건법 원문을 모으지 못했으면 후보는 다른 법 원문 대신 '관련 원문 미확보'를 확인 항목으로 둔다", async () => {
+  const f = testStore();
+  f.store.put("settings", PREVIEW_SWITCH, true);
+  const text = "위험물안전관리법 시행규칙 시험용 가상 조문: 안전관리자 선임 신고(합성)";
+  f.store.saveEvidence(evidence({ id: randomUUID(), sourceId: "test-hazmat", title: "위험물안전관리법 시행규칙", text, hash: sha(text), verified: false, complete: false }));
+  const x = await run(f.store);
+  try {
+    const duties = x.review.issues.filter((i) => /^safety_manager\./.test(i.ruleId ?? ""));
+    expect(duties.length).toBeGreaterThan(0);
+    for (const i of duties) {
+      expect(i.missing.filter((m) => /위험물/.test(m))).toEqual([]);
+      expect(i.missing).toContain("관련 원문 미확보");
+    }
+  } finally { await x.app.close(); f.clean(); }
+}, 30000);
