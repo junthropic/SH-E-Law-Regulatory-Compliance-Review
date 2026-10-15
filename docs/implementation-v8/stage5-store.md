@@ -55,9 +55,9 @@
 
 ## 5. 사용자가 할 일 (요약, 상세는 `stage5-store/submission-checklist.md`)
 
-1. Partner Center 예약 이름이 "한국 환경안전보건관리자 법령조회 프로그램"과 같은지 확인
+1. Partner Center 예약 이름이 "한국 환경안전보건관리자 법률조회 프로그램"과 같은지 확인
 2. 보안 검증 계획 진행 여부 결정(H1 위험도 높음, 고친 뒤 제출 권고)
-3. 문의용 메일 주소 만들기 → 전달
+3. 문의용 메일 주소 제공 완료: yourmissionisours@gmail.com
 4. 처리방침 HTML 게시 → URL 전달
 5. (Claude Code) 자리표시 채우기 → main에서 최종 MSIX 생성·설치 시험·WACK
 6. Partner Center 입력(가격·지역·공개 범위 → 속성 → 연령 등급 → 패키지 → 등록 정보·스크린샷 → 인증 참고 사항·`runFullTrust` 사유) → 직접 제출
