@@ -11,7 +11,7 @@ import { Store, sha, PUBLIC_IMPORT_NOTE } from "../server/store.js";
 import { makeBackup } from "../server/backup.js";
 import { betaBackup } from "../server/beta-v8.js";
 import { writePublicBundle } from "../server/public-bundle.js";
-import { importPublicOnce, MCP_OFF_MESSAGE, PETITION_OFF_MESSAGE, PUBLIC_LAW_SCHEDULE, PUBLIC_UPDATE_OFF_MESSAGE, UNINSTALL_NOTICE } from "../server/installed-v8.js";
+import { importPublicOnce, MCP_OFF_MESSAGE, PETITION_OFF_MESSAGE, PUBLIC_UPDATE_OFF_MESSAGE, UNINSTALL_NOTICE } from "../server/installed-v8.js";
 import { NoticeSchema, RestoreResultSchema } from "../server/beta-contract-v8.js";
 import { testStore, request, evidence, basis } from "./helpers.js";
 
@@ -208,20 +208,17 @@ it("V8-M09: 패키지 검사 예외 목록은 외부 라이브러리 경로에�
   } finally { rmSync(empty, { recursive: true, force: true }); }
 });
 
-it("V8-M10: 데이터 처리 안내의 '공개 법령 자료 갱신 주기'가 실제 예약(매주 금요일 18:00 EST = UTC 금요일 23:00)과 같고, 이 PC 자료의 생성일을 보여 준다", async () => {
+it("V8-M10: 제작자 쪽 공개 법령 갱신은 예약 없이 수동 실행만 하고, 데이터 처리 안내는 자동 갱신을 말하지 않으며 이 PC 자료의 생성일을 보여 준다", async () => {
   const wf = readFileSync(".github/workflows/public-law-sync.yml", "utf8");
-  expect([...wf.matchAll(/^\s*-\s*cron:\s*"([^"]+)"/gm)].map((m) => m[1])).toEqual(["0 23 * * 5"]);
-  // 23:00 UTC Friday is 18:00 at UTC-5 (EST) and 08:00 Saturday at UTC+9 (KST).
-  const at = new Date(Date.UTC(2026, 9, 16, 23, 0));
-  expect(at.getUTCDay()).toBe(5);
-  expect(new Date(at.getTime() - 5 * 3600000).toISOString().slice(11, 16)).toBe("18:00");
-  expect(new Date(at.getTime() + 9 * 3600000).toISOString().slice(0, 16)).toBe("2026-10-17T08:00");
-  expect(PUBLIC_LAW_SCHEDULE).toBe("매주 금요일 오후 6시(미국 동부 표준시 EST, 한국 시간 토요일 오전 8시)");
+  expect(wf).not.toMatch(/^\s*schedule:/m);
+  expect(wf).not.toMatch(/^\s*-\s*cron:/m);
+  expect(wf).toMatch(/^\s*workflow_dispatch:/m);
   const t = testStore();
   const { app, headers } = await open(t.store);
   try {
     const notice = async () => NoticeSchema.parse((await app.inject({ url: "/api/beta/notice", headers })).json()).items.find((i) => i.title === "공개 법령 자료 갱신 주기")!;
-    expect((await notice()).text).toContain(PUBLIC_LAW_SCHEDULE);
+    expect((await notice()).text).not.toMatch(/매주|자동으로 갱신|예약 실행/);
+    expect((await notice()).text).toContain("새 앱 버전을 낼 때 그때의 공개 법령 자료가 함께 들어갑니다");
     expect((await notice()).text).not.toContain("생성일");
     t.store.put("settings", "public-bundle-status", { importedAt: "2026-10-14T00:00:00.000Z", publishedAt: "2026-10-13T20:00:00.000Z", count: 1 });
     expect((await notice()).text).toContain("생성일 2026-10-14"); // Korean date of 20:00 UTC
