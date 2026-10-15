@@ -1,5 +1,5 @@
 {
-  "directory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-validation-PSM8Yy",
+  "directory": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-validation-PSM8Yy",
   "at": "2026-10-08T18:20:04.321Z",
   "productionTouched": false,
   "steps": [
@@ -7,7 +7,7 @@
       "command": "npm run check -- -- --reporter=default --reporter=json --outputFile=work/final-tests.json",
       "code": 1,
       "elapsedMs": 95954,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-PSM8Yy-check.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-PSM8Yy-check.log"
     }
   ]
 }

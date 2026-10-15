@@ -21,7 +21,7 @@ dist/assets/index-BivsNquf.js   430.85 kB │ gzip: 131.07 kB
 > vitest run --reporter=default --reporter=json --outputFile=work/final-tests.json
 
 
- RUN  v5.0.3 C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v3-validation-2jt8ec
+ RUN  v5.0.3 %USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v3-validation-2jt8ec
 
  ✓ tests/v3-policies.test.ts (13 tests) 594ms
  ✓ tests/store.test.ts (11 tests) 382ms
@@ -71,4 +71,4 @@ dist/assets/index-BivsNquf.js   430.85 kB │ gzip: 131.07 kB
    Start at  22:42:28
    Duration  9.76s (tests 55%, import 35%, transform 9%)
 
-JSON report written to C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v3-validation-2jt8ec/work/final-tests.json
+JSON report written to %USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v3-validation-2jt8ec/work/final-tests.json

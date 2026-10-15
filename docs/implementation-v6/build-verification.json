@@ -5,7 +5,7 @@
   "legalAsOf": "2026-10-08",
   "runtime": "v26.7.0",
   "scope": "격리 기술·공개 명세·합성 사례 검증. 법적 승인·실사업장·운영 완료 아님",
-  "directory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-validation-RSAYkw",
+  "directory": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-validation-RSAYkw",
   "mismatches": [],
   "allFinalSourceBytesMatched": true
 }

@@ -1,5 +1,5 @@
 {
-  "directory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-validation-h7K5YN",
+  "directory": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-validation-h7K5YN",
   "at": "2026-10-08T15:02:45.153Z",
   "productionTouched": false,
   "steps": [
@@ -7,55 +7,55 @@
       "command": "npm run check -- -- --reporter=default --reporter=json --outputFile=work/final-tests.json",
       "code": 0,
       "elapsedMs": 12854,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-check.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-check.log"
     },
     {
       "command": "npm run test:e2e",
       "code": 0,
       "elapsedMs": 2928,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e.log"
     },
     {
       "command": "npm run test:e2e:intake",
       "code": 0,
       "elapsedMs": 1710,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-intake.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-intake.log"
     },
     {
       "command": "npm run test:e2e:additional",
       "code": 0,
       "elapsedMs": 4691,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-additional.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-additional.log"
     },
     {
       "command": "npm run test:e2e:verification",
       "code": 0,
       "elapsedMs": 2042,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-verification.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-verification.log"
     },
     {
       "command": "npm run test:e2e:dossier",
       "code": 0,
       "elapsedMs": 3155,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-dossier.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-dossier.log"
     },
     {
       "command": "npm run test:e2e:public",
       "code": 0,
       "elapsedMs": 23522,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-public.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-public.log"
     },
     {
       "command": "node scripts/e2e-v3.mjs",
       "code": 0,
       "elapsedMs": 2499,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-v3.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-v3.log"
     },
     {
       "command": "node scripts/e2e-v4.mjs",
       "code": 0,
       "elapsedMs": 1553,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-v4.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v4-audit\\v4-validation-h7K5YN-test-e2e-v4.log"
     }
   ]
 }

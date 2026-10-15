@@ -21,7 +21,7 @@ dist/assets/index-BivsNquf.js   430.85 kB │ gzip: 131.07 kB
 > vitest run --reporter=default --reporter=json --outputFile=work/final-tests.json
 
 
- RUN  v5.0.3 C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v4-validation-nFJa4k
+ RUN  v5.0.3 %USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v4-validation-nFJa4k
 
  ✓ tests/v4-operation-matrix.test.ts (1 test) 415ms
    ✓ V4-A08: 기존 52 operation 모두 실제 adapter 경유 합성 응답·capture 대조; 공식 specimen 검증은 별도 414ms
@@ -76,4 +76,4 @@ dist/assets/index-BivsNquf.js   430.85 kB │ gzip: 131.07 kB
    Start at  23:54:12
    Duration  9.77s (tests 56%, import 34%, transform 10%)
 
-JSON report written to C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v4-validation-nFJa4k/work/final-tests.json
+JSON report written to %USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v4-validation-nFJa4k/work/final-tests.json

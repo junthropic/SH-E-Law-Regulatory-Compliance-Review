@@ -6,7 +6,7 @@ locator.waitFor: Timeout 30000ms exceeded.
 Call log:
 [2m  - waiting for getByRole('heading', { name: '판단에 필요한 사실·근거 확인' }) to be visible[22m
 
-    at C:\Users\유준호\Documents\Codex\2026-10-02\1-x20\outputs\SH-E-Law-Check\work\v3-validation-Vz8Wgx\scripts\e2e-v3.mjs:105:6 {
+    at %USERPROFILE%\Documents\Codex\2026-10-02\1-x20\outputs\SH-E-Law-Check\work\v3-validation-Vz8Wgx\scripts\e2e-v3.mjs:105:6 {
   log: [
     "  - waiting for getByRole('heading', { name: '판단에 필요한 사실·근거 확인' }) to be visible"
   ],

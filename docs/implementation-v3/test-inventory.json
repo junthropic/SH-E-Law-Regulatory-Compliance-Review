@@ -6,7 +6,7 @@
   "scope": "격리 개발·가상 시험. 운영·실제 사업장·법적 승인 아님",
   "countDefinition": "Vitest case 수. parameterized row 별도 계산; assertion 수와 법률 정확도 아님",
   "baselineExecuted": {
-    "directory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-validation-xgv7r1",
+    "directory": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-validation-xgv7r1",
     "at": "2026-10-08T12:39:15.754Z",
     "productionTouched": false,
     "steps": [
@@ -14,43 +14,43 @@
         "command": "npm run check",
         "code": 0,
         "elapsedMs": 12716,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-check.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-check.log"
       },
       {
         "command": "npm run test:e2e",
         "code": 0,
         "elapsedMs": 2909,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-test-e2e.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-test-e2e.log"
       },
       {
         "command": "npm run test:e2e:intake",
         "code": 0,
         "elapsedMs": 1584,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-test-e2e-intake.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-test-e2e-intake.log"
       },
       {
         "command": "npm run test:e2e:additional",
         "code": 0,
         "elapsedMs": 4413,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-test-e2e-additional.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-test-e2e-additional.log"
       },
       {
         "command": "npm run test:e2e:verification",
         "code": 0,
         "elapsedMs": 1948,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-test-e2e-verification.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-test-e2e-verification.log"
       },
       {
         "command": "npm run test:e2e:dossier",
         "code": 0,
         "elapsedMs": 3103,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-test-e2e-dossier.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-test-e2e-dossier.log"
       },
       {
         "command": "npm run test:e2e:public",
         "code": 0,
         "elapsedMs": 22058,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-test-e2e-public.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v3-audit\\v3-validation-xgv7r1-test-e2e-public.log"
       }
     ]
   },

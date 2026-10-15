@@ -338,7 +338,7 @@
       {
         "ProcessId": 38060,
         "CreationDate": "2026-10-08T19:00:05.953374+09:00",
-        "CommandLine": "\"C:\\Program Files\\nodejs\\node.EXE\" \"C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\build\\server\\index.js\""
+        "CommandLine": "\"C:\\Program Files\\nodejs\\node.EXE\" \"%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\build\\server\\index.js\""
       }
     ],
     "frontendAsset": "index-BivsNquf.js",

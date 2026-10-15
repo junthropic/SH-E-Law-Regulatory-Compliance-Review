@@ -9,7 +9,7 @@
     "liveCredentialReads": "저장된 DPAPI 값을 메모리에서 읽어 표본 조회. 값 기록·변경 없음"
   },
   "validation": {
-    "directory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-validation-RHHzQy",
+    "directory": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-validation-RHHzQy",
     "at": "2026-10-08T11:34:22.514Z",
     "productionTouched": false,
     "steps": [
@@ -17,43 +17,43 @@
         "command": "npm run check",
         "code": 0,
         "elapsedMs": 13757,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-check.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-check.log"
       },
       {
         "command": "npm run test:e2e",
         "code": 0,
         "elapsedMs": 2847,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e.log"
       },
       {
         "command": "npm run test:e2e:intake",
         "code": 0,
         "elapsedMs": 1599,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-intake.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-intake.log"
       },
       {
         "command": "npm run test:e2e:additional",
         "code": 0,
         "elapsedMs": 4303,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-additional.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-additional.log"
       },
       {
         "command": "npm run test:e2e:verification",
         "code": 0,
         "elapsedMs": 1984,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-verification.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-verification.log"
       },
       {
         "command": "npm run test:e2e:dossier",
         "code": 0,
         "elapsedMs": 3063,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-dossier.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-dossier.log"
       },
       {
         "command": "npm run test:e2e:public",
         "code": 0,
         "elapsedMs": 21792,
-        "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-public.log"
+        "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-audit\\v2-validation-RHHzQy-test-e2e-public.log"
       }
     ]
   },
