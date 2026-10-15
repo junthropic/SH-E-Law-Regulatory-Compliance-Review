@@ -4,10 +4,11 @@ import type { AiPending } from "../server/beta-contract-v8";
 import { ReviewPage } from "./ReviewPage";
 import { KeysPage } from "./KeysPage";
 import { DataPage } from "./DataPage";
+import { Icon } from "./icons";
 
-export const BETA_BADGE = "베타 — 검토 후보, 법적 판단 아님";
+export const BETA_BADGE = "본 프로그램은 SH&E 관련 법률조회에 해당하는 기능만 법제처·공공데이터포털·도로명주소 검색 API를 통해 필요한 자료만 조회할 수 있게끔 도와주는 프로그램입니다. 별도의 법률검토는 법무법인 및 변호사와 직접 상의바랍니다.";
 const PAGES = [
-  ["review", "검토"],
+  ["review", "법률 조회"],
   ["keys", "API 키 설정"],
   ["data", "데이터·백업"],
 ] as const;
@@ -47,25 +48,28 @@ export function App() {
       <header className="beta-header">
         <div className="beta-brand">
           <strong>SH·E</strong>
-          <span className="beta-badge" role="note">{BETA_BADGE}</span>
+          <span className="beta-badge" role="note">{BETA_BADGE.slice(0, BETA_BADGE.indexOf(" 별도의"))} <br />{BETA_BADGE.slice(BETA_BADGE.indexOf(" 별도의") + 1)}</span>
         </div>
-        <nav aria-label="베타 메뉴">
+      </header>
+      <div className="beta-body">
+        <nav className="beta-side">
           {PAGES.map(([p, label]) => (
             <a key={p} href={`#/${p}`} aria-current={at.page === p ? "page" : undefined}>
               {label}
             </a>
           ))}
-          <a href="/" className="beta-old">기존 화면</a>
         </nav>
-      </header>
-      {info && <AiApprovals />}
-      <main className="beta-main" id="beta-main" tabIndex={-1}>
-        {!info && !error && <p className="beta-muted" role="status">화면을 준비하는 중…</p>}
-        {error && <p className="beta-error" role="alert">{error}</p>}
-        {info && at.page === "review" && <ReviewPage id={at.id} regions={info.regions.regions} />}
-        {info && at.page === "keys" && <KeysPage />}
-        {info && at.page === "data" && <DataPage />}
-      </main>
+        <div className="beta-content">
+          {info && <AiApprovals />}
+          <main className="beta-main" id="beta-main" tabIndex={-1} data-page={at.page}>
+            {!info && !error && <p className="beta-muted" role="status">화면을 준비하는 중…</p>}
+            {error && <p className="beta-error" role="alert">{error}</p>}
+            {info && at.page === "review" && <ReviewPage id={at.id} regions={info.regions.regions} />}
+            {info && at.page === "keys" && <KeysPage />}
+            {info && at.page === "data" && <DataPage />}
+          </main>
+        </div>
+      </div>
     </div>
   );
 }
@@ -102,7 +106,7 @@ function AiApprovals() {
     <section className="beta-ai" aria-label="AI 전송 승인 대기">
       {pending.map((p) => (
         <div key={p.previewId} className="beta-card">
-          <h2>AI 전송 승인 대기 — {p.purpose}</h2>
+          <h2><Icon name="chat" />AI 전송 승인 대기 — {p.purpose}</h2>
           <p>{p.notice}</p>
           <p className="beta-muted">
             보낼 크기 <span className="num">{p.bytes.toLocaleString()}</span>바이트 · <span className="num">{new Date(p.expiresAt).toLocaleTimeString("ko-KR")}</span>까지 승인하지 않으면 보내지 않습니다.

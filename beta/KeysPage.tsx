@@ -1,6 +1,7 @@
 import { useEffect, useId, useState } from "react";
 import { api, ApiError } from "./api";
 import type { Collection, KeyGroup, Keys, KeySave, Probe } from "../server/beta-contract-v8";
+import { Icon } from "./icons";
 
 // Key values are typed here and sent once to the local server. The server never returns them.
 export function KeysPage() {
@@ -19,7 +20,8 @@ export function KeysPage() {
     <>
       <h1 tabIndex={-1}>API 키 설정</h1>
       <p className="beta-muted">
-        각 회사가 직접 발급받은 키로 법령·공공자료를 수집합니다. 키는 이 PC의 Windows 사용자 보호 저장소에 암호화해 저장하고, 화면·기록·내보내기에 표시하지 않습니다.
+        각 회사가 직접 발급받은 키로 법령·공공자료를 수집합니다.<br />
+        키는 이 PC의 Windows 사용자 보호 저장소에 암호화해 저장하고, 화면·기록·내보내기에 표시하지 않습니다.<br />
         키가 일부만 있어도 앱은 동작하며, 키가 없는 출처는 "{keys?.missingLabel ?? "미연결 — 수집 안 됨"}"으로 표시하고 그 근거가 필요한 판정은 보류합니다.
       </p>
       {keys?.storage === "memory" && <p className="beta-warn" role="note">지금은 세션 한정 저장소입니다. 앱을 끄면 저장한 키가 사라집니다.</p>}
@@ -27,6 +29,7 @@ export function KeysPage() {
       {error && <p className="beta-error" role="alert">키 상태를 불러오지 못했습니다. {error}</p>}
       {keys?.groups.map((g) => <Group key={g.id} group={g} missing={keys.missingLabel} reload={load} />)}
       {keys && <CollectionBox rev={rev} />}
+      <AiLinkBox />
     </>
   );
 }
@@ -99,7 +102,7 @@ function Group({ group, missing, reload }: { group: KeyGroup; missing: string; r
   return (
     <section className="beta-card">
       <div className="beta-card-head">
-        <h2>{group.name}</h2>
+        <h2><Icon name="key" />{group.name}</h2>
         <span className="beta-tag">{group.required ? "필수" : "선택"}</span>
         <Badge s={s} />
       </div>
@@ -167,11 +170,11 @@ function CollectionBox({ rev }: { rev: number }) {
   useEffect(() => {
     void load();
   }, [rev]);
-  if (error && !c) return <section className="beta-card"><h2>법령 수집</h2><p className="beta-error" role="alert">수집 설정을 불러오지 못했습니다. {error}</p></section>;
-  if (!c) return <section className="beta-card"><h2>법령 수집</h2><p className="beta-muted" role="status">불러오는 중…</p></section>;
+  if (error && !c) return <section className="beta-card"><h2><Icon name="sync" />법령 수집</h2><p className="beta-error" role="alert">수집 설정을 불러오지 못했습니다. {error}</p></section>;
+  if (!c) return <section className="beta-card"><h2><Icon name="sync" />법령 수집</h2><p className="beta-muted" role="status">불러오는 중…</p></section>;
   return (
     <section className="beta-card">
-      <h2>법령 수집</h2>
+      <h2><Icon name="sync" />법령 수집</h2>
       <p className="beta-muted">수집은 이 앱 안에서 직접 합니다. GitHub 등 다른 곳의 수집 결과를 받아오지 않습니다.</p>
       <label className="beta-check">
         <input type="checkbox" checked={c.dailyAuto} onChange={async (e) => {
@@ -206,6 +209,63 @@ function CollectionBox({ rev }: { rev: number }) {
         {!c.lawConfigured && <p id="collect-why" className="beta-hint">법제처 OC를 저장해야 수집할 수 있습니다.</p>}
       </div>
       {message && <p role="status">{message}</p>}
+    </section>
+  );
+}
+
+// AI 연동 (user design 2026-10-15): reuses the existing ChatGPT sign-in of the old screen (연결 설정). The server returns
+// the OpenAI sign-in address; it opens in a new tab of the user's browser, and the status is read again when this tab
+// is shown again. Nothing about sign-in, consent or the outbound allow-list changes here.
+export const AI_LINK_TEXT = { on: "연동 완료", off: "아직 미연동된 상태입니다" } as const;
+type Opener = (url: string, target: string, features: string) => unknown;
+
+export async function startChatGpt(open: Opener = (u, t, f) => window.open(u, t, f)) {
+  const { url } = await api<{ url: string }>("/auth/chatgpt/start", "POST");
+  open(url, "_blank", "noopener,noreferrer");
+}
+
+export function AiLinkStatus({ connected }: { connected: boolean }) {
+  return <span className={`beta-status ${connected ? "ok" : "off"}`}>{connected ? AI_LINK_TEXT.on : AI_LINK_TEXT.off}</span>;
+}
+
+function AiLinkBox() {
+  const [connected, setConnected] = useState<boolean | null>(null);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    const load = () => api<{ auth?: { connected?: boolean } }>("/status").then((s) => {
+      setConnected(!!s.auth?.connected);
+      setError("");
+    }, (e: Error) => setError(e.message));
+    const onVisible = () => {
+      if (document.visibilityState === "visible") void load();
+    };
+    void load();
+    addEventListener("focus", onVisible);
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      removeEventListener("focus", onVisible);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, []);
+  return (
+    <section className="beta-card">
+      <h2><Icon name="chat" />AI 연동</h2>
+      <div className="beta-row">
+        <button className="primary" disabled={busy} onClick={async () => {
+          setBusy(true);
+          setError("");
+          try {
+            await startChatGpt();
+          } catch (e) {
+            setError((e as Error).message);
+          } finally {
+            setBusy(false);
+          }
+        }}>ChatGPT 연결하기</button>
+        {connected !== null && <AiLinkStatus connected={connected} />}
+      </div>
+      {error && <p className="beta-error" role="alert">{error}</p>}
     </section>
   );
 }
