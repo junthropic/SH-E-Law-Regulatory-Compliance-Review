@@ -1,9 +1,6 @@
 name: Weekly public law update
 on:
-  schedule:
-    # Every Friday 18:00 EST (UTC-5) = Friday 23:00 UTC = Saturday 08:00 Asia/Seoul. Cron is UTC and does not follow
-    # US daylight time: while EDT is in effect this is 19:00 New York time. GitHub schedules may be delayed.
-    - cron: "0 23 * * 5"
+  # Weekly schedule turned off (user decision 2026-10-15). Run manually before building a new app version.
   workflow_dispatch:
 permissions:
   contents: write
