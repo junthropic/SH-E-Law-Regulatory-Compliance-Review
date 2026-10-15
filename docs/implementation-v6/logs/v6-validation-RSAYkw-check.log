@@ -21,7 +21,7 @@ dist/assets/index-BivsNquf.js   430.85 kB │ gzip: 131.07 kB
 > vitest run --reporter=default --reporter=json --outputFile=work/final-tests.json
 
 
- RUN  v5.0.3 C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-RSAYkw
+ RUN  v5.0.3 %USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-RSAYkw
 
  ✓ tests/v2-golden.test.ts (13 tests) 708ms
  ✓ tests/v4-runtime.test.ts (27 tests) 844ms
@@ -102,4 +102,4 @@ dist/assets/index-BivsNquf.js   430.85 kB │ gzip: 131.07 kB
    Start at  04:04:18
    Duration  41.20s (tests 80%, import 16%, transform 4%)
 
-JSON report written to C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-RSAYkw/work/final-tests.json
+JSON report written to %USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-RSAYkw/work/final-tests.json

@@ -1,5 +1,5 @@
 {
-  "directory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-validation-7VtmCk",
+  "directory": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-validation-7VtmCk",
   "at": "2026-10-08T18:59:16.342Z",
   "productionTouched": false,
   "steps": [
@@ -7,67 +7,67 @@
       "command": "npm run check -- -- --reporter=default --reporter=json --outputFile=work/final-tests.json",
       "code": 0,
       "elapsedMs": 44303,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-check.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-check.log"
     },
     {
       "command": "npm run test:e2e",
       "code": 0,
       "elapsedMs": 2764,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e.log"
     },
     {
       "command": "npm run test:e2e:intake",
       "code": 0,
       "elapsedMs": 1555,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-intake.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-intake.log"
     },
     {
       "command": "npm run test:e2e:additional",
       "code": 0,
       "elapsedMs": 4147,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-additional.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-additional.log"
     },
     {
       "command": "npm run test:e2e:verification",
       "code": 0,
       "elapsedMs": 1875,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-verification.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-verification.log"
     },
     {
       "command": "npm run test:e2e:dossier",
       "code": 0,
       "elapsedMs": 2962,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-dossier.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-dossier.log"
     },
     {
       "command": "npm run test:e2e:public",
       "code": 0,
       "elapsedMs": 23570,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-public.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-public.log"
     },
     {
       "command": "node scripts/e2e-v3.mjs",
       "code": 0,
       "elapsedMs": 2394,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-v3.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-v3.log"
     },
     {
       "command": "node scripts/e2e-v4.mjs",
       "code": 0,
       "elapsedMs": 1428,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-v4.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-v4.log"
     },
     {
       "command": "node scripts/e2e-v5.mjs",
       "code": 0,
       "elapsedMs": 1259,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-v5.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-v5.log"
     },
     {
       "command": "node scripts/e2e-v6.mjs",
       "code": 0,
       "elapsedMs": 1597,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-v6.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v6-audit\\v6-validation-7VtmCk-test-e2e-v6.log"
     }
   ]
 }

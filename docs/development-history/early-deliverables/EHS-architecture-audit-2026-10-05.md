@@ -218,17 +218,17 @@ API 키 추가 발급이 이 모든 작업의 선행조건은 아니다. 첫 두
 
 | 확인 대상 | 위치 |
 | --- | --- |
-| 고정 수집 범위·조례 관할 필터 | [sources.ts](C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/sources.ts:397) |
-| 고정 질문·검색·전체 판정 제한 | [reviews.ts](C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/reviews.ts:148) |
-| 사실 확인·인용·규칙 조건 | [legal.ts](C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/legal.ts:7) |
-| 모델 입력 잘림·분석 역할 | [ai.ts](C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/ai.ts:78) |
-| 검색·버전 식별·변경 전파 | [store.ts](C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/store.ts:107) |
-| 공보 대조 기록·승인 만료 | [approval.ts](C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/approval.ts:33) |
-| 자료·사실·규칙의 표현 범위 | [types.ts](C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/shared/types.ts:142) |
-| 공개 링크·오류의 인증값 정리 | [sources.ts](C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/sources.ts:36) |
-| 공개 번들 검사 | [public-check.ts](C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/scripts/public-check.ts:14) |
-| 보완 검토 요청 구성 | [App.tsx](C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/src/App.tsx:192) |
-| 원본 백업 범위 | [backup.ts](C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/backup.ts:14) |
-| 결과 내보내기 | [exports.ts](C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/exports.ts:7) |
+| 고정 수집 범위·조례 관할 필터 | [sources.ts](%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/sources.ts:397) |
+| 고정 질문·검색·전체 판정 제한 | [reviews.ts](%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/reviews.ts:148) |
+| 사실 확인·인용·규칙 조건 | [legal.ts](%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/legal.ts:7) |
+| 모델 입력 잘림·분석 역할 | [ai.ts](%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/ai.ts:78) |
+| 검색·버전 식별·변경 전파 | [store.ts](%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/store.ts:107) |
+| 공보 대조 기록·승인 만료 | [approval.ts](%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/approval.ts:33) |
+| 자료·사실·규칙의 표현 범위 | [types.ts](%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/shared/types.ts:142) |
+| 공개 링크·오류의 인증값 정리 | [sources.ts](%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/sources.ts:36) |
+| 공개 번들 검사 | [public-check.ts](%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/scripts/public-check.ts:14) |
+| 보완 검토 요청 구성 | [App.tsx](%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/src/App.tsx:192) |
+| 원본 백업 범위 | [backup.ts](%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/backup.ts:14) |
+| 결과 내보내기 | [exports.ts](%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/server/exports.ts:7) |
 
-재현 결과는 [합성 점검 결과](C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/work/audit-2026-10-05/probe-results.json)에 보관했다. 사용한 자료는 모두 시험용이며 실제 법률·회신·인증값이 아니다.
+재현 결과는 [합성 점검 결과](%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/work/audit-2026-10-05/probe-results.json)에 보관했다. 사용한 자료는 모두 시험용이며 실제 법률·회신·인증값이 아니다.

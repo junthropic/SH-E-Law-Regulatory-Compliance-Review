@@ -452,7 +452,7 @@ A07 지연 중 전체 앱의 전역 busy lock을 잡아 기존 저장·검토를
 ### 자체 입력과 코드 근거
 
 - 첨부 v2 구현·검증 보고서.
-- 저장소 `C:\Users\유준호\Documents\Codex\2026-10-02\1-x20\outputs\SH-E-Law-Check`의 관련 파일·시험·`docs/implementation-v2/`.
+- 저장소 `%USERPROFILE%\Documents\Codex\2026-10-02\1-x20\outputs\SH-E-Law-Check`의 관련 파일·시험·`docs/implementation-v2/`.
 - 이번 조사의 `v3-report-contract-evidence.json`: 보고·정책·인수·API·동결 읽기 기록.
 - `v3-duration-bases.json`: 기간 관련 MCP 원문.
 - `v3-hazmat-current-originals.json`: 위험물7개 조문 원문.

@@ -1,5 +1,5 @@
 {
-  "directory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v5-validation-a200Mi",
+  "directory": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v5-validation-a200Mi",
   "at": "2026-10-08T16:36:27.995Z",
   "productionTouched": false,
   "steps": [
@@ -7,7 +7,7 @@
       "command": "npm run check -- -- --reporter=default --reporter=json --outputFile=work/final-tests.json",
       "code": 1,
       "elapsedMs": 12465,
-      "log": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v5-audit\\v5-validation-a200Mi-check.log"
+      "log": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v5-audit\\v5-validation-a200Mi-check.log"
     }
   ]
 }

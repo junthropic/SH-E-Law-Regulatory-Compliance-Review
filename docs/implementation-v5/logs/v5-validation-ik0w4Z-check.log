@@ -21,7 +21,7 @@ dist/assets/index-BivsNquf.js   430.85 kB │ gzip: 131.07 kB
 > vitest run --reporter=default --reporter=json --outputFile=work/final-tests.json
 
 
- RUN  v5.0.3 C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v5-validation-ik0w4Z
+ RUN  v5.0.3 %USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v5-validation-ik0w4Z
 
  ✓ tests/v3-policies.test.ts (13 tests) 526ms
  ✓ tests/v2-golden.test.ts (13 tests) 715ms
@@ -119,12 +119,12 @@ dist/assets/index-BivsNquf.js   430.85 kB │ gzip: 131.07 kB
    Start at  01:07:57
    Duration  12.24s (import 49%, tests 44%, transform 7%, worker 1%)
 
-JSON report written to C:/Users/유준호/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v5-validation-ik0w4Z/work/final-tests.json
+JSON report written to %USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v5-validation-ik0w4Z/work/final-tests.json
 
 ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
 
  FAIL  tests/v3-runtime.test.ts > V3-J07: 실제 두 독립 프로세스의 동시 claim은 한 worker만 획득한다
-Error: EPERM, Permission denied: \\?\C:\Users\À¯ÁØÈ£\Documents\Codex\2026-10-02\1-x20\outputs\SH-E-Law-Check\work\v5-validation-ik0w4Z\work\test-temp\she-test-KfioCD '\\?\C:\Users\����ȣ\Documents\Codex\2026-10-02\1-x20\outputs\SH-E-Law-Check\work\v5-validation-ik0w4Z\work\test-temp\she-test-KfioCD'
+Error: EPERM, Permission denied: \\?\%USERPROFILE%\Documents\Codex\2026-10-02\1-x20\outputs\SH-E-Law-Check\work\v5-validation-ik0w4Z\work\test-temp\she-test-KfioCD '\\?\%USERPROFILE%\Documents\Codex\2026-10-02\1-x20\outputs\SH-E-Law-Check\work\v5-validation-ik0w4Z\work\test-temp\she-test-KfioCD'
  ❯ Object.clean tests/helpers.ts:20:7
      18|         throw new Error("Unsafe test cleanup path");
      19|       // Windows child-process exit can precede release of the SQLite …

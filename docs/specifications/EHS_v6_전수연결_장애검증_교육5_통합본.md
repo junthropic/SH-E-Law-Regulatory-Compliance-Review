@@ -3,7 +3,7 @@
 - 법률 판단 기준일: **2026-10-08**. 이전 기준일을 유지한다.
 - 조사일: **2026-10-09 KST**. 교육·평가·채용·작업변경의 실제 사건일은 별도다.
 - 입력: 사용자 v5 결과 첨부 전문, 저장소 `docs/implementation-v5/`의 metrics·release-gate·정책/등록부·선택 서버 코드 및 공식 공개 자료.
-- 저장소: `C:\Users\유준호\Documents\Codex\2026-10-02\1-x20\outputs\SH-E-Law-Check`.
+- 저장소: `%USERPROFILE%\Documents\Codex\2026-10-02\1-x20\outputs\SH-E-Law-Check`.
 - 이번 작업은 **읽기 전용 코드 조사·공식 자료 조회·다음 실행 지시 작성**이다. 앱 수정, 404개 시험 재실행, 운영 접속, 실제 키 사용, 배포, 규칙 활성화를 하지 않았다.
 
 ## CODEX 전달 방법

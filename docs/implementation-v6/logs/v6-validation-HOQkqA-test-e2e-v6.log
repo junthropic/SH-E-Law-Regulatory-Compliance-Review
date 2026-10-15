@@ -1,9 +1,9 @@
-file:///C:/Users/%EC%9C%A0%EC%A4%80%ED%98%B8/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-HOQkqA/build/server/training-cases-v6.js:78
+file:///%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-HOQkqA/build/server/training-cases-v6.js:78
             throw Error("검토 기준일·선택 자료와 교육 후보 불일치");
                   ^
 
 Error: 검토 기준일·선택 자료와 교육 후보 불일치
-    at TrainingCases.publish (file:///C:/Users/%EC%9C%A0%EC%A4%80%ED%98%B8/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-HOQkqA/build/server/training-cases-v6.js:78:19)
-    at file:///C:/Users/%EC%9C%A0%EC%A4%80%ED%98%B8/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-HOQkqA/scripts/e2e-v6.mjs:26:112
+    at TrainingCases.publish (file:///%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-HOQkqA/build/server/training-cases-v6.js:78:19)
+    at file:///%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v6-validation-HOQkqA/scripts/e2e-v6.mjs:26:112
 
 Node.js v26.7.0

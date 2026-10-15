@@ -2,7 +2,7 @@
   "checkedAt": "2026-10-08T11:34:53.494Z",
   "head": "e770bdefb32fbb6a010b435f372f2d13c9fb384f",
   "sourceDigest": "58adb10c72f45450a365ea5d1aed9ea61ede26ee1941b62f7a149deb59bc14d2",
-  "isolatedDirectory": "C:\\Users\\유준호\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-validation-RHHzQy",
+  "isolatedDirectory": "%USERPROFILE%\\Documents\\Codex\\2026-10-02\\1-x20\\outputs\\SH-E-Law-Check\\work\\v2-validation-RHHzQy",
   "sourceFiles": 108,
   "differences": [],
   "commands": [

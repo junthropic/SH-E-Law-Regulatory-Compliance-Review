@@ -10,7 +10,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 
 'failed' !== 'ok'
 
-    at file:///C:/Users/%EC%9C%A0%EC%A4%80%ED%98%B8/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v4-validation-nFJa4k/scripts/e2e-intake.mjs:246:12 {
+    at file:///%USERPROFILE%/Documents/Codex/2026-10-02/1-x20/outputs/SH-E-Law-Check/work/v4-validation-nFJa4k/scripts/e2e-intake.mjs:246:12 {
   generatedMessage: true,
   code: 'ERR_ASSERTION',
   actual: 'failed',
