@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { api, focusTarget, koreaToday, upload, type Region } from "./api";
 import type { BetaReview, SelfReview } from "../server/beta-contract-v8";
 import { groupGaps, unique, viewIssue } from "./present";
+import { Icon } from "./icons";
 
 type Doc = { id: string; name: string; origin?: string; createdAt?: string };
 type Row = { id: string; title: string; createdAt: string; status: string };
@@ -71,8 +72,9 @@ function NewReview({ regions }: { regions: Region[] }) {
   const why = chars < 10 ? `업무 상황을 10자 이상 적으면 시작할 수 있습니다. 지금 ${chars}자입니다.` : useAi && !model ? "AI 모델을 고르면 시작할 수 있습니다." : "";
   return (
     <>
-      <h1 tabIndex={-1}>새 검토</h1>
-      <p className="beta-muted">결과는 모두 검토 후보입니다. 법적 판단이 아니며, 근거와 사실을 직접 확인해야 합니다.</p>
+      <h1 tabIndex={-1}>법률 조회</h1>
+      <p className="beta-muted">원하시는 SH&E 업무에 필요한 법률 및 법령을 연관된 자료를 조회할 수 있습니다.</p>
+      <div className="beta-columns">
       <section className="beta-card">
         <div className="beta-field">
           <label htmlFor="review-prompt">검토할 업무 상황</label>
@@ -105,7 +107,7 @@ function NewReview({ regions }: { regions: Region[] }) {
               <span>{d.name}</span>
             </label>
           ))}
-          {docs && !docs.length && <p className="beta-muted">올린 자료가 없습니다.</p>}
+          {docs && !docs.length && <p className="beta-muted">업로드한 자료가 없습니다. ( ※ 법률조회 시 자료를 반드시 첨부할 필요는 없습니다.)</p>}
           <label className="beta-file">
             {uploading ? "올리는 중…" : "자료 올리기"}
             <input type="file" disabled={uploading} aria-describedby={uploadError ? "upload-error" : undefined} onChange={async (e) => {
@@ -143,7 +145,7 @@ function NewReview({ regions }: { regions: Region[] }) {
               )}
             </>
           ) : (
-            <p className="beta-muted">AI 분석은 꺼져 있습니다. 쓰려면 데이터·백업 화면에서 AI 전송에 동의하고, 기존 화면의 연결 설정에서 ChatGPT를 연결하세요.</p>
+            <p className="beta-muted">AI 분석의 경우 ChatGPT 연결을 통해 사용이 가능하며, 데이터·백업 화면에서 해당 내용이 AI에 전송되는 것에 대한 동의가 필요합니다. 회사 자료 및 내용을 업로드할 경우 절대적으로 보안이슈가 발생할 수 있으므로 반드시 유의해주세요.</p>
           )}
         </fieldset>
         <div className="beta-actions">
@@ -152,7 +154,8 @@ function NewReview({ regions }: { regions: Region[] }) {
         </div>
         {error && <p className="beta-error" role="alert">{error}</p>}
       </section>
-      <h2>검토 기록</h2>
+      <section className="beta-card beta-history">
+      <h2><Icon name="history" />검토 기록</h2>
       {rows === null && !rowsError && <p className="beta-muted" role="status">검토 기록을 불러오는 중…</p>}
       {rowsError && <p className="beta-error" role="alert">검토 기록을 불러오지 못했습니다. {rowsError}</p>}
       {rows && (
@@ -166,11 +169,14 @@ function NewReview({ regions }: { regions: Region[] }) {
           {!rows.length && <li className="beta-muted">아직 검토가 없습니다.</li>}
         </ul>
       )}
+      </section>
+      </div>
     </>
   );
 }
 
-const jump = (id: string) => focusTarget(document.getElementById(id)?.querySelector("h2"));
+// Result: the left list picks one part of the result; the right side shows only that part (user design 2026-10-15).
+const panelId = (key: string) => (key.startsWith("issue:") ? "result-issue-" + key.slice(6) : "result-" + key);
 
 function Result({ id }: { id: string }) {
   const [data, setData] = useState<BetaReview | null>(null);
@@ -193,31 +199,21 @@ function Result({ id }: { id: string }) {
       if (timer) clearTimeout(timer);
     };
   }, [id]);
-  const toc: [string, string][] = !data || data.review.status === "running" ? [] : [
-    ["result-candidates", "판정 후보"],
-    ["result-facts", "사실 보완"],
-    ...(data.selfReview || data.review.status === "completed" ? [["result-self", "자가 검토"] as [string, string]] : []),
-    ["result-export", "내보내기"],
-  ];
   return (
     <div className="beta-result">
-      {!!toc.length && (
-        <nav className="beta-toc" aria-label="결과 목차">
-          <ul>
-            {toc.map(([to, label]) => (
-              <li key={to}><a href={`#${to}`} onClick={(e) => { e.preventDefault(); jump(to); }}>{label}</a></li>
-            ))}
-          </ul>
-          <p className="beta-toc-note">{data?.preview.label}</p>
-        </nav>
-      )}
-      <div className="beta-result-body">
-        <p className="beta-back"><a href="#/review">← 새 검토</a></p>
+      <p className="beta-back"><a href="#/review">← 새 검토</a></p>
+      <div className="beta-title-row">
         <h1 tabIndex={-1}>검토 후보</h1>
-        {error && <p className="beta-error" role="alert">{error} 목록에서 다른 검토를 고르거나 새 검토를 시작하세요.</p>}
-        {!data && !error && <p className="beta-muted" role="status">불러오는 중…</p>}
-        {data && <ResultBody data={data} setData={setData} />}
+        {data && (
+          <p className="beta-h1-note">
+            (<strong>{data.preview.label}</strong> · 근거와 사실을 직접 확인해야 합니다. · {data.preview.on ? "안전관리자 미리보기 켜짐" : "미리보기 꺼짐 — 기본 검토 결과"}
+            {data.selfReview && <> · <span className="beta-self">{data.selfReview.label}</span></>})
+          </p>
+        )}
       </div>
+      {error && <p className="beta-error" role="alert">{error} 목록에서 다른 검토를 고르거나 새 검토를 시작하세요.</p>}
+      {!data && !error && <p className="beta-muted" role="status">불러오는 중…</p>}
+      {data && <ResultBody key={data.review.id} data={data} setData={setData} />}
     </div>
   );
 }
@@ -227,21 +223,33 @@ function ResultBody({ data, setData }: { data: BetaReview; setData: (d: BetaRevi
   const label = data.preview.label;
   const gaps = groupGaps(r.gaps);
   const gapCount = gaps.reduce((n, g) => n + g.items.length, 0);
+  const more: [string, string][] = [
+    ["facts", "사실 보완"],
+    ...(data.selfReview || r.status === "completed" ? [["self", "자가 검토"] as [string, string]] : []),
+    ["export", "내보내기"],
+  ];
+  const keys = [...r.issues.map((i) => "issue:" + i.id), ...more.map(([k]) => k)];
+  const [pick, setPick] = useState("");
+  const [moveTo, setMoveTo] = useState("");
+  const current = keys.includes(pick) ? pick : keys[0];
+  useEffect(() => {
+    if (!moveTo) return;
+    focusTarget(document.getElementById(moveTo)?.querySelector("h2, h3"));
+    setMoveTo("");
+  }, [moveTo]);
+  // On a narrow screen the detail sits below the list, so it is brought into view.
+  const show = (key: string, move = false) => {
+    setPick(key);
+    if (move || matchMedia("(max-width: 900px)").matches) setMoveTo(panelId(key));
+  };
+  const pickButton = (key: string, content: ReactNode) => (
+    <button type="button" className="beta-pick" aria-current={current === key ? "true" : undefined} aria-controls={panelId(key)} onClick={() => show(key)}>{content}</button>
+  );
   return (
     <>
-      <div className="beta-banner" role="note">
-        <svg className="beta-icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" strokeWidth="1.5" /><path d="M8 7v4.5M8 4.5v.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
-        <div>
-          <p><strong>{label}</strong> · 근거와 사실을 직접 확인해야 합니다.</p>
-          <p className="beta-banner-meta">
-            <span>{data.preview.on ? "안전관리자 미리보기 켜짐" : "미리보기 꺼짐 — 기본 검토 결과"}</span>
-            {data.selfReview && <span className="beta-self">{data.selfReview.label}</span>}
-          </p>
-        </div>
-      </div>
       <section className="beta-card beta-request-card" aria-label="검토 요청">
         <p className="beta-request">{r.request.prompt}</p>
-        <p className="beta-muted">{r.request.region} {r.request.municipality} · 기준일 <span className="num">{r.request.asOf}</span> · 상태 {r.status === "running" ? "진행 중" : r.status === "completed" ? "완료" : "실패"}</p>
+        <p className="beta-muted">{r.request.region} {r.request.municipality} · 기준일 <span className="num">{r.request.asOf}</span> · {r.status === "completed" ? "동기화 · 조회 완료" : `상태 ${r.status === "running" ? "진행 중" : "실패"}`}</p>
         {r.status === "running" && <p role="status">{r.progress || "검토 중입니다."}</p>}
         {r.error && <p className="beta-error">{r.error}</p>}
       </section>
@@ -256,40 +264,55 @@ function ResultBody({ data, setData }: { data: BetaReview; setData: (d: BetaRevi
               })}
               <span>근거 확인 필요 <b className="num">{gapCount}</b>건</span>
             </p>
-            <button className="primary" onClick={() => jump("result-export")}>내보내기</button>
+            <button className="primary" onClick={() => show("export", true)}>내보내기</button>
           </div>
-          <section id="result-candidates" className="beta-section">
-            <h2>판정 후보</h2>
-            {r.issues.map((i) => <IssueCard key={i.id} issue={i} label={label} />)}
-            {!r.issues.length && <p className="beta-empty">판정 후보가 없습니다. 아래 사실 보완과 근거 확인 목록을 보세요.</p>}
-          </section>
-          <Facts data={data} gaps={gaps} gapCount={gapCount} />
-          <SelfReviewBox id={r.id} done={data.selfReview} status={r.status} onDone={(s) => setData({ ...data, selfReview: s })} />
-          <section id="result-export" className="beta-card beta-section">
-            <h2>내보내기</h2>
-            <p className="beta-muted">내보낸 파일에는 화면과 같은 판정 후보{data.selfReview ? "와 자가 검토 표시" : ""}가 들어갑니다.</p>
-            <div className="beta-row">
-              <a className="button" href={`/api/reviews/${r.id}/export?format=md`}>Markdown</a>
-              <a className="button" href={`/api/reviews/${r.id}/export?format=csv`}>CSV</a>
-              <a className="button" href={`/api/reviews/${r.id}/reviewer-packet`}>검토자 인계 자료</a>
+          <div className="beta-split">
+            <nav className="beta-picker" aria-label="결과 목록">
+              <h2><Icon name="list" />판정 후보</h2>
+              {r.issues.length ? (
+                <ul className="beta-pick-list">
+                  {r.issues.map((i) => <li key={i.id}>{pickButton("issue:" + i.id, <><Status category={i.category} /><span className="beta-pick-title">{i.title}</span></>)}</li>)}
+                </ul>
+              ) : (
+                <p className="beta-empty">판정 후보가 없습니다. 아래 사실 보완과 근거 확인 목록을 보세요.</p>
+              )}
+              <ul className="beta-pick-list beta-pick-more">
+                {more.map(([key, text]) => <li key={key}>{pickButton(key, text)}</li>)}
+              </ul>
+            </nav>
+            <div className="beta-detail">
+              {r.issues.map((i) => <IssueCard key={i.id} issue={i} label={label} hidden={current !== "issue:" + i.id} />)}
+              <Facts data={data} gaps={gaps} gapCount={gapCount} hidden={current !== "facts"} />
+              <SelfReviewBox id={r.id} done={data.selfReview} status={r.status} hidden={current !== "self"} onDone={(s) => setData({ ...data, selfReview: s })} />
+              <section id="result-export" className="beta-card beta-section" hidden={current !== "export"}>
+                <h2><Icon name="download" />내보내기</h2>
+                <p className="beta-muted">내보낸 파일에는 화면과 같은 판정 후보{data.selfReview ? "와 자가 검토 표시" : ""}가 들어갑니다.</p>
+                <div className="beta-row">
+                  <a className="button" href={`/api/reviews/${r.id}/export?format=md`}>Markdown</a>
+                  <a className="button" href={`/api/reviews/${r.id}/export?format=csv`}>CSV</a>
+                  <a className="button" href={`/api/reviews/${r.id}/reviewer-packet`}>검토자 인계 자료</a>
+                </div>
+              </section>
             </div>
-          </section>
+          </div>
         </>
       )}
     </>
   );
 }
 
-function IssueCard({ issue: i, label }: { issue: BetaReview["review"]["issues"][number]; label: string }) {
+function IssueCard({ issue: i, label, hidden }: { issue: BetaReview["review"]["issues"][number]; label: string; hidden: boolean }) {
   const v = viewIssue(i, label);
   const missing = unique(i.missing);
   return (
-    <article className={`beta-issue ${CATEGORY[i.category].cls}`}>
-      <div className="beta-issue-head">
-        <Status category={i.category} />
-        <span className="beta-tag">{CARD_TAG}</span>
+    <article id={"result-issue-" + i.id} className={`beta-issue ${CATEGORY[i.category].cls}`} hidden={hidden}>
+      <div className="beta-issue-top">
+        <div className="beta-issue-head">
+          <Status category={i.category} />
+          <span className="beta-tag">{CARD_TAG}</span>
+        </div>
+        <h3><Icon name="scale" />{i.title}</h3>
       </div>
-      <h3>{i.title}</h3>
       {(!!v.articles.length || v.lawDate || v.approval) && (
         <dl className="beta-basis">
           {!!v.articles.length && (
@@ -318,18 +341,12 @@ function IssueCard({ issue: i, label }: { issue: BetaReview["review"]["issues"][
           <ul>{i.nextActions.map((c, n) => <li key={n}>{c}</li>)}</ul>
         </>
       )}
-      {!!v.tech.length && (
-        <details className="beta-fold beta-tech">
-          <summary>기술 정보</summary>
-          <ul>{v.tech.map((c, n) => <li key={n} className="num">{c}</li>)}</ul>
-        </details>
-      )}
     </article>
   );
 }
 
 // Fact supplement: answers go into a new review; the earlier record stays as it was.
-function Facts({ data, gaps, gapCount }: { data: BetaReview; gaps: ReturnType<typeof groupGaps>; gapCount: number }) {
+function Facts({ data, gaps, gapCount, hidden }: { data: BetaReview; gaps: ReturnType<typeof groupGaps>; gapCount: number; hidden: boolean }) {
   const r = data.review;
   const [answers, setAnswers] = useState<Record<string, string>>(r.request.answers);
   const [busy, setBusy] = useState(false);
@@ -348,8 +365,8 @@ function Facts({ data, gaps, gapCount }: { data: BetaReview; gaps: ReturnType<ty
   };
   const ready = Object.values(answers).some((v) => v.trim());
   return (
-    <section id="result-facts" className="beta-card beta-section">
-      <h2>사실 보완</h2>
+    <section id="result-facts" className="beta-card beta-section" hidden={hidden}>
+      <h2><Icon name="edit" />사실 보완</h2>
       {!!r.facts.length && (
         <div className="beta-table-wrap">
           <table className="beta-table beta-stack">
@@ -403,15 +420,15 @@ function Facts({ data, gaps, gapCount }: { data: BetaReview; gaps: ReturnType<ty
   );
 }
 
-function SelfReviewBox({ id, done, status, onDone }: { id: string; done: SelfReview | null; status: string; onDone: (s: SelfReview) => void }) {
+function SelfReviewBox({ id, done, status, hidden, onDone }: { id: string; done: SelfReview | null; status: string; hidden: boolean; onDone: (s: SelfReview) => void }) {
   const [note, setNote] = useState("");
   const [checks, setChecks] = useState({ facts: false, basis: false, limits: false });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   if (done)
     return (
-      <section id="result-self" className="beta-card beta-section">
-        <h2>{done.label}</h2>
+      <section id="result-self" className="beta-card beta-section" hidden={hidden}>
+        <h2><Icon name="check" />{done.label}</h2>
         <p className="beta-muted"><span className="num">{new Date(done.at).toLocaleString("ko-KR")}</span> · 독립 검토로 인정되지 않습니다.</p>
         <p>{done.note}</p>
       </section>
@@ -421,8 +438,8 @@ function SelfReviewBox({ id, done, status, onDone }: { id: string; done: SelfRev
   const chars = note.trim().length;
   const why = checked < 3 || chars < 15 ? `세 항목을 모두 확인하고 메모를 15자 이상 적으면 기록할 수 있습니다. 지금 ${checked}/3 확인 · ${chars}자입니다.` : "";
   return (
-    <section id="result-self" className="beta-card beta-section">
-      <h2>자가 검토 — 독립 검토 아님</h2>
+    <section id="result-self" className="beta-card beta-section" hidden={hidden}>
+      <h2><Icon name="check" />자가 검토 — 독립 검토 아님</h2>
       <p className="beta-muted">혼자 쓰는 설치판에서는 작성자 본인이 검토를 기록할 수 있습니다. 결과·화면·내보내기에 항상 "자가 검토 — 독립 검토 아님"이 표시되고, 판정 단계는 바뀌지 않습니다.</p>
       <p className="beta-muted"><span className="num">{checked}/3</span> 확인</p>
       {([["facts", "입력한 사실과 자료를 다시 확인했습니다."], ["basis", "근거 조문과 기준일을 원문에서 확인했습니다."], ["limits", "이 결과가 법적 판단이 아닌 검토 후보임을 이해했습니다."]] as const).map(([k, label]) => (

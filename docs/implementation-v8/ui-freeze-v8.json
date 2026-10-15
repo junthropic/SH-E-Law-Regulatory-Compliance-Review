@@ -1,5 +1,5 @@
 {
-  "frozenAt": "2026-10-14",
+  "frozenAt": "2026-10-15",
   "rule": "이 목록의 파일은 수정하지 않는다. 바꿔야 하면 사용자 승인 후 동결을 풀고 이 파일을 다시 만든다.",
   "hash": "sha256, CRLF→LF 정규화",
   "changes": [
@@ -7,12 +7,43 @@
       "date": "2026-10-14",
       "approvedBy": "사용자(디자인 검토 제안 승인)",
       "note": "베타 화면 재디자인(docs/implementation-v8/beta-redesign.md): 베타 소스·dist-beta 다시 동결, Pretendard 글꼴 번들 추가, 피드백 화면 삭제. 기존 29개 파일과 hash는 그대로. 글꼴(woff2)도 같은 방식(UTF-8로 읽어 CRLF→LF 후 sha256)으로 기록한다."
+    },
+    {
+      "date": "2026-10-15",
+      "approvedBy": "사용자(2026-10-15 사용자 지정 디자인 지시)",
+      "note": "베타 화면에 사용자 지정 디자인 적용(docs/implementation-v8/beta-redesign.md '2026-10-15 사용자 지정 디자인'): 베타 소스·dist-beta만 다시 동결, 아이콘 파일(beta/icons.tsx) 추가. 기존 29개 파일과 hash는 그대로."
+    },
+    {
+      "at": "2026-10-15",
+      "note": "사용자 지시: 상단 문구 글자 6pt 낮춤, 베타 메뉴 제목·기존 화면 메뉴 삭제, 데이터 처리 안내의 시험 번호·베타 라벨 삭제와 소제목 번호",
+      "files": [
+        "beta/App.tsx",
+        "beta/DataPage.tsx",
+        "beta/beta.css",
+        "dist-beta/build-info.json",
+        "dist-beta/index.html",
+        "dist-beta/assets/index-BzpTrqus.js",
+        "dist-beta/assets/index-BzlOZwCm.css"
+      ]
+    },
+    {
+      "at": "2026-10-15",
+      "note": "사용자 지시: 상단 문구 2줄·9pt, 메뉴 법령 조회→법률 조회, API 키 설정 안내 문장별 줄바꿈",
+      "files": [
+        "beta/App.tsx",
+        "beta/KeysPage.tsx",
+        "beta/beta.css",
+        "dist-beta/assets/index-gczaWQMj.js",
+        "dist-beta/assets/index-CQQzWcOI.css",
+        "dist-beta/build-info.json",
+        "dist-beta/index.html"
+      ]
     }
   ],
   "counts": {
     "v6": 29,
-    "v8Beta": 23,
-    "total": 52
+    "v8Beta": 24,
+    "total": 53
   },
   "files": [
     {
@@ -163,22 +194,22 @@
     {
       "path": "beta/App.tsx",
       "set": "v8-beta",
-      "hash": "d1154a528a760aa08c26a3d6d526e0d9657cd04abbc08ad6b51ef1568473e1b7"
+      "hash": "ea50f4ce9b82d9725201ace6e993c5433800993059845a3643f86d1eae41e8e7"
     },
     {
       "path": "beta/DataPage.tsx",
       "set": "v8-beta",
-      "hash": "7c2043e730984de3bc39c63615a278e4f42a7bf987bb7b993273502877a93bbb"
+      "hash": "2c648dec5a3baf6db367cfadec58437e934aaa689f91deaa8bdd8a73d4144634"
     },
     {
       "path": "beta/KeysPage.tsx",
       "set": "v8-beta",
-      "hash": "f8bfb4680e8e58cd187212603a53090fb295bdcd7b6c563e10eed8cdbdb5e75d"
+      "hash": "6227a4af034bbca59e44ecbeabffa014152b482191609d9aa2d3b2a24c4478d0"
     },
     {
       "path": "beta/ReviewPage.tsx",
       "set": "v8-beta",
-      "hash": "712fab1cbf2d5b628dad27dd000a188732c02f563be3af9b71f5d337250579e0"
+      "hash": "bc67e4e3319b159c2293a072982f9f15e4de2d61e61c8ff735587cb55f5f4acd"
     },
     {
       "path": "beta/api.ts",
@@ -188,7 +219,7 @@
     {
       "path": "beta/beta.css",
       "set": "v8-beta",
-      "hash": "955923bded42f9feee8e04f452dca69b87157788ff3ceba1f79d45c9f3eee09a"
+      "hash": "475b91780a3930e09fc5db8ef9c579d2c9a37ffd7a2af84dbeaf35f0cf2087e8"
     },
     {
       "path": "beta/fonts/LICENSE-Pretendard.txt",
@@ -209,6 +240,11 @@
       "path": "beta/fonts/Pretendard-SemiBold.woff2",
       "set": "v8-beta",
       "hash": "8f4d675cc3debc082cca8380f0f1deeaa973cd72a458bc1f9a5e6e3dd11685ac"
+    },
+    {
+      "path": "beta/icons.tsx",
+      "set": "v8-beta",
+      "hash": "185068516a9a0a8d191e0c75f2cb45311dbe3812e9bd49f15bf6219c2fc98fec"
     },
     {
       "path": "beta/index.html",
@@ -241,24 +277,24 @@
       "hash": "8f4d675cc3debc082cca8380f0f1deeaa973cd72a458bc1f9a5e6e3dd11685ac"
     },
     {
-      "path": "dist-beta/assets/index-iqN6_lnz.css",
+      "path": "dist-beta/assets/index-gczaWQMj.js",
       "set": "v8-beta",
-      "hash": "f93e451129b810b3e6fa985b3ea6cb9d9fa9997ce320108b807ef6d926964f02"
+      "hash": "ad625e735a94f369779ab36d50f90b4d4defea1299c0f4745f3c74cc86d76f23"
     },
     {
-      "path": "dist-beta/assets/index-qOyxFKEH.js",
+      "path": "dist-beta/assets/index-CQQzWcOI.css",
       "set": "v8-beta",
-      "hash": "51f81b0ec8b87a9bdf1f318469843979017e735fa4e1146075c50867347a3d45"
+      "hash": "0da541139b5050626c992d128681893c5757b771b40d0dfe1bd84d842909a6b3"
     },
     {
       "path": "dist-beta/build-info.json",
       "set": "v8-beta",
-      "hash": "75cfeda9fb252fd129fc857e0c8ac5a68803f61aea112554925b97647ae0a9ad"
+      "hash": "07aa70749ba7659c6bb3ff7f0b76003a3cc7742bce62b3241242006145cd0804"
     },
     {
       "path": "dist-beta/index.html",
       "set": "v8-beta",
-      "hash": "c765f8eebbefd0ea332efd1591f54edaac7736b418889b547e98374c357e36e2"
+      "hash": "d4b9568f5918e12c7e98d28ab5c1e104c19a2f9d9c6133c2c7e369200d1b35c2"
     },
     {
       "path": "server/beta-contract-v8.ts",
