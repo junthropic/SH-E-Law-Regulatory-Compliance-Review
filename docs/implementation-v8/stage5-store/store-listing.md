@@ -68,7 +68,7 @@ Partner Center의 "Store 등록 정보 → 한국어(ko-KR)"에 그대로 붙여
 |---|---|
 | 검색어(Search terms, 최대 7개) | 환경안전보건, 산업안전보건법, 안전관리자, 법령 검토, EHS, 위험물, 폐기물 |
 | 저작권·상표 정보 | © 2026 Junthropic |
-| 개인정보 처리방침 URL | 사용자가 `privacy-policy.html`을 게시한 주소 (TODO_PRIVACY_URL) |
+| 개인정보 처리방침 URL | 사용자가 `privacy-policy.html`을 게시한 주소 (https://sites.google.com/view/korean-sh-e-program-privacy/) |
 | 지원 연락처 | yourmissionisours@gmail.com |
 | 웹사이트 | 비워 둠 |
 | 스크린샷 | `screenshots/` 6장 (1920×1080 PNG) |
