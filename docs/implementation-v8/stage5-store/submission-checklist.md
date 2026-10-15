@@ -10,16 +10,16 @@ Microsoft 계정 로그인, Partner Center 입력, 업로드, 제출 버튼은 �
 |---|---|---|
 | A1 | Partner Center 개인 개발자 등록 | ✅ |
 | A2 | 앱 이름 예약, 패키지 정보(Name·Publisher·PublisherDisplayName) 받아 전달 | ✅ 매니페스트 반영(#23) |
-| A3 | Partner Center에 예약한 앱 이름이 **"한국 환경안전보건관리자 법령조회 프로그램"과 글자까지 같은지** 확인(제품 관리 → 제품 ID). 다르면 그 이름을 알려주기 | ⬜ |
+| A3 | Partner Center 이름 관리에서 "한국 환경안전보건관리자 법률조회 프로그램" 추가 예약 확인. 기존 영문 이름과 내부 ID는 유지 | ✅ 2026-10-15 |
 | A4 | **보안 검증 계획 진행 여부 결정.** `security-review-plan.md`의 H1(같은 PC의 다른 사용자·프로세스가 로컬 서버에 접근)은 위험도 "높음"이고 "고친 뒤 제출"을 권고했다. 고치면 MSIX를 다시 만들어야 하므로 B보다 먼저 정한다 | ⬜ |
-| A5 | 문의용 메일 주소 만들기(개인 메일 대신 베타 문의 전용 권장) → 알려주기 | ⬜ |
-| A6 | `privacy-policy.html`을 공개 웹페이지로 게시(예: Google Sites, 저장소는 Private이라 GitHub에 못 올림) → URL 알려주기. 게시 전에 `TODO_SUPPORT_EMAIL`·`TODO_EFFECTIVE_DATE`를 채운 판을 받는다(아래 B1) | ⬜ |
+| A5 | 문의용 메일: `yourmissionisours@gmail.com` (사용자 지정) | ✅ 2026-10-15 |
+| A6 | `privacy-policy.html`을 로그인 없이 열리는 공개 페이지에 게시 → URL 알려주기. 문의 메일은 반영했으며 게시 전에 `TODO_EFFECTIVE_DATE`를 확정한다 | ⬜ 게시 URL·시행일 미정 |
 
 ## B. 최종 패키지 만들기 (A3~A6 값을 받은 뒤)
 
 | # | 할 일 | 상태 |
 |---|---|---|
-| B1 | 🛠 처리방침·Store 문구·베타 문서의 `TODO_SUPPORT_EMAIL`·`TODO_PRIVACY_URL`·`TODO_EFFECTIVE_DATE`를 채운다. A3에서 이름이 다르면 `identity.json` 수정 | ⬜ |
+| B1 | 새 예약 이름과 문의 메일 반영. `TODO_PRIVACY_URL`·`TODO_EFFECTIVE_DATE`는 게시 주소·시행일 확정 후 채운다 | ⬜ URL·시행일 대기 |
 | B2 | 🛠 main 최신에서 `msix.yml`을 돌려 Store용 MSIX(`SHELaw-Beta_<버전>_x64_store.msix`, 서명 없음)를 만들고, 같은 실행에서 설치 시험·WACK·패키지 검사기 결과를 확인한다. 지금 있는 산출물(run 38553954580)은 #24(갱신 주기 안내) 이전 코드라 **업로드에 쓰지 않는다** | ⬜ |
 | B3 | 🛠 버전 번호 결정: 같은 버전으로 다시 올릴 수 없으므로, 업로드 후 고치면 `identity.json`의 `version`을 올린다(예: 0.8.1.0). 마지막 자리는 0이어야 한다 | ⬜ |
 | B4 | B2 산출물을 내려받기(GitHub Actions → 해당 실행 → Artifacts) | ⬜ |
