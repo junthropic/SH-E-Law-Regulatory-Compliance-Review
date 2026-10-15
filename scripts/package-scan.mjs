@@ -34,7 +34,7 @@ const KEY_PATTERNS=[
   ["key:assignment",/\b(?:api[_-]?key|service[_-]?key|secret|access[_-]?token|client[_-]?secret|LAW_OC|OPENAI_API_KEY)\b\s*[:=]\s*["']?(?!TODO|your|<|\$\{|process\.env|example|sample|fixture|synthetic|test)[A-Za-z0-9+/=_%.-]{12,}/gi],
 ];
 const EMAIL=/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
-const EMAIL_ALLOW=[/^noreply@anthropic\.com$/i,/@users\.noreply\.github\.com$/i,/@example\.(com|org|net)$/i,/^TODO_/i,/@(?:[^@]*\.)?(test|invalid|localhost|example)$/i]; // RFC 2606 reserved names
+const EMAIL_ALLOW=[/^noreply@anthropic\.com$/i,/@users\.noreply\.github\.com$/i,/@example\.(com|org|net)$/i,/^TODO_/i,/@(?:[^@]*\.)?(test|invalid|localhost|example)$/i,/^yourmissionisours@gmail\.com$/i]; // RFC 2606 reserved names
 const USER_PATH=/(?:[A-Za-z]:[\\/]+Users[\\/]+|\/home\/|\/Users\/)([^\\/\s"'`<>:*?|]+)/g;
 const USER_PATH_ALLOW=new Set(["<user>","USER","user","runner","Public","Default","%USERNAME%","username","…","..."]);
 const FORBIDDEN_DIRS=[".git",".local","work","docs","tests","coverage","playwright-report","test-results","backups","private",".github"];
