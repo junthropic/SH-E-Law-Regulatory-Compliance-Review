@@ -20,13 +20,13 @@ it("V8-D01: 처리방침(MD·HTML)과 IT 요청 문안의 외부 주소는 실�
   expect(md.has("www.epeople.go.kr")).toBe(false);
 });
 
-it("V8-D02: 제출 자료에 메일 주소·PC 경로가 없고 문의처는 자리표시로 둔다", () => {
+it("V8-D02: 승인된 문의 메일만 허용하고 PC 경로와 다른 메일을 금지한다", () => {
   for (const name of TEXT_DOCS) {
     const s = read(name);
-    expect(s.match(/[\w.+-]+@[\w-]+\.[\w.-]+/g), name).toBeNull();
+    expect((s.match(/[\w.+-]+@[\w-]+\.[\w.-]+/g) ?? []).filter((email) => email !== "yourmissionisours@gmail.com"), name).toEqual([]);
     expect(/[A-Za-z]:\\Users\\/i.test(s), name).toBe(false);
   }
-  for (const name of ["privacy-policy.md", "privacy-policy.html", "beta-guide.md"]) expect(read(name)).toContain("TODO_SUPPORT_EMAIL");
+  for (const name of ["privacy-policy.md", "privacy-policy.html", "beta-guide.md"]) expect(read(name)).toContain("yourmissionisours@gmail.com");
 });
 
 it("V8-D03: 상세 설명 첫 줄은 베타 라벨이고, 증명하지 않은 보안·학습 보장 표현을 쓰지 않는다", () => {

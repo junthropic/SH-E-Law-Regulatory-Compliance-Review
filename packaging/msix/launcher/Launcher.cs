@@ -24,7 +24,7 @@ using System.Windows.Forms;
 
 static class Launcher
 {
-    const string Title = "한국 환경안전보건관리자 법령조회 프로그램";
+    const string Title = "한국 환경안전보건관리자 법률조회 프로그램";
     const int PreferredPort = 4317;
     static Process server;
     static IntPtr job = IntPtr.Zero;
