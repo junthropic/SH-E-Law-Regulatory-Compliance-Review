@@ -10,6 +10,9 @@ import { purgeExpired } from "./retention-v8.js";
 import { safeMessage } from "./redact-v8.js";
 import { setAiSendGate, type AiConsent } from "./ai-consent-v8.js";
 import { importPublicOnce, isInstalled } from "./installed-v8.js";
+import { takeLaunchToken } from "./launch-token-v8.js";
+// H1: the launcher's per-start secret. Taken out of the environment before anything starts a child process.
+const launchToken = takeLaunchToken();
 // Errors that escape every handler are printed without paths or values, then the process stops.
 process.on("uncaughtException", (e) => {
   console.error("SH·E 오류: " + safeMessage(e instanceof Error ? e.message : String(e)));
@@ -25,7 +28,7 @@ new EgressGuard((url, method, body) => consent?.authorize(url, method, body) ?? 
 const dataDir = resolve(process.env.SHE_DATA_DIR || ".local");
 mkdirSync(dataDir, { recursive: true });
 const cipher = await openProductionCipher(dataDir);
-const { app, store, aiConsent } = await createApp(new Store(dataDir, { cipher }));
+const { app, store, aiConsent } = await createApp(new Store(dataDir, { cipher }), false, undefined, undefined, undefined, launchToken);
 consent = aiConsent;
 // Every AI send waits for the user to approve the exact payload on the beta screen (one approval, one send).
 setAiSendGate((payload, purpose, onWait) => aiConsent.awaitApproval(payload, purpose, onWait));

@@ -51,8 +51,9 @@ import { safeMessage } from "./redact-v8.js";
 import { attachPreview, registerPreviewV8 } from "./preview-v8.js";
 import { registerBetaV8, markCsv, markMarkdown, selfReviewOf } from "./beta-v8.js";
 import { isInstalled, MCP_OFF_MESSAGE, PETITION_OFF_MESSAGE, PUBLIC_UPDATE_OFF_MESSAGE } from "./installed-v8.js";
+import { LAUNCH_HEADER, LAUNCH_REFUSED, launchTokenMatches } from "./launch-token-v8.js";
 
-export async function createApp(store = new Store(), test = false, complianceGrants?: ReadonlyMap<string, Principal>, v3?: {adapter?:"v3"|"v4"|"v6";principal:Principal;mode:"shadow"|"project";collect?:boolean;backupKey?:{key:Buffer;id:string}}, enforcement?: () => Execution) {
+export async function createApp(store = new Store(), test = false, complianceGrants?: ReadonlyMap<string, Principal>, v3?: {adapter?:"v3"|"v4"|"v6";principal:Principal;mode:"shadow"|"project";collect?:boolean;backupKey?:{key:Buffer;id:string}}, enforcement?: () => Execution, launchToken?: string) {
   if(v3 && (!test || !v3.principal.synthetic))throw new Error("v3 연결은 명시된 격리 가상 환경에서만 실행합니다.");
   const bridge=v3?new LegacyBridge(store,v3.adapter||"v3"):undefined;
   // Default path: v8 preview switch (off = no-op, the review is unchanged).
@@ -194,6 +195,9 @@ export async function createApp(store = new Store(), test = false, complianceGra
   app.get("/api/bootstrap", async (req, reply) => {
     let token = req.cookies.she_session;
     if (!token || !sessions.has(token)) {
+      // H1: with a launch token (installed build) only the browser the launcher opened gets a new session.
+      if (launchToken && !launchTokenMatches(launchToken, req.headers[LAUNCH_HEADER]))
+        return reply.code(403).send({ error: LAUNCH_REFUSED });
       token = randomBytes(32).toString("base64url");
       if (sessions.size > 100) sessions.clear();
       sessions.set(token, randomBytes(32).toString("base64url"));

@@ -56,8 +56,10 @@ function WaitGone([int]$seconds) {
   }
   return $false
 }
+# H1: the scenario reads the launcher's per-start token from launch.json itself (same user, like a second start).
+function LaunchFile { Join-Path (DataRoot) "LocalState\launch.json" }
 function Scenario([string[]]$scenarioArgs) {
-  $outText = & node (Join-Path $repo "scripts\msix-scenario-v8.mjs") @scenarioArgs
+  $outText = & node (Join-Path $repo "scripts\msix-scenario-v8.mjs") @($scenarioArgs + @("--launch", (LaunchFile)))
   if ($LASTEXITCODE -ne 0) { throw ("scenario failed (exit " + $LASTEXITCODE + ")") }
   return (($outText | Where-Object { $_ -is [string] -and $_.StartsWith("{") } | Select-Object -Last 1) | ConvertFrom-Json)
 }
@@ -80,6 +82,11 @@ Step "scenario" {
   $r = Scenario @("before", "--port", "$port", "--backup", $backup)
   foreach ($k in $r.PSObject.Properties.Name) { $script:record.scenario[$k] = $r.$k }
   $r.safetyManagerCandidate -eq $true
+}
+# H1: bootstrap without the launch token (or with a wrong one) is refused; with it, a session is given.
+Step "launchTokenRequired" {
+  $b = $record.scenario.bootstrap
+  ($b.withoutToken -eq 403) -and ($b.wrongToken -eq 403) -and ($b.withToken -eq 200)
 }
 Step "backupExported" { (Test-Path $backup) -and ((Get-Item $backup).Length -gt 0) }
 Step "singleInstance" {

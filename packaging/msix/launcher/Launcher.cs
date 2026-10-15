@@ -3,6 +3,9 @@
 //  - One instance per Windows user: a second start opens the running app instead of a second server.
 //  - Port 4317 if free, otherwise any free port; the chosen port is written to launch.json in the data folder.
 //  - The server and everything it starts are in a job object, so they stop when the launcher stops.
+//  - H1: every start makes a new random launch token. The server gets it in SHE_LAUNCH_TOKEN (never on a command line)
+//    and gives a session only to a request carrying it; the browser gets it in the URL fragment (/beta/#launch=...),
+//    which is never sent in a request. A second start reads it from launch.json in the per-user LocalState folder.
 // Compiled with the in-box .NET Framework C# compiler (C# 5); see scripts/build-msix-v8.mjs.
 using System;
 using System.Diagnostics;
@@ -11,7 +14,9 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -26,6 +31,7 @@ static class Launcher
     static NotifyIcon tray;
     static string dataDir;
     static int port;
+    static string launchToken;
     static volatile bool quitting;
     static volatile bool started;
 
@@ -48,6 +54,7 @@ static class Launcher
         string root = AppDomain.CurrentDomain.BaseDirectory;
         string app = Path.Combine(root, "app");
         port = FreePort();
+        launchToken = NewToken();
         var psi = new ProcessStartInfo(Path.Combine(app, "node", "node.exe"), "server\\index.js");
         psi.WorkingDirectory = app;
         psi.UseShellExecute = false;
@@ -62,6 +69,7 @@ static class Launcher
         psi.EnvironmentVariables["SHE_INSTALLED"] = "1";
         psi.EnvironmentVariables["PORT"] = port.ToString();
         psi.EnvironmentVariables["NODE_ENV"] = "production";
+        psi.EnvironmentVariables["SHE_LAUNCH_TOKEN"] = launchToken;
 
         var ready = new ManualResetEvent(false);
         server = new Process();
@@ -81,11 +89,11 @@ static class Launcher
         tray.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         tray.Text = "SH·E 법령조회 — 시작 중";
         var menu = new ContextMenuStrip();
-        var open = menu.Items.Add("화면 열기", null, (s, e) => OpenBrowser(port));
+        var open = menu.Items.Add("화면 열기", null, (s, e) => OpenBrowser(port, launchToken));
         open.Enabled = false;
         menu.Items.Add("종료", null, (s, e) => Quit());
         tray.ContextMenuStrip = menu;
-        tray.DoubleClick += (s, e) => { if (started) OpenBrowser(port); };
+        tray.DoubleClick += (s, e) => { if (started) OpenBrowser(port, launchToken); };
         tray.Visible = true;
         // The first start imports the bundled public law data, which can take a few minutes.
         tray.ShowBalloonTip(10000, Title, "시작하는 중입니다. 처음 실행할 때는 법령 초기 자료를 준비하느라 몇 분 걸릴 수 있습니다.", ToolTipIcon.Info);
@@ -106,10 +114,10 @@ static class Launcher
                     return;
                 }
                 started = true;
-                File.WriteAllText(LaunchFile(), "{\"port\":" + port + ",\"pid\":" + server.Id + "}", new UTF8Encoding(false));
+                WriteLaunchFile("{\"port\":" + port + ",\"pid\":" + server.Id + ",\"token\":\"" + launchToken + "\"}");
                 open.Enabled = true;
                 tray.Text = "SH·E 법령조회 — 실행 중";
-                OpenBrowser(port);
+                OpenBrowser(port, launchToken);
             }));
         });
         Microsoft.Win32.SystemEvents.SessionEnding += (s, e) => StopServer();
@@ -166,6 +174,7 @@ static class Launcher
         req.CookieContainer = cookies;
         req.Proxy = null;
         req.Timeout = 5000;
+        if (csrf == null) req.Headers["x-she-launch"] = launchToken;
         if (csrf != null)
         {
             req.Headers["x-csrf-token"] = csrf;
@@ -192,12 +201,14 @@ static class Launcher
         {
             try
             {
-                Match m = Regex.Match(File.ReadAllText(LaunchFile()), "\"port\":(\\d+)");
-                if (m.Success)
+                string launch = File.ReadAllText(LaunchFile());
+                Match m = Regex.Match(launch, "\"port\":(\\d+)");
+                Match t = Regex.Match(launch, "\"token\":\"([A-Za-z0-9_-]+)\"");
+                if (m.Success && t.Success)
                 {
                     int p = int.Parse(m.Groups[1].Value);
                     using (var c = new TcpClient()) c.Connect(IPAddress.Loopback, p);
-                    OpenBrowser(p);
+                    OpenBrowser(p, t.Groups[1].Value);
                     return true;
                 }
             }
@@ -208,9 +219,19 @@ static class Launcher
         return false;
     }
 
-    static void OpenBrowser(int p)
+    // The token goes in the fragment: the browser keeps it out of the request line, and the beta screen removes it from
+    // the address as soon as the page loads.
+    static void OpenBrowser(int p, string token)
     {
-        try { Process.Start(new ProcessStartInfo("http://127.0.0.1:" + p + "/beta/") { UseShellExecute = true }); } catch { }
+        try { Process.Start(new ProcessStartInfo("http://127.0.0.1:" + p + "/beta/#launch=" + token) { UseShellExecute = true }); } catch { }
+    }
+
+    // 32 random bytes, base64url without padding (43 characters).
+    static string NewToken()
+    {
+        var bytes = new byte[32];
+        using (var rng = new RNGCryptoServiceProvider()) rng.GetBytes(bytes);
+        return Convert.ToBase64String(bytes).TrimEnd('=').Replace('+', '-').Replace('/', '_');
     }
 
     static int FreePort()
@@ -246,6 +267,22 @@ static class Launcher
     }
 
     static string LaunchFile() { return Path.Combine(dataDir, "launch.json"); }
+
+    // launch.json holds the launch token. LocalState is inside this Windows user's profile, which other standard users
+    // cannot read; the file also gets its own protected access list (this user and SYSTEM only), so extra entries a
+    // tool may have added to the profile folder do not reach it.
+    static void WriteLaunchFile(string json)
+    {
+        string path = LaunchFile();
+        TryDelete(path);
+        var security = new FileSecurity();
+        security.SetAccessRuleProtection(true, false);
+        security.AddAccessRule(new FileSystemAccessRule(WindowsIdentity.GetCurrent().User, FileSystemRights.FullControl, AccessControlType.Allow));
+        security.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.LocalSystemSid, null), FileSystemRights.FullControl, AccessControlType.Allow));
+        byte[] bytes = new UTF8Encoding(false).GetBytes(json);
+        using (var f = new FileStream(path, FileMode.Create, FileSystemRights.Write, FileShare.Read, 4096, FileOptions.None, security))
+            f.Write(bytes, 0, bytes.Length);
+    }
     static void TryDelete(string p) { try { File.Delete(p); } catch { } }
     static string Hash(string s)
     {
