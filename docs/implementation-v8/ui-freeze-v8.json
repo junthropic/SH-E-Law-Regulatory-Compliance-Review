@@ -38,6 +38,16 @@
         "dist-beta/build-info.json",
         "dist-beta/index.html"
       ]
+    },
+    {
+      "at": "2026-10-15",
+      "note": "보안 H1(docs/implementation-v8/security-review-plan.md): 베타 화면이 주소의 #launch= 실행 토큰을 읽어 bootstrap 요청 머리글로만 보내고 주소에서 바로 지운다(beta/api.ts). 화면 모양·기존 문구 변경 없음. bootstrap이 403으로 거절될 때만 서버 안내 문구(‘시작 메뉴에서 앱을 다시 열어 주세요.’)를 보여 준다. 기존 29개 파일과 hash는 그대로.",
+      "files": [
+        "beta/api.ts",
+        "dist-beta/assets/index-UWeCuSBU.js",
+        "dist-beta/build-info.json",
+        "dist-beta/index.html"
+      ]
     }
   ],
   "counts": {
@@ -214,7 +224,7 @@
     {
       "path": "beta/api.ts",
       "set": "v8-beta",
-      "hash": "5d51d743622467df5e0e48fdb29762397327c1e16ac7bf546dac84f4da8b116d"
+      "hash": "e3bd7354f0f4337b04fb52f5db5093a5156d0efd9d4803031ea58dcef7582ade"
     },
     {
       "path": "beta/beta.css",
@@ -277,9 +287,9 @@
       "hash": "8f4d675cc3debc082cca8380f0f1deeaa973cd72a458bc1f9a5e6e3dd11685ac"
     },
     {
-      "path": "dist-beta/assets/index-gczaWQMj.js",
+      "path": "dist-beta/assets/index-UWeCuSBU.js",
       "set": "v8-beta",
-      "hash": "ad625e735a94f369779ab36d50f90b4d4defea1299c0f4745f3c74cc86d76f23"
+      "hash": "3fb4d439c7fe4957ec90fcc277bf0829d4d1046c8b7380dd1ce6dc4f07f09b57"
     },
     {
       "path": "dist-beta/assets/index-CQQzWcOI.css",
@@ -289,12 +299,12 @@
     {
       "path": "dist-beta/build-info.json",
       "set": "v8-beta",
-      "hash": "07aa70749ba7659c6bb3ff7f0b76003a3cc7742bce62b3241242006145cd0804"
+      "hash": "e79c62875b3f24dbc86b353ce92c005cc438c342d7a64ed860260a1aa098ac6e"
     },
     {
       "path": "dist-beta/index.html",
       "set": "v8-beta",
-      "hash": "d4b9568f5918e12c7e98d28ab5c1e104c19a2f9d9c6133c2c7e369200d1b35c2"
+      "hash": "e86154094bdcdd0676fc7ba90c84b62ea49076caba9ac76d02e6e943c7250b53"
     },
     {
       "path": "server/beta-contract-v8.ts",

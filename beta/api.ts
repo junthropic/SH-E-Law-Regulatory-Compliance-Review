@@ -10,11 +10,32 @@ export class ApiError extends Error {
   }
 }
 
+// H1: the installed app's launcher opens /beta/#launch=<value made fresh on every start>. The fragment is never sent in a
+// request; it is read once here, removed from the address and its history entry at once (the hash route stays "#/"),
+// and sent only in the bootstrap request header. Without it the server gives a session only to an existing cookie.
+export function takeLaunch(hash: string): { token?: string; hash: string } {
+  const m = /^#launch=([A-Za-z0-9_-]{16,128})$/.exec(hash);
+  return m ? { token: m[1], hash: "#/" } : { hash };
+}
+let launch: string | undefined;
+if (typeof location !== "undefined" && typeof history !== "undefined") {
+  const taken = takeLaunch(location.hash);
+  if (taken.token) {
+    launch = taken.token;
+    history.replaceState(history.state, "", location.pathname + location.search + taken.hash);
+  }
+}
+
 export async function boot(): Promise<Boot> {
-  const r = await fetch("/api/bootstrap", { credentials: "same-origin" });
+  const r = await fetch("/api/bootstrap", { credentials: "same-origin", headers: launch ? { "x-she-launch": launch } : {} });
+  if (r.status === 403) {
+    const refused = (await r.json().catch(() => ({}))) as { error?: unknown };
+    throw new ApiError(403, typeof refused.error === "string" ? refused.error : "화면을 새로고침하세요.");
+  }
   if (!r.ok) throw new ApiError(r.status, "화면을 새로고침하세요.");
   const b = (await r.json()) as Boot;
   csrf = b.csrf;
+  launch = undefined; // the session cookie carries on from here
   return b;
 }
 

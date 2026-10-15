@@ -1,24 +1,32 @@
 #!/usr/bin/env node
 // v8 stage 4: HTTP steps of the MSIX install test, run against the installed app (scripts/msix-install-test-v8.ps1).
 // Synthetic input only; no keys are configured, so the app makes no outside calls for these steps.
+// H1: the installed server gives a session only with the launcher's per-start token. Like a second start of the
+// launcher, this script reads it from launch.json in the package's per-user LocalState folder (--launch); it is never
+// passed on a command line and never printed.
 // Usage:
-//   node scripts/msix-scenario-v8.mjs before --port N --backup <file>   safety-manager review (preview on) + encrypted backup
-//   node scripts/msix-scenario-v8.mjs after  --port N --backup <file> --review <id>   fresh install is empty, restore brings the review back
-//   node scripts/msix-scenario-v8.mjs quit   --port N                    the app's own quit request
+//   node scripts/msix-scenario-v8.mjs before --port N --launch <launch.json> --backup <file>   safety-manager review (preview on) + encrypted backup
+//   node scripts/msix-scenario-v8.mjs after  --port N --launch <launch.json> --backup <file> --review <id>   fresh install is empty, restore brings the review back
+//   node scripts/msix-scenario-v8.mjs quit   --port N --launch <launch.json>                    the app's own quit request
 import assert from "node:assert/strict";
 import { readFileSync, writeFileSync } from "node:fs";
 
 const [phase, ...rest] = process.argv.slice(2);
 const opt = (n) => { const i = rest.indexOf(n); return i >= 0 ? rest[i + 1] : undefined; };
 const origin = `http://127.0.0.1:${Number(opt("--port"))}`;
+function readLaunchToken(file) {
+  // A parse error is replaced by a fixed message so no part of the file reaches the output.
+  try { return String(JSON.parse(readFileSync(file, "utf8").replace(/^\uFEFF/, "")).token || ""); } catch { throw new Error("launch.json could not be read"); }
+}
+const launchToken = readLaunchToken(opt("--launch"));
 const ASK = "가상 사업장 산업안전보건법 안전관리자 선임(인원) 검토를 요청합니다. 상시근로자 120명 제조업(합성)";
 const LABEL = "검토 후보 — 법적 판단 아님, 베타";
 const koreaDate = () => new Date(Date.now() + 9 * 3600_000).toISOString().slice(0, 10);
 
 let cookie = "", csrf = "";
-async function call(method, path, body) {
+async function call(method, path, body, extra = {}) {
   const r = await fetch(origin + path, {
-    method, headers: { cookie, ...(csrf ? { "x-csrf-token": csrf } : {}), ...(body === undefined ? {} : { "content-type": "application/json" }) },
+    method, headers: { cookie, ...(csrf ? { "x-csrf-token": csrf } : {}), ...(body === undefined ? {} : { "content-type": "application/json" }), ...extra },
     body: body === undefined ? undefined : JSON.stringify(body),
   });
   const set = r.headers.get("set-cookie");
@@ -27,14 +35,29 @@ async function call(method, path, body) {
   let json; try { json = JSON.parse(text); } catch { json = text; }
   return { status: r.status, json };
 }
-async function boot() { const b = await call("GET", "/api/bootstrap"); assert.equal(b.status, 200); csrf = b.json.csrf; }
+// A request without a session cookie: what any other process or Windows user on this PC can send.
+async function anonymousBootstrap(headers) {
+  const r = await fetch(origin + "/api/bootstrap", { headers });
+  await r.text();
+  return { status: r.status, cookie: !!r.headers.get("set-cookie") };
+}
+async function boot() {
+  assert.ok(launchToken.length >= 32, "launch.json has no launch token");
+  const none = await anonymousBootstrap({});
+  const wrong = await anonymousBootstrap({ "x-she-launch": "x".repeat(launchToken.length) });
+  assert.deepEqual([none, wrong], [{ status: 403, cookie: false }, { status: 403, cookie: false }]);
+  const b = await call("GET", "/api/bootstrap", undefined, { "x-she-launch": launchToken });
+  assert.equal(b.status, 200); csrf = b.json.csrf;
+  // The same browser (session cookie, no token) keeps its session, as the old screen at / and the OAuth return do.
+  assert.equal((await call("GET", "/api/bootstrap")).status, 200);
+  return { withoutToken: none.status, wrongToken: wrong.status, withToken: b.status };
+}
 async function waitReview(id) {
   for (let i = 0; i < 600; i++) { const r = await call("GET", "/api/reviews/" + id); if (r.json.status !== "running") return r.json; await new Promise((s) => setTimeout(s, 200)); }
   throw new Error("review did not finish");
 }
 
-await boot();
-const result = { phase };
+const result = { phase, bootstrap: await boot() };
 if (phase === "before") {
   // Installed build: features that would bypass the egress guard are off.
   const mcp = await call("POST", "/api/mcp/query", { tool: "search_law", params: { query: "산업안전보건법" } });
