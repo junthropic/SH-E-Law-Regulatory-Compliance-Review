@@ -34,8 +34,10 @@ async function fakeOpenAI() {
   const tokens = { access: synthetic("ACCESS"), refresh: synthetic("REFRESH"), access2: synthetic("ACCESS2"), refresh2: synthetic("REFRESH2"), code: synthetic("CODE") };
   const seen = { token: [] as Record<string, string>[], revoke: [] as Record<string, string>[], urls: [] as string[], bodies: [] as string[] };
   let nonce = "";
-  const idToken = () => new SignJWT({ nonce, email: "synthetic.user@example.invalid" }).setProtectedHeader({ alg: "RS256", kid: "k1" })
-    .setIssuer(ISS).setAudience("client-SYNTH").setSubject("user-SYNTH").setIssuedAt().setExpirationTime("1h").sign(key.privateKey);
+  // The signed-in account; F-07 tests switch it to a second synthetic account.
+  let who = { clientId: "client-SYNTH", subject: "user-SYNTH", email: "synthetic.user@example.invalid" };
+  const idToken = () => new SignJWT({ nonce, email: who.email }).setProtectedHeader({ alg: "RS256", kid: "k1" })
+    .setIssuer(ISS).setAudience(who.clientId).setSubject(who.subject).setIssuedAt().setExpirationTime("1h").sign(key.privateKey);
   const fetch = vi.fn(async (input: unknown, init: RequestInit = {}) => {
     const url = new URL(String((input as Request)?.url ?? input));
     const raw = init.body instanceof URLSearchParams ? init.body.toString() : String(init.body ?? "");
@@ -55,7 +57,7 @@ async function fakeOpenAI() {
     if (url.href === "https://api.openai.com/v1/models") return Response.json({ models: [{ slug: "synthetic-model", display_name: "Synthetic", visibility: "list" }] });
     return new Response("not found", { status: 404 });
   });
-  return { fetch, tokens, seen, setNonce: (n: string) => { nonce = n; } };
+  return { fetch, tokens, seen, setNonce: (n: string) => { nonce = n; }, setAccount: (a: typeof who) => { who = a; } };
 }
 
 // The installed wiring of server/index.ts: the guard is installed over the (stubbed) network before the app is made,
@@ -79,12 +81,13 @@ async function installedApp() {
   const close = async () => { guard.uninstall(); await made.app.close(); t.clean(); };
   return { ...made, t, guard, openai, call, seen, close };
 }
-async function signIn(s: Awaited<ReturnType<typeof installedApp>>) {
+async function signIn(s: Awaited<ReturnType<typeof installedApp>>, clientId = "client-SYNTH") {
   const start = await s.call("POST", "/api/auth/chatgpt/start", {});
   const authorize = new URL(start.json().url);
   s.openai.setNonce(authorize.searchParams.get("nonce")!);
-  const q = new URLSearchParams({ state: authorize.searchParams.get("state")!, code: s.openai.tokens.code, client_id: "client-SYNTH" });
-  return s.call("GET", "/auth/callback?" + q);
+  const q = new URLSearchParams({ state: authorize.searchParams.get("state")!, code: s.openai.tokens.code, client_id: clientId });
+  const callback = await s.call("GET", "/auth/callback?" + q);
+  return Object.assign(callback, { authorize });
 }
 const walk = (d: string, out: string[] = []): string[] => {
   for (const n of readdirSync(d)) { const p = join(d, n); statSync(p).isDirectory() ? walk(p, out) : out.push(p); }
@@ -238,6 +241,49 @@ it.runIf(process.platform === "win32")("V8-G07: (F-06) Windows에서는 설치�
     expect((await auth.logout()).remoteRevoked).toBe(true);
   } finally { t.clean(); }
 }, 60000);
+
+// ── F-07: logout also forgets the stored registration (email, subject, clientId) ─────────────
+const ACCOUNT_B = { clientId: "client-SYNTH-B", subject: "user-SYNTH-B", email: "second.synthetic@example.invalid" };
+
+it("V8-G08: (F-07) 계정 A로 연결하고 연결 해제한 뒤 다른 계정 B로 연결하면 성공한다 — 새 등록으로 시작하고, 원격 폐기·안내 문구는 그대로다", async () => {
+  const s = await installedApp();
+  try {
+    await s.call("POST", "/api/ai/consent", { enabled: true });
+    expect((await signIn(s)).statusCode).toBe(302);
+    expect(await s.vault.read("chatgpt-registration")).toEqual({ clientId: "client-SYNTH", subject: "user-SYNTH", email: "synthetic.user@example.invalid" });
+    const out = await s.call("POST", "/api/auth/chatgpt/logout", {});
+    expect(out.json()).toEqual({ ok: true, remoteRevoked: true, message: "ChatGPT 세션을 종료했습니다." });
+    expect(s.openai.seen.revoke).toEqual([{ token: s.openai.tokens.refresh, token_type_hint: "refresh_token", client_id: "client-SYNTH" }]);
+    expect(await s.vault.read("chatgpt")).toBeUndefined();
+    expect(await s.vault.read("chatgpt-registration")).toBeUndefined();
+    // Account B: before the fix the old clientId/subject of A were reused and the callback failed (400).
+    s.openai.setAccount(ACCOUNT_B);
+    const b = await signIn(s, ACCOUNT_B.clientId);
+    expect([b.statusCode, b.headers.location]).toEqual([302, "/?connected=1"]);
+    expect(b.authorize.searchParams.get("client_id")).toBe("dynamic_agent_client");
+    expect(b.authorize.searchParams.get("id_token_hint")).toBeNull();
+    expect(b.authorize.searchParams.get("agent_name_hint")).toBe("SH-E-Law-Check");
+    expect(await s.vault.read<Account>("chatgpt")).toMatchObject(ACCOUNT_B);
+    expect(await s.vault.read("chatgpt-registration")).toEqual(ACCOUNT_B);
+    expect((await s.call("GET", "/api/status")).json().auth).toMatchObject({ connected: true, email: ACCOUNT_B.email });
+  } finally { await s.close(); }
+});
+
+it("V8-G09: (F-07) 연결 해제 뒤 상태(status)에 이메일이 없고 연결도 없다 — 원격 폐기가 막혀도(동의 꺼짐) 등록은 지워진다", async () => {
+  const s = await installedApp();
+  try {
+    await s.call("POST", "/api/ai/consent", { enabled: true });
+    expect((await signIn(s)).statusCode).toBe(302);
+    expect((await s.call("GET", "/api/status")).json().auth).toMatchObject({ connected: true, email: "synthetic.user@example.invalid" });
+    await s.call("POST", "/api/ai/consent", { enabled: false });
+    const out = await s.call("POST", "/api/auth/chatgpt/logout", {});
+    expect(out.json()).toEqual({ ok: true, remoteRevoked: false, message: "로컬 연결은 해제했습니다. 원격 세션 종료는 확인하지 못했습니다. ChatGPT 설정에서 이 앱의 연결을 확인하세요." });
+    expect((await s.call("GET", "/api/status")).json().auth).toMatchObject({ connected: false, email: "", pending: false });
+    expect(await s.vault.read("chatgpt")).toBeUndefined();
+    expect(await s.vault.read("chatgpt-registration")).toBeUndefined();
+    expect((s.t.store.db.prepare("SELECT detail FROM audit WHERE action='oauth_disconnected'").all() as { detail: string }[]).map((r) => r.detail)).toEqual(["로컬 연결 해제; 원격 세션 종료 미확인"]);
+  } finally { await s.close(); }
+});
 
 // ── F-05: guard gaps (real sockets on 127.0.0.x; 127.0.0.2 stands in for an outside host) ─────────
 async function listen(host: string, handler: http.RequestListener = (q, s) => s.end("reached " + q.url)) {

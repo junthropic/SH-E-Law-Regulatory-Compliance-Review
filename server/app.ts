@@ -105,6 +105,15 @@ export async function createApp(store = new Store(), test = false, complianceGra
       .header("X-Content-Type-Options", "nosniff")
       .header("Referrer-Policy", "no-referrer")
       .header("Cache-Control", "no-store")
+      // F-10: no cross-origin window may keep a handle to these pages (the ChatGPT sign-in opens auth.openai.com with
+      // noopener, or navigates the same tab, and returns by top-level navigation to /auth/callback, so nothing uses
+      // window.opener); no other site may embed these responses; no device features are granted.
+      .header("Cross-Origin-Opener-Policy", "same-origin")
+      .header("Cross-Origin-Resource-Policy", "same-origin")
+      .header(
+        "Permissions-Policy",
+        "camera=(), microphone=(), geolocation=(), payment=(), usb=(), midi=(), display-capture=(), accelerometer=(), gyroscope=(), magnetometer=()",
+      )
       .header(
         "Content-Security-Policy",
         "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",

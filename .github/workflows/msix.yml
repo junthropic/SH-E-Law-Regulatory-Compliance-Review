@@ -14,16 +14,30 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: actions/setup-node@v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "24"
           cache: npm
       - run: npm ci
+      # F-13: the node.exe that will be packaged must match the official SHASUMS256.txt of its exact version. This is the
+      # only download for the check; the build script reads the saved list, checks again and records the hash.
+      - name: Verify node.exe against the official SHASUMS256
+        run: |
+          $version = node -p "process.version"
+          $arch = node -p "process.arch"
+          $exe = node -p "process.execPath"
+          Invoke-WebRequest -UseBasicParsing -Uri "https://nodejs.org/dist/$version/SHASUMS256.txt" -OutFile "$env:RUNNER_TEMP\node-SHASUMS256.txt"
+          $line = Select-String -CaseSensitive -Path "$env:RUNNER_TEMP\node-SHASUMS256.txt" -Pattern "^([0-9a-f]{64})  win-$arch/node\.exe$"
+          if (@($line).Count -ne 1) { Write-Output "win-$arch/node.exe is not listed once in SHASUMS256.txt of $version"; exit 1 }
+          $expected = $line.Matches[0].Groups[1].Value
+          $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $exe).Hash.ToLowerInvariant()
+          Write-Output "node $version win-$arch/node.exe sha256 $actual"
+          if ($actual -ne $expected) { Write-Output "node.exe does not match SHASUMS256.txt (expected $expected)"; exit 1 }
       - name: Build test-signed MSIX
-        run: node scripts/build-msix-v8.mjs --test-identity --sign-test --out "$env:RUNNER_TEMP\msix" --cert-dir "$env:RUNNER_TEMP\cert"
+        run: node scripts/build-msix-v8.mjs --test-identity --sign-test --out "$env:RUNNER_TEMP\msix" --cert-dir "$env:RUNNER_TEMP\cert" --node-shasums "$env:RUNNER_TEMP\node-SHASUMS256.txt"
       - name: Build Store MSIX (unsigned; the Store signs it)
-        run: node scripts/build-msix-v8.mjs --store --skip-build --out "$env:RUNNER_TEMP\msix-store"
+        run: node scripts/build-msix-v8.mjs --store --skip-build --out "$env:RUNNER_TEMP\msix-store" --node-shasums "$env:RUNNER_TEMP\node-SHASUMS256.txt"
       - name: Package scan
         id: scan
         continue-on-error: true
@@ -32,7 +46,7 @@ jobs:
           SHE_SCAN_NAMES: ${{ secrets.SHE_SCAN_NAMES }}
         run: |
           $failed = $false
-          foreach ($p in @("$env:RUNNER_TEMP\msix\SHELaw-Beta_0.8.2.0_x64_test.msix", "$env:RUNNER_TEMP\msix-store\SHELaw-Beta_0.8.2.0_x64_store.msix")) {
+          foreach ($p in @("$env:RUNNER_TEMP\msix\SHELaw-Beta_0.8.3.0_x64_test.msix", "$env:RUNNER_TEMP\msix-store\SHELaw-Beta_0.8.3.0_x64_store.msix")) {
             $name = [IO.Path]::GetFileNameWithoutExtension($p)
             node scripts/package-scan.mjs $p --package --write-allow "$env:RUNNER_TEMP\msix\$name-scan-draft.json" --allow packaging/msix/scan-exceptions.json --json "$env:RUNNER_TEMP\msix\$name-scan.json"
             if ($LASTEXITCODE -ne 0) { $failed = $true }
@@ -48,7 +62,7 @@ jobs:
         id: install
         continue-on-error: true
         shell: powershell
-        run: .\scripts\msix-install-test-v8.ps1 -Msix "$env:RUNNER_TEMP\msix\SHELaw-Beta_0.8.2.0_x64_test.msix" -Cer "$env:RUNNER_TEMP\cert\test-signing.cer" -Out "$env:RUNNER_TEMP\result"
+        run: .\scripts\msix-install-test-v8.ps1 -Msix "$env:RUNNER_TEMP\msix\SHELaw-Beta_0.8.3.0_x64_test.msix" -Cer "$env:RUNNER_TEMP\cert\test-signing.cer" -Out "$env:RUNNER_TEMP\result"
       - name: Windows App Certification Kit
         id: wack
         continue-on-error: true
@@ -59,7 +73,7 @@ jobs:
           New-Item -ItemType Directory -Force "$env:RUNNER_TEMP\result" | Out-Null
           (Get-Item $kit).VersionInfo.FileVersion | Out-File "$env:RUNNER_TEMP\result\wack-version.txt"
           & $kit reset
-          & $kit test -appxpackagepath "$env:RUNNER_TEMP\msix\SHELaw-Beta_0.8.2.0_x64_test.msix" -reportoutputpath "$env:RUNNER_TEMP\result\wack.xml"
+          & $kit test -appxpackagepath "$env:RUNNER_TEMP\msix\SHELaw-Beta_0.8.3.0_x64_test.msix" -reportoutputpath "$env:RUNNER_TEMP\result\wack.xml"
           if (-not (Test-Path "$env:RUNNER_TEMP\result\wack.xml")) { exit 1 }
           $report = [xml](Get-Content "$env:RUNNER_TEMP\result\wack.xml" -Raw)
           $tests = @($report.SelectNodes("//TEST") | ForEach-Object { [ordered]@{ index = $_.INDEX; name = $_.NAME; optional = ($_.OPTIONAL -eq "TRUE"); result = $_.RESULT.InnerText } })
@@ -71,7 +85,7 @@ jobs:
           if (@($tests | Where-Object { -not $_.optional -and $_.result -ne "PASS" }).Count -gt 0) { exit 1 }
       - name: Upload results
         if: always()
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: msix-results
           retention-days: 14

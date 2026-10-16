@@ -164,9 +164,13 @@ it("발급 client ID, nonce, 서명, scope를 검증하여 연결한다", async 
     );
     expect((await auth.logout()).remoteRevoked).toBe(true);
     expect((await auth.status()).connected).toBe(false);
+    // F-07 (user decision 2026-10-17): logout also forgets the stored registration, so the next sign-in starts as a
+    // new registration (before: it reused "issued-client").
     const returning = new URL((await auth.start("http://127.0.0.1:4317")).url);
-    expect(returning.searchParams.get("client_id")).toBe("issued-client");
+    expect(returning.searchParams.get("client_id")).toBe("dynamic_agent_client");
+    expect(returning.searchParams.get("agent_name_hint")).toBe("SH-E-Law-Check");
     expect(returning.searchParams.has("id_token_hint")).toBe(false);
+    expect(await vault.read("chatgpt-registration")).toBeUndefined();
   } finally {
     clean();
   }
