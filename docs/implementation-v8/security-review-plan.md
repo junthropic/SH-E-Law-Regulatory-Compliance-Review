@@ -117,6 +117,12 @@
 - 환경 값은 어디에도 출력하지 않는다.
 - 암호 설계(DPAPI, AES-GCM)는 바꾸지 않았다.
 
+- **CI 시간 초과 수정(2026-10-16):** 첫 CI(run 38886604964)에서 Windows DPAPI 시험 3개가 15초 제한에 걸렸고, 설치 시험에서는 앱이 시작되지 못했다. 진단 실행(run 38905175053, GitHub Windows)에서 원인을 확인했다.
+  - 환경 변수를 줄인 것은 원인이 아니었다. 입력만 읽는 PowerShell은 0.4초였다.
+  - `ConvertTo-SecureString`이 `Microsoft.PowerShell.Security` 모듈을 자동으로 불러오는 데 12.7~25.1초가 걸렸다. 환경 변수를 넓혀도 13초 안팎이었다.
+  - 그래서 금고는 같은 Windows DPAPI를 .NET `ProtectedData`(GAC의 System.Security)로 직접 호출한다.
+  - 저장 형식은 그대로다: CurrentUser 범위, UTF-16LE, 추가 엔트로피 없음, 소문자 16진수. 예전 방식으로 감싼 값은 새 방식으로, 새 값은 예전 방식으로 열린다(V8-H11). 이 PC에서 네 방향 모두 원래 값으로 돌아왔고, 새 방식은 0.27초였다.
+
 ### 8.3 변수별 정책과 근거
 
 근거:
