@@ -389,6 +389,9 @@ export class ChatGPTAuth {
     } finally {
       try {
         this.vault.remove("chatgpt");
+        // F-07: also forget the stored registration (email, subject, clientId), so the next sign-in starts as a new
+        // registration and a different ChatGPT account can be connected.
+        this.vault.remove("chatgpt-registration");
       } finally {
         this.signingOut = false;
       }

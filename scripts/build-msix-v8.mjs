@@ -3,6 +3,7 @@
 // Usage:
 //   node scripts/build-msix-v8.mjs --test-identity [--sign-test] [--out .local/msix]   local / CI install test
 //   node scripts/build-msix-v8.mjs --store [--out .local/msix]                         Store upload (unsigned; the Store signs)
+//   [--node-shasums <SHASUMS256.txt>]  official list of this Node version: node.exe must match it (required when CI=true; F-13)
 // Package layout:  SHELaw.exe (launcher) · Assets/ · THIRD_PARTY_NOTICES.txt · app/{node/node.exe, server/*.js, server/vendor/*.js, dist/, dist-beta/, data/public/, node_modules/pdfjs-dist}
 // The server is bundled with rolldown, so dev dependencies, tests, docs and unused library files never enter the package.
 // Off in the installed build (SHE_INSTALLED=1), so not shipped: korean-law-mcp (/api/mcp/query), playwright-core (국민신문고 collection).
@@ -14,6 +15,7 @@ import { spawnSync } from "node:child_process";
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { createHash, randomBytes } from "node:crypto";
+import { checkNodeExe } from "./node-shasums-v8.mjs";
 
 const args = process.argv.slice(2);
 const opt = (name, fallback) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : fallback; };
@@ -53,6 +55,14 @@ if (!sdk) fail("Windows SDK(makeappx.exe)를 찾지 못했습니다.");
 const tool = (name) => join(kits, sdk, "x64", name);
 const csc = join(process.env.WINDIR || "C:\\Windows", "Microsoft.NET", "Framework64", "v4.0.30319", "csc.exe");
 if (!existsSync(csc)) fail(".NET Framework C# 컴파일러(csc.exe)를 찾지 못했습니다.");
+
+// --- node.exe check (F-13), before anything is built or packaged ----------------------------
+// No network here: CI fetches the official SHASUMS256.txt in msix.yml and passes it; a local build records the hash only.
+let nodeExe;
+try {
+  nodeExe = checkNodeExe({ exe: process.execPath, version: process.version, arch: process.arch,
+    shasumsFile: opt("--node-shasums") && resolve(root, opt("--node-shasums")), ci: process.env.CI === "true" });
+} catch (e) { fail(e.message); }
 
 // --- app build ------------------------------------------------------------------------------
 if (!args.includes("--skip-build")) {
@@ -133,6 +143,7 @@ shipCjs("cfb", require.resolve("kordoc"));
 // Node runtime (the version that builds is the version that ships; recorded below).
 mkdirSync(join(app, "node"), { recursive: true });
 cpSync(process.execPath, join(app, "node", "node.exe"));
+if (sha256(readFileSync(join(app, "node", "node.exe"))) !== nodeExe.sha256) fail("복사한 node.exe 가 검사한 파일과 다릅니다.");
 const nodeLicense = join(dirname(process.execPath), "LICENSE");
 if (!existsSync(nodeLicense) && store) fail("Node LICENSE 파일이 없습니다. 공식 Node 배포본(zip, setup-node)으로 빌드하세요.");
 
@@ -214,6 +225,7 @@ const info = {
     ...(signed ? { signtool: fileVersion(tool("signtool.exe")) } : {}),
     csc: fileVersion(csc),
     node: process.version,
+    nodeExe,
     rolldown: require("rolldown/package.json").version,
   },
   bundledPackages: notices.map((n) => `${n.name}@${n.version}`),

@@ -332,3 +332,11 @@ Store 심사에서 문의가 오면 이 표와 §7 문안으로 답한다.
 - **외부 통신:** ChatGPT 로그인·토큰 갱신·원격 세션 종료가 설치판에서 동작한다(AI 전송 동의 필요, F-06). 서버 프로세스의 모든 TCP·TLS 연결은 루프백이나 허용 목록 주소만 열린다(F-05). 로컬 파이프(DPAPI 도우미·파서 작업 프로세스의 표준 입출력·IPC)는 영향이 없다.
 - **시험:** V8-X08·X11·X12, V8-G01~G07, V8-O03~O06. 자세한 내용은 `security-review-plan.md` 8.5절, 9.4~9.6절
 - **남은 일:** 패키지 버전을 0.8.2.0으로 올렸다. 설치 시험·WACK(`msix.yml`)은 0.8.2.0 코드로 아직 돌리지 않았다.
+
+## 16. node.exe 공식 해시 대조와 응답 헤더 (F-13·F-10, 0.8.3.0, 2026-10-17)
+
+- **설치 흐름에 닿는 변화:** `msix.yml`에 빌드 전 단계 "Verify node.exe against the official SHASUMS256"이 생겼다. 러너의 node.exe를 그 버전의 `https://nodejs.org/dist/<버전>/SHASUMS256.txt`와 대조하고, 다르면 실패한다. 두 빌드 단계는 받은 목록을 `--node-shasums`로 넘기고, `build-msix-v8.mjs`가 다시 대조한 결과를 `msix-build.json`의 `tools.nodeExe`에 남긴다. `CI=true`에서 목록 없이 빌드하면 실패한다. 로컬 빌드는 nodejs.org에 접속하지 않고 해시만 기록한다.
+- **액션 고정:** 모든 워크플로의 액션을 커밋 SHA로 고정했다(F-12).
+- **서버 응답:** COOP·CORP·Permissions-Policy 헤더가 붙는다(F-10). 설치 시험 스크립트는 헤더를 보지 않으므로 바뀌는 단계가 없다(스크립트를 읽어 확인한 것이며, CI는 아직 다시 돌리지 않음).
+- **시험:** V8-M11·M12·N04. 자세한 내용은 `security-review-plan.md` 10절
+- **남은 일:** 패키지 버전을 0.8.3.0으로 올렸다. node.exe 대조 단계, 설치 시험, WACK(`msix.yml`)는 0.8.3.0 코드로 아직 돌리지 않았다. 러너의 node.exe가 공식 `win-x64/node.exe`와 같은지는 그 실행에서 처음 확인된다.

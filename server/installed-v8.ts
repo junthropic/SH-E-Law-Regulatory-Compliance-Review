@@ -29,6 +29,8 @@ export function publicLawNotice(publishedAt?: string) {
 // The old screen's plaintext JSON backup/restore (/api/backup, /api/restore). The installed build keeps only the
 // encrypted backup on the 데이터·백업 screen (security review F-04).
 export const LEGACY_BACKUP_OFF_MESSAGE = "설치판에서는 지원하지 않습니다. 데이터·백업 화면의 암호화 백업을 쓰세요.";
+// The beta data-handling notice item "기존 화면의 백업" in the installed build (V8-K03, user decision 2026-10-17).
+export const LEGACY_BACKUP_INSTALLED_NOTICE = "설치판에서는 기존 화면의 JSON 백업을 지원하지 않습니다. 이 화면의 암호화 백업을 쓰세요.";
 
 export const UNINSTALL_NOTICE = "앱을 제거하면 저장된 자료가 삭제됩니다. 먼저 백업하세요.";
 

@@ -10,6 +10,8 @@ import { Vault } from "./vault.js";
 const TEXT_PREFIX = "she-enc:v8:";
 const FILE_MAGIC = Buffer.from("SHEENC08");
 export const STORAGE_KEY_NAME = "storage-key";
+// F-11: GCM tags are always 16 bytes (Node's default, so data written before this change opens unchanged).
+export const GCM_TAG_BYTES = 16;
 
 export class StorageLockedError extends Error {
   constructor() {
@@ -26,15 +28,17 @@ export class StorageCipher {
   }
   private seal(plain: Buffer, aad: string) {
     const iv = randomBytes(12),
-      c = createCipheriv("aes-256-gcm", this.key, iv);
+      c = createCipheriv("aes-256-gcm", this.key, iv, { authTagLength: GCM_TAG_BYTES });
     c.setAAD(Buffer.from(aad));
     const body = Buffer.concat([c.update(plain), c.final()]);
     return Buffer.concat([iv, c.getAuthTag(), body]);
   }
   private open(sealed: Buffer, aad: string) {
-    const d = createDecipheriv("aes-256-gcm", this.key, sealed.subarray(0, 12));
+    // iv(12) + tag(16): anything shorter has a truncated tag and is refused before decryption (F-11).
+    if (sealed.length < 12 + GCM_TAG_BYTES) throw new Error("암호문 길이 오류");
+    const d = createDecipheriv("aes-256-gcm", this.key, sealed.subarray(0, 12), { authTagLength: GCM_TAG_BYTES });
     d.setAAD(Buffer.from(aad));
-    d.setAuthTag(sealed.subarray(12, 28));
+    d.setAuthTag(sealed.subarray(12, 12 + GCM_TAG_BYTES));
     return Buffer.concat([d.update(sealed.subarray(28)), d.final()]);
   }
   sealText(plain: string, aad: string) {

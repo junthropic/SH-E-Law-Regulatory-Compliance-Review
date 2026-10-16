@@ -206,16 +206,26 @@ it("V8-K02: 다른 보호 키(다른 사용자 범위)·변조·다른 형식의
   }
 }, 30000);
 
-it("V8-K03: 기존 화면의 JSON 백업(/api/backup)은 바뀌지 않았고 평문이다 — 안내문이 이를 그대로 알린다", async () => {
+it("V8-K03: 기존 화면의 JSON 백업(/api/backup)은 개발 모드에서 바뀌지 않았고 평문이다 — 안내문이 이를 그대로 알리고, 설치판에서는 지원하지 않는다고 알린다", async () => {
   const t = testStore();
   const { app, headers } = await open(t.store);
+  const item = async () => NoticeSchema.parse((await app.inject({ url: "/api/beta/notice", headers })).json()).items.find((i) => i.title === "기존 화면의 백업")!;
   try {
     await ingestDocument(t.store, "synthetic.txt", Buffer.from("합성평문표지"));
     const legacy = (await app.inject({ url: "/api/backup", headers })).json();
     expect(Buffer.from(legacy.documents[0].original, "base64").toString()).toBe("합성평문표지");
-    const notice = NoticeSchema.parse((await app.inject({ url: "/api/beta/notice", headers })).json());
-    expect(notice.items.find((i) => i.title === "기존 화면의 백업")!.text).toContain("암호화되지 않은");
+    const dev = await item();
+    expect(dev.text).toContain("암호화되지 않은");
+    expect(dev.text).toBe("기존 화면(연결 설정)의 JSON 백업은 암호화되지 않은 파일입니다. 회사 자료는 이 화면의 암호화 백업을 쓰세요.");
+    expect(dev.proof).toEqual(["V8-K03"]);
+    // Installed build (user decision 2026-10-17): the plaintext backup is off there (F-04), and the notice says so.
+    vi.stubEnv("SHE_INSTALLED", "1");
+    expect((await app.inject({ url: "/api/backup", headers })).statusCode).toBe(403);
+    const installed = await item();
+    expect(installed.text).toBe("설치판에서는 기존 화면의 JSON 백업을 지원하지 않습니다. 이 화면의 암호화 백업을 쓰세요.");
+    expect(installed.proof).toEqual(["V8-K03"]);
   } finally {
+    vi.unstubAllEnvs();
     await app.close();
     t.clean();
   }
