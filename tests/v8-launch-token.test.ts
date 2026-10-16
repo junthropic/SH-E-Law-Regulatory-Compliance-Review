@@ -168,3 +168,26 @@ it("V8-X07: 베타 화면은 #launch= 값을 읽어 bootstrap 머리글로만 �
   vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({ error: LAUNCH_REFUSED }), { status: 403 })));
   await expect(api.boot()).rejects.toMatchObject({ status: 403, message: LAUNCH_REFUSED });
 });
+
+// Records today's behaviour for the review of the token-less path (security-review-plan H1); not a statement that it is
+// wanted. The launcher always supplies a token; the server alone does not insist on one when SHE_INSTALLED=1.
+it("V8-X08: (현재 동작 기록) 실행기는 매 시작마다 토큰을 만들어 서버 시작 전에 넣는다. 서버는 SHE_INSTALLED=1이어도 토큰이 없으면 예전 bootstrap(200)으로 동작한다", async () => {
+  const launcher = readFileSync("packaging/msix/launcher/Launcher.cs", "utf8");
+  const run = launcher.slice(launcher.indexOf("static int Run()"), launcher.indexOf("static void Quit()"));
+  const made = run.indexOf("launchToken = NewToken();"), given = run.indexOf('psi.EnvironmentVariables["SHE_LAUNCH_TOKEN"] = launchToken;'), started = run.indexOf("server.Start();");
+  expect(made).toBeGreaterThan(0);
+  expect(given).toBeGreaterThan(made);
+  expect(started).toBeGreaterThan(given);
+  // No branch between making the token and handing it to node can skip it.
+  expect(run.slice(made, given)).not.toMatch(/\bif\s*\(|\breturn\b/);
+  vi.stubEnv("SHE_INSTALLED", "1");
+  vi.stubEnv("SHE_LAUNCH_TOKEN", "");
+  const t = testStore();
+  const { app } = await createApp(t.store, true, undefined, undefined, undefined, takeLaunchToken());
+  try {
+    expect((await app.inject({ url: "/api/bootstrap", headers: { host: HOST } })).statusCode).toBe(200);
+  } finally {
+    await app.close();
+    t.clean();
+  }
+});

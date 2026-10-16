@@ -3,6 +3,7 @@
 //  - One instance per Windows user: a second start opens the running app instead of a second server.
 //  - Port 4317 if free, otherwise any free port; the chosen port is written to launch.json in the data folder.
 //  - The server and everything it starts are in a job object, so they stop when the launcher stops.
+//  - H7: the server's environment is an allow-list (SetServerEnvironment); the user's variables are not passed on.
 //  - H1: every start makes a new random launch token. The server gets it in SHE_LAUNCH_TOKEN (never on a command line)
 //    and gives a session only to a request carrying it; the browser gets it in the URL fragment (/beta/#launch=...),
 //    which is never sent in a request. A second start reads it from launch.json in the per-user LocalState folder.
@@ -63,12 +64,9 @@ static class Launcher
         psi.RedirectStandardError = true;
         psi.StandardOutputEncoding = Encoding.UTF8;
         psi.StandardErrorEncoding = Encoding.UTF8;
-        psi.EnvironmentVariables.Remove("NODE_OPTIONS");
-        psi.EnvironmentVariables.Remove("NODE_PATH");
-        psi.EnvironmentVariables["SHE_DATA_DIR"] = dataDir;
-        psi.EnvironmentVariables["SHE_INSTALLED"] = "1";
-        psi.EnvironmentVariables["PORT"] = port.ToString();
-        psi.EnvironmentVariables["NODE_ENV"] = "production";
+        // H7: an environment built from an allow-list, not the user's (see SetServerEnvironment). The launch token is added
+        // here only, for node; the browser start below gets nothing from this list.
+        SetServerEnvironment(psi, Environment.SystemDirectory, dataDir, port);
         psi.EnvironmentVariables["SHE_LAUNCH_TOKEN"] = launchToken;
 
         var ready = new ManualResetEvent(false);
@@ -224,6 +222,38 @@ static class Launcher
     static void OpenBrowser(int p, string token)
     {
         try { Process.Start(new ProcessStartInfo("http://127.0.0.1:" + p + "/beta/#launch=" + token) { UseShellExecute = true }); } catch { }
+    }
+
+    // H7: the server's whole environment. Nothing is copied from the user's environment, so NODE_OPTIONS, NODE_PATH,
+    // NODE_TLS_REJECT_UNAUTHORIZED, NODE_EXTRA_CA_CERTS, NODE_USE_ENV_PROXY, HTTP(S)_PROXY, OPENSSL_CONF, SSL_CERT_FILE and
+    // the rest never reach node, in any letter case. systemDir comes from Windows (Environment.SystemDirectory calls
+    // GetSystemDirectory), not from SystemRoot/windir; PATH holds only the system folders. Per-user folders come from the
+    // shell's known-folder API. Values are never printed.
+    internal static void SetServerEnvironment(ProcessStartInfo psi, string systemDir, string dataDir, int port)
+    {
+        if (string.IsNullOrEmpty(systemDir) || !Regex.IsMatch(systemDir, @"^[A-Za-z]:\\[^;]+$") || !Directory.Exists(systemDir))
+            throw new InvalidOperationException("Windows system folder not found");
+        string root = Path.GetDirectoryName(systemDir);
+        psi.EnvironmentVariables.Clear();
+        psi.EnvironmentVariables["SystemRoot"] = root;
+        psi.EnvironmentVariables["windir"] = root;
+        psi.EnvironmentVariables["PATH"] = systemDir + ";" + root;
+        string temp = Path.GetTempPath().TrimEnd('\\');
+        psi.EnvironmentVariables["TEMP"] = temp;
+        psi.EnvironmentVariables["TMP"] = temp;
+        // USERPROFILE is needed by PowerShell (DPAPI helper started by the server); the app-data paths are passed on to it.
+        SetFolder(psi, "USERPROFILE", Environment.SpecialFolder.UserProfile);
+        SetFolder(psi, "APPDATA", Environment.SpecialFolder.ApplicationData);
+        SetFolder(psi, "LOCALAPPDATA", Environment.SpecialFolder.LocalApplicationData);
+        psi.EnvironmentVariables["SHE_DATA_DIR"] = dataDir;
+        psi.EnvironmentVariables["SHE_INSTALLED"] = "1";
+        psi.EnvironmentVariables["PORT"] = port.ToString();
+        psi.EnvironmentVariables["NODE_ENV"] = "production";
+    }
+    static void SetFolder(ProcessStartInfo psi, string name, Environment.SpecialFolder folder)
+    {
+        string path = Environment.GetFolderPath(folder);
+        if (!string.IsNullOrEmpty(path)) psi.EnvironmentVariables[name] = path;
     }
 
     // 32 random bytes, base64url without padding (43 characters).

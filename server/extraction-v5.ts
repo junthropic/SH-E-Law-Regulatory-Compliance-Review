@@ -3,24 +3,36 @@ import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import { createRequire } from "node:module";
 import { existsSync } from "node:fs";
+import { nodeWorkerEnv } from "./child-env-v8.js";
 import { ProtectedPayloads } from "./protected-payload-v4.js";
 import { assertPrincipal, type Principal } from "./compliance-v2.js";
 import { PayloadProvenance } from "./provenance-v4.js";
 import { sha } from "./store.js";
 import type { Extraction } from "./extraction.js";
 
-export async function isolatedParse(bytes: Buffer, signal?: AbortSignal): Promise<Extraction> {
-  if (bytes.length > 20_000_000) return Promise.reject(Error("문서 용량 초과"));
-  signal?.throwIfAborted();
-  const worker = fileURLToPath(new URL(import.meta.url.endsWith(".ts") ? "./parser-worker-v5.ts" : "./parser-worker-v5.js", import.meta.url));
+// Path of a parser worker that sits next to this module (server/*.ts in development, app/server/*.js when packaged).
+export const workerPath = (name: string) => fileURLToPath(new URL(import.meta.url.endsWith(".ts") ? `./${name}.ts` : `./${name}.js`, import.meta.url));
+
+// Isolation for every document parser worker (F-03): Node permission model — read only the worker file, its bundled
+// vendor/ files and node_modules; no writes, network, child processes or addons — a 256 MB heap, and the H7 allow-list
+// environment (trusted SystemRoot, empty PATH; no NODE_OPTIONS/TLS/proxy variables from the parent).
+export function isolatedWorkerOptions(worker: string) {
   let ancestor=dirname(worker);while(!existsSync(resolve(ancestor,"node_modules"))&&dirname(ancestor)!==ancestor)ancestor=dirname(ancestor);
   const alias=resolve(ancestor,"node_modules");
   // The installed (MSIX) build bundles kordoc into server/vendor/ next to the worker; only its external pdfjs-dist stays in node_modules.
   let modules=alias;try{modules=resolve(dirname(createRequire(import.meta.url).resolve("kordoc")),"../..");}catch{}
   const vendor=resolve(dirname(worker),"vendor");
+  return { windowsHide: true, env: nodeWorkerEnv(),
+    execArgv: ["--permission", `--allow-fs-read=${worker}`, ...(existsSync(vendor)?[`--allow-fs-read=${vendor}`]:[]), `--allow-fs-read=${modules}`, `--allow-fs-read=${alias}`, "--max-old-space-size=256"] };
+}
+
+export async function isolatedParse(bytes: Buffer, signal?: AbortSignal): Promise<Extraction> {
+  if (bytes.length > 20_000_000) return Promise.reject(Error("문서 용량 초과"));
+  signal?.throwIfAborted();
+  const worker = workerPath("parser-worker-v5");
+  const options = isolatedWorkerOptions(worker);
   return new Promise((done, fail) => {
-    const child = fork(worker, [], { windowsHide: true, env: { SYSTEMROOT: process.env.SYSTEMROOT, PATH: "" },
-      execArgv: ["--permission", `--allow-fs-read=${worker}`, ...(existsSync(vendor)?[`--allow-fs-read=${vendor}`]:[]), `--allow-fs-read=${modules}`, `--allow-fs-read=${alias}`, "--max-old-space-size=256"], stdio: ["ignore", "ignore", "ignore", "ipc"] });
+    const child = fork(worker, [], { ...options, stdio: ["ignore", "ignore", "ignore", "ipc"] });
     let result: Extraction | undefined, error: Error | undefined;
     const stop = () => { error = Error("문서 추출 취소"); child.kill(); };
     const timer = setTimeout(() => { error = Error("문서 추출 시간 한도 초과"); child.kill(); }, 30000);

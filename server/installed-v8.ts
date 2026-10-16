@@ -26,6 +26,10 @@ export function publicLawNotice(publishedAt?: string) {
   return `앱에 들어 있는 공개 법령 초기 자료는 앱을 만들 때의 자료입니다${made}. 새 앱 버전을 낼 때 그때의 공개 법령 자료가 함께 들어갑니다. 설치판은 이 자료를 인터넷으로 받아오지 않습니다. 최신 법령이 필요하면 ‘API 키 설정’에서 법제처 키를 넣고 직접 수집하세요.`;
 }
 
+// The old screen's plaintext JSON backup/restore (/api/backup, /api/restore). The installed build keeps only the
+// encrypted backup on the 데이터·백업 screen (security review F-04).
+export const LEGACY_BACKUP_OFF_MESSAGE = "설치판에서는 지원하지 않습니다. 데이터·백업 화면의 암호화 백업을 쓰세요.";
+
 export const UNINSTALL_NOTICE = "앱을 제거하면 저장된 자료가 삭제됩니다. 먼저 백업하세요.";
 
 // Installed build start-up: import the bundled public law data only when that file differs from the last import.

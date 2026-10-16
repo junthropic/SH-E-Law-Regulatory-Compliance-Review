@@ -6,7 +6,8 @@ import {
   renameSync,
   unlinkSync,
 } from "node:fs";
-import { join } from "node:path";
+import { join, win32 } from "node:path";
+import { powerShellEnv, trustedPowerShell } from "./child-env-v8.js";
 import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
 export class VaultUnavailableError extends Error {
   constructor() {
@@ -22,33 +23,38 @@ export class Vault {
   constructor(
     private dir: string,
     private ephemeral = process.env.NODE_ENV === "test",
+    // H7: Windows PowerShell by absolute path in the real system directory; never a PATH or working-folder search.
+    private powershell: () => string = trustedPowerShell,
   ) {}
   private async transform(value: string, encrypt: boolean): Promise<string> {
     if (process.platform !== "win32")
       throw new Error(
         "이 버전의 영구 자격증명 저장은 Windows DPAPI가 필요합니다.",
       );
+    // DPAPI through .NET directly (System.Security from the GAC) and no cmdlets at all: ConvertTo/From-SecureString,
+    // Add-Type and New-Object autoload PowerShell modules, which took 13-25 s on the GitHub Windows runner (2026-10-16
+    // diagnostics) and tripped the 15 s limit. Same stored format as ConvertFrom-SecureString: lowercase hex of the CurrentUser DPAPI blob of
+    // the UTF-16LE text, no extra entropy — values written by either method open with the other (V8-H11).
     const operation = encrypt
-      ? "$inputText=[Console]::In.ReadToEnd(); $secure=ConvertTo-SecureString -String $inputText -AsPlainText -Force; ConvertFrom-SecureString -SecureString $secure"
-      : "$inputText=[Console]::In.ReadToEnd(); $secure=ConvertTo-SecureString -String $inputText; $p=[Runtime.InteropServices.Marshal]::SecureStringToBSTR($secure); try {[Runtime.InteropServices.Marshal]::PtrToStringBSTR($p)} finally {[Runtime.InteropServices.Marshal]::ZeroFreeBSTR($p)}";
+      ? "[void][Reflection.Assembly]::Load('System.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'); $inputText=[Console]::In.ReadToEnd(); $b=[Security.Cryptography.ProtectedData]::Protect([Text.Encoding]::Unicode.GetBytes($inputText),$null,[Security.Cryptography.DataProtectionScope]::CurrentUser); [BitConverter]::ToString($b).Replace('-','').ToLowerInvariant()"
+      : "[void][Reflection.Assembly]::Load('System.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'); $h=[Console]::In.ReadToEnd().Trim(); $b=[byte[]]::new($h.Length/2); for($i=0;$i -lt $b.Length;$i++){$b[$i]=[Convert]::ToByte($h.Substring($i*2,2),16)}; $p=[Security.Cryptography.ProtectedData]::Unprotect($b,$null,[Security.Cryptography.DataProtectionScope]::CurrentUser); try {[Text.Encoding]::Unicode.GetString($p)} finally {[Array]::Clear($p,0,$p.Length)}";
     const script =
       "$ErrorActionPreference='Stop'; try { " +
       operation +
       " } catch { [Console]::Error.WriteLine($_.Exception.HResult); [Console]::Error.WriteLine($_.FullyQualifiedErrorId); exit 1 }";
+    // Resolved before anything starts: if the trusted path is missing this throws and nothing is run.
+    const exe = this.powershell();
+    const env = powerShellEnv(process.env, win32.dirname(win32.dirname(win32.dirname(exe))));
     return new Promise((res, rej) => {
-      const p = spawn(
-        "powershell.exe",
-        ["-NoProfile", "-NonInteractive", "-Command", script],
-        {
-          windowsHide: true,
-          env: Object.fromEntries(
-            Object.entries(process.env).filter(
-              ([key]) => key.toUpperCase() !== "PSMODULEPATH",
-            ),
-          ),
-          stdio: ["pipe", "pipe", "pipe"],
-        },
-      );
+      // Executable and arguments stay separate (no shell). The secret goes through standard input, never the command
+      // line; the environment is the allow-list from child-env-v8 (no PSModulePath user folders, no SHE_* values).
+      const p = spawn(exe, ["-NoProfile", "-NonInteractive", "-Command", script], {
+        windowsHide: true,
+        shell: false,
+        cwd: win32.dirname(win32.dirname(win32.dirname(exe))),
+        env,
+        stdio: ["pipe", "pipe", "pipe"],
+      });
       const timer = setTimeout(() => {
         p.kill();
         rej(new Error("보호 저장소 응답 시간이 초과되었습니다."));

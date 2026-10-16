@@ -50,7 +50,21 @@ import { deleteDocument } from "./retention-v8.js";
 import { safeMessage } from "./redact-v8.js";
 import { attachPreview, registerPreviewV8 } from "./preview-v8.js";
 import { registerBetaV8, markCsv, markMarkdown, selfReviewOf } from "./beta-v8.js";
-import { isInstalled, MCP_OFF_MESSAGE, PETITION_OFF_MESSAGE, PUBLIC_UPDATE_OFF_MESSAGE } from "./installed-v8.js";
+import { isInstalled, LEGACY_BACKUP_OFF_MESSAGE, MCP_OFF_MESSAGE, PETITION_OFF_MESSAGE, PUBLIC_UPDATE_OFF_MESSAGE } from "./installed-v8.js";
+
+// F-01: the route pattern the router matched (e.g. "/api/reviews/:id"); for unmatched requests, the percent-decoded
+// path. null when the path cannot be decoded. The raw req.url must not be used for security decisions.
+function routedPath(req: { routeOptions?: { url?: string }; url: string }): string | null {
+  let decoded: string;
+  try {
+    decoded = decodeURIComponent(req.url.split("?")[0]);
+  } catch {
+    return null;
+  }
+  // Unknown /api paths match the static wildcard route; the decoded path still marks them as /api.
+  const route = req.routeOptions?.url;
+  return route?.startsWith("/api/") ? route : decoded;
+}
 import { LAUNCH_HEADER, LAUNCH_REFUSED, launchTokenMatches } from "./launch-token-v8.js";
 
 export async function createApp(store = new Store(), test = false, complianceGrants?: ReadonlyMap<string, Principal>, v3?: {adapter?:"v3"|"v4"|"v6";principal:Principal;mode:"shadow"|"project";collect?:boolean;backupKey?:{key:Buffer;id:string}}, enforcement?: () => Execution, launchToken?: string) {
@@ -105,12 +119,15 @@ export async function createApp(store = new Store(), test = false, complianceGra
       return reply
         .code(403)
         .send({ error: "다른 사이트의 요청은 허용하지 않습니다." });
+    // F-01: decide on the path the router matched (it percent-decodes), never on the raw URL, so "/%61pi/…" cannot skip the gate.
+    const path = routedPath(req);
+    if (path === null) return reply.code(400).send({ error: "잘못된 주소입니다." });
     if (
-      req.url.startsWith("/api/") &&
+      path.startsWith("/api/") &&
       req.headers["sec-fetch-site"] === "cross-site"
     )
       return reply.code(403).send({ error: "교차 사이트 요청 차단" });
-    if (req.url.startsWith("/api/") && !req.url.startsWith("/api/bootstrap")) {
+    if (path.startsWith("/api/") && path !== "/api/bootstrap") {
       const token = req.cookies.she_session;
       const csrf = token ? sessions.get(token) : undefined;
       if (!csrf)
@@ -124,7 +141,7 @@ export async function createApp(store = new Store(), test = false, complianceGra
     }
   });
   app.addHook("preHandler", async (req, reply) => {
-    const path = req.url.split("?")[0];
+    const path = routedPath(req) ?? "";
     // These legacy paths lack a complete derivation/consent link. Keep them closed in the v3 pilot.
     if(v3&&req.method==="POST"&&(/^\/api\/intake\/[^/]+\/execute$/.test(path)||path==="/api/mcp/query"))throw new EgressDenied();
     const mutating =
@@ -580,6 +597,8 @@ export async function createApp(store = new Store(), test = false, complianceGra
     };
   });
   app.get("/api/backup", async (req, reply) => {
+    // F-04: the plaintext JSON backup is off in the installed build; the encrypted /api/beta/backup stays.
+    if (isInstalled()) return reply.code(403).send({ error: LEGACY_BACKUP_OFF_MESSAGE });
     if (jobs.size) throw new Error("진행 중인 작업이 끝난 뒤 백업하세요.");
     return reply
       .header(
@@ -588,7 +607,8 @@ export async function createApp(store = new Store(), test = false, complianceGra
       )
       .send(makeBackup(store));
   });
-  app.post("/api/restore", { bodyLimit: 100 * 1024 * 1024 }, async (req) => {
+  app.post("/api/restore", { bodyLimit: 100 * 1024 * 1024 }, async (req, reply) => {
+    if (isInstalled()) return reply.code(403).send({ error: LEGACY_BACKUP_OFF_MESSAGE });
     if (jobs.size) throw new Error("진행 중인 작업이 끝난 뒤 복원하세요.");
     return restoreBackup(store, req.body);
   });
@@ -660,7 +680,7 @@ export async function createApp(store = new Store(), test = false, complianceGra
     });
   if (existsSync(resolve("dist/index.html")))
     app.setNotFoundHandler((req, reply) =>
-      req.url.startsWith("/api/")
+      (routedPath(req) ?? "").startsWith("/api/")
         ? reply.code(404).send({ error: "API 없음" })
         : beta && (req.url === "/beta" || req.url.startsWith("/beta/"))
           ? reply.sendFile("index.html", resolve("dist-beta"))

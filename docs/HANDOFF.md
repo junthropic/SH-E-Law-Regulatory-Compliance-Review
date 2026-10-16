@@ -12,7 +12,7 @@ v7 상세: `docs/implementation-v7/README.md`.
 | 기준 main | `7c1a20a` (#25). main CI Linux 711 통과·4 건너뜀, Windows 714 통과·1 건너뜀 |
 | 단계별 기록 | `docs/implementation-v8/stage0-scan.md` ~ `stage5-store.md` |
 | 단계 5 | Store 제출 자료·베타 문서 `docs/implementation-v8/stage5-store/`(처리방침 MD·HTML, 등록 문구, 스크린샷 6장, 제출 체크리스트, 베타 안내, 변경 기록). 문서·코드 일치 시험 V8-D01~D05 |
-| 패키지 | `packaging/msix/identity.json` 0.8.0.0, Partner Center 값 반영. 최종 Store MSIX는 main에서 `msix.yml`로 다시 만든다(run 38553954580 산출물은 #24 이전) |
+| 패키지 | `packaging/msix/identity.json` 0.8.1.0(2026-10-16 올림), Partner Center 값 반영. 최종 Store MSIX는 main에서 `msix.yml`로 다시 만든다(run 38553954580 산출물은 #24 이전) |
 | 베타 화면 개편 | 브랜치 `v8-beta-redesign`(main `5ffab56` 기준, 미커밋·미푸시): 디자인 토큰·Pretendard 번들·결과 화면 재구성·접근성(P0/P1), 피드백 화면·API 삭제, UI 재동결(기존 29개 그대로), Store 스크린샷 6장 재촬영. 기록 `docs/implementation-v8/beta-redesign.md`. 다크 테마는 나중에 |
 | 사용자 결정 대기 | 예약 앱 이름 일치 확인, 보안 검증 계획 실행 여부(H1 높음), 문의 메일, 처리방침 게시 URL, DAST 도구 사용 여부 |
 | 제출 | Microsoft 계정·Partner Center·Store 제출은 사용자가 직접 한다 |
