@@ -81,7 +81,7 @@
 
 ## 7. 다음 단계 (사용자 결정)
 
-1. 이 계획대로 검증을 시작할지 결정해 주세요. H1(2026-10-15)과 H7(2026-10-16)은 고쳤습니다. H1의 토큰 없는 경로를 설치판에서 막을지(8.5절)는 따로 정해 주세요.
+1. 이 계획대로 검증을 시작할지 결정해 주세요. H1(2026-10-15)과 H7(2026-10-16)은 고쳤습니다. H1의 토큰 없는 경로는 사용자 승인(2026-10-17)으로 설치판에서 막았습니다(9.6절).
 2. 동적 점검 도구(ZAP 등, Docker 필요)를 이 PC에서 써도 될지 정해 주세요.
 3. (해결됨) GitHub Actions 결제 문제는 2026-10-14에 사용자가 해결했고, 이후 CI·설치 시험을 계속 돌렸다.
 4. F-01(인코딩된 `/api` 접두어 인증 우회, 치명)과 F-04(설치판 평문 백업)는 사용자 승인(2026-10-16)으로 고쳤습니다(9.1·9.3절). 베타 안내의 "기존 화면(연결 설정)의 JSON 백업…" 문구(V8-K03)를 설치판에 맞게 바꿀지는 따로 정해 주세요.
@@ -171,7 +171,9 @@
 - V8-H07: 실제 격리 파서 2종이 오염된 부모 환경에서도 정상 판독하고, `--require` 감시 파일은 생기지 않는다.
 - V8-H08·H09: 로컬 TLS 시험(127.0.0.1, 자체 서명 인증서). 부모에 `NODE_TLS_REJECT_UNAUTHORIZED=0`·`NODE_EXTRA_CA_CERTS`가 있어도 자식 node는 인증서를 거부한다. H09는 `Launcher.cs`를 패키지 빌드와 같은 csc로 실제 컴파일해, 실행기 코드로 띄운 node를 확인한다.
 
-### 8.5 H1 토큰 없는 경로 (조사만, 바꾸지 않음)
+### 8.5 H1 토큰 없는 경로 (2026-10-16 조사 기록 — 2026-10-17 고침, 9.6절)
+
+아래는 고치기 전 조사 기록이다. 제안대로 `index.ts`에서 막았고, 결과는 9.6절에 있다.
 
 - 실행기는 매번 토큰을 만들어 서버 시작 전에 넣는다(`Launcher.cs:58`, `:70`, `:78`). 그 사이에 이 단계를 건너뛰는 분기는 없다(V8-X08).
 - 서버(`server/index.ts:15`, `server/app.ts:199`)는 토큰이 있을 때만 검사한다. 따라서 `SHE_INSTALLED=1`이고 `SHE_LAUNCH_TOKEN`이 없으면(실행기 결함 등) 예전처럼 누구에게나 세션을 주는 bootstrap으로 동작한다.
@@ -192,9 +194,9 @@
 - 시스템 폴더 판정은 Node 진단 보고서(`process.report`)의 모듈 목록에 기댄다. 형식이 바뀌면 판정이 실패하고 보호 저장소가 열리지 않는다. 다른 경로로 대신 찾지는 않는다.
 - kordoc 안에는 HWP 변환용 `powershell` 실행 코드가 있다. 우리 파서는 파일 경로 없이 바이트만 넘기므로 이 코드에 닿지 않는다. 격리 파서는 `--permission`으로 자식 프로세스 생성도 거부된다.
 
-## 9. 적대적 검토 지적 F-01·F-03·F-04 (2026-10-16)
+## 9. 적대적 검토 지적 F-01~F-06과 H1 토큰 없는 경로 (2026-10-16~17)
 
-검토는 origin/main 9c25953을 대상으로 했다. 재현 스크립트는 `.local/security-review/poc/`에 있다(저장소 밖, git 무시).
+검토는 origin/main 9c25953을 대상으로 했다. 재현 스크립트는 `.local/security-review/poc/`에 있다(저장소 밖, git 무시). 9.1~9.3은 0.8.1.0, 9.4~9.6은 0.8.2.0에서 고쳤다. 9.7(F-02)은 코드를 바꾸지 않았다.
 
 ### 9.1 F-01 인코딩된 `/api` 접두어로 인증 우회 — **고침**
 
@@ -241,3 +243,119 @@
   - 기존 화면(연결 설정)의 "백업 다운로드"는 일반 링크(`<a href="/api/backup">`)다. 그래서 설치판에서는 브라우저 탭에 403 응답 본문(JSON 한 줄)이 그대로 보인다.
   - "백업 복원"은 확인 창 뒤에 요청을 보내고, 기존 오류 처리로 서버 문구를 보여 준다.
 - **문구 확인 필요:** 베타 화면의 데이터 처리 안내에는 "기존 화면(연결 설정)의 JSON 백업…" 항목이 있다(V8-K03). 설치판에서는 이 기능이 막혔으므로 문구가 맞지 않을 수 있다. 문구를 바꿀지는 사용자 결정이며, 지금은 바꾸지 않았다.
+
+### 9.4 F-06 설치판에서 ChatGPT 로그인·토큰 갱신·원격 폐기가 막힘 — **고침**
+
+- **고치기 전:** OAuth 코드 교환·갱신(`auth.ts:257`)과 원격 폐기(`auth.ts:364`)는 본문을 `URLSearchParams`로 보낸다.
+  - 외부 통신 검사(`egress-guard-v8.ts` `wrapFetch`)는 문자열이 아닌 본문을 모두 `"\0binary"`로 바꿔 AI 동의 모듈에 넘겼다.
+  - AI 동의(`ai-consent-v8.ts:112`)는 `\0`으로 시작하는 본문을 거부한다. 그래서 동의를 켜도 설치판에서 로그인이 실패했다(안전한 쪽으로 실패). 연결 해제의 원격 폐기도 늘 실패했다(`remoteRevoked false`).
+  - 재현(`oauth-flow-probe`, 설치판 배선): `callback correct state FAILED: EgressBlocked ... auth.openai.com`, `logout remoteRevoked false`, 전송 기록 `POST auth.openai.com blocked`.
+- **고친 것(`server/egress-guard-v8.ts:44` `bodyText`):**
+  - 검사가 `URLSearchParams` 본문을 `toString()` 글자로 읽는다. undici가 실제로 보내는 바이트(`application/x-www-form-urlencoded`)와 같은 글자다.
+  - 스트림·Blob·바이트 본문은 지금처럼 `"\0binary"`이고 AI 주소로는 막힌다.
+  - `auth.ts`는 바꾸지 않았다. 검사 쪽에서 고치면 OAuth 코드와 기존 인증 시험이 그대로이고, 같은 형식의 다른 본문도 실제 글자로 판단된다.
+- **바뀌지 않은 규칙:**
+  - auth.openai.com은 지금처럼 AI 전송 동의가 켜져 있어야 한다(`ai-consent-v8.ts:110-113`). 이 줄은 바꾸지 않았다.
+  - api.openai.com으로 가는 본문은 형식과 관계없이, 승인한 미리보기와 글자가 같을 때 1회만 나간다. 양식 본문도 같은 규칙이다(V8-G06).
+  - 허용 목록에 새 주소를 넣지 않았다.
+- **시험(`tests/v8-egress-oauth.test.ts`):** OpenAI는 로컬 스텁(로컬 RSA 키, `FAKE-*` 토큰)이다. 전역 fetch를 스텁으로 바꾸고 그 위에 `index.ts`와 같은 배선(EgressGuard + 앱의 AiConsent)을 설치했다. 실제 네트워크는 쓰지 않는다.
+  - V8-G01: 실제 라우트(`/api/auth/chatgpt/start` → `/auth/callback`)로 코드 교환, 금고에 토큰 저장(시험은 메모리 금고)
+  - V8-G02: 만료 토큰으로 `/api/auth/chatgpt/models`를 부르면 refresh_token 교환 후 새 토큰 저장
+  - V8-G03: 연결 해제가 폐기를 호출하고 `remoteRevoked: true`
+  - V8-G04: 접근·갱신·ID 토큰과 인증 코드가 API 응답, 콘솔·표준 출력, 감사 기록, AI 전송 기록, 검사 기록, 평문·베타 백업 내용, 내보내기(MD·CSV), 데이터 폴더 파일에 없다
+  - V8-G05: 동의가 꺼져 있으면 교환·갱신·원격 폐기가 연결 전에 막히고(스텁 호출 0건), 로컬 연결 해제는 된다
+  - V8-G06: 양식 본문도 미리보기 승인 1회 규칙을 따르고, 바이트·Blob·스트림 본문은 계속 막힌다
+  - V8-G07(Windows만): 실제 DPAPI 금고 파일(소문자 16진수 DPAPI 값)에 저장되고, 파일에 토큰 글자가 없다
+  - 고치기 전 검사 코드로 같은 시험을 돌리면 G05를 뺀 F-06 시험이 모두 실패했다(로컬 대조).
+- **재현 스크립트 전후(`.local/security-review/poc/oauth-flow-probe.out.txt` → `.after2.txt`, 설치판 배선):**
+
+  | 항목 | 고치기 전 | 고친 뒤 |
+  |---|---|---|
+  | callback correct state | FAILED: EgressBlocked auth.openai.com | connected, code_verifier 일치 true |
+  | logout remoteRevoked | false | true |
+  | AI 전송 기록 | `POST auth.openai.com blocked` | `POST … sent`, `GET … sent` ×3, `POST … sent` |
+  | status()에 토큰 글자 | false | false |
+
+- **남는 한계:**
+  - AI 전송 기록은 로그인·갱신·폐기 요청도 크기와 SHA-256만 남긴다. 본문에는 일회용 코드나 갱신 토큰이 들어 있지만 기록에 원문은 없다.
+  - 로그아웃 뒤 이메일 등 등록 정보가 남는 문제(F-07)는 이번 범위가 아니다. 고친 뒤 설치판 배선에서도 같은 결과가 보인다.
+  - 실제 OpenAI 서버와 실제 계정으로는 시험하지 않았다.
+
+### 9.5 F-05 외부 통신 검사의 빈틈 — **고침**
+
+- **고치기 전(`egress-guard-v8.ts:51-61`, `:69`):**
+  - `http.request(url, { hostname })`에서 검사는 url만 보았다. Node는 options의 hostname으로 접속했다. 재현: `http.request('http://127.0.0.1', {hostname:'127.0.0.2'})` → `connected to 127.0.0.2`.
+  - fetch가 리다이렉트를 따라갈 때 새 주소를 다시 검사하지 않았다. 재현에서 302 → `evil.example`은 앱 검사가 아니라 재현용 차단 장치가 막았다. 공공 API는 이미 `redirect:"error"`였고, AI 호출과 모델 목록은 기본값(follow)이었다.
+  - `net`·`tls`·`http2` 직접 연결과, 검사 설치 전에 잡아 둔 fetch는 검사 밖이었다.
+- **고친 것(`server/egress-guard-v8.ts`):**
+  - **실제 접속 대상(`:71` `effectiveRequestTarget`, `:139`):** `http(s).request`·`get`은 Node와 같은 순서로 url 인자와 options를 합친다(options 우선, `hostname || host || "localhost"`). 그 결과의 프로토콜·호스트를 검사한다. `setHost`·`headers.host`는 접속 대상이 아니라 Host 머리글이라 보지 않는다. `socketPath`는 로컬 파이프로 본다. 호스트를 URL로 만들 수 없으면 막는다.
+  - **리다이렉트(`:102-137`):** `redirect`가 follow(기본값)이면 검사가 `redirect:"manual"`로 보내고, 3xx의 Location을 한 단계씩 첫 요청과 같은 검사(허용 목록, https, AI는 동의와 그 단계의 본문)로 확인한 뒤 따라간다.
+    - 한도는 fetch 표준과 같은 20번이다. http/https가 아닌 주소로는 가지 않는다.
+    - 메서드 처리도 fetch 표준과 같다. 303과 POST의 301/302는 GET으로 바꾸고 본문과 본문 머리글을 뺀다. 307/308은 같은 본문을 다시 보낸다. 다시 보낼 수 없는 본문이면 오류로 끝낸다.
+    - 다른 출처로 가면 `authorization`·`proxy-authorization`·`cookie`를 넘기지 않는다.
+    - `redirect:"error"`(공공 API, OAuth)와 `"manual"`(jose 등)은 그대로 원래 fetch에 넘긴다.
+    - 승인한 AI 본문이 307로 다른 곳에 다시 가려면 새 승인이 필요하다(승인 1회 = 전송 1회).
+  - **원시 소켓(`:162` `wrapSocketConnect`):** `net.Socket.prototype.connect`를 감싼다. undici(fetch)·http·https·http2·net·tls 연결이 모두 여기를 지난다. 호스트가 루프백이나 허용 목록(공공·AI) 이름이 아니면 연결 전에 `EgressBlocked`로 끝낸다.
+    - 경로(파이프) 연결과 루프백은 그대로다. 앱 서버의 listen, DPAPI 도우미·파서 작업 프로세스의 표준 입출력·IPC는 connect를 쓰지 않거나 파이프라 영향이 없다.
+    - 이 단계에는 본문이 없으므로 AI 주소의 동의·승인 검사는 하지 않는다. 그 검사는 fetch 단계에 있고, `http(s).request`로 AI 주소에 가는 것은 지금처럼 막힌다.
+- **유지한 동작:** 공공 API `redirect:"error"`, 동의·승인을 거친 AI 전송, 루프백(V8-O05, 전체 시험·e2e).
+- **시험(`tests/v8-egress-oauth.test.ts`, 실제 소켓, "외부"는 127.0.0.2와 DNS 전에 막히는 이름):**
+  - V8-O03: url과 options를 합친 실제 대상 검사(`hostname` 덮어쓰기, `host`만, `setHost:false`, 공공 주소의 http, URL 객체+options). 127.0.0.2 서버 도달 0건. Node 우선순위대로 루프백은 그대로 닿는다.
+  - V8-O04: 실제 undici로 리다이렉트를 따라갈 때 127.0.0.2·`evil.example`·2단계 뒤 127.0.0.2가 모두 막히고, 자기 자신으로 도는 리다이렉트는 20번에서 끝난다. 루프백 302·307(같은 본문)은 동작한다. 다른 출처로는 Authorization이 가지 않는다. `redirect:"error"`·`"manual"`은 전과 같다.
+  - V8-O05(스텁 네트워크): 공공 주소가 307로 AI 주소에 보내면 AI 동의 검사로 막힌다. 승인한 AI 전송은 1회 나가고, AI 주소의 307 재전송은 막힌다. 공공 API `redirect:"error"`는 그대로 전달된다. 공공 주소의 http로 가는 리다이렉트는 막힌다.
+  - V8-O06: `net.connect`(포트·옵션·`new Socket().connect`), `tls.connect`, `http2.connect`, 검사 설치 전에 잡아 둔 fetch가 127.0.0.2·`evil.example`에 연결되지 않는다(127.0.0.2 서버의 연결 수락 0). 루프백 TCP와 로컬 파이프는 연결된다. 해제하면 원래 connect로 돌아온다.
+  - 고치기 전 검사 코드로 돌리면 O03~O06이 모두 실패했다(로컬 대조).
+- **재현 스크립트 전후(`egress-guard-probe.out.txt` → `.after2.txt`):**
+
+  | 항목 | 고치기 전 | 고친 뒤 |
+  |---|---|---|
+  | `http.request('http://127.0.0.1', {hostname:'127.0.0.2'})` | connected to 127.0.0.2 | guard threw EgressBlocked |
+  | fetch 루프백 → 302 evil.example | 재현용 차단 장치가 막음(앱 검사는 보지 않음) | EgressBlocked, 앱 검사가 다시 확인 |
+  | auth.openai.com, URLSearchParams 본문 | blocked | ALLOWED(동의 켜짐, F-06) |
+  | api.openai.com 미승인 POST / 승인 1회 / 2회째 | blocked / ALLOWED / blocked | 같음 |
+  | 호스트 분류 10건 | — | 같음 |
+
+- **남는 한계:**
+  - DNS 조회 자체(`dns.lookup`)와 UDP(`dgram`)는 검사하지 않는다. 허용 목록 밖 이름을 조회하는 것만으로 이름이 DNS 서버에 보일 수 있다. 앱 코드에는 그런 호출이 없다.
+  - 허용된 이름을 다른 주소로 풀어 주는 사용자 지정 `lookup`·`createConnection`·`agent`, 그리고 이미 열린 소켓을 넘기는 `tls.connect({socket})`은 이름만 보는 이 검사로 잡지 못한다. 이것은 프로세스 안의 코드가 해야 하는 일이고, 그런 코드는 검사 자체를 풀 수도 있다. 검사는 실수나 라이브러리의 송신을 막는 장치이며 악성 코드에 대한 경계가 아니다.
+  - 소켓 단계는 허용 목록 이름(공공·AI)으로의 연결을 막지 않는다. AI 본문 규칙은 fetch 단계에만 있다.
+  - 자식 프로세스는 이 검사 밖이다. 설치판의 자식은 DPAPI 도우미(PowerShell)와 `--permission`으로 띄운 파서 작업 프로세스뿐이고, 법령 MCP·국민신문고는 설치판에서 꺼져 있다(6절, 9.2절).
+  - `::ffff:127.0.0.1` 같은 다른 루프백 표기는 루프백으로 보지 않고 막는다(앱은 쓰지 않음).
+
+### 9.6 H1 토큰 없는 경로 — 설치판은 토큰 없이 시작하지 않음 — **고침**
+
+- **고치기 전:** 8.5절. `SHE_INSTALLED=1`인데 `SHE_LAUNCH_TOKEN`이 없으면(실행기 결함, 수동 실행) 서버가 누구에게나 세션을 주는 예전 bootstrap으로 동작했다. V8-X08이 이 동작을 기록했다.
+- **고친 것:**
+  - `server/index.ts:18-21`: 토큰을 꺼낸 바로 다음에 `isInstalled() && !launchToken`이면 `LAUNCH_MISSING`(`server/launch-token-v8.ts:11`)을 표준 오류에 한 줄 쓰고 종료 코드 1로 끝난다.
+  - 이 검사는 외부 통신 검사 설치, 데이터 폴더 생성, 저장소 키, 앱 생성, listen보다 앞이다. 그래서 포트를 열지 않고 데이터 폴더도 만들지 않는다.
+  - 문구에는 환경 값·경로·토큰이 없다. 빈 문자열 토큰도 없는 것으로 본다.
+  - 개발·시험 모드(`SHE_INSTALLED` 없음)와 `createApp`은 그대로다.
+- **실행기 확인:** `Launcher.cs` `Run()`은 `NewToken()`(32바이트 난수, base64url 43자)을 만들고, node를 띄우기 전에 `SHE_LAUNCH_TOKEN`에 넣는다. 그 사이에 분기·반환이 없다(V8-X08 소스 검사).
+- **설치 시험 확인(스크립트 읽음):** `msix-install-test-v8.ps1`은 앱을 `shell:AppsFolder\…!App`으로만 시작한다. `msix-scenario-v8.mjs`는 떠 있는 서버에 `launch.json`의 토큰으로 접속하기만 한다. 둘 다 node 서버를 토큰 없이 직접 띄우지 않는다. 설치 시험·WACK는 0.8.2.0 코드로 아직 돌리지 않았다.
+- **시험(`tests/v8-launch-token.test.ts`):**
+  - V8-X08(바꿈): 기존 실행기 검사에 더해 32바이트 토큰 생성을 확인한다. `index.ts`에서 검사가 토큰 꺼내기 바로 뒤, 다른 시작 단계보다 앞에 있는지 본다. 개발 모드 bootstrap 200은 그대로다.
+  - V8-X11(추가, 실제 프로세스): `node build/server/index.js`를 `SHE_INSTALLED=1`로, 토큰 없이 그리고 빈 토큰으로 띄운다. 종료 코드 1, 표준 오류는 `LAUNCH_MISSING` 한 줄, 준비 문구 없음, 포트 연결 거부, 데이터 폴더 없음.
+  - V8-X12(추가, 실제 프로세스): 토큰을 주면 설치판이 시작한다(토큰 없는 bootstrap 403, 토큰 머리글 200). `SHE_INSTALLED` 없는 개발 실행은 토큰 없이 시작한다(200). 출력에 토큰이 없다. 이 PC의 `listen EFAULT`는 다른 포트로 다시 시도한다(최대 3번).
+- **재현 스크립트:** `h1-encoded-prefix-bypass`(토큰을 준 설치 모드 실서버)를 다시 돌렸다. `.after.txt`와 같은 결과다. 토큰 없는 bootstrap 403, 인코딩 경로 401, 인증 없는 shutdown 뒤에도 서버 유지(`.after2.txt`). `routes-and-guards.after2.txt`도 무작위 값(세션·CSRF·시각) 말고는 `.after.txt`와 같다.
+- **남는 한계:** 수동으로 `SHE_INSTALLED=1`만 주고 서버를 띄우던 개발 절차는 이제 시작하지 않는다(필요하면 토큰을 넣는다). 같은 Windows 사용자의 악성 프로그램은 여전히 범위 밖이다(8.6절).
+
+### 9.7 F-02 다른 로컬 프로그램이 브라우저 쿠키를 받으면 세션을 쓸 수 있음 — **남은 위험(이번 버전 고치지 않음)**
+
+- **사용자 결정(2026-10-17): 이번 버전은 남은 위험으로 문서화, 다음 버전에서 수정.**
+- **상태:** PLAUSIBLE(재현하지 않음). 코드 근거와 브라우저 표준 동작 근거만 있다. 실제 브라우저가 다른 포트로 쿠키를 보내는 것을 실측하지 않았다(검토 보고서 6절).
+- **시나리오:**
+  - 쿠키는 포트별로 나뉘지 않는다. 또 `127.0.0.1`의 다른 포트도 같은 사이트로 취급되므로 `SameSite=Strict`가 막지 못한다.
+  - 같은 PC의 다른 로컬 프로그램(다른 Windows 사용자의 프로그램 포함)이 `127.0.0.1`의 다른 포트에서 듣고 있다고 하자. 사용자의 브라우저가 그 포트로 요청하면 `she_session` 쿠키가 함께 갈 수 있다.
+  - 그 프로그램은 받은 쿠키만으로 `/api/bootstrap`에서 CSRF 값을 다시 받을 수 있다(`server/app.ts`의 bootstrap, 실행 토큰은 쿠키가 없을 때만 요구). 그 뒤 앱 API 전체를 쓸 수 있다.
+  - 근거: `routes-and-guards.after2.txt`의 "stolen cookie only, no launch header → 200, 같은 CSRF".
+- **성립 조건:**
+  - 다른 로컬 프로그램이 `127.0.0.1`의 다른 포트에서 듣고 있다.
+  - 사용자의 브라우저가 그 포트로 요청을 보내고, 그 요청에 이 앱의 쿠키가 실린다.
+  - 이 앱이 실행 중이고 세션이 살아 있다.
+  - 같은 Windows 사용자의 악성 프로그램은 이 조건 없이도 `launch.json`과 메모리를 읽을 수 있으므로 원래 범위 밖이다(8.6절).
+- **지금 고치지 않는 이유:**
+  - 제대로 고치려면 화면이 서버에 인증하는 방식을 바꿔야 한다. 예를 들어 세션을 쿠키가 아니라 탭 메모리의 값으로 보내야 한다.
+  - 그러면 화면 코드가 바뀐다. 동결된 기존 화면(`src/`)도 포함된다.
+  - 사용자는 기존 UI·UX 변경을 금지했다("기존의 UI, UX는 절대로 고치면 안돼").
+- **이번 버전에서 줄어든 범위(완화일 뿐 해결은 아님):** F-01은 고쳤다. 실행 토큰(H1)이 없으면 쿠키 없는 첫 세션은 생기지 않는다. 설치판 평문 백업은 꺼져 있다(F-04).
+- **다음 버전 계획:** 보고서 권고안(세션 비밀을 탭 메모리 bearer로, 또는 설치판에서 쿠키만으로 CSRF를 다시 주지 않기, 실행 토큰 1회 사용화)을 화면 변경을 포함해 설계한다. 화면 변경은 사용자 승인을 받아 진행한다.

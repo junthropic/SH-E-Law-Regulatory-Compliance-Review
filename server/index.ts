@@ -10,9 +10,15 @@ import { purgeExpired } from "./retention-v8.js";
 import { safeMessage } from "./redact-v8.js";
 import { setAiSendGate, type AiConsent } from "./ai-consent-v8.js";
 import { importPublicOnce, isInstalled } from "./installed-v8.js";
-import { takeLaunchToken } from "./launch-token-v8.js";
+import { LAUNCH_MISSING, takeLaunchToken } from "./launch-token-v8.js";
 // H1: the launcher's per-start secret. Taken out of the environment before anything starts a child process.
 const launchToken = takeLaunchToken();
+// H1 fail-closed: the installed build never runs without the launcher's token (it would give a session to anyone).
+// Nothing is opened, read or listened to before this; the message carries no value from the environment.
+if (isInstalled() && !launchToken) {
+  console.error(LAUNCH_MISSING);
+  process.exit(1);
+}
 // Errors that escape every handler are printed without paths or values, then the process stops.
 process.on("uncaughtException", (e) => {
   console.error("SH·E 오류: " + safeMessage(e instanceof Error ? e.message : String(e)));

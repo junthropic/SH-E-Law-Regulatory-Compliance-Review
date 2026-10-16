@@ -1,10 +1,12 @@
 import { it, expect, vi, afterEach } from "vitest";
 import { randomBytes } from "node:crypto";
-import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join } from "node:path";
-import { spawnSync } from "node:child_process";
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync } from "node:fs";
+import { join, resolve } from "node:path";
+import { tmpdir } from "node:os";
+import { createServer, connect, type AddressInfo } from "node:net";
+import { spawn, spawnSync } from "node:child_process";
 import { createApp } from "../server/app.js";
-import { LAUNCH_HEADER, LAUNCH_REFUSED, launchTokenMatches, takeLaunchToken } from "../server/launch-token-v8.js";
+import { LAUNCH_HEADER, LAUNCH_MISSING, LAUNCH_REFUSED, launchTokenMatches, takeLaunchToken } from "../server/launch-token-v8.js";
 import { testStore } from "./helpers.js";
 
 // H1 (docs/implementation-v8/security-review-plan.md): in the installed build only the browser the launcher opened gets a
@@ -169,18 +171,26 @@ it("V8-X07: 베타 화면은 #launch= 값을 읽어 bootstrap 머리글로만 �
   await expect(api.boot()).rejects.toMatchObject({ status: 403, message: LAUNCH_REFUSED });
 });
 
-// Records today's behaviour for the review of the token-less path (security-review-plan H1); not a statement that it is
-// wanted. The launcher always supplies a token; the server alone does not insist on one when SHE_INSTALLED=1.
-it("V8-X08: (현재 동작 기록) 실행기는 매 시작마다 토큰을 만들어 서버 시작 전에 넣는다. 서버는 SHE_INSTALLED=1이어도 토큰이 없으면 예전 bootstrap(200)으로 동작한다", async () => {
+// H1 token-less path (security-review-plan 8.5, user decision 2026-10-17): the installed build fails closed.
+it("V8-X08: 실행기는 매 시작마다 토큰을 만들어 서버 시작 전에 넣고, 서버는 SHE_INSTALLED=1인데 토큰이 없으면 아무것도 열기 전에 종료한다(개발·시험 모드는 그대로)", async () => {
   const launcher = readFileSync("packaging/msix/launcher/Launcher.cs", "utf8");
   const run = launcher.slice(launcher.indexOf("static int Run()"), launcher.indexOf("static void Quit()"));
   const made = run.indexOf("launchToken = NewToken();"), given = run.indexOf('psi.EnvironmentVariables["SHE_LAUNCH_TOKEN"] = launchToken;'), started = run.indexOf("server.Start();");
   expect(made).toBeGreaterThan(0);
   expect(given).toBeGreaterThan(made);
   expect(started).toBeGreaterThan(given);
-  // No branch between making the token and handing it to node can skip it.
+  // No branch between making the token and handing it to node can skip it, and the token is never empty (32 random bytes).
   expect(run.slice(made, given)).not.toMatch(/\bif\s*\(|\breturn\b/);
-  vi.stubEnv("SHE_INSTALLED", "1");
+  expect(launcher.slice(launcher.indexOf("static string NewToken()"))).toMatch(/new byte\[32\][\s\S]*GetBytes\(bytes\)[\s\S]*ToBase64String\(bytes\)/);
+  // server/index.ts: the check runs right after the token is taken, before the guard, storage, app or listen.
+  const index = readFileSync("server/index.ts", "utf8");
+  const taken = index.indexOf("const launchToken = takeLaunchToken();"), check = index.indexOf("if (isInstalled() && !launchToken) {");
+  expect(check).toBeGreaterThan(taken);
+  expect(index.slice(check, index.indexOf("}", check))).toMatch(/console\.error\(LAUNCH_MISSING\);\s*process\.exit\(1\);/);
+  for (const later of ["new EgressGuard(", "mkdirSync(dataDir", "openProductionCipher(dataDir)", "createApp(", "app.listen("])
+    expect(index.indexOf(later), later).toBeGreaterThan(check);
+  // Development and test mode (no SHE_INSTALLED) keep the old token-less bootstrap.
+  vi.stubEnv("SHE_INSTALLED", "");
   vi.stubEnv("SHE_LAUNCH_TOKEN", "");
   const t = testStore();
   const { app } = await createApp(t.store, true, undefined, undefined, undefined, takeLaunchToken());
@@ -191,3 +201,97 @@ it("V8-X08: (현재 동작 기록) 실행기는 매 시작마다 토큰을 만�
     t.clean();
   }
 });
+
+// The real entry point, as the package runs it (node build/server/index.js). Synthetic data folder and token only.
+const entry = () => resolve(process.env.SHE_TEST_BUILD || "build", "server", "index.js");
+async function freePort() {
+  for (let attempt = 1; ; attempt++) {
+    const s = createServer();
+    const port = await new Promise<number | Error>((r) => { s.once("error", r); s.listen(0, "127.0.0.1", () => r((s.address() as AddressInfo).port)); });
+    if (typeof port === "number") { await new Promise((r) => s.close(r)); return port; }
+    // listen EFAULT is a known flake on this PC; anything else is a real failure.
+    if ((port as NodeJS.ErrnoException).code !== "EFAULT" || attempt >= 20) throw port;
+    await new Promise((r) => setTimeout(r, 200));
+  }
+}
+function startServer(env: NodeJS.ProcessEnv, cwd: string) {
+  const child = spawn(process.execPath, [entry()], { env, cwd, windowsHide: true, stdio: ["ignore", "pipe", "pipe"] });
+  let out = "", err = "";
+  child.stdout.on("data", (b) => (out += b));
+  child.stderr.on("data", (b) => (err += b));
+  const exited = new Promise<number | null>((r) => child.once("exit", (code) => r(code)));
+  const ready = async (ms: number) => {
+    for (const end = Date.now() + ms; Date.now() < end && child.exitCode === null; ) {
+      if (out.includes("SH·E ready")) return true;
+      await new Promise((r) => setTimeout(r, 100));
+    }
+    return out.includes("SH·E ready");
+  };
+  return { child, exited, ready, out: () => out, err: () => err };
+}
+const refusedAt = (port: number) => new Promise<string>((r) => {
+  const s = connect(port, "127.0.0.1");
+  s.once("connect", () => { s.destroy(); r("listening"); });
+  s.once("error", (e: NodeJS.ErrnoException) => r(String(e.code)));
+});
+function baseEnv(dataDir: string, port: number) {
+  const env: NodeJS.ProcessEnv = { ...process.env, SHE_DATA_DIR: dataDir, PORT: String(port) };
+  for (const k of ["SHE_INSTALLED", "SHE_LAUNCH_TOKEN", "SHE_EPHEMERAL_AUTH"]) delete env[k];
+  return env;
+}
+
+it("V8-X11: 실제 node build/server/index.js — SHE_INSTALLED=1에 토큰이 없거나 비어 있으면 듣지 않고 0이 아닌 코드로 끝나며, 표준 오류에는 짧은 한국어 문구만 나오고 데이터 폴더도 만들지 않는다", async () => {
+  const work = mkdtempSync(join(tmpdir(), "she-x11-"));
+  try {
+    for (const token of [undefined, ""]) {
+      const port = await freePort(), data = join(work, "data-" + (token === undefined ? "none" : "empty"));
+      const env = { ...baseEnv(data, port), SHE_INSTALLED: "1", ...(token === undefined ? {} : { SHE_LAUNCH_TOKEN: token }) };
+      const s = startServer(env, work);
+      const code = await Promise.race([s.exited, new Promise<string>((r) => setTimeout(() => r("timeout"), 30000))]);
+      if (code === "timeout") s.child.kill();
+      expect(code).toBe(1);
+      expect(s.err().trim()).toBe(LAUNCH_MISSING);
+      expect(LAUNCH_MISSING).not.toMatch(/SHE_|=|[A-Z]:\\|\//);
+      expect(s.out()).not.toContain("SH·E ready");
+      expect(await refusedAt(port)).not.toBe("listening");
+      expect(existsSync(data)).toBe(false); // exits before mkdir, storage key or database
+    }
+  } finally {
+    rmSync(work, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+  }
+}, 90000);
+
+it("V8-X12: 실제 node build/server/index.js — 실행기처럼 토큰을 주면 설치판도 시작하고(토큰 머리글 200, 없으면 403), SHE_INSTALLED 없는 개발 실행은 토큰 없이 지금처럼 시작한다", async () => {
+  const work = mkdtempSync(join(tmpdir(), "she-x12-"));
+  try {
+    for (const mode of ["installed", "development"] as const) {
+      const token = synthetic();
+      let started = false;
+      for (let attempt = 1; attempt <= 3 && !started; attempt++) {
+        const port = await freePort(), data = join(work, `${mode}-${attempt}`);
+        const env = { ...baseEnv(data, port), ...(mode === "installed" ? { SHE_INSTALLED: "1", SHE_LAUNCH_TOKEN: token } : {}) };
+        // cwd without data/public/bundle.json: start-up skips the large public-law import.
+        const s = startServer(env, work);
+        try {
+          if (!(await s.ready(60000))) {
+            if (/listen EFAULT/.test(s.err())) continue; // known local flake; start again on a new port
+            throw new Error(`${mode} server did not start (exit ${s.child.exitCode})`);
+          }
+          started = true;
+          const boot = (headers: Record<string, string> = {}) => fetch(`http://127.0.0.1:${port}/api/bootstrap`, { headers });
+          if (mode === "installed") {
+            expect((await boot()).status).toBe(403);
+            expect((await boot({ [LAUNCH_HEADER]: token })).status).toBe(200);
+          } else expect((await boot()).status).toBe(200);
+          expect(s.out() + s.err()).not.toContain(token);
+        } finally {
+          s.child.kill();
+          await Promise.race([s.exited, new Promise((r) => setTimeout(r, 10000))]);
+        }
+      }
+      expect(started, mode).toBe(true);
+    }
+  } finally {
+    rmSync(work, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 });
+  }
+}, 240000);
