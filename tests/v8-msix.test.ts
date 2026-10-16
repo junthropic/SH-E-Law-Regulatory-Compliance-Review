@@ -131,7 +131,7 @@ it("V8-M05: 암호화 백업은 앱에 들어 있는 공개 법령 초기 자료
   }
 }, 30000);
 
-it("V8-M06: 패키지 구성 — runFullTrust 외 권한 없음, 관리자 권한 요청 없음, 127.0.0.1·콘솔 숨김·NODE_OPTIONS 제거, Partner Center 값(2026-10-14 사용자 전달)이 그대로 들어 있다", () => {
+it("V8-M06: 패키지 구성 — runFullTrust 외 권한 없음, 관리자 권한 요청 없음, 127.0.0.1·콘솔 숨김·NODE_OPTIONS 제거(H7: 환경을 비운 뒤 허용 목록만), Partner Center 값(2026-10-14 사용자 전달)이 그대로 들어 있다", () => {
   const manifest = readFileSync("packaging/msix/AppxManifest.template.xml", "utf8");
   expect([...manifest.matchAll(/<(?:\w+:)?Capability Name="([^"]+)"/g)].map((m) => m[1])).toEqual(["runFullTrust"]);
   expect(manifest).toContain('EntryPoint="Windows.FullTrustApplication"');
@@ -140,8 +140,10 @@ it("V8-M06: 패키지 구성 — runFullTrust 외 권한 없음, 관리자 권�
   expect(JSON.stringify(identity)).not.toContain("TODO");
   expect(readFileSync("packaging/msix/launcher/app.manifest", "utf8")).toContain('level="asInvoker"');
   const launcher = readFileSync("packaging/msix/launcher/Launcher.cs", "utf8");
-  for (const s of ['EnvironmentVariables["SHE_INSTALLED"] = "1"', "psi.CreateNoWindow = true", 'EnvironmentVariables.Remove("NODE_OPTIONS")', "IPAddress.Loopback", "JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE", "LocalState"])
+  for (const s of ['EnvironmentVariables["SHE_INSTALLED"] = "1"', "psi.CreateNoWindow = true", 'psi.EnvironmentVariables.Clear();', "IPAddress.Loopback", "JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE", "LocalState"])
     expect(launcher).toContain(s);
+  // H7: NODE_OPTIONS is removed by clearing the whole environment before the allow-list (V8-H09 runs it for real).
+  expect(launcher).not.toMatch(/EnvironmentVariables\["NODE_[A-Z_]+"\] = (?!"production")/);
   const build = readFileSync("scripts/build-msix-v8.mjs", "utf8");
   expect(build).toMatch(/const absent = \[[^\]]*"korean-law-mcp", "playwright-core"/);
   expect(build).toMatch(/const shipped = \["pdfjs-dist"\];/);

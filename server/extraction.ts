@@ -1,5 +1,5 @@
-import { fork } from "node:child_process";
-import { fileURLToPath } from "node:url";
+import { fork, type ChildProcess } from "node:child_process";
+import { isolatedWorkerOptions, workerPath } from "./extraction-v5.js";
 
 export type Extraction = {
   success: true;
@@ -11,22 +11,18 @@ export function extractDocument(buffer: Buffer): Promise<Extraction> {
   if (buffer.length > 20 * 1024 * 1024)
     return Promise.reject(new Error("문서 용량 초과"));
   return new Promise((resolve, reject) => {
-    const worker = fork(
-      fileURLToPath(
-        new URL(
-          import.meta.url.endsWith(".ts")
-            ? "./parse-worker.ts"
-            : "./parse-worker.js",
-          import.meta.url,
-        ),
-      ),
-      [],
-      {
-        windowsHide: true,
-        execArgv: ["--max-old-space-size=256"],
+    // F-03: uploads (POST /api/documents) and law attachments run this worker under the same isolation as the v5 parser
+    // (Node permission model, 256 MB heap, allow-list environment). The worker's parsing and every message here are unchanged.
+    let worker: ChildProcess;
+    try {
+      const path = workerPath("parse-worker");
+      worker = fork(path, [], {
+        ...isolatedWorkerOptions(path),
         stdio: ["ignore", "ignore", "ignore", "ipc"],
-      },
-    );
+      });
+    } catch {
+      return reject(new Error("문서 추출 프로세스를 시작할 수 없습니다."));
+    }
     let settled = false;
     const finish = (error?: Error, result?: Extraction) => {
       if (settled) return;

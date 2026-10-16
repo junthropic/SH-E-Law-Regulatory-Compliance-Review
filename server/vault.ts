@@ -6,7 +6,8 @@ import {
   renameSync,
   unlinkSync,
 } from "node:fs";
-import { join } from "node:path";
+import { join, win32 } from "node:path";
+import { powerShellEnv, trustedPowerShell } from "./child-env-v8.js";
 import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
 export class VaultUnavailableError extends Error {
   constructor() {
@@ -22,6 +23,8 @@ export class Vault {
   constructor(
     private dir: string,
     private ephemeral = process.env.NODE_ENV === "test",
+    // H7: Windows PowerShell by absolute path in the real system directory; never a PATH or working-folder search.
+    private powershell: () => string = trustedPowerShell,
   ) {}
   private async transform(value: string, encrypt: boolean): Promise<string> {
     if (process.platform !== "win32")
@@ -35,20 +38,19 @@ export class Vault {
       "$ErrorActionPreference='Stop'; try { " +
       operation +
       " } catch { [Console]::Error.WriteLine($_.Exception.HResult); [Console]::Error.WriteLine($_.FullyQualifiedErrorId); exit 1 }";
+    // Resolved before anything starts: if the trusted path is missing this throws and nothing is run.
+    const exe = this.powershell();
+    const env = powerShellEnv(process.env, win32.dirname(win32.dirname(win32.dirname(exe))));
     return new Promise((res, rej) => {
-      const p = spawn(
-        "powershell.exe",
-        ["-NoProfile", "-NonInteractive", "-Command", script],
-        {
-          windowsHide: true,
-          env: Object.fromEntries(
-            Object.entries(process.env).filter(
-              ([key]) => key.toUpperCase() !== "PSMODULEPATH",
-            ),
-          ),
-          stdio: ["pipe", "pipe", "pipe"],
-        },
-      );
+      // Executable and arguments stay separate (no shell). The secret goes through standard input, never the command
+      // line; the environment is the allow-list from child-env-v8 (no PSModulePath user folders, no SHE_* values).
+      const p = spawn(exe, ["-NoProfile", "-NonInteractive", "-Command", script], {
+        windowsHide: true,
+        shell: false,
+        cwd: win32.dirname(win32.dirname(win32.dirname(exe))),
+        env,
+        stdio: ["pipe", "pipe", "pipe"],
+      });
       const timer = setTimeout(() => {
         p.kill();
         rej(new Error("보호 저장소 응답 시간이 초과되었습니다."));

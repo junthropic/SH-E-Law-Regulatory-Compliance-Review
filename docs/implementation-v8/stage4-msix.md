@@ -307,3 +307,18 @@ Store 심사에서 문의가 오면 이 표와 §7 문안으로 답한다.
   - 자동 시험 V8-X01~X07: 토큰 없음·틀림·길이 다름 403, 맞는 토큰 200과 쿠키, 쿠키만으로 200, 다른 요청은 계속 403, 응답·감사·출력·데이터 파일에 토큰 없음, 환경 변수 없으면 전과 같음, 자식 프로세스 미상속, 베타 화면 주소 처리.
   - 설치 시험: `msix-scenario-v8.mjs`가 같은 사용자로 `launch.json`을 읽어(`--launch`) 매 단계 bootstrap 전에 토큰 없음·틀린 토큰 403, 토큰 200을 확인한다. `launchTokenRequired` 단계를 추가했다. CI는 아직 다시 돌리지 않았다.
   - 두 번째 표준 사용자 계정으로 세션 받기 시도는 하지 않았다. 지금 관리자 아닌 계정 단계는 앱을 제거한 뒤에 실행되기 때문이다. 대신 토큰 없는 요청은 누구든 403이라는 점을 위 시험으로 확인한다.
+
+## 14. 자식 프로세스 환경 허용 목록 (보안 H7, 2026-10-16)
+
+- **실행기→서버:** 사용자 환경을 넘기지 않는다. `SetServerEnvironment`가 환경을 비운 뒤 다음 값만 넣는다.
+  - 시스템 폴더(`Environment.SystemDirectory`)에서 정한 `SystemRoot`·`windir`·`PATH`
+  - 임시 폴더, 사용자 프로필·앱 데이터 경로
+  - `SHE_DATA_DIR`·`SHE_INSTALLED`·`PORT`·`NODE_ENV`, 그리고 node에만 `SHE_LAUNCH_TOKEN`
+  - 그래서 `NODE_OPTIONS`·`NODE_TLS_REJECT_UNAUTHORIZED`·`NODE_EXTRA_CA_CERTS`·프록시 변수 같은 사용자 환경 변수는 표기와 관계없이 서버에 가지 않는다.
+- **서버→파서 작업 프로세스·PowerShell:** 같은 방식의 허용 목록(`server/child-env-v8.ts`)을 쓴다.
+- **업로드 파서 격리(F-03):** 업로드·별표 판독 작업 프로세스(`parse-worker`)도 v5 파서와 같은 Node 권한 모델로 띄운다. 판독 결과와 문구는 같다. 시험용 단계 폴더에서 PDF·HWPX·DOCX 판독을 확인했다.
+- **PowerShell(DPAPI) 경로:** Windows가 실제로 올린 System32의 `WindowsPowerShell\v1.0\powershell.exe`만 실행한다. 작업 폴더·PATH·SystemRoot에 둔 가짜는 실행되지 않는다. 경로를 확인하지 못하면 보호 저장소가 열리지 않고 다른 곳에서 찾지 않는다.
+- **사용자에게 보이는 차이:** 회사 프록시나 사내 CA를 환경 변수로 지정해도 앱은 쓰지 않는다. 그런 망에서는 공공 API 수집·AI 전송이 실패할 수 있다. 앱 실행, 화면, 저장 자료, 문서 판독, 백업은 그대로다.
+- **시험:** V8-H01~H10. 실제 DPAPI 왕복, 가짜 `powershell.exe`, 로컬 TLS, `Launcher.cs` 실제 컴파일 실행을 포함한다.
+- **남은 일:** 패키지 버전을 0.8.1.0으로 올렸다. 설치 시험·WACK(`msix.yml`)은 아직 다시 돌리지 않았다. 여러 Windows 사용자 실기기 시험은 하지 않았다(승인 필요).
+- 자세한 내용: `security-review-plan.md` 8절
