@@ -31,13 +31,13 @@ export class Vault {
       throw new Error(
         "이 버전의 영구 자격증명 저장은 Windows DPAPI가 필요합니다.",
       );
-    // DPAPI through .NET directly (System.Security is in the GAC), not ConvertTo/From-SecureString: those autoload the
-    // Microsoft.PowerShell.Security module, which took 13-25 s on the GitHub Windows runner (2026-10-16 diagnostic) and
-    // tripped the 15 s limit. Same stored format as ConvertFrom-SecureString: lowercase hex of the CurrentUser DPAPI blob of
+    // DPAPI through .NET directly (System.Security from the GAC) and no cmdlets at all: ConvertTo/From-SecureString,
+    // Add-Type and New-Object autoload PowerShell modules, which took 13-25 s on the GitHub Windows runner (2026-10-16
+    // diagnostics) and tripped the 15 s limit. Same stored format as ConvertFrom-SecureString: lowercase hex of the CurrentUser DPAPI blob of
     // the UTF-16LE text, no extra entropy — values written by either method open with the other (V8-H11).
     const operation = encrypt
-      ? "Add-Type -AssemblyName System.Security; $inputText=[Console]::In.ReadToEnd(); $b=[System.Security.Cryptography.ProtectedData]::Protect([Text.Encoding]::Unicode.GetBytes($inputText),$null,[System.Security.Cryptography.DataProtectionScope]::CurrentUser); -join ($b | ForEach-Object { $_.ToString('x2') })"
-      : "Add-Type -AssemblyName System.Security; $h=[Console]::In.ReadToEnd().Trim(); $b=New-Object byte[] ($h.Length/2); for($i=0;$i -lt $b.Length;$i++){$b[$i]=[Convert]::ToByte($h.Substring($i*2,2),16)}; $p=[System.Security.Cryptography.ProtectedData]::Unprotect($b,$null,[System.Security.Cryptography.DataProtectionScope]::CurrentUser); try {[Text.Encoding]::Unicode.GetString($p)} finally {[Array]::Clear($p,0,$p.Length)}";
+      ? "[void][Reflection.Assembly]::Load('System.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'); $inputText=[Console]::In.ReadToEnd(); $b=[Security.Cryptography.ProtectedData]::Protect([Text.Encoding]::Unicode.GetBytes($inputText),$null,[Security.Cryptography.DataProtectionScope]::CurrentUser); [BitConverter]::ToString($b).Replace('-','').ToLowerInvariant()"
+      : "[void][Reflection.Assembly]::Load('System.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'); $h=[Console]::In.ReadToEnd().Trim(); $b=[byte[]]::new($h.Length/2); for($i=0;$i -lt $b.Length;$i++){$b[$i]=[Convert]::ToByte($h.Substring($i*2,2),16)}; $p=[Security.Cryptography.ProtectedData]::Unprotect($b,$null,[Security.Cryptography.DataProtectionScope]::CurrentUser); try {[Text.Encoding]::Unicode.GetString($p)} finally {[Array]::Clear($p,0,$p.Length)}";
     const script =
       "$ErrorActionPreference='Stop'; try { " +
       operation +
