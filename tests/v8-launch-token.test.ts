@@ -123,15 +123,15 @@ it("V8-X04: 실행 키와 1회용 값은 응답 본문·머리글, 감사 기록
     keep(await app.inject({ url: "/api/beta/notice", headers: { host: HOST, cookie: cookieOf(ok) } }));
     expect(seen.length).toBe(17);
     const leaks = (s: string) => secrets.some((x) => s.includes(x));
-    expect(seen.filter(leaks)).toEqual([]);
+    expect(seen.filter(leaks).length).toBe(0); // a count, so a failure never prints the synthetic values
     expect(leaks(JSON.stringify(t.store.db.prepare("SELECT * FROM audit").all()))).toBe(false);
     out.mockRestore();
     err.mockRestore();
-    expect(printed.filter(leaks)).toEqual([]);
+    expect(printed.filter(leaks).length).toBe(0);
     const files: string[] = [];
     const walk = (d: string) => { for (const n of readdirSync(d)) statSync(join(d, n)).isDirectory() ? walk(join(d, n)) : files.push(join(d, n)); };
     walk(t.store.dir);
-    expect(files.filter((f) => { const b = readFileSync(f); return secrets.some((x) => b.includes(x)); })).toEqual([]);
+    expect(files.filter((f) => { const b = readFileSync(f); return secrets.some((x) => b.includes(x)); }).length).toBe(0);
   } finally {
     await app.close();
     t.clean();
@@ -337,7 +337,7 @@ it("V8-X12: 실제 node build/server/index.js — 실행기처럼 실행 키를 
             expect(reused.headers.get("set-cookie")).toBeNull();
             expect((await boot({ [LAUNCH_HEADER]: w })).status).toBe(200);
           } else expect((await boot()).status).toBe(200);
-          for (const x of [key, ...values]) expect(s.out() + s.err()).not.toContain(x);
+          for (const x of [key, ...values]) expect((s.out() + s.err()).includes(x)).toBe(false);
         } finally {
           s.child.kill();
           await Promise.race([s.exited, new Promise((r) => setTimeout(r, 10000))]);
@@ -411,7 +411,7 @@ it("V8-X16: 실행 키 없이·다른 키로 만든 값, 가운데 글자를 바
     const v = mint(key);
     const sameBytes = sameBytesOtherStrings(v);
     for (const s of sameBytes) {
-      expect(s).not.toBe(v);
+      expect(s === v).toBe(false);
       expect(Buffer.from(s, "base64url").equals(Buffer.from(v, "base64url"))).toBe(true);
     }
     const unsigned = Buffer.from(v, "base64url");
@@ -515,12 +515,14 @@ it("V8-X21: 1회용 값은 56바이트(만든 시각 8 + 난수 16 + HMAC-SHA256
   for (const issued of [0, 1, now, now + 1, now - LAUNCH_VALUE_LIFETIME_MS, 2 ** 40, Number.MAX_SAFE_INTEGER, ...Array.from({ length: 200 }, (_, i) => now + i)]) {
     const v = mintLaunchValue(key, issued);
     values.add(v);
-    expect(v).toMatch(/^[A-Za-z0-9_-]{16,128}$/);
-    expect(v).toHaveLength(75);
-    expect(takeLaunch("#launch=" + v)).toEqual({ token: v, hash: "#/" });
+    // Booleans and lengths only, so a failure never prints a value.
+    expect(/^[A-Za-z0-9_-]{16,128}$/.test(v)).toBe(true);
+    expect(v.length).toBe(75);
+    const taken = takeLaunch("#launch=" + v);
+    expect(taken?.token === v && taken?.hash === "#/").toBe(true);
     const bytes = Buffer.from(v, "base64url");
     expect(bytes).toHaveLength(56);
-    expect(bytes.toString("base64url")).toBe(v); // canonical: unused bits are 0
+    expect(bytes.toString("base64url") === v).toBe(true); // canonical: unused bits are 0
     expect(bytes.readBigUInt64BE(0)).toBe(BigInt(issued));
     // The key is the launch key string's UTF-8 bytes, not decoded; the message is bytes 0..23.
     expect(bytes.subarray(24).equals(createHmac("sha256", Buffer.from(key, "utf8")).update(bytes.subarray(0, 24)).digest())).toBe(true);

@@ -233,7 +233,7 @@ static class Launcher
     {
         try
         {
-            using (var c = new NamedPipeClientStream(".", name, PipeDirection.InOut, PipeOptions.Asynchronous))
+            using (var c = new NamedPipeClientStream(".", name, PipeDirection.InOut, PipeOptions.Asynchronous, TokenImpersonationLevel.Identification))
             {
                 c.Connect(connectMs);
                 return WriteLine(c, request, answerMs) ? ReadLine(c, answerMs) : null;
@@ -379,22 +379,29 @@ static class Launcher
             catch (Exception) { return null; }
         }
 
+        // The instance is reused: after each connection the server disconnects the client (Disconnect), which frees the
+        // instance even when the client never closes its handle. Closing the instance instead would leave it alive for as
+        // long as such a client holds it, and no new instance could be made (one instance at a time).
         void Serve(NamedPipeServerStream first)
         {
+            NamedPipeServerStream pipe = first;
             while (true)
             {
-                NamedPipeServerStream pipe = first ?? TryCreate();
-                first = null;
+                if (pipe == null) pipe = TryCreate();
                 if (pipe == null) { Thread.Sleep(RetryCreateMs); continue; }
                 try
                 {
                     pipe.WaitForConnection();
                     string request = ReadLine(pipe, RequestTimeoutMs);
-                    // Wait (briefly) for the client to read the answer and hang up before the instance is closed.
+                    // Wait (briefly) for the client to read the answer and hang up before it is disconnected.
                     if (request != null && WriteLine(pipe, Answer(request), RequestTimeoutMs)) ReadLine(pipe, RequestTimeoutMs);
                 }
                 catch (Exception) { Thread.Sleep(50); }
-                finally { try { pipe.Dispose(); } catch (Exception) { } }
+                finally
+                {
+                    try { pipe.Disconnect(); }
+                    catch (Exception) { try { pipe.Dispose(); } catch (Exception) { } pipe = null; }
+                }
             }
         }
 
