@@ -56,7 +56,9 @@ function WaitGone([int]$seconds) {
   }
   return $false
 }
-# H1: the scenario reads the launcher's per-start token from launch.json itself (same user, like a second start).
+# H1 / F-09: launch.json holds only port, pid and the launcher's pipe name (no token). The scenario reads the pipe name
+# from it and asks the pipe for a fresh one-time value ("mint") whenever it needs one. Only the test package
+# (build-msix-v8.mjs --test-identity) answers "mint"; the Store package has no such code. Values are never printed.
 function LaunchFile { Join-Path (DataRoot) "LocalState\launch.json" }
 function Scenario([string[]]$scenarioArgs) {
   $outText = & node (Join-Path $repo "scripts\msix-scenario-v8.mjs") @($scenarioArgs + @("--launch", (LaunchFile)))
@@ -83,10 +85,12 @@ Step "scenario" {
   foreach ($k in $r.PSObject.Properties.Name) { $script:record.scenario[$k] = $r.$k }
   $r.safetyManagerCandidate -eq $true
 }
-# H1: bootstrap without the launch token (or with a wrong one) is refused; with it, a session is given.
+# H1 / F-09: bootstrap without a one-time value (or with a wrong one) is refused; a fresh value gives a session once;
+# the same value used again without a cookie is refused; the cookie alone keeps the session; launch.json has no token.
 Step "launchTokenRequired" {
   $b = $record.scenario.bootstrap
-  ($b.withoutToken -eq 403) -and ($b.wrongToken -eq 403) -and ($b.withToken -eq 200)
+  ($b.withoutToken -eq 403) -and ($b.wrongToken -eq 403) -and ($b.withToken -eq 200) -and ($b.reusedToken -eq 403) -and
+    ($b.cookieOnly -eq 200) -and ($b.launchFileHasToken -eq $false)
 }
 Step "backupExported" { (Test-Path $backup) -and ((Get-Item $backup).Length -gt 0) }
 Step "singleInstance" {
