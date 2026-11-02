@@ -169,11 +169,19 @@ it("V8-X06: 서버는 시작하자마자 SHE_LAUNCH_TOKEN을 환경에서 지워
   for (const later of ["new EgressGuard(", "openProductionCipher(dataDir)", "createApp(", "purgeExpired(store)"])
     expect(index.indexOf(later)).toBeGreaterThan(taken);
   expect(index).toContain("undefined, launchToken)");
+  // F-09: the launch key goes to node in the environment only. The browser and the launcher's own quit request get
+  // one-time values made from it (never the key itself); a second start sends only a signal (V8-Q01..Q08 run the C# code).
   const launcher = readFileSync("packaging/msix/launcher/Launcher.cs", "utf8");
-  for (const s of ["new RNGCryptoServiceProvider()", "new byte[32]", 'EnvironmentVariables["SHE_LAUNCH_TOKEN"] = launchToken', '"/beta/#launch=" + token', 'req.Headers["x-she-launch"] = launchToken', "OpenBrowser(p, t.Groups[1].Value)", "OpenBrowser(port, launchToken)", "security.SetAccessRuleProtection(true, false)"])
+  for (const s of ["new RNGCryptoServiceProvider()", "new byte[32]", 'EnvironmentVariables["SHE_LAUNCH_TOKEN"] = launchKey', '"/beta/#launch=" + value',
+    'req.Headers["x-she-launch"] = NewLaunchValue(launchKey, NowMs())', "OpenBrowser(ScreenUrl(port, NewLaunchValue(launchKey, NowMs())))", "security.SetAccessRuleProtection(true, false)"])
     expect(launcher).toContain(s);
   expect(launcher).toContain('new ProcessStartInfo(Path.Combine(app, "node", "node.exe"), "server\\\\index.js")');
-  expect(launcher).not.toMatch(/OpenBrowser\(port\)|OpenBrowser\(p\)/);
+  expect(launcher).not.toMatch(/OpenBrowser\(port\)|OpenBrowser\(p\)|launchToken|\\"token\\"/);
+  // Every URL and the one bootstrap header carry a new value, not the key.
+  const urls = [...launcher.matchAll(/ScreenUrl\(([^)]*)/g)].map((m) => m[1]).filter((a) => !a.startsWith("int "));
+  expect(urls).toEqual(["port, NewLaunchValue(launchKey, NowMs(", "port, NewLaunchValue(key, nowMs("]);
+  expect(launcher.match(/x-she-launch/g)?.length).toBe(1);
+  expect(launcher).not.toMatch(/OpenBrowser\([^()]*launchKey|#launch="\s*\+\s*(launchKey|key)\b/);
 });
 
 it("V8-X07: 베타 화면은 #launch= 값을 읽어 bootstrap 머리글로만 한 번 보내고, 주소에서 바로 지워 해시 경로 #/만 남긴다", async () => {
@@ -205,13 +213,14 @@ it("V8-X07: 베타 화면은 #launch= 값을 읽어 bootstrap 머리글로만 �
 it("V8-X08: 실행기는 매 시작마다 토큰을 만들어 서버 시작 전에 넣고, 서버는 SHE_INSTALLED=1인데 토큰이 없으면 아무것도 열기 전에 종료한다(개발·시험 모드는 그대로)", async () => {
   const launcher = readFileSync("packaging/msix/launcher/Launcher.cs", "utf8");
   const run = launcher.slice(launcher.indexOf("static int Run()"), launcher.indexOf("static void Quit()"));
-  const made = run.indexOf("launchToken = NewToken();"), given = run.indexOf('psi.EnvironmentVariables["SHE_LAUNCH_TOKEN"] = launchToken;'), started = run.indexOf("server.Start();");
+  const made = run.indexOf("launchKey = NewLaunchKey();"), given = run.indexOf('psi.EnvironmentVariables["SHE_LAUNCH_TOKEN"] = launchKey;'), started = run.indexOf("server.Start();");
   expect(made).toBeGreaterThan(0);
   expect(given).toBeGreaterThan(made);
   expect(started).toBeGreaterThan(given);
   // No branch between making the token and handing it to node can skip it, and the token is never empty (32 random bytes).
   expect(run.slice(made, given)).not.toMatch(/\bif\s*\(|\breturn\b/);
-  expect(launcher.slice(launcher.indexOf("static string NewToken()"))).toMatch(/new byte\[32\][\s\S]*GetBytes\(bytes\)[\s\S]*ToBase64String\(bytes\)/);
+  const keyMaker = launcher.slice(launcher.indexOf("static string NewLaunchKey()"));
+  expect(keyMaker.slice(0, keyMaker.indexOf("\n    }"))).toMatch(/new byte\[32\][\s\S]*GetBytes\(bytes\)[\s\S]*return Base64Url\(bytes\);/);
   // server/index.ts: the check runs right after the token is taken, before the guard, storage, app or listen.
   const index = readFileSync("server/index.ts", "utf8");
   const taken = index.indexOf("const launchToken = takeLaunchToken();"), check = index.indexOf("if (isInstalled() && !launchToken) {");

@@ -166,10 +166,11 @@ const noticeFile = ["SH·E 법령조회 베타에 포함된 외부 소프트웨�
   ...notices.flatMap((n) => [`==== ${n.name} ${n.version} (${n.license}) ====`, n.text ?? "(패키지에 라이선스 파일 없음 — package.json 의 license 항목 참조)", ""])].join("\n");
 writeFileSync(join(stage, "THIRD_PARTY_NOTICES.txt"), noticeFile);
 
-// Launcher (C# 5, in-box .NET Framework compiler) and visual assets.
-run(csc, ["-nologo", "-codepage:65001", "-target:winexe", "-platform:anycpu", "-optimize+",
+// Launcher (C# 5, in-box .NET Framework compiler) and visual assets. F-09: only the test package is compiled with the
+// symbol that adds the install test's "mint" pipe request; the Store package's launcher has no such code.
+run(csc, ["-nologo", "-codepage:65001", "-target:winexe", "-platform:anycpu", "-optimize+", ...(testIdentity ? ["-define:SHE_TEST_PIPE"] : []),
   "-win32icon:" + join(root, "packaging/msix/Assets/app.ico"), "-win32manifest:" + join(root, "packaging/msix/launcher/app.manifest"),
-  "-r:System.Windows.Forms.dll", "-r:System.Drawing.dll", "-out:" + join(stage, "SHELaw.exe"), join(root, "packaging/msix/launcher/Launcher.cs")]);
+  "-r:System.Windows.Forms.dll", "-r:System.Drawing.dll", "-r:System.Core.dll", "-out:" + join(stage, "SHELaw.exe"), join(root, "packaging/msix/launcher/Launcher.cs")]);
 mkdirSync(join(stage, "Assets"), { recursive: true });
 for (const f of readdirSync(join(root, "packaging/msix/Assets")).filter((f) => f.endsWith(".png")))
   cpSync(join(root, "packaging/msix/Assets", f), join(stage, "Assets", f));
