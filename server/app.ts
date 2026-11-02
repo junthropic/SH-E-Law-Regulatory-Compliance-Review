@@ -65,7 +65,7 @@ function routedPath(req: { routeOptions?: { url?: string }; url: string }): stri
   const route = req.routeOptions?.url;
   return route?.startsWith("/api/") ? route : decoded;
 }
-import { LAUNCH_HEADER, LAUNCH_REFUSED, launchTokenMatches } from "./launch-token-v8.js";
+import { LAUNCH_HEADER, LAUNCH_REFUSED, launchValueChecker } from "./launch-token-v8.js";
 
 export async function createApp(store = new Store(), test = false, complianceGrants?: ReadonlyMap<string, Principal>, v3?: {adapter?:"v3"|"v4"|"v6";principal:Principal;mode:"shadow"|"project";collect?:boolean;backupKey?:{key:Buffer;id:string}}, enforcement?: () => Execution, launchToken?: string) {
   if(v3 && (!test || !v3.principal.synthetic))throw new Error("v3 연결은 명시된 격리 가상 환경에서만 실행합니다.");
@@ -88,6 +88,8 @@ export async function createApp(store = new Store(), test = false, complianceGra
   }):undefined;
   const auth = new ChatGPTAuth(store, vault, undefined, v3?{gate:new EgressGate(store),principal:v3.principal}:undefined);
   const sessions = new Map<string, string>();
+  // F-09: one checker per launch key (per server start); spent one-time values are remembered in memory only.
+  const launch = launchToken ? launchValueChecker(launchToken) : undefined;
   let syncing = false;
   const jobs = new Set<Promise<unknown>>();
   // Hold the lock for the operation, not for delivery of its HTTP response.
@@ -220,10 +222,13 @@ export async function createApp(store = new Store(), test = false, complianceGra
   registerPreviewV8(app, store);
   app.get("/api/bootstrap", async (req, reply) => {
     let token = req.cookies.she_session;
-    if (!token || !sessions.has(token)) {
-      // H1: with a launch token (installed build) only the browser the launcher opened gets a new session.
-      if (launchToken && !launchTokenMatches(launchToken, req.headers[LAUNCH_HEADER]))
-        return reply.code(403).send({ error: LAUNCH_REFUSED });
+    const known = !!token && sessions.has(token);
+    // H1/F-09: with a launch key (installed build) a new session needs a valid, unused one-time value. A valid value is
+    // spent even next to a valid cookie, so a copy left in browser history cannot open a session later. Invalid values
+    // are never recorded, and a valid cookie keeps its session whatever the header holds.
+    if (launch && !launch.accept(req.headers[LAUNCH_HEADER]) && !known)
+      return reply.code(403).send({ error: LAUNCH_REFUSED });
+    if (!token || !known) {
       token = randomBytes(32).toString("base64url");
       if (sessions.size > 100) sessions.clear();
       sessions.set(token, randomBytes(32).toString("base64url"));
