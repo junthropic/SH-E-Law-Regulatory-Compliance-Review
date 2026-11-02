@@ -4,14 +4,19 @@
 //  - Port 4317 if free, otherwise any free port; the chosen port is written to launch.json in the data folder.
 //  - The server and everything it starts are in a job object, so they stop when the launcher stops.
 //  - H7: the server's environment is an allow-list (SetServerEnvironment); the user's variables are not passed on.
-//  - H1: every start makes a new random launch token. The server gets it in SHE_LAUNCH_TOKEN (never on a command line)
-//    and gives a session only to a request carrying it; the browser gets it in the URL fragment (/beta/#launch=...),
-//    which is never sent in a request. A second start reads it from launch.json in the per-user LocalState folder.
+//  - H1/F-09: every start makes a new random launch key. The server gets it in SHE_LAUNCH_TOKEN (never on a command
+//    line); it is kept in memory only. Every time the launcher opens the browser it makes a new one-time value from
+//    the key (NewLaunchValue: works once, for 5 minutes) and puts it in the URL fragment (/beta/#launch=...), which is
+//    never sent in a request line. The key never leaves the launcher and the server.
+//  - A second start does not read any value: it sends "open" on the local signal pipe (SignalPipe), and the running
+//    launcher opens the browser itself with a new value. launch.json holds only the port, the server pid and the pipe
+//    name. Only the test package (build-msix-v8.mjs --test-identity) also answers the install test's mint request.
 // Compiled with the in-box .NET Framework C# compiler (C# 5); see scripts/build-msix-v8.mjs.
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Pipes;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -32,7 +37,13 @@ static class Launcher
     static NotifyIcon tray;
     static string dataDir;
     static int port;
-    static string launchToken;
+    static string launchKey;
+    static string pipeName;
+    // A second start sends "open" up to this many times, about 0.5 s apart (about 2 minutes: the first start may still
+    // be preparing the law data, and its pipe opens only once the server is ready).
+    const int OpenAttempts = 240;
+    const int OpenRetryMs = 500;
+    const int OpenConnectMs = 100;
     static volatile bool quitting;
     static volatile bool started;
 
@@ -55,7 +66,7 @@ static class Launcher
         string root = AppDomain.CurrentDomain.BaseDirectory;
         string app = Path.Combine(root, "app");
         port = FreePort();
-        launchToken = NewToken();
+        launchKey = NewLaunchKey();
         var psi = new ProcessStartInfo(Path.Combine(app, "node", "node.exe"), "server\\index.js");
         psi.WorkingDirectory = app;
         psi.UseShellExecute = false;
@@ -64,10 +75,10 @@ static class Launcher
         psi.RedirectStandardError = true;
         psi.StandardOutputEncoding = Encoding.UTF8;
         psi.StandardErrorEncoding = Encoding.UTF8;
-        // H7: an environment built from an allow-list, not the user's (see SetServerEnvironment). The launch token is added
+        // H7: an environment built from an allow-list, not the user's (see SetServerEnvironment). The launch key is added
         // here only, for node; the browser start below gets nothing from this list.
         SetServerEnvironment(psi, Environment.SystemDirectory, dataDir, port);
-        psi.EnvironmentVariables["SHE_LAUNCH_TOKEN"] = launchToken;
+        psi.EnvironmentVariables["SHE_LAUNCH_TOKEN"] = launchKey;
 
         var ready = new ManualResetEvent(false);
         server = new Process();
@@ -87,11 +98,11 @@ static class Launcher
         tray.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         tray.Text = "SH·E 법령조회 — 시작 중";
         var menu = new ContextMenuStrip();
-        var open = menu.Items.Add("화면 열기", null, (s, e) => OpenBrowser(port, launchToken));
+        var open = menu.Items.Add("화면 열기", null, (s, e) => OpenScreen());
         open.Enabled = false;
         menu.Items.Add("종료", null, (s, e) => Quit());
         tray.ContextMenuStrip = menu;
-        tray.DoubleClick += (s, e) => { if (started) OpenBrowser(port, launchToken); };
+        tray.DoubleClick += (s, e) => { if (started) OpenScreen(); };
         tray.Visible = true;
         // The first start imports the bundled public law data, which can take a few minutes.
         tray.ShowBalloonTip(10000, Title, "시작하는 중입니다. 처음 실행할 때는 법령 초기 자료를 준비하느라 몇 분 걸릴 수 있습니다.", ToolTipIcon.Info);
@@ -112,10 +123,14 @@ static class Launcher
                     return;
                 }
                 started = true;
-                WriteLaunchFile("{\"port\":" + port + ",\"pid\":" + server.Id + ",\"token\":\"" + launchToken + "\"}");
+                // The signal pipe opens once the server is ready, and before launch.json, which names it. If the name
+                // cannot be taken, the launcher runs on without it (the tray still opens the screen).
+                pipeName = PipeName(dataDir);
+                new SignalPipe(pipeName, launchKey, port, NowMs, url => ui.BeginInvoke((MethodInvoker)(() => { if (!quitting) OpenBrowser(url); }))).Start();
+                WriteLaunchFile("{\"port\":" + port + ",\"pid\":" + server.Id + ",\"pipe\":\"" + pipeName + "\"}");
                 open.Enabled = true;
                 tray.Text = "SH·E 법령조회 — 실행 중";
-                OpenBrowser(port, launchToken);
+                OpenScreen();
             }));
         });
         Microsoft.Win32.SystemEvents.SessionEnding += (s, e) => StopServer();
@@ -172,7 +187,8 @@ static class Launcher
         req.CookieContainer = cookies;
         req.Proxy = null;
         req.Timeout = 5000;
-        if (csrf == null) req.Headers["x-she-launch"] = launchToken;
+        // A new one-time value of the launcher's own, so quitting works even after the browser used its value.
+        if (csrf == null) req.Headers["x-she-launch"] = NewLaunchValue(launchKey, NowMs());
         if (csrf != null)
         {
             req.Headers["x-csrf-token"] = csrf;
@@ -192,36 +208,215 @@ static class Launcher
         if (job != IntPtr.Zero) { CloseHandle(job); job = IntPtr.Zero; }
     }
 
-    // Second start: open the running app. The first instance may still be starting, so wait for its port.
+    // Second start: ask the running launcher to open the screen. It reads and receives no value; the running launcher
+    // makes one and opens the browser itself. The first instance may still be starting, so it keeps asking a while.
     static bool OpenRunning()
     {
-        for (int i = 0; i < 240; i++)
-        {
-            try
-            {
-                string launch = File.ReadAllText(LaunchFile());
-                Match m = Regex.Match(launch, "\"port\":(\\d+)");
-                Match t = Regex.Match(launch, "\"token\":\"([A-Za-z0-9_-]+)\"");
-                if (m.Success && t.Success)
-                {
-                    int p = int.Parse(m.Groups[1].Value);
-                    using (var c = new TcpClient()) c.Connect(IPAddress.Loopback, p);
-                    OpenBrowser(p, t.Groups[1].Value);
-                    return true;
-                }
-            }
-            catch { }
-            Thread.Sleep(500);
-        }
+        if (SignalOpen(PipeName(dataDir), OpenAttempts)) return true;
         MessageBox.Show("이미 실행 중인 프로그램에 연결하지 못했습니다. 잠시 뒤 다시 실행하세요.", Title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         return false;
     }
 
-    // The token goes in the fragment: the browser keeps it out of the request line, and the beta screen removes it from
-    // the address as soon as the page loads.
-    static void OpenBrowser(int p, string token)
+    // Sends "open" until the launcher on that pipe answers "ok" (missing or busy pipe: tried again about 0.5 s later).
+    internal static bool SignalOpen(string name, int attempts)
     {
-        try { Process.Start(new ProcessStartInfo("http://127.0.0.1:" + p + "/beta/#launch=" + token) { UseShellExecute = true }); } catch { }
+        for (int i = 0; i < attempts; i++)
+        {
+            if (SendRequest(name, "open", OpenConnectMs, SignalPipe.RequestTimeoutMs) == "ok") return true;
+            Thread.Sleep(OpenRetryMs);
+        }
+        return false;
+    }
+
+    // One request line to the pipe, one answer line back; null when there is no answer in time.
+    internal static string SendRequest(string name, string request, int connectMs, int answerMs)
+    {
+        try
+        {
+            using (var c = new NamedPipeClientStream(".", name, PipeDirection.InOut, PipeOptions.Asynchronous))
+            {
+                c.Connect(connectMs);
+                return WriteLine(c, request, answerMs) ? ReadLine(c, answerMs) : null;
+            }
+        }
+        catch (Exception) { return null; }
+    }
+
+    // F-09: every browser start gets a new one-time value, never the launch key.
+    static void OpenScreen() { OpenBrowser(ScreenUrl(port, NewLaunchValue(launchKey, NowMs()))); }
+
+    // The value goes in the fragment: the browser keeps it out of the request line, and the beta screen removes it from
+    // the address as soon as the page loads.
+    internal static string ScreenUrl(int port, string value) { return "http://127.0.0.1:" + port + "/beta/#launch=" + value; }
+
+    static void OpenBrowser(string url)
+    {
+        try { Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }); } catch { }
+    }
+
+    // One-time value (the server checks the same thing, server/launch-token-v8.ts): 56 bytes as unpadded base64url,
+    // 75 characters, the standard encoding (the 2 unused bits of the last character are 0).
+    //   0..7   issued time, Unix milliseconds, unsigned 64-bit big-endian
+    //   8..23  16 random bytes (the server remembers them once the value is used)
+    //   24..55 HMAC-SHA256 over bytes 0..23, keyed with the launch key string's UTF-8 bytes (not base64url-decoded)
+    // The server accepts it once, from 1 minute before to 5 minutes after the issued time.
+    internal static string NewLaunchValue(string key, long issuedMs)
+    {
+        var nonce = new byte[16];
+        using (var rng = new RNGCryptoServiceProvider()) rng.GetBytes(nonce);
+        return LaunchValue(key, issuedMs, nonce);
+    }
+    internal static string LaunchValue(string key, long issuedMs, byte[] nonce)
+    {
+        if (string.IsNullOrEmpty(key)) throw new ArgumentException("no launch key");
+        if (issuedMs < 0) throw new ArgumentOutOfRangeException("issuedMs");
+        if (nonce == null || nonce.Length != 16) throw new ArgumentException("nonce must be 16 bytes");
+        var bytes = new byte[56];
+        for (int i = 0; i < 8; i++) bytes[i] = (byte)(issuedMs >> (56 - 8 * i));
+        Buffer.BlockCopy(nonce, 0, bytes, 8, 16);
+        using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(key)))
+            Buffer.BlockCopy(hmac.ComputeHash(bytes, 0, 24), 0, bytes, 24, 32);
+        return Base64Url(bytes);
+    }
+    static string Base64Url(byte[] bytes) { return Convert.ToBase64String(bytes).TrimEnd('=').Replace('+', '-').Replace('/', '_'); }
+
+    // Unix milliseconds of the system clock.
+    internal static long NowMs() { return (DateTime.UtcNow.Ticks - UnixEpochTicks) / TimeSpan.TicksPerMillisecond; }
+    const long UnixEpochTicks = 621355968000000000L; // 1970-01-01T00:00:00Z
+
+    // Pipe names are machine-wide; the Windows session number keeps this one to the session, like the Local\ mutex, so
+    // the same account signed in twice (remote desktop, fast user switching) has one pipe per session.
+    internal static string PipeName(string dataDir) { return "SHE-Law-Beta-" + Process.GetCurrentProcess().SessionId + "-" + Hash(dataDir); }
+
+    // .NET Framework has no "current user only" pipe option, so the access list is built here: this Windows user may
+    // read and write, network logons are denied, nothing else is listed and nothing is inherited.
+    internal static PipeSecurity PipeAccess()
+    {
+        var security = new PipeSecurity();
+        security.SetAccessRuleProtection(true, false);
+        security.AddAccessRule(new PipeAccessRule(WindowsIdentity.GetCurrent().User, PipeAccessRights.ReadWrite, AccessControlType.Allow));
+        security.AddAccessRule(new PipeAccessRule(new SecurityIdentifier(WellKnownSidType.NetworkSid, null), PipeAccessRights.FullControl, AccessControlType.Deny));
+        return security;
+    }
+
+    // Longest request or answer line (a one-time value is 75 characters).
+    const int MaxLine = 128;
+
+    // One ASCII line without its "\r\n" within timeoutMs. null on time-out or a closed connection; "" for a line longer
+    // than MaxLine. The caller then closes the stream, which also cancels a read still waiting.
+    static string ReadLine(PipeStream s, int timeoutMs)
+    {
+        var buf = new byte[MaxLine + 1];
+        int len = 0;
+        var watch = Stopwatch.StartNew();
+        while (len < buf.Length)
+        {
+            int left = timeoutMs - (int)watch.ElapsedMilliseconds;
+            if (left <= 0) return null;
+            IAsyncResult r = s.BeginRead(buf, len, buf.Length - len, null, null);
+            if (!r.AsyncWaitHandle.WaitOne(left)) return null;
+            int n = s.EndRead(r);
+            if (n == 0) return null;
+            for (int i = len; i < len + n; i++)
+                if (buf[i] == (byte)'\n') return Encoding.ASCII.GetString(buf, 0, i).TrimEnd('\r');
+            len += n;
+        }
+        return "";
+    }
+
+    static bool WriteLine(PipeStream s, string line, int timeoutMs)
+    {
+        byte[] bytes = Encoding.ASCII.GetBytes(line + "\n");
+        IAsyncResult r = s.BeginWrite(bytes, 0, bytes.Length, null, null);
+        if (!r.AsyncWaitHandle.WaitOne(timeoutMs)) return false;
+        s.EndWrite(r);
+        return true;
+    }
+
+    // F-09: the local pipe a second start (and the install test) talks to. One connection at a time; one ASCII request
+    // line in, one answer line out, then the connection closes.
+    //   open  -> ok, and the browser opens with a new one-time value; at most once per OpenIntervalMs, later signals in
+    //            that interval are answered ok and open nothing (a burst of signals cannot flood the screen with windows)
+    //   mint  -> a new one-time value, in the test package only (compiled with the test-package symbol below). The Store
+    //            package has no such code and answers no.
+    //   other -> no
+    // A connection that sends no line within RequestTimeoutMs is dropped, so a silent one cannot hold the pipe. Broken or
+    // odd connections are ignored and never stop the launcher. If the pipe cannot be made (the name is taken), it is tried
+    // again later; the launcher runs on without it meanwhile.
+    internal sealed class SignalPipe
+    {
+        internal const int RequestTimeoutMs = 2000;
+        internal const int OpenIntervalMs = 2000;
+        const int RetryCreateMs = 1000;
+        const int BufferBytes = 4096;
+        readonly string name, key;
+        readonly int port;
+        readonly Func<long> nowMs;
+        readonly Action<string> open;
+        readonly Stopwatch clock = Stopwatch.StartNew();
+        long lastOpen = -1;
+
+        // nowMs: the clock written into values (Launcher.NowMs). open: opens the browser at that URL.
+        internal SignalPipe(string name, string key, int port, Func<long> nowMs, Action<string> open)
+        {
+            this.name = name; this.key = key; this.port = port; this.nowMs = nowMs; this.open = open;
+        }
+
+        // Makes the first pipe instance now, so launch.json written next can name it, and serves on a background
+        // thread. False when the name could not be taken (the thread keeps trying).
+        internal bool Start()
+        {
+            NamedPipeServerStream first = TryCreate();
+            var thread = new Thread(() => Serve(first)); // the thread owns the instance from here on
+            thread.IsBackground = true;
+            thread.Start();
+            return first != null; // a local: the thread may already have taken (and closed) the instance
+        }
+
+        NamedPipeServerStream TryCreate()
+        {
+            try { return new NamedPipeServerStream(name, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous, BufferBytes, BufferBytes, PipeAccess()); }
+            catch (Exception) { return null; }
+        }
+
+        void Serve(NamedPipeServerStream first)
+        {
+            while (true)
+            {
+                NamedPipeServerStream pipe = first ?? TryCreate();
+                first = null;
+                if (pipe == null) { Thread.Sleep(RetryCreateMs); continue; }
+                try
+                {
+                    pipe.WaitForConnection();
+                    string request = ReadLine(pipe, RequestTimeoutMs);
+                    // Wait (briefly) for the client to read the answer and hang up before the instance is closed.
+                    if (request != null && WriteLine(pipe, Answer(request), RequestTimeoutMs)) ReadLine(pipe, RequestTimeoutMs);
+                }
+                catch (Exception) { Thread.Sleep(50); }
+                finally { try { pipe.Dispose(); } catch (Exception) { } }
+            }
+        }
+
+        internal string Answer(string request)
+        {
+            if (request == "open")
+            {
+                long now = clock.ElapsedMilliseconds;
+                if (lastOpen < 0 || now - lastOpen >= OpenIntervalMs)
+                {
+                    lastOpen = now;
+                    try { open(ScreenUrl(port, NewLaunchValue(key, nowMs()))); } catch (Exception) { }
+                }
+                return "ok";
+            }
+#if SHE_TEST_PIPE
+            // Install test only (build-msix-v8.mjs --test-identity): a value for a bootstrap without a browser. The Store
+            // build is compiled without this symbol, so it has no way to hand a value out.
+            if (request == "mint") return NewLaunchValue(key, nowMs());
+#endif
+            return "no";
+        }
     }
 
     // H7: the server's whole environment. Nothing is copied from the user's environment, so NODE_OPTIONS, NODE_PATH,
@@ -256,12 +451,12 @@ static class Launcher
         if (!string.IsNullOrEmpty(path)) psi.EnvironmentVariables[name] = path;
     }
 
-    // 32 random bytes, base64url without padding (43 characters).
-    static string NewToken()
+    // The launch key: 32 random bytes, base64url without padding (43 characters). New on every start; memory only.
+    static string NewLaunchKey()
     {
         var bytes = new byte[32];
         using (var rng = new RNGCryptoServiceProvider()) rng.GetBytes(bytes);
-        return Convert.ToBase64String(bytes).TrimEnd('=').Replace('+', '-').Replace('/', '_');
+        return Base64Url(bytes);
     }
 
     static int FreePort()
@@ -298,9 +493,10 @@ static class Launcher
 
     static string LaunchFile() { return Path.Combine(dataDir, "launch.json"); }
 
-    // launch.json holds the launch token. LocalState is inside this Windows user's profile, which other standard users
-    // cannot read; the file also gets its own protected access list (this user and SYSTEM only), so extra entries a
-    // tool may have added to the profile folder do not reach it.
+    // launch.json holds only the port, the server pid and the signal pipe's name: no launch key and no one-time value
+    // (the pipe name is not a secret; the install test reads it). LocalState is inside this Windows user's profile, which
+    // other standard users cannot read; the file also gets its own protected access list (this user and SYSTEM only), so
+    // extra entries a tool may have added to the profile folder do not reach it.
     static void WriteLaunchFile(string json)
     {
         string path = LaunchFile();
